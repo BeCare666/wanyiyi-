@@ -1,0 +1,47 @@
+/**
+ * Constantes des règles métier (section 9 de la note).
+ * Toute valeur paramétrable par l'administration a ici sa valeur par défaut ;
+ * la valeur effective sera lue dans la table settings.
+ */
+export const RULES = {
+  evenings: {
+    defaultCapacityPerSex: 10,
+    maxCapacityPerSex: 12,
+    maxPerWeek: 3,
+    confirmationHoursBefore: 48,
+    roundMinutes: 7,
+    changeoverMinutes: 1,
+  },
+  votes: {
+    /** Heure d'annonce des matchs le lendemain, heure de Cotonou. */
+    matchAnnouncementHour: 8,
+  },
+  discovery: {
+    durationDays: 14,
+    extensionDays: 7,
+    maxExtensions: 1,
+    maxActivePerMember: 2,
+    pendingMatchExpiryDays: 7,
+    closedMessage: "Cette mise en relation est terminée.",
+  },
+  couple: {
+    inactivityAlertDays: 60,
+    separationChatRetentionDays: 90,
+    unionChatRetentionMonths: 12,
+    returnToEveningsAfterSeparationMonths: 1,
+  },
+  profile: {
+    freeTextMaxLength: 300,
+    maxDealbreakers: 3,
+    personalityMin: 3,
+    personalityMax: 5,
+  },
+  safety: {
+    signedPhotoUrlSeconds: 5 * 60,
+    reportTargetHours: 24,
+  },
+  timeZone: "Africa/Porto-Novo",
+} as const;
+
+export const ROLES = ["member", "counselor", "moderator", "admin", "super_admin"] as const;
+export type Role = (typeof ROLES)[number];

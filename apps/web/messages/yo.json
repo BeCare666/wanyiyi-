@@ -1,0 +1,461 @@
+{
+  "Meta": {
+    "title": "Wanyiyi · Ìpàdé fún ìgbéyàwó ní Cotonou",
+    "description": "Ìpàdé ojúkojú pẹ̀lú àwọn ènìyàn tí a ti ṣàyẹ̀wò, fún àwọn tó ṣetán láti ṣe ìgbéyàwó. Wanyiyi wà pẹ̀lú yín láti ìpàdé àkọ́kọ́ títí dé ìgbéyàwó.",
+    "siteName": "Wanyiyi"
+  },
+  "Common": {
+    "becomeMember": "Di ọmọ ẹgbẹ́",
+    "nextEvening": "Ìpàdé alẹ́ tó ń bọ̀",
+    "skipToContent": "Lọ sí àkóónú",
+    "menu": "Àtòjọ",
+    "openMenu": "Ṣí àtòjọ",
+    "closeMenu": "Pa àtòjọ dé",
+    "backHome": "Padà sí ojú-ìwé àkọ́kọ́",
+    "toComplete": "À ń parí rẹ̀",
+    "logoAlt": "Wanyiyi, ojú-ìwé àkọ́kọ́",
+    "photoCredit": "Fọ́tò láti ọwọ́ {name}"
+  },
+  "Nav": {
+    "promise": "Ìlérí wa",
+    "journey": "Ìrìnàjò náà",
+    "evenings": "Ìpàdé alẹ́",
+    "safety": "Ààbò",
+    "support": "Ìtọ́sọ́nà",
+    "faq": "Ìbéèrè",
+    "about": "Nípa wa",
+    "contact": "Kàn sí wa",
+    "home": "Ìbẹ̀rẹ̀",
+    "more": "Ilé wa",
+    "account": "Àyè mi",
+    "rules": "Òfin",
+    "hints": {
+      "evenings": "Obìnrin mẹ́wàá, ọkùnrin mẹ́wàá, tábìlì kan ní Cotonou.",
+      "promise": "Ohun tí ilé wa ṣèlérí fún yín láti ọjọ́ kìíní.",
+      "journey": "Ìgbésẹ̀ kọ̀ọ̀kan, láti ìforúkọsílẹ̀ dé ìpàdé àkọ́kọ́.",
+      "safety": "Ìjẹ́rìísí, àṣírí àti ìfisùn.",
+      "support": "Olùdámọ̀ràn kan lẹ́gbẹ̀ẹ́ yín, pẹ̀lú àṣẹ yín.",
+      "contact": "Ṣé ẹ ní ìbéèrè? Ẹ kọ̀wé sí wa.",
+      "rules": "Àwọn ìlànà tí gbogbo ọmọ ẹgbẹ́ gbà.",
+      "about": "Ẹni tí a jẹ́ àti ìdí rẹ̀.",
+      "faq": "Ìdáhùn sí àwọn ìbéèrè tí a máa ń gbọ́ jù."
+    }
+  },
+  "Language": {
+    "label": "Èdè",
+    "fr": "Français",
+    "en": "English",
+    "yo": "Yorùbá"
+  },
+  "Hero": {
+    "eyebrow": "Cotonou · Ìpàdé tó lóòótọ́",
+    "title": "Fún àwọn tó fẹ́ kọ́ ilé papọ̀.",
+    "promise": "Ìpàdé ojúkojú pẹ̀lú àwọn tí a ti ṣàyẹ̀wò, pẹ̀lú ìtọ́sọ́nà títí dé ìgbéyàwó.",
+    "imageAlt": "Ọwọ́ méjì tí a dì mọ́ra: apá ẹ̀wù kóòtù àti apá ẹ̀wù tí a ṣe ọnà sí."
+  },
+  "Promise": {
+    "eyebrow": "Ìlérí wa",
+    "title": "Ìlérí mẹ́ta, tí a ń pa mọ́ láti ọjọ́ kìíní títí dé òpin.",
+    "items": [
+      {
+        "title": "Àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò",
+        "text": "Ọmọ ẹgbẹ́ kọ̀ọ̀kan ń fi ìwé ìdánimọ̀ hàn, ó ń bá ẹgbẹ́ wa sọ̀rọ̀, ó sì ń kéde ipò ìgbéyàwó rẹ̀. Kò sí ẹni tó ń wọlé láìsí àyẹ̀wò yìí."
+      },
+      {
+        "title": "Ìpàdé ojúkojú",
+        "text": "Kò sí àkójọ fọ́tò níbí. Ẹ ó mọ ènìyàn nípasẹ̀ ohun tí ó kọ nípa ara rẹ̀, lẹ́yìn náà ẹ ó rí i ojúkojú níbi ìpàdé alẹ́."
+      },
+      {
+        "title": "Ìtọ́sọ́nà títí dé ìgbéyàwó",
+        "text": "Lẹ́yìn ìfohùnṣọ̀kan, olùdámọ̀ràn tọkọtaya yóò máa tọ́ yín sọ́nà, bí ẹ ti ń lọ. A ó wà pẹ̀lú yín títí dé ìdána, ìgbéyàwó tàbí ayẹyẹ tí ẹ bá yàn."
+      }
+    ]
+  },
+  "Journey": {
+    "eyebrow": "Bí ó ṣe ń lọ",
+    "title": "Ìrìnàjò tó ṣe kedere, ní ìgbésẹ̀ kọ̀ọ̀kan.",
+    "steps": [
+      {
+        "title": "Ìforúkọsílẹ̀",
+        "text": "Ẹ ó ṣí àkọọ́lẹ̀ yín pẹ̀lú nọ́mbà fóònù yín, lẹ́yìn náà ẹ ó ṣàpèjúwe ara yín pẹ̀lú òtítọ́."
+      },
+      {
+        "title": "Àyẹ̀wò",
+        "text": "Ìwé ìdánimọ̀, ìjíròrò pẹ̀lú ẹgbẹ́ wa àti ìbúra. A ó ka àpèjúwe yín kí a tó gbé e jáde."
+      },
+      {
+        "title": "Ìpàdé alẹ́",
+        "text": "Ẹ ó gba àyè fún ìpàdé alẹ́ kan. Níbẹ̀, ẹ ó pàdé olùkópa kọ̀ọ̀kan láti ẹ̀yà kejì, ní ìṣẹ́jú méje fún ẹnìkọ̀ọ̀kan."
+      },
+      {
+        "title": "Ìfohùnṣọ̀kan",
+        "text": "Lẹ́yìn ìjíròrò kọ̀ọ̀kan, ẹ ó sọ bóyá ẹ fẹ́ tún rí ẹni náà. Ìfohùnṣọ̀kan wà kìkì tí ẹ̀yin méjèèjì bá dáhùn bẹ́ẹ̀ni."
+      },
+      {
+        "title": "Àkókò ìmọ̀ra",
+        "text": "Fún ọjọ́ mẹ́rìnlá, ẹ ó máa bá ara yín sọ̀rọ̀ ní ìkọ̀kọ̀, ẹ ó rí fọ́tò ara yín, ẹ ó sì pàdé ní ibi alábàáṣiṣẹ́pọ̀ wa."
+      },
+      {
+        "title": "Ààyè ìbáṣepọ̀",
+        "text": "Bí ẹ̀yin méjèèjì bá pinnu láti tẹ̀síwájú, ààyè yín yóò ṣí, pẹ̀lú olùdámọ̀ràn tí yóò máa tọ́ yín sọ́nà."
+      },
+      {
+        "title": "Ìgbéyàwó",
+        "text": "Ìdána, ìgbéyàwó ní kóòtù, ní ilé ìjọsìn tàbí ti ìbílẹ̀. Ààyè yín yóò wá di ààyè ìrántí."
+      }
+    ],
+    "noMatch": "Kò sí ìfohùnṣọ̀kan lọ́tẹ̀ yìí? Ẹ kàn gba àyè fún ìpàdé alẹ́ mìíràn."
+  },
+  "Evenings": {
+    "eyebrow": "Àwọn ìpàdé alẹ́",
+    "title": "Ìpàdé alẹ́ tí a ṣètò fún ìjíròrò tòótọ́.",
+    "intro": "A ń ṣètò ìpàdé alẹ́ tó tó mẹ́ta lọ́sẹ̀ ní Cotonou. Àyíká rẹ̀ parọ́rọ́, ìmọ́lẹ̀ rẹ̀ rọ̀, iṣẹ́ ìránṣẹ́ rẹ̀ sì fara balẹ̀. Ẹ wá láti sọ̀rọ̀, kì í ṣe láti jẹ́ ẹni tí a ń dá lẹ́jọ́ nípa fọ́tò.",
+    "steps": [
+      {
+        "label": "Ìkíni káàbọ̀",
+        "text": "Ẹgbẹ́ wa yóò kí yín káàbọ̀, yóò sì fún yín ní nọ́mbà tábìlì yín. Ẹ ó jẹ́rìí sí wíwá yín ní wákàtí méjìdínláàádọ́ta ṣáájú."
+      },
+      {
+        "label": "Àwọn ìjíròrò",
+        "text": "Obìnrin mẹ́wàá, ọkùnrin mẹ́wàá. Àwọn obìnrin ń dúró sí tábìlì wọn, àwọn ọkùnrin ń yí padà ní ìyípo kọ̀ọ̀kan. Ìṣẹ́jú méje fún ìpàdé kọ̀ọ̀kan, pẹ̀lú ìsinmi ní àárín."
+      },
+      {
+        "label": "Ìpinnu yín",
+        "text": "Lẹ́yìn ìjíròrò kọ̀ọ̀kan, ẹ ó ka kóòdù tábìlì náà, ẹ ó sì dáhùn ní ìkọ̀kọ̀. Ẹ lè yí ìpinnu yín padà títí di òpin ìpàdé alẹ́ náà."
+      },
+      {
+        "label": "Ní òwúrọ̀ ọjọ́ kejì",
+        "text": "Ní agogo mẹ́jọ àárọ̀, ẹ ó gba àwọn ìfohùnṣọ̀kan yín. Kò sí ẹni tí yóò mọ ẹni tó dáhùn rárá."
+      }
+    ],
+    "venue": "A yan ibi ìpàdé náà nítorí ìdákẹ́jẹ́ẹ́ àti àṣírí rẹ̀. A ó fi àdírẹ́sì rẹ̀ ránṣẹ́ sí àwọn olùkópa tí wọ́n ti jẹ́rìí.",
+    "themes": "Àwọn ìpàdé alẹ́ kan ní àkòrí: ọjọ́ orí, ìgbàgbọ́, iṣẹ́.",
+    "imageAlt": "Tábìlì tí a tò dáradára, àwọn ife gíláàsì àti àbẹ́là tó ń tàn."
+  },
+  "Safety": {
+    "eyebrow": "Ààbò yín",
+    "title": "Ẹ̀yin ni ẹ ń darí, ní gbogbo ìgbà.",
+    "intro": "A ṣe Wanyiyi kí gbogbo ènìyàn lè ní ìgbẹ́kẹ̀lé. Pàápàá jùlọ àwọn obìnrin, tí wọ́n ti sábà béèrè rẹ̀ lọ́wọ́ wa.",
+    "items": [
+      {
+        "title": "A ṣàyẹ̀wò gbogbo ọmọ ẹgbẹ́",
+        "text": "Ìwé ìdánimọ̀, ìjíròrò àti ìkéde ipò ìgbéyàwó. A ń pa àwọn ìwé mọ́ ní ààyè àṣírí, tí ẹgbẹ́ àyẹ̀wò nìkan lè wò."
+      },
+      {
+        "title": "Kò sí fọ́tò ní gbangba",
+        "text": "Fọ́tò yín kì í hàn lórí ojú-òpó náà. Kìkì lẹ́yìn ìfohùnṣọ̀kan ni yóò hàn, ẹ sì lè yàn láti jẹ́ kí ó ṣókùnkùn."
+      },
+      {
+        "title": "Àmì orúkọ lórí fọ́tò",
+        "text": "Nígbàkígbà tí fọ́tò bá hàn, orúkọ ẹni tó ń wò ó, ọjọ́ àti àkókò wà lórí rẹ̀. Bí ẹnikẹ́ni bá ṣe ẹ̀dà rẹ̀, a ó mọ̀ lẹ́sẹ̀kẹsẹ̀."
+      },
+      {
+        "title": "Àwọn ìbánisọ̀rọ̀ yín wà ní àṣírí",
+        "text": "A dí nọ́mbà fóònù, ìtọ́kasí àti àdírẹ́sì nínú àpèjúwe. Ẹ ó pààrọ̀ nọ́mbà yín kìkì tí ẹ̀yin méjèèjì bá fẹ́."
+      },
+      {
+        "title": "A ń yanjú ẹ̀sùn kíákíá",
+        "text": "Bọ́tìnnì ìfẹ̀sùnsùn wà lórí àpèjúwe kọ̀ọ̀kan àti ìjíròrò kọ̀ọ̀kan. Ẹgbẹ́ wa ń gbìyànjú láti yanjú ẹ̀sùn kọ̀ọ̀kan láàrín wákàtí mẹ́rìnlélógún."
+      }
+    ]
+  },
+  "Support": {
+    "eyebrow": "Ìtọ́sọ́nà",
+    "title": "Ẹni tí ẹ lè gbẹ́kẹ̀lé, lẹ́gbẹ̀ẹ́ yín.",
+    "discoveryTitle": "Àkókò ìmọ̀ra",
+    "discoveryText": "Ìfohùnṣọ̀kan kọ̀ọ̀kan ń ṣí ọjọ́ mẹ́rìnlá láti mọ ara yín: ìjíròrò ní ìkọ̀kọ̀, fọ́tò yín, ìpàdé àkọ́kọ́ ní ibi alábàáṣiṣẹ́pọ̀ wa. Ẹ lè ní àkókò ìmọ̀ra méjì péré lẹ́ẹ̀kan náà, kí ẹ lè fún ọ̀kọ̀ọ̀kan ní àkókò tó yẹ.",
+    "counselorTitle": "Olùdámọ̀ràn",
+    "counselorText": "Nígbà tí ẹ̀yin méjèèjì bá pinnu láti tẹ̀síwájú, ẹ ó jọ yan olùdámọ̀ràn ìgbésí ayé àti ti tọkọtaya. Yóò tọ́ yín sọ́nà ní àwọn ìgbésẹ̀ pàtàkì: ìjókòó, ìfihàn sí àwọn ẹbí, ìmúrasílẹ̀ fún ìgbéyàwó.",
+    "consentTitle": "Ìfọwọ́sí yín ṣáájú gbogbo nǹkan",
+    "consentText": "Olùdámọ̀ràn kì í ka ìjíròrò yín láìsí ìfọwọ́sí ẹ̀yin méjèèjì. Ẹnìkọ̀ọ̀kan lè kọ̀wé sí i ní ìkọ̀kọ̀, ẹnìkọ̀ọ̀kan sì lè gba àyè rẹ̀ padà nígbàkígbà.",
+    "quote": "Iṣẹ́ wa ni láti tan ìmọ́lẹ̀ sí ọ̀nà. Ìpinnu náà jẹ́ tiyín nígbà gbogbo."
+  },
+  "Celebration": {
+    "eyebrow": "Ayẹyẹ",
+    "title": "Títí di ọjọ́ tí ẹ bá sọ bẹ́ẹ̀ni.",
+    "intro": "Bóyá ìgbéyàwó yín yóò wáyé ní kóòtù, ní ṣọ́ọ̀ṣì, ní mọ́ṣáláṣí tàbí ní ìbámu pẹ̀lú àṣà pẹ̀lú ìdána, a ó ràn yín lọ́wọ́ láti múra sílẹ̀.",
+    "items": [
+      {
+        "title": "Ìdána àti àṣà",
+        "text": "Ìtọ́sọ́nà láti múra sílẹ̀ fún ìpàdé àwọn ẹbí méjèèjì, pẹ̀lú ọ̀wọ̀ fún àṣà ẹnìkọ̀ọ̀kan."
+      },
+      {
+        "title": "Àwọn alábàáṣiṣẹ́pọ̀ wa",
+        "text": "Olóúnjẹ, aránṣọ, ayàwòrán, ibi àsè. Àwọn tó ṣeé gbẹ́kẹ̀lé, tí ẹgbẹ́ wa dámọ̀ràn."
+      },
+      {
+        "title": "Àpò ìrànlọ́wọ́ fún àwọn ẹbí yín",
+        "text": "Àwọn ẹbí àti ọ̀rẹ́ yín lè kópa nínú ìgbéyàwó yín, ní ìrọ̀rùn, nípasẹ̀ Mobile Money."
+      }
+    ],
+    "imageAlt": "Tọkọtaya kan nínú aṣọ ìbílẹ̀ aláwọ̀ wúrà ń wo ara wọn pẹ̀lú ẹ̀rín."
+  },
+  "Testimonials": {
+    "eyebrow": "Ẹ̀rí",
+    "title": "Wọ́n pàdé níbí."
+  },
+  "Upcoming": {
+    "eyebrow": "Àwọn ìpàdé alẹ́ tó ń bọ̀",
+    "title": "Ẹ gba àyè yín.",
+    "seatsLeft": "{count, plural, =0 {Ó ti kún} other {Àyè #}}",
+    "women": "Obìnrin",
+    "men": "Ọkùnrin",
+    "full": "Ó ti kún",
+    "waitlist": "Àkójọ ìdúró",
+    "book": "Gba àyè",
+    "membersOnly": "Àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò nìkan ló lè gba àyè.",
+    "empty": "A ó kéde àwọn ọjọ́ tó ń bọ̀ níbí láìpẹ́.",
+    "demoNotice": "Dátà àpẹẹrẹ",
+    "themes": {
+      "open": "Ìpàdé fún gbogbo ènìyàn",
+      "age-25-35": "Ọjọ́ orí 25 sí 35",
+      "age-35-45": "Ọjọ́ orí 35 sí 45",
+      "age-45-plus": "Ọjọ́ orí 45 àti jù bẹ́ẹ̀ lọ",
+      "faith-christian": "Ìgbàgbọ́ Kristẹni",
+      "faith-muslim": "Ìgbàgbọ́ Mùsùlùmí",
+      "professionals": "Àwọn oníṣẹ́"
+    }
+  },
+  "Faq": {
+    "eyebrow": "Àwọn ìbéèrè tí a sábà ń gbọ́",
+    "title": "Ohun tí àwọn ènìyàn sábà ń béèrè.",
+    "items": [
+      {
+        "q": "Kí ló dé tí a kò fi rí fọ́tò àwọn ọmọ ẹgbẹ́?",
+        "a": "Nítorí pé a fẹ́ kí ẹ pàdé ènìyàn, kì í ṣe àwòrán. Kìkì lẹ́yìn ìfohùnṣọ̀kan ni fọ́tò máa ń hàn, àmì orúkọ sì ń dáàbò bò ó."
+      },
+      {
+        "q": "Báwo ni àyẹ̀wò ṣe ń lọ?",
+        "a": "Ẹ ó fi ìwé ìdánimọ̀ ránṣẹ́, ẹ ó bá ọ̀kan nínú ẹgbẹ́ wa sọ̀rọ̀, ẹ ó sì fọwọ́ sí ìbúra nípa ipò ìgbéyàwó yín. A ó fọwọ́ sí àpèjúwe yín lẹ́yìn ìgbésẹ̀ mẹ́ta wọ̀nyí."
+      },
+      {
+        "q": "Kí ló máa ṣẹlẹ̀ tí kò bá sí ẹni tó wù mí níbi ìpàdé alẹ́?",
+        "a": "Kò sí ohun ìtìjú kankan. Kò sí ẹni tó mọ ẹni tó dáhùn rárá. Ẹ lè gba àyè fún ìpàdé alẹ́ mìíràn nígbàkígbà tí ẹ bá fẹ́."
+      },
+      {
+        "q": "Ṣé mo lè ní àkókò ìmọ̀ra ju ẹyọ kan lọ lẹ́ẹ̀kan náà?",
+        "a": "Bẹ́ẹ̀ni, méjì péré. Tí ẹ bá ní ìfohùnṣọ̀kan jù bẹ́ẹ̀ lọ, ẹ ó yan èyí tí ẹ fẹ́ ṣí. Àwọn yòókù yóò dúró fún ọjọ́ méje."
+      },
+      {
+        "q": "Ṣé olùdámọ̀ràn lè ka àwọn ìfiránṣẹ́ wa?",
+        "a": "Kìkì tí ẹ̀yin méjèèjì bá gbà. Àkọlé kan yóò wà lójú títí tí ó bá ní àyè sí ìjíròrò náà, ẹnìkọ̀ọ̀kan nínú yín sì lè gba àyè náà padà nígbàkígbà."
+      },
+      {
+        "q": "Báwo ni a ṣe ń sanwó?",
+        "a": "Nípasẹ̀ Mobile Money, MTN tàbí Moov. Ẹ ń san owó ìforúkọsílẹ̀ àti owó ìpàdé alẹ́ láti inú ààyè yín."
+      },
+      {
+        "q": "Ṣé mo lè kúrò nígbàkígbà?",
+        "a": "Bẹ́ẹ̀ni, láìsí àlàyé. Ẹ tún lè gba dátà yín sílẹ̀ tàbí béèrè kí a pa àkọọ́lẹ̀ yín rẹ́ láti inú ètò yín."
+      },
+      {
+        "q": "Ṣé àwọn tí wọ́n ti kọ ara wọn sílẹ̀ tàbí opó lè forúkọsílẹ̀?",
+        "a": "Dájúdájú. A kàn ń béèrè pé kí ẹ kéde ipò yín pẹ̀lú òtítọ́, bí ọmọ ẹgbẹ́ kọ̀ọ̀kan."
+      }
+    ]
+  },
+  "Footer": {
+    "tagline": "Ìpàdé fún ìgbéyàwó ní Cotonou. A ti ṣàyẹ̀wò, ojúkojú, pẹ̀lú ìtọ́sọ́nà títí dé ìgbéyàwó.",
+    "contactTitle": "Ẹ kọ̀wé sí wa",
+    "linksTitle": "Ilé wa",
+    "legalTitle": "Ìsọfúnni",
+    "rules": "Òfin àwọn ọmọ ẹgbẹ́",
+    "privacy": "Ìlànà àṣírí",
+    "legal": "Ìkéde òfin",
+    "rights": "© {year} Wanyiyi. Gbogbo ẹ̀tọ́ wà ní ìpamọ́.",
+    "phone": "Fóònù",
+    "email": "Í-meèlì",
+    "whatsapp": "WhatsApp",
+    "ctaTitle": "A máa ń ṣàyẹ̀wò ìforúkọsílẹ̀ kọ̀ọ̀kan lọ́tọ̀ọ̀tọ̀."
+  },
+  "About": {
+    "eyebrow": "Nípa wa",
+    "title": "Ilé ìpàdé, kì í ṣe áàpù.",
+    "sections": [
+      {
+        "title": "Ìdí tí Wanyiyi fi wà",
+        "paragraphs": [
+          "Ọ̀pọ̀ obìnrin àti ọkùnrin ní Cotonou fẹ́ dá ìdílé sílẹ̀, ṣùgbọ́n wọn kò mọ ibi tí wọ́n ti lè pàdé ẹni tó ṣe pàtàkì mọ́. Àwọn áàpù ń kó fọ́tò àti ìjíròrò tí kò ní ìtumọ̀ jọ. Ìpàdé nípasẹ̀ ọ̀rẹ́ kì í tó nígbà gbogbo.",
+          "Wanyiyi ń fún yín ní ọ̀nà mìíràn: àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò, ìpàdé ojúkojú àti ìtọ́sọ́nà ènìyàn, títí dé ìgbéyàwó."
+        ]
+      },
+      {
+        "title": "Àwọn ìlànà wa",
+        "paragraphs": [
+          "Ọ̀wọ̀ ló kọ́kọ́ ṣe pàtàkì. Ọmọ ẹgbẹ́ kọ̀ọ̀kan ṣèlérí láti hùwà pẹ̀lú ọ̀wọ̀ àti òtítọ́, lórí ayélujára àti níbi ìpàdé alẹ́.",
+          "Àṣírí ló tẹ̀lé e. Kò sí fọ́tò ní gbangba, a kì í sì pín ìbánisọ̀rọ̀ yín láìsí ìfọwọ́sí yín.",
+          "Àkókò ló kẹ́yìn. Ìpàdé kan tó tọ́ sàn ju ìpàdé mẹ́wàá tí a ṣe ní kíákíá."
+        ]
+      },
+      {
+        "title": "Fún ta ni",
+        "paragraphs": [
+          "Fún àwọn obìnrin àti ọkùnrin tó ń wá ìgbéyàwó tó máa pẹ́: ìgbéyàwó ní kóòtù, ní ilé ìjọsìn tàbí ti ìbílẹ̀ pẹ̀lú ìdána. Àpọ́n, ẹni tó ti kọ ara rẹ̀ sílẹ̀ tàbí opó, gbogbo yín la gbà, bí ẹ bá ti kéde rẹ̀ pẹ̀lú òtítọ́."
+        ]
+      }
+    ]
+  },
+  "Rules": {
+    "eyebrow": "Òfin àwọn ọmọ ẹgbẹ́",
+    "title": "Àwọn òfin tó ń dáàbò bo gbogbo ènìyàn.",
+    "intro": "Nígbà tí ẹ bá di ọmọ ẹgbẹ́, ẹ gba àwọn òfin wọ̀nyí. Wọ́n wà kí gbogbo ènìyàn lè ní ọ̀wọ̀ àti ààbò.",
+    "sections": [
+      {
+        "title": "1. Òtítọ́",
+        "paragraphs": [
+          "Ẹ ó kéde ipò ìgbéyàwó yín gan-an, ẹ ó sì ṣàpèjúwe ara yín pẹ̀lú òtítọ́. Ìkéde èké yóò yọrí sí ìyọkúrò.",
+          "Ẹ ń wá ìbáṣepọ̀ tó máa pẹ́. Wanyiyi kì í ṣe ibi fún ìfẹ́ onígbà díẹ̀."
+        ]
+      },
+      {
+        "title": "2. Ọ̀wọ̀",
+        "paragraphs": [
+          "Ẹ ó máa hùwà pẹ̀lú ọ̀wọ̀ ní gbogbo ìgbà, níbi ìpàdé alẹ́ àti nínú ìjíròrò. Ọ̀rọ̀ tí kò yẹ, tí ń fipá mú ni tàbí tí ń dunni ni a kà léèwọ̀.",
+          "A gbọ́dọ̀ bọ̀wọ̀ fún ìdáhùn rárá, láìsí ìbéèrè tàbí ìfipámúni."
+        ]
+      },
+      {
+        "title": "3. Àṣírí",
+        "paragraphs": [
+          "Ẹ kò ní fi nọ́mbà fóònù, àdírẹ́sì, ìtọ́kasí tàbí orúkọ ìkànnì àjọlò sínú àpèjúwe yín.",
+          "Ẹ kò ní ṣe ẹ̀dà, ya fọ́tò tàbí pín fọ́tò tàbí ìfiránṣẹ́ ọmọ ẹgbẹ́ mìíràn."
+        ]
+      },
+      {
+        "title": "4. Ìpàdé alẹ́",
+        "paragraphs": [
+          "Ẹ ó jẹ́rìí sí wíwá yín ní wákàtí méjìdínláàádọ́ta ṣáájú ìpàdé alẹ́ náà ní ìpẹ́jù. Láìsí ìjẹ́rìí, a ó fún ẹni tó wà nínú àkójọ ìdúró ní àyè yín.",
+          "Ẹ ó dé lásìkò, ẹ ó sì dúró títí di ìyípo tó kẹ́yìn, fún ọ̀wọ̀ àwọn olùkópa yòókù."
+        ]
+      },
+      {
+        "title": "5. Àkókò ìmọ̀ra àti ààyè ìbáṣepọ̀",
+        "paragraphs": [
+          "Ẹ lè ní àkókò ìmọ̀ra méjì péré lẹ́ẹ̀kan náà. Nígbà tí ẹ bá wọ ààyè ìbáṣepọ̀, ẹ ṣèlérí láti jẹ́ ti ara yín nìkan, ẹ kò sì ní gba àyè ìpàdé alẹ́ mọ́ títí ààyè náà yóò fi wà ní ṣíṣí.",
+          "Ẹnìkọ̀ọ̀kan lè fòpin sí ìbáṣepọ̀ nígbàkígbà, láìsí àlàyé."
+        ]
+      },
+      {
+        "title": "6. Ẹ̀sùn àti ìjìyà",
+        "paragraphs": [
+          "Bí ìwà kan bá dààmú yín, ẹ fi ẹ̀sùn sùn. Ẹgbẹ́ wa ń gbìyànjú láti yanjú ẹ̀sùn kọ̀ọ̀kan láàrín wákàtí mẹ́rìnlélógún.",
+          "Ní ìbámu pẹ̀lú bí ó ṣe le tó, ìjìyà lè jẹ́ ìkìlọ̀ títí dé ìyọkúrò pátápátá."
+        ]
+      }
+    ]
+  },
+  "Privacy": {
+    "eyebrow": "Ìlànà àṣírí",
+    "title": "Ohun tí a ń ṣe pẹ̀lú dátà yín.",
+    "intro": "Dátà yín ṣe iyebíye. A ń gba èyí tó kéré jù lọ, a sì ń dáàbò bò ó pẹ̀lú ìṣọ́ra tó ga jù lọ.",
+    "sections": [
+      {
+        "title": "Ẹni tó ń ṣàkóso dátà",
+        "paragraphs": [
+          "Orúkọ ilé iṣẹ́, àdírẹ́sì àti ìbánisọ̀rọ̀ ẹni tó ń ṣàkóso: à ń parí rẹ̀."
+        ]
+      },
+      {
+        "title": "Dátà tí a ń gbà",
+        "paragraphs": [
+          "Nọ́mbà fóònù yín, ìdánimọ̀ yín, ìwé ìdánimọ̀ yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà, ìdìbò yín àti ìfiránṣẹ́ yín.",
+          "A kì í béèrè àwọ̀ ara yín, ẹ̀yà yín, àdírẹ́sì yín gan-an tàbí orúkọ ẹni tí ẹ ń bá ṣiṣẹ́."
+        ]
+      },
+      {
+        "title": "Ìdí tí a fi ń lò wọ́n",
+        "paragraphs": [
+          "Láti ṣàyẹ̀wò ìdánimọ̀ yín, ṣètò ìpàdé alẹ́, ṣírò ìfohùnṣọ̀kan, jẹ́ kí ìjíròrò ṣeé ṣe lẹ́yìn ìfohùnṣọ̀kan àti láti dáàbò bò yín."
+        ]
+      },
+      {
+        "title": "Ta ló lè rí wọn",
+        "paragraphs": [
+          "Ẹgbẹ́ àyẹ̀wò nìkan ló lè rí ìwé ìdánimọ̀ yín, a sì ń kọ gbogbo ìgbà tí wọ́n bá wò ó sílẹ̀.",
+          "Kìkì lẹ́yìn ìfohùnṣọ̀kan ni fọ́tò yín máa ń hàn. Olùdámọ̀ràn kì í ka ìjíròrò yín láìsí ìfọwọ́sí ẹ̀yin méjèèjì.",
+          "Owó oṣù yín, bí ẹ bá sọ ọ́, kì í hàn sí àwọn ọmọ ẹgbẹ́ mìíràn rárá."
+        ]
+      },
+      {
+        "title": "Àkókò ìpamọ́",
+        "paragraphs": [
+          "Lẹ́yìn ìyapa, a ó pa ìjíròrò náà mọ́ fún ọjọ́ àádọ́rùn-ún, tí ẹgbẹ́ alábòójútó nìkan lè rí, lẹ́yìn náà a ó pa á rẹ́.",
+          "Lẹ́yìn ìgbéyàwó, ìjíròrò náà yóò di kíkà nìkan, a ó sì pa á rẹ́ lẹ́yìn oṣù méjìlá, àyàfi tí ẹ̀yin méjèèjì bá béèrè pé kí a pa á mọ́."
+        ]
+      },
+      {
+        "title": "Ẹ̀tọ́ yín",
+        "paragraphs": [
+          "Nígbàkígbà, ẹ lè gba dátà yín sílẹ̀, ṣàtúnṣe rẹ̀ tàbí béèrè kí a pa àkọọ́lẹ̀ yín rẹ́ láti inú ètò yín.",
+          "Fún ìbéèrè èyíkéyìí, ẹ kọ̀wé sí wa ní àdírẹ́sì tó wà nínú ìkéde òfin."
+        ]
+      }
+    ]
+  },
+  "Legal": {
+    "eyebrow": "Ìkéde òfin",
+    "title": "Ìkéde òfin.",
+    "sections": [
+      {
+        "title": "Olùtẹ̀jáde",
+        "paragraphs": [
+          "Orúkọ ilé iṣẹ́: à ń parí rẹ̀.",
+          "Olú ilé iṣẹ́: à ń parí rẹ̀.",
+          "RCCM: à ń parí rẹ̀. IFU: à ń parí rẹ̀.",
+          "Olùdarí ìtẹ̀jáde: à ń parí rẹ̀."
+        ]
+      },
+      {
+        "title": "Ibi ìgbàlejò",
+        "paragraphs": [
+          "Ẹni tó ń gbàlejò ojú-òpó àti dátà: à ń parí rẹ̀."
+        ]
+      },
+      {
+        "title": "Ààbò dátà",
+        "paragraphs": [
+          "Ìkéde sí Àjọ tó ń dáàbò bo dátà ara ẹni (APDP): à ń parí rẹ̀."
+        ]
+      },
+      {
+        "title": "Àwọn tó ya fọ́tò",
+        "paragraphs": [
+          "Orúkọ àwọn tó ya fọ́tò wà nínú fáìlì PHOTOS.md ti iṣẹ́ náà, a ó sì tún kọ wọ́n síbí kí ojú-òpó tó jáde."
+        ]
+      }
+    ]
+  },
+  "Contact": {
+    "eyebrow": "Kàn sí wa",
+    "title": "Ẹ jẹ́ ká sọ̀rọ̀.",
+    "intro": "Ṣé ẹ ní ìbéèrè kí ẹ tó forúkọsílẹ̀? Ẹgbẹ́ wa yóò fi ayọ̀ dá yín lóhùn, ní àṣírí pátápátá.",
+    "hours": "Àkókò iṣẹ́: à ń parí rẹ̀."
+  },
+  "Offline": {
+    "title": "Ẹ kò sí lórí ayélujára.",
+    "text": "Ó dàbí pé ìsopọ̀ ti já. Ẹ ṣàyẹ̀wò nẹ́tíwọ̀ọ̀kì yín, lẹ́yìn náà ẹ tún gbìyànjú.",
+    "retry": "Tún gbìyànjú"
+  },
+  "NotFound": {
+    "title": "Ojú-ìwé yìí kò sí.",
+    "text": "Ó lè jẹ́ pé ìtọ́kasí náà kò pé, tàbí pé a ti gbé ojú-ìwé náà lọ sí ibòmíràn."
+  },
+  "Register": {
+    "eyebrow": "Di ọmọ ẹgbẹ́",
+    "title": "Ìforúkọsílẹ̀ yín, ní ìgbésẹ̀ márùn-ún.",
+    "intro": "Ẹ ó forúkọsílẹ̀ láti orí fóònù yín. A ṣàlàyé ìgbésẹ̀ kọ̀ọ̀kan, ẹgbẹ́ wa sì wà fún yín nígbàkígbà.",
+    "steps": [
+      "Nọ́mbà fóònù yín àti kóòdù tí ẹ gbà nípasẹ̀ SMS",
+      "Ìwé ìdánimọ̀ yín",
+      "Àkókò ìjíròrò yín",
+      "Ìbúra yín",
+      "Sísan owó ìforúkọsílẹ̀ nípasẹ̀ Mobile Money"
+    ],
+    "notice": "Ìforúkọsílẹ̀ lórí ayélujára yóò ṣí láìpẹ́. Ní báyìí ná, ẹgbẹ́ wa yóò dáhùn àwọn ìbéèrè yín.",
+    "contactCta": "Ẹ kọ̀wé sí wa"
+  },
+  "Social": {
+    "title": "Ẹ tẹ̀lé wa",
+    "pending": "Ìjápọ̀ ń bọ̀"
+  }
+}

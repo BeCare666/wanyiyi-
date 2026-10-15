@@ -1,0 +1,196 @@
+WANYIYI : PROPOSITIONS TECHNIQUES ET LOGO
+Version 1, 13 octobre 2026. Document de travail à valider. Aucun code applicatif n'est écrit.
+
+======================================================================
+1. AVIS GÉNÉRAL
+======================================================================
+
+Les quatre ajouts sont cohérents avec la note, à une condition : bien
+répartir les rôles pour ne pas casser la sécurité prévue (RLS, photos
+jamais publiques, pièces d'identité isolées).
+
+  Outil       Avis                      Rôle proposé
+  ----------  ------------------------  -----------------------------------------
+  Supabase    Oui, on le garde          Base de données, authentification OTP,
+                                        RLS, chat temps réel, stockage privé
+  NestJS      Oui, avec une règle       API métier : paiements, tâches planifiées,
+              stricte (point 2)         notifications, filigrane, webhooks
+  Brevo       Oui                       E-mails, SMS (dont les codes OTP), WhatsApp
+  Cloudinary  Oui, mais pour la         Photos de la vitrine et contenus publics
+              vitrine seulement         uniquement. Pas de photos de membres,
+              (point 4)                 jamais de pièces d'identité
+
+======================================================================
+2. API NESTJS
+======================================================================
+
+Pourquoi c'est une bonne idée
+  - Un endroit unique pour la logique métier sensible : calcul des
+    matchs à 8 h, expirations (7, 14, 60, 90 jours, 12 mois),
+    confirmation 48 h avant les soirées, liste d'attente.
+  - Réception des webhooks de paiement (FedaPay, KkiaPay) et de Brevo.
+  - Génération du filigrane des photos côté serveur (bibliothèque sharp).
+  - Adaptateurs propres (paiement, notifications) avec injection de
+    dépendances : l'implémentation simulée et la vraie s'échangent
+    sans toucher au reste.
+  - Documentation automatique de l'API (Swagger), utile pour une
+    future application mobile.
+
+Le risque, et comment l'éviter
+  Si NestJS utilise la clé « service role » de Supabase pour tout, la
+  Row Level Security est contournée. La règle « le conseiller ne peut
+  pas lire le chat sans l'accord des deux » ne serait plus garantie
+  par la base.
+
+  Règle proposée :
+  a) Pour toute requête faite au nom d'un membre, NestJS transmet le
+     jeton de ce membre à Supabase. La RLS s'applique donc toujours.
+  b) La clé service role sert uniquement aux tâches système (calcul
+     des matchs, expirations, webhooks) et chaque usage est journalisé.
+  c) Le chat temps réel reste branché directement sur Supabase
+     Realtime depuis le navigateur, protégé par la RLS.
+
+Coût
+  - Deux applications à déployer au lieu d'une (site Next.js + API).
+  - Il faut un hébergeur pour NestJS (Render, Railway, Fly.io ou un
+    serveur VPS) : à choisir ensemble.
+
+Organisation du code (monorepo avec npm workspaces)
+
+  wanyiyi/
+  ├─ apps/
+  │  ├─ web/        Next.js : vitrine, espace membre, conseiller, admin
+  │  └─ api/        NestJS : modules auth, profils, soirées, votes,
+  │                 matchs, découvertes, couples, conseillers,
+  │                 paiements, notifications, médias, modération,
+  │                 admin, audit, tâches planifiées
+  ├─ packages/
+  │  ├─ shared/     schémas Zod et types partagés web + api
+  │  └─ domain/     règles métier pures et testées (rotation, votes,
+  │                 découvertes, exclusivité)
+  ├─ supabase/      migrations SQL, politiques RLS, tests pgTAP, données
+  │                 de démonstration
+  └─ propositions/  ce document et les logos
+
+Choix Prisma ou Supabase : je maintiens les requêtes typées Supabase
+(types générés), pour la raison de la RLS expliquée plus haut.
+
+======================================================================
+3. BREVO
+======================================================================
+
+Usages
+  - E-mails transactionnels (confirmation de soirée, reçus, rappels).
+  - SMS : rappels et codes OTP.
+  - WhatsApp : notifications (Brevo passe par l'API WhatsApp Business
+    de Meta, il faut un compte Meta Business vérifié et des modèles de
+    messages validés par Meta).
+
+Codes OTP de connexion
+  Brevo ne fait pas partie des fournisseurs SMS natifs de Supabase.
+  Solution : le « Send SMS Hook » de Supabase appelle notre API
+  NestJS, qui envoie le code par Brevo. L'authentification reste
+  gérée par Supabase.
+
+À vérifier avant intégration (je consulterai la documentation à jour)
+  - Délivrabilité et prix des SMS Brevo vers le Bénin (+229).
+  - Format des numéros béninois actuels (10 chiffres) dans la
+    validation des formulaires.
+  - Conditions WhatsApp de Brevo pour le Bénin.
+
+======================================================================
+4. CLOUDINARY
+======================================================================
+
+Avantages : conversion automatique en formats modernes, redimensionnement,
+diffusion rapide. Idéal pour la vitrine sur connexions mobiles lentes.
+
+Le problème avec les photos de membres
+  La note (section 10.2) exige :
+  - URL signées valables 5 minutes, jamais d'accès public ;
+  - filigrane généré côté serveur à chaque affichage, avec le nom et
+    le numéro du membre qui regarde, la date et l'heure, en position
+    variable.
+  Avec Cloudinary, chaque filigrane personnalisé crée une nouvelle
+  image dérivée, stockée chez Cloudinary, avec le nom du membre qui
+  regarde. Cela consomme le quota de transformations et multiplie les
+  copies de données personnelles chez un tiers. Les URL qui expirent
+  dépendent en plus de l'offre souscrite (à vérifier).
+
+Proposition
+  - Cloudinary : photos de la vitrine, logo, images des prestataires
+    partenaires, contenus publics.
+  - Supabase Storage privé : photos des membres, filigranées par
+    NestJS au moment de l'affichage puis servies par URL signée de
+    5 minutes.
+  - Supabase Storage, compartiment séparé : pièces d'identité.
+    Jamais chez Cloudinary.
+
+Si vous tenez à Cloudinary pour les photos de membres, c'est faisable
+(livraison « authenticated »), mais je vous recommande de ne pas le
+faire, pour les raisons ci-dessus.
+
+======================================================================
+5. LOGO : TROIS PROPOSITIONS
+======================================================================
+
+Fichiers : propositions/logo/ (ouvrir dans un navigateur).
+Important : ce sont des maquettes. Les polices s'affichent bien
+seulement si Cormorant Garamond et Jost sont installées sur votre
+poste. Le logo final sera vectorisé (lettres converties en tracés).
+
+A. Signature  (A-signature.svg)
+   Le nom en capitales serif très espacées, un filet champagne, un
+   point rose profond au centre, et la mention « MAISON DE RENCONTRES ·
+   COTONOU ».
+   Esprit : maison de couture. Le plus sobre et le plus lisible.
+
+B. Sceau  (B-sceau.svg)
+   Un « W » serif fin dans un double cercle champagne, le nom et
+   Cotonou en couronne, sur fond bleu nuit.
+   Esprit : sceau, cachet, engagement. Très bon pour l'icône
+   d'application, le favicon et les invitations aux soirées.
+
+C. Deux anneaux  (C-deux-anneaux.svg)
+   Deux anneaux entrelacés (noir encre et rose profond) au-dessus du
+   nom en italique minuscule.
+   Esprit : l'union de deux personnes. Le plus chaleureux. Le symbole
+   des anneaux est plus courant, donc moins distinctif.
+
+Ma recommandation : A pour le logo principal et B pour l'emblème
+(icône d'application, favicon, cachet). Ils forment un ensemble
+cohérent.
+
+======================================================================
+6. IMPACT SUR LE PLAN ET LES PHASES
+======================================================================
+
+  Phase 1 : monorepo (web + api + packages), système de design, logo
+            validé, vitrine en 3 langues, Cloudinary pour les photos
+            de la vitrine. NestJS : socle uniquement (santé, config,
+            journalisation).
+  Phase 2 : NestJS prend en charge l'OTP via Brevo, les paiements,
+            les soirées, les votes, le calcul des matchs à 8 h.
+  Phase 3 : filigrane, découvertes, couples, conseillers, signalements,
+            notifications Brevo complètes.
+  Phase 4 : prestataires (images sur Cloudinary), cagnotte, espace
+            souvenir.
+
+======================================================================
+7. QUESTIONS (je n'invente pas les réponses)
+======================================================================
+
+  1. Logo : laquelle des propositions A, B ou C (ou un mélange) ?
+  2. Le mot « wanyiyi » a-t-il un sens à mettre en valeur dans le logo
+     ou les textes ? Si oui, lequel et dans quelle langue ?
+  3. Avez-vous déjà des comptes Supabase, Brevo, Cloudinary, FedaPay ?
+     Les clés de test seront à placer dans un fichier .env local,
+     jamais dans le code.
+  4. Hébergement de l'API NestJS : préférence (Render, Railway,
+     Fly.io, VPS) ?
+  5. Validez-vous la répartition Cloudinary (vitrine) / Supabase
+     Storage (membres et pièces d'identité) ?
+  6. Validez-vous la règle NestJS « jeton du membre transmis, service
+     role réservé aux tâches système » ?
+  7. Les questions 1 à 14 de mon premier plan restent ouvertes
+     (mentions légales, contacts, tarifs, etc.).

@@ -1,0 +1,23 @@
+{
+  "name": "@wanyiyi/domain",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Règles métier pures de Wanyiyi (section 9 de la note), sans accès réseau ni base de données.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@wanyiyi/shared": "*"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.11"
+  },
+  "files": [
+    "dist"
+  ]
+}

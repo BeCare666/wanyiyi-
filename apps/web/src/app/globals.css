@@ -1,0 +1,291 @@
+@import "tailwindcss";
+
+/*
+ * Système de design Wanyiyi.
+ * Toutes les couleurs, tailles et durées passent par ces jetons.
+ * Aucun composant ne contient de valeur de couleur en dur.
+ */
+
+:root {
+  /* Palette de marque (section 3.2 de la note) */
+  --ink: #0e0d10;
+  --ivory: #faf7f2;
+  --white: #ffffff;
+  --rose-powder: #e8c4c8;
+  --rose-deep: #a63a50;
+  --night: #14213d;
+  --steel: #3d5a80;
+
+  /* Gris neutre des textes secondaires sur fond sombre (un gris chaud y paraît doré) */
+  --silver: #b6b4b0;
+
+  /* Gris chauds */
+  --stone-100: #f1eee9;
+  --stone-200: #e4dfd7;
+  --stone-300: #cfc8bd;
+  --stone-400: #a8a094;
+  --stone-500: #7d766c;
+  --stone-600: #5e584f;
+  --stone-700: #47423b;
+  --stone-800: #2f2b27;
+  --stone-900: #1c1a17;
+
+  /* Rôles sémantiques (thème clair) */
+  --bg: var(--ivory);
+  --bg-elevated: var(--white);
+  --bg-soft: var(--stone-100);
+  --bg-inverse: var(--ink);
+  --fg: var(--ink);
+  --fg-muted: var(--stone-600);
+  --fg-inverse: var(--ivory);
+  --fg-inverse-muted: var(--silver);
+  --line: var(--stone-200);
+  --line-strong: var(--stone-400);
+  --accent: var(--rose-deep);
+  --accent-fg: var(--ivory);
+  --accent-soft: var(--rose-powder);
+  --link: var(--steel);
+  --focus-ring: var(--steel);
+
+  /* Typographie fluide (de 360 px à 1440 px) */
+  --text-xs: clamp(0.75rem, 0.73rem + 0.09vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.85rem + 0.11vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.97rem + 0.14vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.08rem + 0.23vw, 1.25rem);
+  --text-xl: clamp(1.375rem, 1.27rem + 0.46vw, 1.625rem);
+  --text-2xl: clamp(1.75rem, 1.54rem + 0.93vw, 2.25rem);
+  --text-3xl: clamp(2.25rem, 1.83rem + 1.85vw, 3.25rem);
+  --text-4xl: clamp(2.75rem, 2.02rem + 3.24vw, 4.5rem);
+  --text-5xl: clamp(3.25rem, 2.10rem + 5.09vw, 6rem);
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-body: 1.65;
+  --tracking-wide: 0.18em;
+
+  /* Espacements de section */
+  --space-section: clamp(5rem, 3.5rem + 6.5vw, 10rem);
+  --gutter: clamp(1.25rem, 0.8rem + 2vw, 3rem);
+  --measure: 38rem;
+
+  /* Formes : 0 à 4 px maximum */
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Animations */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 300ms;
+  --duration-base: 500ms;
+  --duration-slow: 700ms;
+}
+
+/* Mode sombre : espace membre et administration (activé par data-theme) */
+[data-theme="dark"] {
+  --bg: var(--ink);
+  --bg-elevated: var(--night);
+  --bg-soft: #191c26;
+  --bg-inverse: var(--ivory);
+  --fg: var(--ivory);
+  --fg-muted: var(--stone-300);
+  --fg-inverse: var(--ink);
+  --fg-inverse-muted: var(--stone-600);
+  --line: #2a2d38;
+  --line-strong: var(--stone-600);
+  --accent: var(--rose-powder);
+  --accent-fg: var(--ink);
+  --accent-soft: var(--rose-deep);
+  --link: #9db4d4;
+  --focus-ring: var(--rose-powder);
+}
+
+/* Section sombre ponctuelle dans une page claire (pied de page, bandeaux) */
+.surface-inverse {
+  --accent: var(--rose-powder);
+  --logo-bg: var(--ink);
+  --line: rgb(250 247 242 / 0.14);
+}
+.surface-night {
+  --accent: var(--rose-powder);
+  --logo-bg: var(--night);
+  --line: rgb(250 247 242 / 0.14);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ivory: var(--ivory);
+  --color-white: var(--white);
+  --color-rose-powder: var(--rose-powder);
+  --color-rose-deep: var(--rose-deep);
+  --color-night: var(--night);
+  --color-steel: var(--steel);
+  --color-silver: var(--silver);
+  --color-stone-100: var(--stone-100);
+  --color-stone-200: var(--stone-200);
+  --color-stone-300: var(--stone-300);
+  --color-stone-400: var(--stone-400);
+  --color-stone-500: var(--stone-500);
+  --color-stone-600: var(--stone-600);
+  --color-stone-700: var(--stone-700);
+  --color-stone-800: var(--stone-800);
+  --color-stone-900: var(--stone-900);
+
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-soft: var(--bg-soft);
+  --color-bg-inverse: var(--bg-inverse);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-inverse: var(--fg-inverse);
+  --color-fg-inverse-muted: var(--fg-inverse-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-link: var(--link);
+
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-text);
+
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-5xl: var(--text-5xl);
+
+  --radius-none: var(--radius-none);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+
+  --ease-soft: var(--ease-soft);
+  --spacing-section: var(--space-section);
+  --spacing-gutter: var(--gutter);
+  --container-measure: var(--measure);
+}
+
+/* Base : dans une couche, pour que les composants et utilitaires puissent la surcharger */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-text), system-ui, sans-serif;
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--rose-powder);
+    color: var(--ink);
+  }
+
+  /* Focus visible et élégant */
+  :focus-visible {
+    outline: 1px solid var(--focus-ring);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Composants de base : dans une couche, pour que les utilitaires Tailwind puissent les surcharger */
+@layer components {
+  /* Petites capitales espacées (surtitres, libellés) */
+  .eyebrow {
+    font-family: var(--font-text), system-ui, sans-serif;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  /* Filet qui se dessine au survol (transform uniquement) */
+  .link-rule {
+    position: relative;
+  }
+  .link-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-base) var(--ease-soft);
+  }
+  .link-rule:hover::after,
+  .link-rule:focus-visible::after,
+  .link-rule[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Apparition au défilement (voir components/motion/Reveal.tsx) */
+html[data-js] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+[data-reveal] {
+  transition:
+    opacity var(--duration-slow) var(--ease-soft) var(--reveal-delay, 0s),
+    transform var(--duration-slow) var(--ease-soft) var(--reveal-delay, 0s);
+}
+
+/* Photo : léger rapprochement à l'apparition (transform uniquement) */
+.reveal-zoom {
+  transition: transform 1800ms var(--ease-soft) var(--reveal-delay, 0s);
+}
+html[data-js] [data-reveal]:not([data-revealed]) .reveal-zoom {
+  transform: scale(1.08);
+}
+
+/* Tonalité des photos : couleurs à peine adoucies, sans effet visible */
+.photo-tone {
+  filter: saturate(0.92) contrast(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html[data-js] [data-reveal]:not([data-revealed]),
+  html[data-js] [data-reveal]:not([data-revealed]) .reveal-zoom {
+    transform: none;
+  }
+}

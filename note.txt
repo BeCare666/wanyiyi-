@@ -1,0 +1,335 @@
+Nom de la plateforme: wanyiyi
+# Prompt pour Claude Code : plateforme de rencontre premium à Cotonou
+
+## 0. Ton rôle et ta façon de travailler
+
+Tu es l'équipe technique complète d'une plateforme de rencontre haut de gamme : architecte, développeur full stack, directeur artistique et intégrateur. Le résultat doit avoir le niveau d'une maison de luxe ou d'un service privé haut de gamme, jamais celui d'un modèle générique ou d'un projet étudiant.
+
+Règles de travail :
+
+1. Avant d'écrire du code, présente un plan : arborescence, schéma de base de données, liste des pages, ordre de livraison. Attends ma validation.
+2. Livre par phases (section 14). Chaque phase doit fonctionner de bout en bout avant de passer à la suivante.
+3. Le modèle de données couvre dès le départ toute la plateforme, même les modules livrés plus tard.
+4. Aucun texte de remplissage (pas de lorem ipsum). Rédige de vrais textes en français, puis traduis-les.
+5. Données de démonstration : profils fictifs uniquement, prénoms et villes béninois réalistes, aucune personne réelle.
+6. Écris des tests pour toutes les règles métier de la section 9.
+7. Si une information manque, pose la question au lieu d'inventer.
+
+## 1. Le concept
+
+Plateforme de rencontre sérieuse à Cotonou, pour des femmes et des hommes qui cherchent une union durable (mariage civil, religieux ou traditionnel avec dot).
+
+- Le site sert à se présenter et à inspirer confiance. La rencontre se fait en face à face, lors de soirées organisées (jusqu'à 3 par semaine).
+- Pas de galerie de photos : avant un match, aucune photo n'est visible. On découvre la personne par sa description, puis en vrai à la soirée.
+- Tous les membres sont vérifiés (pièce d'identité, entretien, déclaration de situation matrimoniale).
+- Après un match mutuel : phase découverte, puis espace du couple suivi par un conseiller de vie ou de couple.
+- La plateforme accompagne jusqu'à la célébration de l'union (prestataires partenaires, cagnotte).
+
+Parcours : Inscription, Vérification, Soirée, Match mutuel, Découverte, Espace du couple, Union célébrée, Espace souvenir. Sans match, le membre réserve une nouvelle soirée. Après une séparation, retour aux soirées après 1 mois.
+
+## 2. Stack technique
+
+- **Next.js** (App Router, dernière version stable) + **TypeScript** strict.
+- **Tailwind CSS** avec un système de design par jetons (variables CSS), aucune valeur de couleur codée en dur dans les composants.
+- **Framer Motion** pour les animations.
+- **next-intl** pour le multilingue.
+- **Supabase** : PostgreSQL, authentification par téléphone (code OTP), Realtime pour le chat, Storage avec compartiments privés et URL signées, Row Level Security sur toutes les tables.
+- **Prisma** ou requêtes typées Supabase : choisis une seule approche et justifie-la dans le plan.
+- **Zod** pour la validation, **React Hook Form** pour les formulaires.
+- **TanStack Table** pour les tableaux de l'administration.
+- Paiement Mobile Money (MTN, Moov) via un agrégateur béninois (FedaPay en premier, KkiaPay en option) derrière une interface d'adaptateur. Consulte leur documentation à jour avant d'intégrer, travaille en mode test.
+- Notifications WhatsApp et SMS derrière une interface d'adaptateur (implémentation simulée en développement).
+- Application web installable (PWA) : manifeste, icônes, écran hors ligne élégant.
+
+## 3. Direction artistique (exigence absolue)
+
+### 3.1 Esprit
+
+Luxe discret, élégance éditoriale, chaleur humaine. Références d'esprit : maisons de couture, hôtels particuliers, magazines haut de gamme. Une plateforme d'amour et d'engagement, pas une application de drague.
+
+### 3.2 Couleurs (jetons)
+
+| Jeton | Valeur | Usage |
+| --- | --- | --- |
+| `--ink` | #0E0D10 | Noir encre : textes principaux, fonds sombres |
+| `--ivory` | #FAF7F2 | Blanc ivoire : fond principal |
+| `--white` | #FFFFFF | Surfaces claires ponctuelles |
+| `--rose-powder` | #E8C4C8 | Rose poudré : fonds doux, survols |
+| `--rose-deep` | #A63A50 | Rose profond : accent principal, actions |
+| `--night` | #14213D | Bleu nuit : sections sombres, administration |
+| `--steel` | #3D5A80 | Bleu acier : liens, états d'information |
+| `--champagne` | #C8A97E | Champagne : filets fins, détails précieux, avec parcimonie |
+| `--stone-100` à `--stone-900` | Gris chauds | Textes secondaires, filets, fonds neutres |
+
+Vérifie que chaque combinaison texte/fond respecte le contraste WCAG AA. Prévois un mode sombre (bleu nuit et noir encre) pour l'espace membre et l'administration.
+
+### 3.3 Typographie
+
+- Titres : une serif de prestige (Cormorant Garamond ou équivalent), grandes tailles, interlignage serré.
+- Textes et interface : une sans serif sobre et lisible (Jost ou équivalent). N'utilise pas Inter, Roboto ni Arial.
+- **Vérifie que les polices choisies affichent correctement le yoruba** (ẹ, ọ, ṣ et les accents tonals). Sinon, choisis une autre police ou une police de secours cohérente.
+- Échelle typographique définie en jetons, avec des tailles fluides (clamp).
+
+### 3.4 Formes, bordures, ombres
+
+- Rayons de bordure : 0 à 4 px maximum. Jamais de coins très arrondis.
+- Ombres : quasiment absentes. La hiérarchie passe par l'espace, la typographie et des filets fins de 1 px.
+- **Interdit : les grilles de cartes génériques** (boîte blanche, ombre portée, coins arrondis, icône en haut, titre, texte). Utilise des compositions éditoriales : listes à filets, colonnes asymétriques, grands chiffres, alternance image et texte, sections pleine largeur.
+- Pas de dégradés violets ou fluo, pas d'effets de verre dépoli exagérés, pas d'emoji.
+
+### 3.5 Icônes
+
+- Une seule famille, au trait fin et élégant : **Phosphor Icons** en graisse « light » (ou « thin » pour les grandes tailles).
+- Taille et épaisseur cohérentes partout. Aucune icône remplie ou colorée en dehors des états actifs.
+
+### 3.6 Animations
+
+- Framer Motion, courbe d'accélération douce (par exemple cubic-bezier(0.22, 1, 0.36, 1)), durées de 300 à 700 ms.
+- Apparition progressive au défilement (fondu et léger glissement), transitions entre pages, survols raffinés (filet qui se dessine, image qui se rapproche très légèrement).
+- Ouverture des tiroirs et menus fluide, sans rebond.
+- Aucune animation gratuite ou clignotante. Respecte `prefers-reduced-motion`.
+- Fluidité constante : animer uniquement `transform` et `opacity`.
+
+### 3.7 Photographie
+
+- La page vitrine utilise des photos claires, nettes, chaleureuses : couples africains élégants, mains jointes, regards complices, détails de tenues traditionnelles, lumière naturelle, cadre de Cotonou.
+- Fournis des emplacements avec `next/image` (formats modernes, tailles adaptées, chargement progressif) et un fichier `PHOTOS.md` qui décrit chaque photo à fournir : sujet, cadrage, ambiance, format.
+- Utilise en attendant des photos libres de droits de qualité, adaptées au contexte, avec leurs crédits notés. **Jamais de photo de membre réel sur la vitrine.**
+
+### 3.8 Rédaction (règle stricte)
+
+- Aucun tiret double, aucun tiret long, aucun « -- » ni « (--) » dans les textes visibles. Utilise des points, des virgules ou des deux-points.
+- Aucune formule creuse ou artificielle (« découvrez », « libérez », « sans effort », « révolutionnaire », « boostez »). Ton sobre, chaleureux, adulte, respectueux.
+- Phrases courtes, vocabulaire simple, vouvoiement en français.
+
+## 4. Multilingue
+
+- Langues : **français** (langue source et par défaut), **anglais**, **yoruba**.
+- Sélecteur de langue dans l'en-tête, le tiroir mobile et les paramètres ; choix mémorisé sur le profil.
+- Toutes les chaînes dans des fichiers de traduction, aucun texte codé en dur.
+- Les traductions yoruba que tu produis sont des brouillons : marque-les « à valider » dans un fichier `TRADUCTIONS.md` pour relecture par un traducteur natif. L'administration permet de corriger les traductions.
+- Formats de date, d'heure et de montant (FCFA) adaptés à chaque langue.
+
+## 5. Page vitrine (publique)
+
+Elle doit être irréprochable : c'est elle qui donne confiance.
+
+Sections, dans cet ordre :
+
+1. **En-tête** : logo et ce logo doit être ultra luxeux premim, menu, sélecteur de langue, bouton « Devenir membre ». Il devient compact et légèrement opaque au défilement.
+2. **Ouverture** : grande photo ou courte vidéo pleine largeur, titre serif, une phrase de promesse, deux actions (« Devenir membre », « Prochaine soirée »).
+3. **La promesse** : des rencontres vérifiées, en face à face, accompagnées jusqu'à l'union. Composition éditoriale, pas de cartes.
+4. **Comment ça se passe** : le parcours en étapes, présenté comme une ligne de temps élégante animée au défilement.
+5. **Les soirées** : ambiance, déroulement, lieu, photos.
+6. **Votre sécurité** : vérification, aucune photo publique, filigrane, règles. Ton rassurant, surtout pour les femmes.
+7. **L'accompagnement** : le rôle du conseiller et la phase découverte.
+8. **La célébration** : dot, mariage, prestataires partenaires.
+9. **Témoignages** : emplacement prévu, masqué tant qu'il n'y a pas de vrais témoignages autorisés.
+10. **Prochaines soirées** : dates et places restantes.
+11. **Questions fréquentes** : accordéon animé.
+12. **Pied de page** : contacts, mentions légales, confidentialité, règlement, langues.
+
+Pages publiques complémentaires : À propos, Règlement des membres, Politique de confidentialité, Mentions légales, Contact.
+
+## 6. Espace membre (responsive, priorité mobile)
+
+### 6.1 Navigation
+
+- **Ordinateur** : barre latérale gauche fixe avec icônes et libellés, repliable en mode icônes seules.
+- **Mobile** : en-tête avec bouton menu ouvrant un **tiroir latéral** animé (icônes + libellés, avatar et nom en haut, langue et déconnexion en bas), et barre de navigation basse pour les 4 sections principales.
+- En-tête : avatar du membre, cloche de **notifications** avec compteur et panneau déroulant, accès rapide aux paramètres.
+- **Avatar** : comme il n'y a pas de photo avant le match, l'avatar est un monogramme élégant (initiales en serif sur fond rose poudré ou bleu nuit), jamais une silhouette générique.
+
+### 6.2 Pages
+
+1. **Tableau de bord** : prochaine soirée réservée, état de la vérification, découvertes en cours, messages non lus, rappel du règlement.
+2. **Inscription et vérification** : téléphone et code OTP, envoi de la pièce d'identité, prise de rendez-vous pour l'entretien, déclaration sur l'honneur, paiement des frais d'inscription. Suivi de l'état (en attente, à corriger, validé).
+3. **Mon profil** en deux onglets, « Je me décris » et « Ce que je recherche » (détail en section 8).
+4. **Soirées** : calendrier, filtres (date, thème, tranche d'âge), places restantes par sexe, réservation, paiement, liste d'attente, confirmation obligatoire 48 h avant, annulation.
+5. **Vote de soirée** : page mobile ouverte en scannant le code QR de la table (section 9.3).
+6. **Mes matchs et découvertes** (section 9.4).
+7. **Espace du couple** (section 9.5).
+8. **Notifications** : liste complète, filtres, marquer comme lu.
+9. **Paramètres** : langue, notifications (WhatsApp, SMS, dans l'application), confidentialité, mode sombre, téléchargement de mes données, suppression du compte.
+
+## 7. Espace conseiller
+
+Rôle séparé avec sa propre interface (même qualité que l'administration) :
+
+- Liste des couples suivis et des membres qui lui écrivent en privé.
+- Canaux privés individuels avec chaque membre.
+- Accès au chat d'un couple **uniquement** quand les deux ont accepté (section 9.6).
+- Agenda des séances, notes privées du conseiller (jamais visibles par les membres), suivi des étapes du couple.
+
+## 8. Profil : « Je me décris » et « Ce que je recherche »
+
+### 8.1 Description libre
+
+Trois zones de texte d'environ 300 caractères : « Qui je suis en quelques mots », « Ce qui compte pour moi dans un couple », « Un sujet dont j'aimerais parler à la soirée ».
+
+Blocage automatique, à la saisie et côté serveur, des numéros de téléphone (y compris écrits en lettres ou avec espaces), des liens, des adresses e-mail et des pseudos de réseaux sociaux. Chaque texte passe en relecture par l'équipe avant publication.
+
+### 8.2 Cases à cocher
+
+| Catégorie | Choix | Visible par les membres |
+| --- | --- | --- |
+| Situation | Jamais marié(e), Divorcé(e), Veuf(ve) | Oui |
+| Enfants | Aucun, Oui et vivent avec moi, Oui et ne vivent pas avec moi | Oui |
+| Désir d'enfants | Oui, Non, J'en ai déjà assez, À discuter | Oui |
+| Intention | Mariage civil, Mariage religieux, Union traditionnelle (dot), Plusieurs | Oui |
+| Délai souhaité | Moins d'un an, 1 à 2 ans, Je prends mon temps | Oui |
+| Religion | Catholique, Protestant(e) ou évangélique, Musulman(e), Religion traditionnelle, Autre, Sans religion | Oui |
+| Pratique religieuse | Régulière, Occasionnelle, Peu ou pas | Oui |
+| Niveau d'études | Primaire, Secondaire, BAC, Licence, Master et plus, Formation professionnelle | Oui |
+| Secteur d'activité | Liste de secteurs, sans nom d'employeur | Oui |
+| Langues parlées | Français, Fon, Yoruba, Goun, Mina, Bariba, Dendi, Anglais, Autre | Oui |
+| Taille (facultatif) | Tranches de 10 cm | Oui |
+| Silhouette (facultatif) | Mince, Moyenne, Sportive, Ronde | Oui |
+| Personnalité (3 à 5 choix) | Calme, Joyeux(se), Réservé(e), Sociable, Organisé(e), Spontané(e), Patient(e), Ambitieux(se), Drôle, Attentionné(e) | Oui |
+| Tabac | Non, Parfois, Oui | Oui |
+| Alcool | Jamais, Occasionnellement, Régulièrement | Oui |
+| Sorties | Plutôt à la maison, Équilibré, Souvent dehors | Oui |
+| Centres d'intérêt | Cuisine, Musique, Lecture, Sport, Voyage, Entrepreneuriat, Église ou mosquée, Associations, Cinéma, Mode | Oui |
+| Gestion de l'argent | Tout en commun, Séparé, Mixte | Après le match |
+| Place de la famille élargie | Très importante, Équilibrée, Indépendance du couple | Après le match |
+| Lieu de vie souhaité | Cotonou, Autre ville du Bénin, Étranger, Indifférent | Après le match |
+| Revenus (facultatif) | Tranches | Jamais (équipe uniquement) |
+
+« Ce que je recherche » reprend les mêmes catégories, avec choix multiples et « Indifférent ». Le membre marque **au maximum 3 critères non négociables**.
+
+Ne jamais demander : teint de peau, ethnie, adresse exacte, nom de l'employeur.
+
+Présentation : pas de longue liste brute. Formulaire en étapes avec barre de progression, choix présentés comme des étiquettes sélectionnables élégantes, enregistrement automatique.
+
+## 9. Règles métier (à implémenter et tester exactement)
+
+### 9.1 Rôles
+
+Membre, Conseiller, Modérateur, Administrateur, Super administrateur. Permissions fines par rôle, appliquées côté serveur et en Row Level Security.
+
+### 9.2 Soirées
+
+- Capacité par défaut : 10 femmes et 10 hommes (paramétrable, maximum 12 × 12). Quotas séparés par sexe, liste d'attente par sexe.
+- Seuls les membres validés peuvent réserver. Confirmation obligatoire 48 h avant ; sans confirmation, la place passe à la liste d'attente.
+- Soirées thématiques (tranche d'âge, foi, profession) avec critères d'accès automatiques.
+- **Rotation** : les femmes restent aux tables 1 à N, chaque homme commence à la table de son numéro et avance d'une table à chaque tour (de N à 1). Après N tours, chaque personne a rencontré chaque personne de l'autre sexe une fois. Tours de 7 minutes, 1 minute de changement, pause après la moitié des tours. Gère le cas d'un nombre inégal (tours de pause).
+- Un minuteur administrateur sur tablette pilote les tours (signal visuel et sonore).
+
+### 9.3 Vote par code QR
+
+- Chaque table a un code QR unique par soirée, valable uniquement pendant la soirée.
+- Après chaque tour, le participant indique « Je souhaite revoir cette personne » ou « Non », plus une appréciation facultative (respect, ponctualité, sérieux) visible uniquement par l'équipe.
+- Un vote est modifiable jusqu'à la fin de la soirée.
+- **Match** uniquement si les deux ont dit oui. Calcul et annonce le lendemain à 8 h, par notification. Personne ne voit jamais qui a dit non.
+
+### 9.4 Phase découverte
+
+- Chaque match ouvre une découverte de **14 jours** : chat simple sans conseiller, photos révélées (section 10.2), premier rendez-vous conseillé dans un lieu partenaire.
+- **Maximum 2 découvertes actives** par membre. Au-delà, il choisit lesquelles ouvrir ; les autres matchs restent en attente **7 jours** puis expirent.
+- Le membre peut continuer à réserver des soirées pendant la découverte.
+- Bouton « Je veux continuer avec cette personne ». Si les deux cliquent : ouverture de l'espace du couple, exclusivité, fermeture des autres découvertes des deux membres.
+- Message unique à l'autre personne d'une découverte fermée : « Cette mise en relation est terminée. » Aucune raison, aucun détail.
+- Sans décision à 14 jours : fermeture. Une seule prolongation de 7 jours si les deux la demandent.
+
+### 9.5 Espace du couple
+
+- Contenu : chat privé en temps réel, photos révélées, conseiller, parcours en étapes (Premiers rendez-vous, Séances avec le conseiller, Présentation aux familles, Dot ou mariage, Célébration), message « Bien rentré(e) ? » après chaque rendez-vous déclaré.
+- **Exclusivité** : tant que l'espace est ouvert, les deux ne peuvent plus réserver de soirée.
+- **Partage des numéros** : uniquement si les deux cliquent « Partager mon numéro ».
+- **Inactivité** : après 60 jours sans activité, notification au conseiller ; sans réponse du couple, mise en pause.
+- **Fin** :
+
+| Issue | Chat | Espace | Ensuite |
+| --- | --- | --- | --- |
+| Union célébrée | Lecture seule | Devient « Espace souvenir » (étapes, dates, photos) | Suivi post-union facultatif ; conversation supprimée après 12 mois sauf demande des deux |
+| Séparation | Fermé immédiatement | Fermé | Conversation conservée 90 jours, accessible à la modération seulement, puis supprimée ; retour aux soirées après 1 mois |
+| Départ d'un seul membre | Fermé immédiatement | Fermé | Possible à tout moment sans justification ; l'autre est prévenu par le conseiller |
+
+### 9.6 Conseiller et accès au chat
+
+| Niveau | Déclencheur | Accord de l'autre | Ce que voit le conseiller |
+| --- | --- | --- | --- |
+| Canal privé individuel | Chaque membre, à tout moment | Non | Uniquement ce que le membre lui écrit |
+| Lecture du chat du couple | Demande de l'un des deux | Oui, obligatoire | Toute la conversation à partir de l'acceptation ; l'historique seulement si les deux le cochent |
+| Médiation à trois | L'un des deux ou le conseiller | Oui | Séance commune dans le chat ou en rendez-vous |
+
+- Un seul conseiller par couple, choisi ensemble parmi les conseillers disponibles.
+- Impossible techniquement pour un conseiller de lire le chat sans l'accord des deux (vérifié en Row Level Security).
+- Bannière permanente dans le chat tant que le conseiller y a accès.
+- Chacun peut retirer l'accès à tout moment, effet immédiat.
+- Exception sécurité : en cas de signalement, seuls les messages signalés sont accessibles à la modération, et chaque consultation est journalisée.
+
+## 10. Sécurité et confidentialité
+
+### 10.1 Général
+
+- Row Level Security sur toutes les tables, tests d'accès par rôle.
+- Pièces d'identité dans un compartiment privé séparé, accessibles au seul rôle de vérification, jamais exposées au client des membres.
+- Journal d'audit de toutes les actions sensibles (consultation d'une pièce, d'un message signalé, changement de rôle, exclusion).
+- Bouton de signalement sur chaque profil et dans chaque conversation, file de traitement avec délai cible de 24 h.
+- Consentement explicite à l'inscription, export et suppression des données, durées de conservation de la section 9.5.
+- Limitation du nombre de requêtes, protection contre l'énumération des comptes, sessions sécurisées.
+
+### 10.2 Protection des photos
+
+- Aucune photo visible avant un match.
+- Photos servies uniquement par URL signées de 5 minutes, jamais en accès public.
+- **Filigrane généré côté serveur** pour chaque affichage : nom et numéro du membre qui regarde, date et heure, position variable, semi-transparent. Pas de filigrane appliqué seulement en CSS.
+- Pas de clic droit ni d'appui long pour enregistrer (dissuasion uniquement, à documenter comme tel).
+- Chaque membre peut garder sa photo floutée même pendant la découverte.
+
+## 11. Administration (ultra professionnelle)
+
+### 11.1 Mise en page
+
+- Barre latérale gauche fixe, fond bleu nuit ou noir encre, icônes Phosphor light avec libellés, groupes de menus, repliable en icônes seules ; sur mobile, tiroir latéral.
+- En-tête : recherche globale (raccourci clavier), notifications, avatar de l'administrateur.
+- Interface dense mais aérée, typographie nette, tableaux à filets fins, aucun élément enfantin, aucune illustration décorative.
+- Entièrement responsive, y compris les tableaux (colonnes prioritaires, vue détaillée en tiroir sur mobile).
+
+### 11.2 Modules du menu
+
+1. Tableau de bord : indicateurs clés (inscriptions, vérifications en attente, taux de remplissage et ratio hommes/femmes par soirée, taux de match, découvertes actives, couples suivis, revenus, signalements ouverts) et graphiques sobres.
+2. Membres : liste, fiche détaillée, historique, actions.
+3. Vérifications : file d'attente, consultation de la pièce, compte rendu d'entretien, validation ou demande de correction.
+4. Modération : textes de profil à relire, signalements, sanctions.
+5. Soirées : création, lieux, thèmes, inscriptions, **composition assistée** (alerte si deux participants ont des critères non négociables incompatibles), liste d'attente, pointage à l'entrée, minuteur, impression des codes QR, résultats.
+6. Matchs et découvertes : suivi, échéances, expirations.
+7. Couples : étapes, conseiller, état, issue.
+8. Conseillers : profils, disponibilités, charge, couples suivis.
+9. Paiements : transactions Mobile Money, remboursements, rapprochement.
+10. Prestataires et cagnottes (phase 4).
+11. Contenus de la vitrine et traductions.
+12. Journal d'audit.
+13. Paramètres : durées, capacités, tarifs, rôles et permissions.
+
+### 11.3 Filtres avancés (sur toutes les listes)
+
+- Constructeur de filtres combinables avec ET / OU et groupes imbriqués.
+- Types de filtres : texte plein, listes à choix multiples, plages numériques (âge, montant), plages de dates avec raccourcis (aujourd'hui, 7 jours, ce mois), états, booléens, filtres sur relations (par exemple : membres ayant participé à plus de 3 soirées sans match).
+- Filtres enregistrés et partageables entre administrateurs, filtres reflétés dans l'URL.
+- Tri multi-colonnes, choix des colonnes affichées, pagination côté serveur, recherche instantanée.
+- Actions groupées (valider, envoyer une notification, inviter à une soirée, exporter).
+- Export CSV et Excel du résultat filtré, journalisé.
+
+## 12. Modèle de données (à affiner dans ton plan)
+
+Entités minimales : utilisateurs et rôles, profils membres, réponses du profil (je me décris / je recherche), critères non négociables, vérifications et documents, lieux, soirées, thèmes, inscriptions aux soirées, liste d'attente, tables et tours, votes, matchs, découvertes, couples, étapes du couple, conversations, messages, accès du conseiller (demande, acceptation, retrait), canaux privés conseiller, séances, conseillers, signalements, sanctions, notifications, paiements, prestataires, cagnottes et contributions, traductions, journal d'audit, paramètres.
+
+## 13. Qualité
+
+- Performances adaptées aux connexions mobiles lentes : images optimisées, chargement différé, pages légères, objectif Lighthouse supérieur à 90 sur mobile.
+- Accessibilité WCAG AA : contrastes, navigation au clavier, libellés des icônes, focus visibles et élégants.
+- Responsive de 360 px à 1920 px, testé sur chaque page.
+- Code propre, composants réutilisables, système de design documenté dans une page interne de référence (couleurs, typographie, composants, animations).
+
+## 14. Ordre de livraison
+
+| Phase | Contenu | Critère de fin |
+| --- | --- | --- |
+| 1 | Système de design, page vitrine complète, multilingue | Vitrine validée visuellement en 3 langues, mobile et ordinateur |
+| 2 | Inscription, vérification, profil, soirées, paiement, vote QR, matchs, administration de base | Une soirée complète simulée de bout en bout avec des données fictives |
+| 3 | Découverte, espace du couple, chat temps réel, conseillers, signalements, filtres avancés | Tous les tests des règles 9.4 à 9.6 passent |
+| 4 | Parrainage et badges de confiance, prestataires, cagnotte, espace souvenir | Parcours complet jusqu'à l'espace souvenir |
+
+Commence par le plan de la section 0, puis la phase 1.

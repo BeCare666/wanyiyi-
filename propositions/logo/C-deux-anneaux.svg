@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" width="600" height="260">
+  <title>Wanyiyi, proposition C : deux anneaux</title>
+  <rect width="600" height="260" fill="#FAF7F2"/>
+  <circle cx="284" cy="80" r="34" fill="none" stroke="#0E0D10" stroke-width="1.5"/>
+  <circle cx="316" cy="80" r="34" fill="none" stroke="#A63A50" stroke-width="1.5"/>
+  <text x="300" y="186" text-anchor="middle" font-family="'Cormorant Garamond', 'Cormorant', Georgia, serif" font-size="64" font-style="italic" font-weight="400" letter-spacing="2" fill="#0E0D10">wanyiyi</text>
+  <line x1="270" y1="212" x2="330" y2="212" stroke="#C8A97E" stroke-width="1"/>
+</svg>

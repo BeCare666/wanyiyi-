@@ -1,0 +1,461 @@
+{
+  "Meta": {
+    "title": "Wanyiyi · Serious introductions in Cotonou",
+    "description": "Verified, face-to-face introductions for people ready to commit. Wanyiyi stays with you from the first evening to your union.",
+    "siteName": "Wanyiyi"
+  },
+  "Common": {
+    "becomeMember": "Become a member",
+    "nextEvening": "Next evening",
+    "skipToContent": "Skip to content",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "backHome": "Back to home",
+    "toComplete": "To be completed",
+    "logoAlt": "Wanyiyi, home",
+    "photoCredit": "Photograph by {name}"
+  },
+  "Nav": {
+    "promise": "Our promise",
+    "journey": "The journey",
+    "evenings": "Evenings",
+    "safety": "Safety",
+    "support": "Guidance",
+    "faq": "Questions",
+    "about": "About",
+    "contact": "Contact",
+    "home": "Home",
+    "more": "The house",
+    "account": "My space",
+    "rules": "Rules",
+    "hints": {
+      "evenings": "Ten women, ten men, one table in Cotonou.",
+      "promise": "What the house guarantees, from the very first day.",
+      "journey": "Each step, from registration to the first meeting.",
+      "safety": "Verification, privacy and reporting.",
+      "support": "An advisor at your side, with your consent.",
+      "contact": "A question? Write to us.",
+      "rules": "The commitments shared by every member.",
+      "about": "Who we are, and why.",
+      "faq": "Answers to the questions we hear most."
+    }
+  },
+  "Language": {
+    "label": "Language",
+    "fr": "Français",
+    "en": "English",
+    "yo": "Yorùbá"
+  },
+  "Hero": {
+    "eyebrow": "Cotonou · Serious introductions",
+    "title": "For those who wish to build a life together.",
+    "promise": "Verified, face-to-face introductions, with guidance all the way to your union.",
+    "imageAlt": "Two joined hands: a checked jacket sleeve and an embroidered sleeve."
+  },
+  "Promise": {
+    "eyebrow": "Our promise",
+    "title": "Three commitments, kept from the first day to the last.",
+    "items": [
+      {
+        "title": "Verified members",
+        "text": "Every member shows an identity document, meets our team for an interview and declares their marital status. Nobody joins without this verification."
+      },
+      {
+        "title": "Real-life meetings",
+        "text": "There is no photo gallery here. You get to know a person through what they write about themselves, then face to face, at an organised evening."
+      },
+      {
+        "title": "Guidance until your union",
+        "text": "After a mutual agreement, a couple counsellor accompanies you at your own pace. We stay by your side until the bride price, the wedding or the celebration of your choice."
+      }
+    ]
+  },
+  "Journey": {
+    "eyebrow": "How it works",
+    "title": "A clear journey, one step at a time.",
+    "steps": [
+      {
+        "title": "Registration",
+        "text": "You create your account with your phone number, then describe yourself sincerely."
+      },
+      {
+        "title": "Verification",
+        "text": "Identity document, interview with our team and a sworn statement. Your profile is reviewed before it is published."
+      },
+      {
+        "title": "Evening",
+        "text": "You book an evening. There, you meet each participant of the opposite sex in turn, for seven minutes."
+      },
+      {
+        "title": "Mutual agreement",
+        "text": "After each conversation, you say whether you would like to see the person again. There is an agreement only if both answer yes."
+      },
+      {
+        "title": "Discovery",
+        "text": "For fourteen days, you talk privately, you finally see each other's photos and you meet at a partner venue."
+      },
+      {
+        "title": "Couple space",
+        "text": "If you both choose to continue, your space opens, with a counsellor to guide you."
+      },
+      {
+        "title": "Union celebrated",
+        "text": "Bride price, civil, religious or traditional wedding. Your space then becomes a keepsake space."
+      }
+    ],
+    "noMatch": "No mutual agreement this time? Simply book another evening."
+  },
+  "Evenings": {
+    "eyebrow": "The evenings",
+    "title": "An evening designed for real conversation.",
+    "intro": "We host up to three evenings a week in Cotonou. The atmosphere is calm, the lighting soft, the service attentive. You come to talk, not to be judged on a photo.",
+    "steps": [
+      {
+        "label": "Welcome",
+        "text": "Our team greets you and gives you your table number. You confirm your attendance 48 hours beforehand."
+      },
+      {
+        "label": "Conversations",
+        "text": "Ten women, ten men. The women stay at their table, the men move at each round. Seven minutes per meeting, with a break halfway through."
+      },
+      {
+        "label": "Your choice",
+        "text": "After each conversation, you scan the table code and answer discreetly. You may change your mind until the end of the evening."
+      },
+      {
+        "label": "The next morning",
+        "text": "At 8 a.m., you receive your mutual agreements. Nobody ever knows who said no."
+      }
+    ],
+    "venue": "The venue is chosen for its calm and discretion. Its address is shared with confirmed participants.",
+    "themes": "Some evenings have a theme: age range, faith, professional background.",
+    "imageAlt": "A carefully set table, glasses and lit candles."
+  },
+  "Safety": {
+    "eyebrow": "Your safety",
+    "title": "You stay in control, at every moment.",
+    "intro": "We designed Wanyiyi so that everyone feels confident. Women in particular, who have often asked us for it.",
+    "items": [
+      {
+        "title": "Every member is verified",
+        "text": "Identity document, interview and declaration of marital status. Documents are kept in a private space, accessible only to the verification team."
+      },
+      {
+        "title": "No public photos",
+        "text": "Your photo never appears on the site. It becomes visible only after a mutual agreement, and you may choose to keep it blurred."
+      },
+      {
+        "title": "A personal watermark",
+        "text": "Every time a photo is displayed, it carries the name of the person viewing it, with the date and time. Any copy could be traced at once."
+      },
+      {
+        "title": "Your contact details stay private",
+        "text": "Phone numbers, links and addresses are blocked in profiles. Numbers are exchanged only if you both decide to."
+      },
+      {
+        "title": "Reports handled quickly",
+        "text": "A report button is available on every profile and every conversation. Our team aims to handle each report within 24 hours."
+      }
+    ]
+  },
+  "Support": {
+    "eyebrow": "Guidance",
+    "title": "A trusted person by your side.",
+    "discoveryTitle": "Discovery",
+    "discoveryText": "Each mutual agreement opens fourteen days to get to know each other: a private conversation, your photos, a first meeting suggested at a partner venue. You hold at most two discoveries at a time, to give each one the time it deserves.",
+    "counselorTitle": "The counsellor",
+    "counselorText": "When you both decide to continue, you choose a life and couple counsellor together. They guide you through the important steps: sessions, meeting the families, preparing your union.",
+    "consentTitle": "Your consent comes first",
+    "consentText": "The counsellor never reads your conversation without the consent of you both. Each of you may write to them privately, and each of you may withdraw their access at any time.",
+    "quote": "Our role is to light the way. The decision is always yours."
+  },
+  "Celebration": {
+    "eyebrow": "The celebration",
+    "title": "Until the day you say yes.",
+    "intro": "Whether your union takes place at the town hall, the church, the mosque or according to tradition with the bride price, we help you prepare it.",
+    "items": [
+      {
+        "title": "Bride price and tradition",
+        "text": "Guidance to prepare the meeting of both families, respecting everyone's customs."
+      },
+      {
+        "title": "Partner providers",
+        "text": "Caterers, tailors, photographers, reception venues. Reliable names, recommended by our team."
+      },
+      {
+        "title": "A shared fund for your loved ones",
+        "text": "Your family and friends can contribute to your union, simply, by Mobile Money."
+      }
+    ],
+    "imageAlt": "A couple in golden traditional attire share a knowing look."
+  },
+  "Testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "They met here."
+  },
+  "Upcoming": {
+    "eyebrow": "Upcoming evenings",
+    "title": "Book your place.",
+    "seatsLeft": "{count, plural, =0 {Full} one {# seat} other {# seats}}",
+    "women": "Women",
+    "men": "Men",
+    "full": "Full",
+    "waitlist": "Waiting list",
+    "book": "Book",
+    "membersOnly": "Booking is open to verified members only.",
+    "empty": "Upcoming dates will be announced here very soon.",
+    "demoNotice": "Demonstration data",
+    "themes": {
+      "open": "Open evening",
+      "age-25-35": "Ages 25 to 35",
+      "age-35-45": "Ages 35 to 45",
+      "age-45-plus": "Ages 45 and over",
+      "faith-christian": "Christian faith",
+      "faith-muslim": "Muslim faith",
+      "professionals": "Professional background"
+    }
+  },
+  "Faq": {
+    "eyebrow": "Frequently asked questions",
+    "title": "What people often ask us.",
+    "items": [
+      {
+        "q": "Why can't I see members' photos?",
+        "a": "Because we want you to meet a person, not an image. Photos are revealed only after a mutual agreement, and they are protected by a watermark."
+      },
+      {
+        "q": "How does verification work?",
+        "a": "You send an identity document, you have an interview with a member of our team and you sign a sworn statement about your marital status. Your profile is approved once these three steps are complete."
+      },
+      {
+        "q": "What if nobody appeals to me at an evening?",
+        "a": "Nothing awkward happens. Nobody knows who said no. You can book another evening whenever you wish."
+      },
+      {
+        "q": "Can I have several discoveries at the same time?",
+        "a": "Yes, two at most. If you have more mutual agreements, you choose which ones to open. The others wait for seven days."
+      },
+      {
+        "q": "Can the counsellor read our messages?",
+        "a": "Only if you both agree. A banner stays visible as long as they have access to the conversation, and either of you may withdraw that access at any time."
+      },
+      {
+        "q": "How do I pay?",
+        "a": "By Mobile Money, MTN or Moov. Registration fees and evening bookings are paid directly from your member space."
+      },
+      {
+        "q": "Can I leave the platform at any time?",
+        "a": "Yes, without giving a reason. You can also download your data or request the deletion of your account from your settings."
+      },
+      {
+        "q": "Can divorced or widowed people join?",
+        "a": "Of course. We simply ask you to declare your situation honestly, like every member."
+      }
+    ]
+  },
+  "Footer": {
+    "tagline": "Serious introductions in Cotonou. Verified, face to face, with guidance all the way to your union.",
+    "contactTitle": "Write to us",
+    "linksTitle": "The house",
+    "legalTitle": "Information",
+    "rules": "Member rules",
+    "privacy": "Privacy policy",
+    "legal": "Legal notice",
+    "rights": "© {year} Wanyiyi. All rights reserved.",
+    "phone": "Phone",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "ctaTitle": "Every application is reviewed individually."
+  },
+  "About": {
+    "eyebrow": "About",
+    "title": "An introduction house, not an app.",
+    "sections": [
+      {
+        "title": "Why Wanyiyi",
+        "paragraphs": [
+          "Many women and men in Cotonou wish to start a family, yet no longer know where to meet a serious partner. Apps multiply photos and conversations that lead nowhere. Introductions through friends are not always enough.",
+          "Wanyiyi offers another way: verified members, face-to-face meetings and human guidance, all the way to your union."
+        ]
+      },
+      {
+        "title": "Our principles",
+        "paragraphs": [
+          "Respect first. Every member commits to courteous and honest behaviour, online and at evenings.",
+          "Discretion next. No photo is public, no contact detail is shared without your consent.",
+          "Time, finally. We prefer one right meeting to ten hurried ones."
+        ]
+      },
+      {
+        "title": "Who it is for",
+        "paragraphs": [
+          "For women and men seeking a lasting union: civil, religious or traditional marriage with the bride price. Single, divorced or widowed, everyone is welcome, provided they declare it sincerely."
+        ]
+      }
+    ]
+  },
+  "Rules": {
+    "eyebrow": "Member rules",
+    "title": "The rules that protect everyone.",
+    "intro": "By becoming a member, you accept these rules. They exist so that every person feels respected and safe.",
+    "sections": [
+      {
+        "title": "1. Sincerity",
+        "paragraphs": [
+          "You declare your true marital status and describe yourself honestly. Any false statement leads to exclusion.",
+          "You are looking for a lasting relationship. Wanyiyi is not a place for casual affairs."
+        ]
+      },
+      {
+        "title": "2. Respect",
+        "paragraphs": [
+          "You remain courteous at all times, at evenings and in conversations. Inappropriate, insistent or hurtful remarks are forbidden.",
+          "A negative answer is respected, without questions or insistence."
+        ]
+      },
+      {
+        "title": "3. Discretion",
+        "paragraphs": [
+          "You do not publish any phone number, address, link or social media handle in your profile.",
+          "You do not copy, photograph or share any photo or message from another member."
+        ]
+      },
+      {
+        "title": "4. Evenings",
+        "paragraphs": [
+          "You confirm your attendance no later than 48 hours before the evening. Without confirmation, your place is offered to the waiting list.",
+          "You arrive on time and stay until the last round, out of respect for the other participants."
+        ]
+      },
+      {
+        "title": "5. Discovery and couple space",
+        "paragraphs": [
+          "You hold at most two discoveries at a time. When you enter a couple space, you commit to exclusivity and you no longer book evenings while the space remains open.",
+          "Either person may end a relationship at any time, without giving a reason."
+        ]
+      },
+      {
+        "title": "6. Reports and sanctions",
+        "paragraphs": [
+          "If any behaviour makes you uncomfortable, report it. Our team aims to handle each report within 24 hours.",
+          "Depending on the severity, sanctions range from a warning to permanent exclusion."
+        ]
+      }
+    ]
+  },
+  "Privacy": {
+    "eyebrow": "Privacy policy",
+    "title": "What we do with your data.",
+    "intro": "Your data is precious. We collect as little as possible and protect it with the greatest care.",
+    "sections": [
+      {
+        "title": "Data controller",
+        "paragraphs": [
+          "Company name, address and contact of the controller: to be completed."
+        ]
+      },
+      {
+        "title": "Data collected",
+        "paragraphs": [
+          "Your phone number, your identity, your identity document, your marital status declaration, your profile answers, your photos, your bookings, your votes and your messages.",
+          "We never ask for your skin tone, your ethnicity, your exact address or the name of your employer."
+        ]
+      },
+      {
+        "title": "Why we use it",
+        "paragraphs": [
+          "To verify your identity, organise evenings, compute mutual agreements, enable conversations after an agreement and keep you safe."
+        ]
+      },
+      {
+        "title": "Who can access it",
+        "paragraphs": [
+          "Your identity document is accessible only to the verification team, and every access is recorded.",
+          "Your photos are visible only after a mutual agreement. The counsellor reads your couple conversation only with the consent of you both.",
+          "Your income, if you choose to share it, is never visible to other members."
+        ]
+      },
+      {
+        "title": "Retention periods",
+        "paragraphs": [
+          "After a separation, the conversation is kept for 90 days, accessible only to moderation, then deleted.",
+          "After a celebrated union, the conversation becomes read-only and is deleted after 12 months, unless you both ask to keep it."
+        ]
+      },
+      {
+        "title": "Your rights",
+        "paragraphs": [
+          "At any time, you may download your data, correct it or request the deletion of your account from your settings.",
+          "For any question, write to us at the address given in the legal notice."
+        ]
+      }
+    ]
+  },
+  "Legal": {
+    "eyebrow": "Legal notice",
+    "title": "Legal notice.",
+    "sections": [
+      {
+        "title": "Publisher",
+        "paragraphs": [
+          "Company name: to be completed.",
+          "Registered office: to be completed.",
+          "RCCM: to be completed. IFU: to be completed.",
+          "Publication director: to be completed."
+        ]
+      },
+      {
+        "title": "Hosting",
+        "paragraphs": [
+          "Website and data host: to be completed."
+        ]
+      },
+      {
+        "title": "Data protection",
+        "paragraphs": [
+          "Declaration to the Personal Data Protection Authority (APDP): to be completed."
+        ]
+      },
+      {
+        "title": "Photo credits",
+        "paragraphs": [
+          "Photo credits are listed in the project's PHOTOS.md file and will be reproduced here before going live."
+        ]
+      }
+    ]
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Let us talk.",
+    "intro": "A question before joining? Our team will gladly answer, in complete discretion.",
+    "hours": "Opening hours: to be completed."
+  },
+  "Offline": {
+    "title": "You are offline.",
+    "text": "The connection seems to be interrupted. Check your network, then try again.",
+    "retry": "Try again"
+  },
+  "NotFound": {
+    "title": "This page does not exist.",
+    "text": "The link may be incomplete, or the page may have moved."
+  },
+  "Register": {
+    "eyebrow": "Become a member",
+    "title": "Your registration, in five steps.",
+    "intro": "Registration is done from your phone. Each step is explained, and our team is available at any time.",
+    "steps": [
+      "Your phone number and the code received by text message",
+      "Your identity document",
+      "Your interview appointment",
+      "Your sworn statement",
+      "Payment of the registration fee by Mobile Money"
+    ],
+    "notice": "Online registration will open soon. In the meantime, our team is happy to answer your questions.",
+    "contactCta": "Write to us"
+  },
+  "Social": {
+    "title": "Follow us",
+    "pending": "Link coming soon"
+  }
+}

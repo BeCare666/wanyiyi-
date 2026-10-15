@@ -1,0 +1,461 @@
+{
+  "Meta": {
+    "title": "Wanyiyi · Rencontres sérieuses à Cotonou",
+    "description": "Des rencontres vérifiées, en face à face, pour celles et ceux qui veulent s'engager. Wanyiyi vous accompagne de la première soirée jusqu'à l'union.",
+    "siteName": "Wanyiyi"
+  },
+  "Common": {
+    "becomeMember": "Devenir membre",
+    "nextEvening": "Prochaine soirée",
+    "skipToContent": "Aller au contenu",
+    "menu": "Menu",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "backHome": "Retour à l'accueil",
+    "toComplete": "À compléter",
+    "logoAlt": "Wanyiyi, accueil",
+    "photoCredit": "Photographie {name}"
+  },
+  "Nav": {
+    "promise": "La promesse",
+    "journey": "Le parcours",
+    "evenings": "Les soirées",
+    "safety": "Sécurité",
+    "support": "Accompagnement",
+    "faq": "Questions",
+    "about": "À propos",
+    "contact": "Contact",
+    "home": "Accueil",
+    "more": "La maison",
+    "account": "Mon espace",
+    "rules": "Règlement",
+    "hints": {
+      "evenings": "Dix femmes, dix hommes, une table à Cotonou.",
+      "promise": "Ce que la maison vous garantit, dès le premier jour.",
+      "journey": "Chaque étape, de l'inscription à la première rencontre.",
+      "safety": "Vérification, confidentialité et signalement.",
+      "support": "Un conseiller à vos côtés, avec votre accord.",
+      "contact": "Une question ? Écrivez-nous.",
+      "rules": "Les engagements partagés par chaque membre.",
+      "about": "Qui nous sommes, et pourquoi.",
+      "faq": "Les réponses aux questions les plus fréquentes."
+    }
+  },
+  "Language": {
+    "label": "Langue",
+    "fr": "Français",
+    "en": "English",
+    "yo": "Yorùbá"
+  },
+  "Hero": {
+    "eyebrow": "Cotonou · Rencontres sérieuses",
+    "title": "Pour celles et ceux qui veulent construire à deux.",
+    "promise": "Des rencontres vérifiées, en face à face, accompagnées jusqu'à l'union.",
+    "imageAlt": "Deux mains jointes : une manche de veste à carreaux et une manche brodée."
+  },
+  "Promise": {
+    "eyebrow": "Notre promesse",
+    "title": "Trois engagements, tenus du premier jour au dernier.",
+    "items": [
+      {
+        "title": "Des membres vérifiés",
+        "text": "Chaque membre présente une pièce d'identité, passe un entretien avec notre équipe et déclare sa situation matrimoniale. Personne n'entre sans cette vérification."
+      },
+      {
+        "title": "Des rencontres en vrai",
+        "text": "Ici, pas de galerie de photos. Vous apprenez à connaître une personne par ce qu'elle écrit d'elle, puis en face à face, lors d'une soirée organisée."
+      },
+      {
+        "title": "Un accompagnement jusqu'à l'union",
+        "text": "Après un accord mutuel, un conseiller de couple vous suit, à votre rythme. Nous restons à vos côtés jusqu'à la dot, au mariage ou à la célébration de votre choix."
+      }
+    ]
+  },
+  "Journey": {
+    "eyebrow": "Comment ça se passe",
+    "title": "Un parcours clair, étape par étape.",
+    "steps": [
+      {
+        "title": "Inscription",
+        "text": "Vous créez votre compte avec votre numéro de téléphone, puis vous vous décrivez avec sincérité."
+      },
+      {
+        "title": "Vérification",
+        "text": "Pièce d'identité, entretien avec l'équipe et déclaration sur l'honneur. Votre profil est relu avant d'être publié."
+      },
+      {
+        "title": "Soirée",
+        "text": "Vous réservez une soirée. Vous y rencontrez chaque participant de l'autre sexe, à tour de rôle, pendant sept minutes."
+      },
+      {
+        "title": "Accord mutuel",
+        "text": "Après chaque échange, vous indiquez si vous souhaitez revoir la personne. Il y a accord seulement si les deux répondent oui."
+      },
+      {
+        "title": "Découverte",
+        "text": "Pendant quatorze jours, vous échangez en privé, vous voyez enfin vos photos et vous vous retrouvez dans un lieu partenaire."
+      },
+      {
+        "title": "Espace du couple",
+        "text": "Si vous choisissez tous les deux de continuer, votre espace s'ouvre, avec un conseiller qui vous accompagne."
+      },
+      {
+        "title": "Union célébrée",
+        "text": "Dot, mariage civil, religieux ou traditionnel. Votre espace devient alors un espace souvenir."
+      }
+    ],
+    "noMatch": "Pas d'accord mutuel cette fois ? Vous réservez simplement une nouvelle soirée."
+  },
+  "Evenings": {
+    "eyebrow": "Les soirées",
+    "title": "Une soirée pensée pour se parler vraiment.",
+    "intro": "Nous organisons jusqu'à trois soirées par semaine à Cotonou. L'ambiance est calme, la lumière douce, le service attentif. Vous venez pour parler, pas pour être jugé sur une photo.",
+    "steps": [
+      {
+        "label": "L'accueil",
+        "text": "Notre équipe vous accueille et vous remet votre numéro de table. Vous confirmez votre présence 48 heures avant."
+      },
+      {
+        "label": "Les échanges",
+        "text": "Dix femmes, dix hommes. Les femmes restent à leur table, les hommes changent à chaque tour. Sept minutes par rencontre, une pause à mi-parcours."
+      },
+      {
+        "label": "Votre choix",
+        "text": "Après chaque échange, vous scannez le code de la table et vous répondez en toute discrétion. Vous pouvez changer d'avis jusqu'à la fin de la soirée."
+      },
+      {
+        "label": "Le lendemain",
+        "text": "À 8 heures, vous recevez vos accords mutuels. Personne ne sait jamais qui a répondu non."
+      }
+    ],
+    "venue": "Le lieu est choisi pour son calme et sa discrétion. Son adresse est communiquée aux participants confirmés.",
+    "themes": "Certaines soirées sont thématiques : tranche d'âge, foi, univers professionnel.",
+    "imageAlt": "Une table dressée avec soin, des verres et des bougies allumées."
+  },
+  "Safety": {
+    "eyebrow": "Votre sécurité",
+    "title": "Vous gardez la main, à chaque instant.",
+    "intro": "Nous avons conçu Wanyiyi pour que chacune et chacun se sente en confiance. En particulier les femmes, qui nous l'ont souvent demandé.",
+    "items": [
+      {
+        "title": "Tous les membres sont vérifiés",
+        "text": "Pièce d'identité, entretien et déclaration de situation matrimoniale. Les documents sont conservés dans un espace privé, consultable par la seule équipe de vérification."
+      },
+      {
+        "title": "Aucune photo publique",
+        "text": "Votre photo n'apparaît jamais sur le site. Elle n'est visible qu'après un accord mutuel, et vous pouvez choisir de la garder floutée."
+      },
+      {
+        "title": "Un filigrane nominatif",
+        "text": "Chaque affichage d'une photo porte le nom de la personne qui la regarde, avec la date et l'heure. Une copie se retrouverait donc immédiatement."
+      },
+      {
+        "title": "Vos coordonnées restent privées",
+        "text": "Les numéros, liens et adresses sont bloqués dans les profils. Vos numéros ne sont échangés que si vous le décidez tous les deux."
+      },
+      {
+        "title": "Un signalement traité vite",
+        "text": "Un bouton de signalement est présent sur chaque profil et chaque conversation. Notre équipe traite chaque signalement dans un délai cible de 24 heures."
+      }
+    ]
+  },
+  "Support": {
+    "eyebrow": "L'accompagnement",
+    "title": "Une personne de confiance à vos côtés.",
+    "discoveryTitle": "La découverte",
+    "discoveryText": "Chaque accord mutuel ouvre quatorze jours pour apprendre à vous connaître : une conversation privée, vos photos, un premier rendez-vous conseillé dans un lieu partenaire. Vous menez au plus deux découvertes à la fois, pour prendre le temps de chacune.",
+    "counselorTitle": "Le conseiller",
+    "counselorText": "Quand vous décidez tous les deux de continuer, vous choisissez ensemble un conseiller de vie et de couple. Il vous guide dans les grandes étapes : les séances, la présentation aux familles, la préparation de l'union.",
+    "consentTitle": "Votre accord avant tout",
+    "consentText": "Le conseiller ne lit jamais votre conversation sans l'accord de vous deux. Chacun peut lui écrire en privé, et chacun peut retirer son accès à tout moment.",
+    "quote": "Notre rôle est d'éclairer le chemin. La décision vous appartient toujours."
+  },
+  "Celebration": {
+    "eyebrow": "La célébration",
+    "title": "Jusqu'au jour où vous dites oui.",
+    "intro": "Que votre union se fasse à la mairie, à l'église, à la mosquée ou selon la tradition avec la dot, nous vous accompagnons dans sa préparation.",
+    "items": [
+      {
+        "title": "La dot et la tradition",
+        "text": "Des repères pour préparer la rencontre des familles, dans le respect des usages de chacun."
+      },
+      {
+        "title": "Des prestataires partenaires",
+        "text": "Traiteurs, couturiers, photographes, lieux de réception. Des adresses sérieuses, recommandées par notre équipe."
+      },
+      {
+        "title": "Une cagnotte pour vos proches",
+        "text": "Vos proches peuvent participer à votre union, simplement, par Mobile Money."
+      }
+    ],
+    "imageAlt": "Un couple en tenue traditionnelle dorée échange un regard complice."
+  },
+  "Testimonials": {
+    "eyebrow": "Témoignages",
+    "title": "Ils se sont rencontrés ici."
+  },
+  "Upcoming": {
+    "eyebrow": "Prochaines soirées",
+    "title": "Réservez votre place.",
+    "seatsLeft": "{count, plural, =0 {Complet} one {# place} other {# places}}",
+    "women": "Femmes",
+    "men": "Hommes",
+    "full": "Complet",
+    "waitlist": "Liste d'attente",
+    "book": "Réserver",
+    "membersOnly": "La réservation est réservée aux membres vérifiés.",
+    "empty": "Les prochaines dates seront annoncées ici très prochainement.",
+    "demoNotice": "Données de démonstration",
+    "themes": {
+      "open": "Soirée ouverte",
+      "age-25-35": "25 à 35 ans",
+      "age-35-45": "35 à 45 ans",
+      "age-45-plus": "45 ans et plus",
+      "faith-christian": "Foi chrétienne",
+      "faith-muslim": "Foi musulmane",
+      "professionals": "Univers professionnel"
+    }
+  },
+  "Faq": {
+    "eyebrow": "Questions fréquentes",
+    "title": "Ce que l'on nous demande souvent.",
+    "items": [
+      {
+        "q": "Pourquoi ne voit-on pas les photos des membres ?",
+        "a": "Parce que nous voulons que vous rencontriez une personne, pas une image. Les photos sont révélées uniquement après un accord mutuel, et protégées par un filigrane."
+      },
+      {
+        "q": "Comment se passe la vérification ?",
+        "a": "Vous envoyez une pièce d'identité, vous passez un entretien avec un membre de notre équipe et vous signez une déclaration sur l'honneur concernant votre situation matrimoniale. Votre profil est validé à l'issue de ces trois étapes."
+      },
+      {
+        "q": "Que se passe-t-il si personne ne me plaît lors d'une soirée ?",
+        "a": "Rien d'embarrassant. Personne ne sait qui a répondu non. Vous pouvez réserver une nouvelle soirée quand vous le souhaitez."
+      },
+      {
+        "q": "Puis-je faire plusieurs découvertes en même temps ?",
+        "a": "Oui, deux au maximum. Si vous avez davantage d'accords mutuels, vous choisissez lesquels ouvrir. Les autres restent en attente sept jours."
+      },
+      {
+        "q": "Le conseiller peut-il lire nos messages ?",
+        "a": "Seulement si vous l'acceptez tous les deux. Un bandeau reste affiché tant qu'il a accès à la conversation, et chacun peut retirer cet accès à tout moment."
+      },
+      {
+        "q": "Comment paie-t-on ?",
+        "a": "Par Mobile Money, MTN ou Moov. Les frais d'inscription et les réservations de soirée se règlent directement depuis votre espace."
+      },
+      {
+        "q": "Puis-je quitter la plateforme à tout moment ?",
+        "a": "Oui, sans justification. Vous pouvez aussi télécharger vos données ou demander la suppression de votre compte depuis vos paramètres."
+      },
+      {
+        "q": "Les personnes divorcées ou veuves peuvent-elles s'inscrire ?",
+        "a": "Bien sûr. Nous vous demandons simplement de déclarer votre situation avec honnêteté, comme chaque membre."
+      }
+    ]
+  },
+  "Footer": {
+    "tagline": "Rencontres sérieuses à Cotonou. Vérifiées, en face à face, accompagnées jusqu'à l'union.",
+    "contactTitle": "Nous écrire",
+    "linksTitle": "La maison",
+    "legalTitle": "Informations",
+    "rules": "Règlement des membres",
+    "privacy": "Politique de confidentialité",
+    "legal": "Mentions légales",
+    "rights": "© {year} Wanyiyi. Tous droits réservés.",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "ctaTitle": "Chaque candidature est étudiée une à une."
+  },
+  "About": {
+    "eyebrow": "À propos",
+    "title": "Une maison de rencontres, pas une application.",
+    "sections": [
+      {
+        "title": "Pourquoi Wanyiyi",
+        "paragraphs": [
+          "Beaucoup de femmes et d'hommes de Cotonou souhaitent fonder une famille, mais ne savent plus où rencontrer une personne sérieuse. Les applications multiplient les photos et les conversations sans lendemain. Les rencontres par relations ne suffisent pas toujours.",
+          "Wanyiyi propose une autre voie : des membres vérifiés, des rencontres en face à face et un accompagnement humain, jusqu'à l'union."
+        ]
+      },
+      {
+        "title": "Nos principes",
+        "paragraphs": [
+          "Le respect d'abord. Chaque membre s'engage à un comportement courtois et honnête, en ligne comme en soirée.",
+          "La discrétion ensuite. Aucune photo n'est publique, aucune coordonnée n'est partagée sans votre accord.",
+          "Le temps enfin. Nous préférons une rencontre juste à dix rencontres rapides."
+        ]
+      },
+      {
+        "title": "Pour qui",
+        "paragraphs": [
+          "Pour les femmes et les hommes qui cherchent une union durable : mariage civil, religieux ou traditionnel avec la dot. Célibataires, divorcés ou veufs, tous sont les bienvenus, à condition de le déclarer avec sincérité."
+        ]
+      }
+    ]
+  },
+  "Rules": {
+    "eyebrow": "Règlement des membres",
+    "title": "Les règles qui protègent chacun.",
+    "intro": "En devenant membre, vous acceptez ces règles. Elles existent pour que chaque personne se sente respectée et en sécurité.",
+    "sections": [
+      {
+        "title": "1. Sincérité",
+        "paragraphs": [
+          "Vous déclarez votre situation matrimoniale réelle et vous vous décrivez avec honnêteté. Toute fausse déclaration entraîne l'exclusion.",
+          "Vous cherchez une relation durable. Wanyiyi n'est pas un lieu pour des aventures passagères."
+        ]
+      },
+      {
+        "title": "2. Respect",
+        "paragraphs": [
+          "Vous êtes courtois en toutes circonstances, en soirée comme dans les conversations. Les propos déplacés, insistants ou blessants sont interdits.",
+          "Une réponse négative se respecte, sans question ni insistance."
+        ]
+      },
+      {
+        "title": "3. Discrétion",
+        "paragraphs": [
+          "Vous ne publiez dans votre profil ni numéro de téléphone, ni adresse, ni lien, ni pseudonyme de réseau social.",
+          "Vous ne copiez, ne photographiez et ne diffusez aucune photo ni aucun message d'un autre membre."
+        ]
+      },
+      {
+        "title": "4. Soirées",
+        "paragraphs": [
+          "Vous confirmez votre présence au plus tard 48 heures avant la soirée. Sans confirmation, votre place est proposée à la liste d'attente.",
+          "Vous arrivez à l'heure et vous restez jusqu'à la fin des tours, par respect pour les autres participants."
+        ]
+      },
+      {
+        "title": "5. Découverte et espace du couple",
+        "paragraphs": [
+          "Vous menez au plus deux découvertes à la fois. Lorsque vous entrez dans un espace du couple, vous vous engagez à l'exclusivité et vous ne réservez plus de soirée tant que l'espace reste ouvert.",
+          "Chacun peut mettre fin à une relation à tout moment, sans justification."
+        ]
+      },
+      {
+        "title": "6. Signalements et sanctions",
+        "paragraphs": [
+          "Si un comportement vous met mal à l'aise, signalez-le. Notre équipe traite chaque signalement dans un délai cible de 24 heures.",
+          "Selon la gravité, les sanctions vont de l'avertissement à l'exclusion définitive."
+        ]
+      }
+    ]
+  },
+  "Privacy": {
+    "eyebrow": "Politique de confidentialité",
+    "title": "Ce que nous faisons de vos données.",
+    "intro": "Vos données sont précieuses. Nous en collectons le moins possible et nous les protégeons avec le plus grand soin.",
+    "sections": [
+      {
+        "title": "Responsable du traitement",
+        "paragraphs": [
+          "Raison sociale, adresse et contact du responsable : à compléter."
+        ]
+      },
+      {
+        "title": "Données collectées",
+        "paragraphs": [
+          "Votre numéro de téléphone, votre identité, votre pièce d'identité, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations, vos votes et vos messages.",
+          "Nous ne demandons jamais votre teint de peau, votre ethnie, votre adresse exacte ni le nom de votre employeur."
+        ]
+      },
+      {
+        "title": "Pourquoi nous les utilisons",
+        "paragraphs": [
+          "Pour vérifier votre identité, organiser les soirées, calculer les accords mutuels, permettre les échanges après un accord et assurer votre sécurité."
+        ]
+      },
+      {
+        "title": "Qui y a accès",
+        "paragraphs": [
+          "Votre pièce d'identité est consultable uniquement par l'équipe de vérification, et chaque consultation est enregistrée.",
+          "Vos photos ne sont visibles qu'après un accord mutuel. Le conseiller ne lit votre conversation de couple qu'avec l'accord de vous deux.",
+          "Vos revenus, si vous les indiquez, ne sont jamais visibles par les autres membres."
+        ]
+      },
+      {
+        "title": "Durées de conservation",
+        "paragraphs": [
+          "Après une séparation, la conversation est conservée 90 jours, accessible à la seule modération, puis supprimée.",
+          "Après une union célébrée, la conversation passe en lecture seule et elle est supprimée après 12 mois, sauf si vous demandez tous les deux à la garder."
+        ]
+      },
+      {
+        "title": "Vos droits",
+        "paragraphs": [
+          "Vous pouvez à tout moment télécharger vos données, les corriger ou demander la suppression de votre compte depuis vos paramètres.",
+          "Pour toute question, écrivez-nous à l'adresse indiquée dans les mentions légales."
+        ]
+      }
+    ]
+  },
+  "Legal": {
+    "eyebrow": "Mentions légales",
+    "title": "Mentions légales.",
+    "sections": [
+      {
+        "title": "Éditeur",
+        "paragraphs": [
+          "Raison sociale : à compléter.",
+          "Siège : à compléter.",
+          "RCCM : à compléter. IFU : à compléter.",
+          "Responsable de la publication : à compléter."
+        ]
+      },
+      {
+        "title": "Hébergement",
+        "paragraphs": [
+          "Hébergeur du site et des données : à compléter."
+        ]
+      },
+      {
+        "title": "Protection des données",
+        "paragraphs": [
+          "Déclaration auprès de l'Autorité de protection des données personnelles (APDP) : à compléter."
+        ]
+      },
+      {
+        "title": "Crédits photographiques",
+        "paragraphs": [
+          "Les crédits des photographies sont listés dans le fichier PHOTOS.md du projet et seront reproduits ici avant la mise en ligne."
+        ]
+      }
+    ]
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Parlons-en.",
+    "intro": "Une question avant de vous inscrire ? Notre équipe vous répond avec plaisir, en toute discrétion.",
+    "hours": "Horaires : à compléter."
+  },
+  "Offline": {
+    "title": "Vous êtes hors ligne.",
+    "text": "La connexion semble interrompue. Vérifiez votre réseau, puis réessayez.",
+    "retry": "Réessayer"
+  },
+  "NotFound": {
+    "title": "Cette page n'existe pas.",
+    "text": "Le lien est peut-être incomplet ou la page a été déplacée."
+  },
+  "Register": {
+    "eyebrow": "Devenir membre",
+    "title": "Votre inscription, en cinq étapes.",
+    "intro": "L'inscription se fait depuis votre téléphone. Chaque étape est expliquée, et notre équipe reste joignable à tout moment.",
+    "steps": [
+      "Votre numéro de téléphone et le code reçu par SMS",
+      "Votre pièce d'identité",
+      "Votre rendez-vous pour l'entretien",
+      "Votre déclaration sur l'honneur",
+      "Le paiement des frais d'inscription par Mobile Money"
+    ],
+    "notice": "L'inscription en ligne ouvrira prochainement. En attendant, notre équipe répond à vos questions.",
+    "contactCta": "Nous écrire"
+  },
+  "Social": {
+    "title": "Nous suivre",
+    "pending": "Lien à venir"
+  }
+}

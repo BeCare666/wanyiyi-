@@ -1,0 +1,128 @@
+WANYIYI : FEUILLE DE ROUTE DE LA PHASE 2
+Version 1, 14 octobre 2026.
+
+Périmètre (section 14 de la note) : inscription, vérification, profil, soirées,
+paiement, vote QR, matchs, administration de base.
+Critère de fin : une soirée complète simulée de bout en bout avec des données fictives.
+
+Répartition validée (PROPOSITIONS.txt) : Supabase (base, OTP, RLS, stockage privé),
+NestJS (OTP via Brevo, paiements, soirées, votes, matchs à 8 h), adaptateurs
+« simulé » puis « réel » pour le paiement et les notifications.
+
+Décisions du 14 octobre 2026
+  - Base : Supabase confirmé (TiDB Cloud écarté : pas de RLS, pas de
+    procédures ni de déclencheurs).
+  - Confirmation de l'adresse e-mail par Brevo, EN PLUS de l'OTP par
+    téléphone (Supabase Auth avec Brevo comme serveur d'envoi SMTP).
+  - PGlite pour les tests de la base ; lieux fictifs pour la démonstration.
+
+======================================================================
+ÉTAPES
+======================================================================
+
+Étape 1. Règles métier pures (packages/domain)                       FAITE
+  - Rotation 9.2 (dont nombres inégaux et tours de pause), minuteur.
+  - Réservation 9.2 : quotas par sexe, liste d'attente par sexe, membres
+    validés seulement, confirmation 48 h avant, libération et promotion,
+    annulation, soirées thématiques (âge, foi, secteur), exclusivité 9.5.
+  - Vote 9.3 : QR valable pendant la soirée, vote modifiable jusqu'à la fin,
+    match si double oui, annonce le lendemain à 8 h (Cotonou), aucun « non »
+    jamais visible.
+  - Blocage des coordonnées dans les textes 8.1 (téléphone en chiffres ou en
+    lettres, e-mail, liens, pseudos).
+  - 41 tests.
+
+Étape 2. Base de données de la phase 2                                FAITE
+  - PGlite validé (14 octobre) : le schéma s'exécute désormais réellement,
+    sur un vrai PostgreSQL, à chaque lancement des tests.
+  - Migration 20261014000000_phase2_soirees.sql : droits des rôles de l'API
+    (absents du schéma initial), permissions fines par rôle, politiques RLS,
+    colonnes protégées, fonctions atomiques (réserver, confirmer, annuler,
+    libérer à 48 h, liste d'attente, pointage, rotation et codes QR, vote,
+    matchs, annonce de 8 h), journal d'audit des pièces d'identité.
+  - 25 tests (supabase/tests), dont les écritures directes interdites.
+
+Étape 3. API NestJS                                    FAITE (hors FedaPay)
+  - Accès Supabase selon la règle validée : jeton du membre transmis (RLS),
+    clé service role réservée aux tâches système et journalisée.
+  - Vérification des jetons des membres (clés publiques du projet, JWKS).
+  - Auth Hooks Supabase signés : codes OTP par SMS et e-mails de
+    confirmation d'adresse, en français, anglais et yoruba, via Brevo
+    (adaptateurs simulés en développement, interdits en production).
+  - Profil : textes libres bloqués côté serveur (8.1).
+  - Soirées, vote QR, matchs ; pilotage de soirée par l'équipe.
+  - Paiements : adaptateur simulé ; aucun montant inventé (refus tant que le
+    tarif n'est pas en base). FedaPay attend la question 7.
+  - Tâches planifiées : libération à 48 h, calcul des matchs, annonce à 8 h
+    (heure de Cotonou) avec rattrapage.
+  - Documentation Swagger sur /api/docs (hors production). 19 tests.
+  - Paquets shared et domain compilés (dist) pour être exécutables par Node.
+
+Étape 4. Espace membre (web)                  BLOQUÉE (questions 1 à 6, 9)
+  - Coquille 6.1 : barre latérale (ordinateur), tiroir et barre basse (mobile),
+    avatar monogramme, cloche de notifications.
+  - Inscription et vérification 6.2-2 : téléphone et OTP, pièce d'identité,
+    rendez-vous d'entretien, déclaration sur l'honneur, paiement, suivi.
+  - Profil 8 en étapes : « Je me décris » / « Ce que je recherche »,
+    3 critères non négociables au maximum, enregistrement automatique.
+  - Soirées 6.2-4 : calendrier, filtres, places par sexe, réservation,
+    paiement, liste d'attente, confirmation, annulation.
+  - Vote 6.2-5 : page mobile ouverte par le code QR de la table.
+  - Matchs : liste après 8 h (la découverte elle-même est en phase 3).
+
+Étape 5. Administration de base
+  - Coquille 11.1, membres, vérifications (consultation de la pièce
+    journalisée), modération des textes, soirées (création, lieux, thèmes,
+    inscriptions, pointage, minuteur sur tablette, impression des QR,
+    résultats), paiements.
+
+Étape 6. Données fictives et simulation complète (critère de fin)
+  - 24 profils fictifs (prénoms et villes béninois), une soirée 10 × 10 plus
+    liste d'attente, déroulé complet : réservation, paiement simulé,
+    confirmation, pointage, 10 tours, votes, matchs annoncés à 8 h.
+  - Script et test de bout en bout.
+
+======================================================================
+QUESTIONS (je n'invente pas les réponses)
+======================================================================
+
+  1. Base de données. Il n'y a ni Docker ni projet Supabase sur ce poste.
+     a) Créez-vous un projet Supabase (gratuit) pour le développement ?
+        Il me faudra l'URL, la clé « anon » et la clé « service role »,
+        à placer vous-même dans apps/web/.env.local et apps/api/.env.
+     b) Pour les tests automatiques sans réseau, j'aimerais utiliser
+        PGlite (PostgreSQL complet compilé pour Node, paquet npm
+        @electric-sql/pglite, sans Docker) : l'acceptez-vous ?
+  2. Tarifs en francs CFA : frais d'inscription, prix d'une soirée.
+     Remboursement en cas d'annulation : oui ou non, et jusqu'à quand ?
+  3. Âge minimum pour s'inscrire (et âge maximum éventuel).
+  4. Profil : bornes des tranches de taille (10 cm), tranches de revenus,
+     liste des secteurs d'activité.
+  5. Entretien de vérification : en personne, par appel vidéo, ou les deux ?
+     Lieu et créneaux habituels ?
+  6. Lieux partenaires des soirées : noms et adresses, ou lieux fictifs pour
+     la démonstration ?
+  7. Paiement : FedaPay ou KkiaPay en premier ? Avez-vous un compte
+     de test (sandbox) ? Les moyens visés : MTN MoMo, Moov Money, carte ?
+  8. Minuteur : durée de la pause après la moitié des tours ? Avec un
+     nombre impair de tours (par exemple 11), pause après le 5e ou le 6e ?
+     (Programmé pour l'instant : après le 5e, arrondi à l'inférieur.)
+  9. Confirmation 48 h : à partir de quand le membre peut-il confirmer
+     (dès la réservation, ou à partir d'une date précise) ? Et quand une
+     place se libère moins de 48 h avant la soirée, de combien de temps
+     dispose la personne promue depuis la liste d'attente pour confirmer ?
+ 10. Chiffres en yoruba écrits en lettres (blocage des numéros) :
+     òdo, ọ̀kan, èjì, ẹ̀ta, ẹ̀rin, àrún, ẹ̀fà, èje, ẹ̀jọ, ẹ̀sán. À faire
+     valider par le traducteur avec le reste.
+ 11. Vérification des pièces d'identité : réservée pour l'instant aux rôles
+     administrateur et super administrateur. Les modérateurs doivent-ils
+     aussi valider les inscriptions ?
+ 12. Paiement d'une soirée : une place réservée mais pas encore payée
+     est-elle bloquée ? Pendant combien de temps ?
+ 13. Node.js : la bibliothèque Supabase installée exige Node 22, le poste a
+     Node 20. Pouvez-vous installer Node 22 LTS (nécessaire pour l'étape 3) ?
+ 14. Brevo : nom d'expéditeur des SMS (11 lettres ou chiffres, par exemple
+     « Wanyiyi ») et adresse d'envoi des e-mails (par exemple
+     bonjour@votre-domaine). Le domaine devra être authentifié chez Brevo.
+     Les noms d'expéditeur SMS doivent-ils être enregistrés auprès des
+     opérateurs béninois ? Je n'ai pas cette information.

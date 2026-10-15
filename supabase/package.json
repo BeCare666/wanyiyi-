@@ -1,0 +1,13 @@
+{
+  "name": "@wanyiyi/supabase",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Migrations SQL et tests de la base (politiques RLS, fonctions métier), exécutés avec PGlite.",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "vitest": "^4.1.11"
+  }
+}

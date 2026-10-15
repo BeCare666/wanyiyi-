@@ -1,0 +1,20 @@
+{
+  "name": "wanyiyi",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "supabase"
+  ],
+  "scripts": {
+    "build:packages": "npm run build -w @wanyiyi/shared && npm run build -w @wanyiyi/domain",
+    "dev:web": "npm run build:packages && npm run dev -w @wanyiyi/web",
+    "dev:api": "npm run build:packages && npm run start:dev -w @wanyiyi/api",
+    "build": "npm run build:packages && npm run build -w @wanyiyi/api && npm run build -w @wanyiyi/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run build:packages && npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20.9"
+  }
+}
