@@ -12,5 +12,7 @@ export default async function proxy(request: NextRequest) {
 
 export const config = {
   // Toutes les pages, sauf l'API, les fichiers internes de Next.js et les fichiers statiques
-  matcher: "/((?!api|_next|_vercel|.*\..*).*)",
+  // « \\. » : un point littéral (fichiers statiques). Avec « \. », la barre disparaît dans la chaîne
+  // et le motif excluait toute adresse sauf « / » (pages françaises sans préfixe en 404).
+  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
 };
