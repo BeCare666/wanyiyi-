@@ -40,6 +40,15 @@ Toutes les chaînes yoruba sont à valider. Les choix de vocabulaire ci-dessous 
 | Drapeau du yoruba | Bénin | Validé le 14 octobre 2026 |
 | Chiffres en lettres (blocage des numéros, `packages/domain/src/textGuard.ts`) | òdo, ọ̀kan, èjì, ẹ̀ta, ẹ̀rin, àrún, ẹ̀fà, èje, ẹ̀jọ, ẹ̀sán | Liste complète ? Autres façons courantes d'écrire un numéro ? |
 | Code OTP par SMS et e-mails de confirmation (`apps/api/src/notifications/messages.ts`) | 1 SMS et 4 e-mails | À relire en entier |
+| Espace membre, connexion, vote (`Member`, `SignIn`, `Vote`, ajoutés le 15 octobre 2026) | environ 100 chaînes | À relire en entier |
+| Tableau de bord (menu) | Ojú-ìwé mi | Terme naturel pour « mon tableau de bord » ? |
+| Tour (rotation des tables) | Ìyípo | |
+| Pause (tour sans rencontre) | Ìsinmi | |
+| Vote | Ìdìbò | Trop « électoral » pour un choix personnel ? |
+| Sérieux (appréciation) | Ìfọkànsìn | |
+| Ponctualité | Àsìkò | Terme plus précis possible ? |
+| Se connecter / Se déconnecter | Wọlé / Jáde | |
+| Paramètres | Ètò | |
 
 ## Règles de rédaction appliquées à toutes les langues
 

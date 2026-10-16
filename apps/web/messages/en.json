@@ -457,5 +457,131 @@
   "Social": {
     "title": "Follow us",
     "pending": "Link coming soon"
+  },
+  "Member": {
+    "areaLabel": "Member area",
+    "nav": {
+      "dashboard": "Dashboard",
+      "evenings": "Evenings",
+      "matches": "My matches",
+      "profile": "My profile",
+      "verification": "Verification",
+      "notifications": "Notifications",
+      "settings": "Settings",
+      "rules": "House rules"
+    },
+    "collapse": "Collapse the menu",
+    "expand": "Show menu labels",
+    "signOut": "Sign out",
+    "account": "My account",
+    "bell": {
+      "label": "Notifications",
+      "unread": "{count, plural, =0 {No unread notifications} one {# unread notification} other {# unread notifications}}",
+      "empty": "No notifications yet.",
+      "seeAll": "All notifications",
+      "kinds": {
+        "evening_seat_offered": "A seat at an evening is now yours. Please remember to confirm it.",
+        "match_announced": "You have a new match.",
+        "other": "New notification."
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "greeting": "Hello {name}",
+      "greetingNoName": "Hello",
+      "verification": "Your verification",
+      "status": {
+        "registering": "Registration in progress",
+        "pending_verification": "Awaiting verification",
+        "to_correct": "Some items need correcting",
+        "verified": "Profile approved",
+        "suspended": "Account suspended",
+        "excluded": "Account excluded",
+        "deleted": "Account deleted",
+        "none": "Registration not started"
+      },
+      "nextEvening": "Your next evening",
+      "noEvening": "No evening booked yet.",
+      "seeEvenings": "See the evenings",
+      "registration": {
+        "booked": "Seat booked, to be confirmed 48 hours before the evening",
+        "confirmed": "Seat confirmed",
+        "waitlisted": "On the waiting list",
+        "checked_in": "Attendance recorded"
+      },
+      "rulesTitle": "A reminder of the house rules",
+      "rulesText": "Respect, punctuality and discretion. No contact details are exchanged before a match, and no one ever learns who said no.",
+      "rulesLink": "Read the house rules"
+    },
+    "matches": {
+      "title": "My matches",
+      "intro": "A match happens when two people both wish to meet again. It is announced the morning after the evening, at 8 am.",
+      "empty": "No matches yet.",
+      "announced": "Announced on {date}",
+      "status": {
+        "pending_choice": "Awaiting your choice",
+        "discovery_open": "Discovery open",
+        "expired": "Expired",
+        "closed": "Ended"
+      }
+    },
+    "errors": {
+      "unavailable": "This service is not available yet. Please try again later.",
+      "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
+  "SignIn": {
+    "title": "Sign in",
+    "intro": "Receive a code by text message on your account's phone number.",
+    "phone": "Phone number",
+    "phoneHelp": "International format: the + sign, the country code, then the number.",
+    "send": "Send me the code",
+    "sentTo": "Code sent to {phone}.",
+    "code": "Code received by text message",
+    "verify": "Sign in",
+    "changeNumber": "Change number",
+    "resend": "Send the code again",
+    "noAccountCta": "Become a member",
+    "errors": {
+      "invalidPhone": "Please check the number: it must start with + and the country code.",
+      "noAccount": "No account is linked to this number.",
+      "invalidCode": "This code is incorrect or has expired.",
+      "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
+      "unavailable": "Sign in is not open yet.",
+      "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
+  "Vote": {
+    "eyebrow": "Evening vote",
+    "title": "Would you like to meet this person again?",
+    "intro": "After each round, give your answer. You can change it until the end of the evening. No one will ever know who said no.",
+    "rounds": "Your rounds",
+    "round": "Round {number}",
+    "pause": "Break",
+    "voted": "Vote recorded",
+    "notVoted": "To vote",
+    "partner": "Round {number}, table {table}: you met {name}.",
+    "pauseText": "You were on a break during this round. There is no vote.",
+    "yes": "I would like to meet this person again",
+    "no": "No",
+    "feedback": "Optional feedback",
+    "feedbackHelp": "Seen only by the Wanyiyi team, never by the person.",
+    "criteria": {
+      "respect": "Respect",
+      "punctuality": "Punctuality",
+      "seriousness": "Seriousness"
+    },
+    "score": "{value} out of 5",
+    "clear": "Clear",
+    "submit": "Save my vote",
+    "saved": "Your vote is saved. You can change it until the end of the evening.",
+    "chooseFirst": "Please choose your answer first.",
+    "errors": {
+      "outside_evening": "This code is only valid during the evening.",
+      "not_in_round": "You are not taking part in this evening.",
+      "pause_round": "You were on a break during this round.",
+      "unavailable": "Voting is not available yet.",
+      "generic": "Something went wrong. Please try again in a moment."
+    }
   }
 }

@@ -58,7 +58,7 @@ Décisions du 14 octobre 2026
   - Documentation Swagger sur /api/docs (hors production). 19 tests.
   - Paquets shared et domain compilés (dist) pour être exécutables par Node.
 
-Étape 4. Espace membre (web)                  BLOQUÉE (questions 1 à 6, 9)
+Étape 4. Espace membre (web)                EN COURS (en partie bloquée : 1 à 6, 9)
   - Coquille 6.1 : barre latérale (ordinateur), tiroir et barre basse (mobile),
     avatar monogramme, cloche de notifications.
   - Inscription et vérification 6.2-2 : téléphone et OTP, pièce d'identité,
@@ -69,6 +69,13 @@ Décisions du 14 octobre 2026
     paiement, liste d'attente, confirmation, annulation.
   - Vote 6.2-5 : page mobile ouverte par le code QR de la table.
   - Matchs : liste après 8 h (la découverte elle-même est en phase 3).
+  Fait le 15 octobre 2026 : coquille 6.1 (barre latérale repliable, tiroir,
+    barre basse, cloche, avatar monogramme, mode sombre du membre),
+    connexion par code SMS (/connexion), tableau de bord, liste des matchs,
+    vote au code QR (/vote/<code>) avec la fonction SQL my_evening_rounds
+    (migration 20261015000000_vote_tours.sql) et la route GET /api/vote/:qr.
+  Reste : inscription et vérification, profil, soirées, notifications,
+    paramètres (les entrées du menu mènent pour l'instant à une page absente).
 
 Étape 5. Administration de base
   - Coquille 11.1, membres, vérifications (consultation de la pièce

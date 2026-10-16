@@ -164,7 +164,7 @@ export function MobileNav({ member, pathname, activeSection }: Props) {
                   >
                     <MemberAvatar member={member} size={44} />
                     <span className="flex-1">
-                      <span className="block font-serif text-xl">{member.firstName}</span>
+                      <span className="block font-serif text-xl">{member.firstName ?? t("Nav.account")}</span>
                       <span className="eyebrow">{t("Nav.account")}</span>
                     </span>
                     <CaretRightIcon size={16} weight="light" aria-hidden="true" className="text-fg-muted" />

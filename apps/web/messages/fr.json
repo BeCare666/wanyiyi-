@@ -457,5 +457,131 @@
   "Social": {
     "title": "Nous suivre",
     "pending": "Lien à venir"
+  },
+  "Member": {
+    "areaLabel": "Espace membre",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "evenings": "Soirées",
+      "matches": "Mes matchs",
+      "profile": "Mon profil",
+      "verification": "Vérification",
+      "notifications": "Notifications",
+      "settings": "Paramètres",
+      "rules": "Règlement"
+    },
+    "collapse": "Réduire le menu",
+    "expand": "Afficher les libellés du menu",
+    "signOut": "Se déconnecter",
+    "account": "Mon compte",
+    "bell": {
+      "label": "Notifications",
+      "unread": "{count, plural, =0 {Aucune notification non lue} one {# notification non lue} other {# notifications non lues}}",
+      "empty": "Aucune notification pour le moment.",
+      "seeAll": "Toutes les notifications",
+      "kinds": {
+        "evening_seat_offered": "Une place vous est attribuée pour une soirée. Pensez à la confirmer.",
+        "match_announced": "Vous avez un nouveau match.",
+        "other": "Nouvelle notification."
+      }
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "greeting": "Bonjour {name}",
+      "greetingNoName": "Bonjour",
+      "verification": "Votre vérification",
+      "status": {
+        "registering": "Inscription en cours",
+        "pending_verification": "En attente de vérification",
+        "to_correct": "Des éléments sont à corriger",
+        "verified": "Profil validé",
+        "suspended": "Compte suspendu",
+        "excluded": "Compte exclu",
+        "deleted": "Compte supprimé",
+        "none": "Inscription à commencer"
+      },
+      "nextEvening": "Votre prochaine soirée",
+      "noEvening": "Aucune soirée réservée pour le moment.",
+      "seeEvenings": "Voir les soirées",
+      "registration": {
+        "booked": "Place réservée, à confirmer 48 h avant la soirée",
+        "confirmed": "Place confirmée",
+        "waitlisted": "Sur liste d'attente",
+        "checked_in": "Présence enregistrée"
+      },
+      "rulesTitle": "Rappel du règlement",
+      "rulesText": "Respect, ponctualité et discrétion. Aucune coordonnée ne s'échange avant un match, et personne ne sait jamais qui a dit non.",
+      "rulesLink": "Lire le règlement"
+    },
+    "matches": {
+      "title": "Mes matchs",
+      "intro": "Un match naît quand deux personnes souhaitent se revoir. Il est annoncé le lendemain de la soirée, à 8 h.",
+      "empty": "Aucun match pour le moment.",
+      "announced": "Annoncé le {date}",
+      "status": {
+        "pending_choice": "En attente de votre choix",
+        "discovery_open": "Découverte ouverte",
+        "expired": "Expiré",
+        "closed": "Terminé"
+      }
+    },
+    "errors": {
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
+  },
+  "SignIn": {
+    "title": "Connexion",
+    "intro": "Recevez un code par SMS sur le numéro de votre compte.",
+    "phone": "Numéro de téléphone",
+    "phoneHelp": "Format international : le signe +, l'indicatif du pays, puis le numéro.",
+    "send": "Recevoir le code",
+    "sentTo": "Code envoyé au {phone}.",
+    "code": "Code reçu par SMS",
+    "verify": "Se connecter",
+    "changeNumber": "Changer de numéro",
+    "resend": "Renvoyer le code",
+    "noAccountCta": "Devenir membre",
+    "errors": {
+      "invalidPhone": "Vérifiez le numéro : il doit commencer par + et l'indicatif du pays.",
+      "noAccount": "Aucun compte n'est associé à ce numéro.",
+      "invalidCode": "Ce code est incorrect ou a expiré.",
+      "tooManyRequests": "Trop de tentatives. Patientez quelques minutes avant de réessayer.",
+      "unavailable": "La connexion n'est pas encore ouverte.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
+  },
+  "Vote": {
+    "eyebrow": "Vote de la soirée",
+    "title": "Souhaitez-vous revoir cette personne ?",
+    "intro": "Après chaque tour, indiquez votre choix. Il reste modifiable jusqu'à la fin de la soirée. Personne ne saura jamais qui a dit non.",
+    "rounds": "Vos tours",
+    "round": "Tour {number}",
+    "pause": "Pause",
+    "voted": "Vote enregistré",
+    "notVoted": "À voter",
+    "partner": "Tour {number}, table {table} : vous avez rencontré {name}.",
+    "pauseText": "Vous étiez en pause pendant ce tour. Il n'y a pas de vote.",
+    "yes": "Je souhaite revoir cette personne",
+    "no": "Non",
+    "feedback": "Appréciation facultative",
+    "feedbackHelp": "Visible uniquement par l'équipe de Wanyiyi, jamais par la personne.",
+    "criteria": {
+      "respect": "Respect",
+      "punctuality": "Ponctualité",
+      "seriousness": "Sérieux"
+    },
+    "score": "{value} sur 5",
+    "clear": "Effacer",
+    "submit": "Enregistrer mon vote",
+    "saved": "Votre vote est enregistré. Vous pouvez le modifier jusqu'à la fin de la soirée.",
+    "chooseFirst": "Choisissez d'abord votre réponse.",
+    "errors": {
+      "outside_evening": "Ce code n'est valable que pendant la soirée.",
+      "not_in_round": "Vous ne participez pas à cette soirée.",
+      "pause_round": "Vous étiez en pause pendant ce tour.",
+      "unavailable": "Le vote n'est pas encore disponible.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
   }
 }

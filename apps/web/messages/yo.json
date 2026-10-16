@@ -457,5 +457,131 @@
   "Social": {
     "title": "Ẹ tẹ̀lé wa",
     "pending": "Ìjápọ̀ ń bọ̀"
+  },
+  "Member": {
+    "areaLabel": "Àyè ọmọ ẹgbẹ́",
+    "nav": {
+      "dashboard": "Ojú-ìwé mi",
+      "evenings": "Ìpàdé alẹ́",
+      "matches": "Ìfohùnṣọ̀kan mi",
+      "profile": "Àpèjúwe mi",
+      "verification": "Àyẹ̀wò",
+      "notifications": "Ìfitónilétí",
+      "settings": "Ètò",
+      "rules": "Òfin"
+    },
+    "collapse": "Ká àtòjọ kéré",
+    "expand": "Fi orúkọ àtòjọ hàn",
+    "signOut": "Jáde",
+    "account": "Àkọọ́lẹ̀ mi",
+    "bell": {
+      "label": "Ìfitónilétí",
+      "unread": "{count, plural, =0 {Kò sí ìfitónilétí tuntun} other {Ìfitónilétí tuntun #}}",
+      "empty": "Kò sí ìfitónilétí kankan báyìí.",
+      "seeAll": "Gbogbo ìfitónilétí",
+      "kinds": {
+        "evening_seat_offered": "A ti fún yín ní àyè kan fún ìpàdé alẹ́. Ẹ rántí láti fìdí rẹ̀ múlẹ̀.",
+        "match_announced": "Ẹ ní ìfohùnṣọ̀kan tuntun.",
+        "other": "Ìfitónilétí tuntun."
+      }
+    },
+    "dashboard": {
+      "title": "Ojú-ìwé mi",
+      "greeting": "Ẹ kú àbọ̀ {name}",
+      "greetingNoName": "Ẹ kú àbọ̀",
+      "verification": "Àyẹ̀wò yín",
+      "status": {
+        "registering": "Ìforúkọsílẹ̀ ń lọ lọ́wọ́",
+        "pending_verification": "Ó ń dúró de àyẹ̀wò",
+        "to_correct": "Àwọn nǹkan kan nílò àtúnṣe",
+        "verified": "A ti fọwọ́ sí àpèjúwe yín",
+        "suspended": "A ti dá àkọọ́lẹ̀ dúró",
+        "excluded": "A ti yọ àkọọ́lẹ̀ kúrò",
+        "deleted": "A ti pa àkọọ́lẹ̀ rẹ́",
+        "none": "Ẹ kò tíì bẹ̀rẹ̀ ìforúkọsílẹ̀"
+      },
+      "nextEvening": "Ìpàdé alẹ́ yín tó ń bọ̀",
+      "noEvening": "Ẹ kò tíì gba àyè fún ìpàdé alẹ́ kankan.",
+      "seeEvenings": "Wo àwọn ìpàdé alẹ́",
+      "registration": {
+        "booked": "A ti gba àyè yín, ẹ fìdí rẹ̀ múlẹ̀ ní wákàtí 48 ṣáájú",
+        "confirmed": "A ti fìdí àyè yín múlẹ̀",
+        "waitlisted": "Ẹ wà lórí àkójọ ìdúró",
+        "checked_in": "A ti kọ wíwá yín sílẹ̀"
+      },
+      "rulesTitle": "Ìrántí òfin",
+      "rulesText": "Ọ̀wọ̀, àsìkò àti àṣírí. A kì í pín nọ́mbà ẹnikẹ́ni ṣáájú ìfohùnṣọ̀kan, kò sì sí ẹni tí yóò mọ ẹni tó sọ pé rárá.",
+      "rulesLink": "Ka òfin"
+    },
+    "matches": {
+      "title": "Ìfohùnṣọ̀kan mi",
+      "intro": "Ìfohùnṣọ̀kan máa ń wáyé nígbà tí ẹni méjèèjì bá fẹ́ tún ara wọn rí. A máa ń kéde rẹ̀ ní ọjọ́ kejì ìpàdé, ní aago mẹ́jọ àárọ̀.",
+      "empty": "Kò sí ìfohùnṣọ̀kan kankan báyìí.",
+      "announced": "A kéde rẹ̀ ní {date}",
+      "status": {
+        "pending_choice": "Ó ń dúró de ìpinnu yín",
+        "discovery_open": "Àkókò ìmọ̀ra ti ṣí",
+        "expired": "Àkókò rẹ̀ ti kọjá",
+        "closed": "Ó ti parí"
+      }
+    },
+    "errors": {
+      "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+      "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+    }
+  },
+  "SignIn": {
+    "title": "Wọlé",
+    "intro": "Ẹ gba kóòdù nípasẹ̀ SMS lórí nọ́mbà àkọọ́lẹ̀ yín.",
+    "phone": "Nọ́mbà fóònù",
+    "phoneHelp": "Ọ̀nà àgbáyé: àmì +, kóòdù orílẹ̀-èdè, lẹ́yìn náà nọ́mbà náà.",
+    "send": "Fi kóòdù ránṣẹ́ sí mi",
+    "sentTo": "A ti fi kóòdù ránṣẹ́ sí {phone}.",
+    "code": "Kóòdù tí ẹ gbà nípasẹ̀ SMS",
+    "verify": "Wọlé",
+    "changeNumber": "Yí nọ́mbà padà",
+    "resend": "Tún kóòdù fi ránṣẹ́",
+    "noAccountCta": "Di ọmọ ẹgbẹ́",
+    "errors": {
+      "invalidPhone": "Ẹ ṣàyẹ̀wò nọ́mbà náà: ó gbọ́dọ̀ bẹ̀rẹ̀ pẹ̀lú + àti kóòdù orílẹ̀-èdè.",
+      "noAccount": "Kò sí àkọọ́lẹ̀ kankan tí ó so mọ́ nọ́mbà yìí.",
+      "invalidCode": "Kóòdù yìí kò tọ̀nà tàbí àkókò rẹ̀ ti kọjá.",
+      "tooManyRequests": "Ẹ ti gbìyànjú jù. Ẹ dúró ìṣẹ́jú díẹ̀ kí ẹ tó tún gbìyànjú.",
+      "unavailable": "Wíwọlé kò tíì ṣí.",
+      "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+    }
+  },
+  "Vote": {
+    "eyebrow": "Ìdìbò ìpàdé alẹ́",
+    "title": "Ṣé ẹ fẹ́ tún ẹni yìí rí?",
+    "intro": "Lẹ́yìn ìyípo kọ̀ọ̀kan, ẹ sọ ìpinnu yín. Ẹ lè yí i padà títí ìpàdé yóò fi parí. Kò sí ẹni tí yóò mọ ẹni tó sọ pé rárá.",
+    "rounds": "Àwọn ìyípo yín",
+    "round": "Ìyípo {number}",
+    "pause": "Ìsinmi",
+    "voted": "A ti kọ ìdìbò sílẹ̀",
+    "notVoted": "Ẹ dìbò",
+    "partner": "Ìyípo {number}, tábìlì {table}: ẹ pàdé {name}.",
+    "pauseText": "Ẹ wà ní ìsinmi nígbà ìyípo yìí. Kò sí ìdìbò.",
+    "yes": "Mo fẹ́ tún ẹni yìí rí",
+    "no": "Rárá",
+    "feedback": "Èrò yín (kò pọn dandan)",
+    "feedbackHelp": "Ẹgbẹ́ Wanyiyi nìkan ló lè rí i, ẹni náà kò ní rí i láé.",
+    "criteria": {
+      "respect": "Ọ̀wọ̀",
+      "punctuality": "Àsìkò",
+      "seriousness": "Ìfọkànsìn"
+    },
+    "score": "{value} nínú 5",
+    "clear": "Pa rẹ́",
+    "submit": "Fi ìdìbò mi pamọ́",
+    "saved": "A ti fi ìdìbò yín pamọ́. Ẹ lè yí i padà títí ìpàdé yóò fi parí.",
+    "chooseFirst": "Ẹ kọ́kọ́ yan ìdáhùn yín.",
+    "errors": {
+      "outside_evening": "Kóòdù yìí wúlò nígbà ìpàdé alẹ́ nìkan.",
+      "not_in_round": "Ẹ kò kópa nínú ìpàdé alẹ́ yìí.",
+      "pause_round": "Ẹ wà ní ìsinmi nígbà ìyípo yìí.",
+      "unavailable": "Ìdìbò kò tíì ṣí.",
+      "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+    }
   }
 }

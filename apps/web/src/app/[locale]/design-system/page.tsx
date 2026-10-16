@@ -98,8 +98,8 @@ export default async function DesignSystemPage() {
             <div className="flex flex-col items-center justify-center gap-4 bg-bg p-8">
               {/* Membre fictif, pour montrer l'état connecté de l'en-tête */}
               <div className="flex items-center gap-4">
-                <MemberAvatar member={{ firstName: "Afiwa", avatarUrl: null }} size={36} />
-                <MemberAvatar member={{ firstName: "Afiwa", avatarUrl: null }} size={44} />
+                <MemberAvatar member={{ initials: "AH" }} size={36} />
+                <MemberAvatar member={{ initials: "AH" }} size={44} tone="night" />
               </div>
               <p className="text-xs text-fg-muted">Avatar d&apos;un membre connecté (remplace « Devenir membre »)</p>
             </div>

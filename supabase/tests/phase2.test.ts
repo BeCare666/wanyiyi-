@@ -346,20 +346,31 @@ describe("Rotation, vote QR et matchs (9.2, 9.3)", () => {
       // Un membre ne voit que ses propres votes
       const seenByKoffi = await as(men[0]!, "select voter_id from app.votes", []);
       const feedbackByKoffi = await as(men[0]!, "select * from app.vote_feedback", []);
+      // Page de vote : les tours d'Afiwa (pause au tour 2), sans aucun prénom
+      const roundsAfiwa = await as(women[0]!, "select * from app.my_evening_rounds($1)", [qr]);
+      const outsider = await expectFailure(() => as(admin, "select * from app.my_evening_rounds($1)", [qr]));
 
       await as(admin, "select app.finish_evening($1)", [event]);
       const late = await expectFailure(() => as(women[0]!, "select app.cast_vote($1, 1::smallint, 'no')", [qr]));
+      const lateRounds = await expectFailure(() => as(women[0]!, "select * from app.my_evening_rounds($1)", [qr]));
       await as(admin, "select app.compute_matches($1)", [event]);
       const before = await as(women[0]!, "select partner_first_name from app.my_matches()", []);
       await tx.exec("reset role");
       const all = await tx.query<{ member_a: string; member_b: string; announced_at: Date }>("select member_a, member_b, announced_at from app.matches where event_id = $1", [event]);
       const [{ expected }] = (await tx.query<{ expected: Date }>("select app.match_announcement_at(starts_at) as expected from app.events where id = $1", [event])).rows as [{ expected: Date }];
-      return { partner: partner.rows, pause, seenByKoffi: seenByKoffi.rows, feedbackByKoffi: feedbackByKoffi.rows, late, before: before.rows, all: all.rows, expected };
+      return { partner: partner.rows, roundsAfiwa: roundsAfiwa.rows, outsider, lateRounds, pause, seenByKoffi: seenByKoffi.rows, feedbackByKoffi: feedbackByKoffi.rows, late, before: before.rows, all: all.rows, expected };
     });
 
     // Afiwa voit le prénom de la personne rencontrée au tour 1, jamais son nom de famille
     expect(outcome.partner).toEqual([{ first_name: "Koffi", table_number: 1 }]);
     expect(outcome.pause).toMatch(/pause_round/);
+    expect(outcome.roundsAfiwa).toEqual([
+      { round_number: 1, is_pause: false, my_choice: "yes" },
+      { round_number: 2, is_pause: true, my_choice: null },
+      { round_number: 3, is_pause: false, my_choice: null },
+    ]);
+    expect(outcome.outsider).toMatch(/not_in_round/);
+    expect(outcome.lateRounds).toMatch(/outside_evening/);
     expect(outcome.seenByKoffi).toEqual([{ voter_id: men[0] }]);
     expect(outcome.feedbackByKoffi).toEqual([]);
     expect(outcome.late).toMatch(/outside_evening/);

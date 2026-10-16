@@ -66,6 +66,12 @@ export class EventsController {
     unwrap(await this.supabase.forMember(member.accessToken).rpc("cancel_registration", { p_event: id }));
   }
 
+  @Get("vote/:qr")
+  @ApiOperation({ summary: "Mes tours de la soirée en cours (pause, vote déjà donné), sans prénom" })
+  async rounds(@CurrentMember() member: AuthenticatedMember, @Param("qr") qr: string) {
+    return unwrap(await this.supabase.forMember(member.accessToken).rpc("my_evening_rounds", { p_qr_token: qr })) ?? [];
+  }
+
   @Get("vote/:qr/rounds/:round")
   @ApiOperation({ summary: "Personne rencontrée à ce tour (prénom seulement) et vote déjà donné" })
   async partner(

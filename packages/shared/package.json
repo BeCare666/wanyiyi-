@@ -2,11 +2,8 @@
   "name": "@wanyiyi/shared",
   "version": "0.1.0",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "exports": {
-    ".": "./src/index.ts"
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
@@ -20,6 +17,6 @@
     "vitest": "^4.1.11"
   },
   "files": [
-    "src"
+    "dist"
   ]
 }
