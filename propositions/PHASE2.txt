@@ -74,14 +74,67 @@ Décisions du 14 octobre 2026
     connexion par code SMS (/connexion), tableau de bord, liste des matchs,
     vote au code QR (/vote/<code>) avec la fonction SQL my_evening_rounds
     (migration 20261015000000_vote_tours.sql) et la route GET /api/vote/:qr.
-  Reste : inscription et vérification, profil, soirées, notifications,
-    paramètres (les entrées du menu mènent pour l'instant à une page absente).
+  Fait le 16 octobre 2026 : page Soirées (/espace/soirees) : calendrier par
+    mois, filtres (toutes, mes soirées, places disponibles), places restantes
+    par sexe, réservation ou liste d'attente (rang affiché), confirmation
+    avant la limite, paiement, annulation avec seconde confirmation ; lieu
+    affiché seulement une fois la place confirmée. Fonction SQL my_bookings
+    (migration 20261016000000_mes_soirees.sql), GET /api/events enrichi
+    (« mine », lieu). Page de paiement de démonstration (/paiement-simule/<id>),
+    ouverte par l'adaptateur simulé. Sans tarif en base, la page affiche
+    « Tarif communiqué prochainement » et ne propose pas le paiement.
+    Corrections ESLint : VoteBoard (un composant par tour), MemberShell
+    (préférence de la barre latérale lue par useSyncExternalStore).
+  Fait le 16 octobre 2026 (suite) : Notifications (/espace/notifications) :
+    liste, filtres (toutes, non lues), ouverture vers la page concernée,
+    « tout marquer comme lu ». Fonction SQL mark_notifications_read ; la
+    modification directe des notifications par le membre est retirée
+    (il pouvait changer leur type et leur contenu). Paramètres
+    (/espace/parametres) : langue mémorisée sur le profil, mode sombre,
+    canaux de notification (dans l'application, WhatsApp, SMS) ; politique
+    RLS ajoutée sur notification_preferences (aucune n'existait). Migration
+    20261016010000_notifications_lues.sql.
+  Fait le 17 octobre 2026 : Vérification (/espace/verification), selon les
+    décisions du jour : déclaration sur l'honneur (célibataire, divorcé(e),
+    veuf(ve) ou autre précisé ; avec ou sans enfant(s) ; texte v1), une seule
+    pièce (carte ou permis recto et verso, passeport page photo) et un selfie
+    visage seul. Fichiers envoyés du navigateur vers le compartiment privé
+    « id-documents » (dépôt dans son propre dossier seulement, jamais relus
+    par le membre). Fonctions SQL submit_id_documents, sign_honor_declaration,
+    my_verification ; écritures directes retirées ; dossier complet : passage
+    automatique « en attente de vérification » ; nouveau dépôt après une
+    demande de correction : retour en vérification, sans décision attribuée au
+    membre. Migrations 20261017000000_selfie.sql et
+    20261017000100_depot_verification.sql. À l'étape 5 : consultation des
+    fichiers par l'équipe (lien signé créé par l'API après open_id_document,
+    journalisé).
+  Reste : entretien et frais d'inscription (questions 2 et 5), profil ; dans les paramètres :
+    confidentialité, téléchargement des données, suppression du compte
+    (questions 15 à 17).
 
 Étape 5. Administration de base
   - Coquille 11.1, membres, vérifications (consultation de la pièce
     journalisée), modération des textes, soirées (création, lieux, thèmes,
     inscriptions, pointage, minuteur sur tablette, impression des QR,
     résultats), paiements.
+  Décisions du 17 octobre 2026 : administration en trois langues ; validation
+    possible dès que pièce, selfie et déclaration sont déposés (sans attendre
+    l'entretien ni les frais) ; vérification réservée à l'administration et à
+    la super administration (question 11 réglée : pas les modérateurs) ; lien
+    vers une pièce valable 5 minutes, chaque ouverture journalisée.
+  Fait le 17 octobre 2026 : coquille 11.1 (/admin : barre latérale encre,
+    groupes, repliable, tiroir mobile ; menu selon les permissions, seulement
+    les modules livrés ; page introuvable pour un membre ou un conseiller).
+    Module Vérifications : file (filtres dans l'adresse), fiche (identité
+    déclarée, âge, déclaration et historique, pièces ouvertes par un lien
+    signé de 5 minutes via POST /api/admin/verifications/documents/:id/link),
+    décision (valider un dossier complet, correction avec message obligatoire,
+    refus avec seconde confirmation). Fonctions SQL verification_queue,
+    verification_documents, decide_verification ; écriture directe retirée ;
+    paramètre safety.signed_id_document_url_seconds = 300. Migration
+    20261017000200_admin_verifications.sql.
+  Reste : membres, modération des textes, soirées, paiements ; recherche
+    globale et filtres avancés 11.3 ; compte rendu d'entretien (question 5).
 
 Étape 6. Données fictives et simulation complète (critère de fin)
   - 24 profils fictifs (prénoms et villes béninois), une soirée 10 × 10 plus
@@ -133,3 +186,16 @@ QUESTIONS (je n'invente pas les réponses)
      bonjour@votre-domaine). Le domaine devra être authentifié chez Brevo.
      Les noms d'expéditeur SMS doivent-ils être enregistrés auprès des
      opérateurs béninois ? Je n'ai pas cette information.
+ 15. Paramètres, « confidentialité » (section 6.2-9) : quels réglages
+     concrets ? (Par exemple : masquer sa photo jusqu'au match, ne pas
+     apparaître dans les soirées thématiques.) Je n'invente pas la liste.
+ 16. Téléchargement de mes données : quelles données exactement (profil,
+     soirées, votes donnés, matchs, paiements, messages) et sous quel
+     format (fichier JSON, PDF) ? Délai de mise à disposition ?
+ 17. Suppression du compte : immédiate ou après un délai de réflexion ?
+     Que devient le compte d'un membre en couple ou en découverte ? Quelles
+     données sont conservées et combien de temps (paiements, journal
+     d'audit, signalements) ?
+ 18. Les envois par WhatsApp ne sont pas encore prévus côté API (seuls SMS et
+     e-mail via Brevo existent). Quel service pour WhatsApp (Brevo le
+     propose aussi) ?

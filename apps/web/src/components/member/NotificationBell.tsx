@@ -10,13 +10,7 @@ import { durations, easeSoft } from "@/lib/motion";
 import type { SessionNotification } from "@/lib/session";
 import { useDismiss } from "@/lib/useDismiss";
 import { memberNav } from "./memberNav";
-
-/** Clé de traduction d'un type de notification (les points du type deviennent des tirets bas). */
-const knownKinds = new Set(["evening_seat_offered", "match_announced"]);
-function kindKey(kind: string) {
-  const key = kind.replace(/\./g, "_");
-  return knownKinds.has(key) ? key : "other";
-}
+import { notificationKey } from "./notificationKinds";
 
 /** Cloche de l'en-tête (section 6.1) : compteur des non lues et panneau des dernières notifications. */
 export function NotificationBell({ items, unread }: { items: SessionNotification[]; unread: number }) {
@@ -75,7 +69,7 @@ export function NotificationBell({ items, unread }: { items: SessionNotification
                   <li key={n.id} className="border-b border-line px-5 py-4 last:border-b-0">
                     <p className={cn("text-sm", n.read ? "text-fg-muted" : "text-fg")}>
                       {!n.read && <span aria-hidden="true" className="mr-2 inline-block size-1.5 translate-y-[-2px] bg-accent" />}
-                      {t(`kinds.${kindKey(n.kind)}`)}
+                      {t(`kinds.${notificationKey(n.kind)}`)}
                     </p>
                     <p className="mt-1 text-xs text-fg-muted">
                       {format.dateTime(new Date(n.createdAt), { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}

@@ -5,6 +5,7 @@ import { type AuthenticatedMember, CurrentMember, MemberGuard } from "../auth/me
 import { ZodBody } from "../common/zod-body";
 import { unwrap } from "../supabase/db-errors";
 import { SupabaseService } from "../supabase/supabase.service";
+import { type MyBooking, withMyBooking } from "./bookings";
 
 const voteSchema = z.object({
   choice: z.enum(["yes", "no"]),
@@ -26,23 +27,30 @@ export class EventsController {
   constructor(private readonly supabase: SupabaseService) {}
 
   @Get("events")
-  @ApiOperation({ summary: "Soirées publiées, avec les places restantes par sexe" })
+  @ApiOperation({
+    summary: "Soirées publiées, avec les places restantes par sexe et ma situation (« mine »)",
+    description: "Le lieu (« venue ») n'est renvoyé qu'aux participants confirmés (RLS) ; sinon il vaut null.",
+  })
   async list(@CurrentMember() member: AuthenticatedMember) {
     const db = this.supabase.forMember(member.accessToken);
     const events = unwrap(
       await db
         .from("events")
-        .select("id, starts_at, status, price_xof, capacity_women, capacity_men, theme:themes(key, min_age, max_age)")
+        .select(
+          "id, starts_at, status, price_xof, capacity_women, capacity_men, round_minutes, theme:themes(key, min_age, max_age), venue:venues(name, address, city)",
+        )
         .in("status", ["published", "full"])
         .gte("starts_at", new Date().toISOString())
         .order("starts_at"),
     );
-    return Promise.all(
+    const bookings = (unwrap(await db.rpc("my_bookings")) ?? []) as MyBooking[];
+    const withSeats = await Promise.all(
       (events ?? []).map(async (event) => ({
         ...event,
         seats: unwrap(await db.rpc("event_seats", { p_event: event.id })),
       })),
     );
+    return withMyBooking(withSeats, bookings);
   }
 
   @Post("events/:id/book")

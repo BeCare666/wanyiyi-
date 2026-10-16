@@ -528,6 +528,192 @@
     "errors": {
       "unavailable": "This service is not available yet. Please try again later.",
       "generic": "Something went wrong. Please try again in a moment."
+    },
+    "evenings": {
+      "title": "Evenings",
+      "intro": "Choose an evening, book your seat, then confirm it before the deadline shown.",
+      "notVerified": "Bookings are open to members whose profile has been approved.",
+      "seeVerification": "See my verification",
+      "filters": {
+        "label": "Filter evenings",
+        "all": "All",
+        "mine": "My evenings",
+        "available": "Seats available"
+      },
+      "empty": "No evenings announced yet.",
+      "emptyFilter": "No evening matches this filter.",
+      "duration": "{minutes}-minute meetings",
+      "theme": "Themed evening",
+      "themeAge": "ages {min} to {max}",
+      "themeMin": "ages {min} and over",
+      "themeMax": "up to age {max}",
+      "seatsLabel": "Seats left",
+      "seatsWomen": "Women: {count, plural, =0 {full} one {# seat left} other {# seats left}}",
+      "seatsMen": "Men: {count, plural, =0 {full} one {# seat left} other {# seats left}}",
+      "priceLabel": "Price",
+      "noPrice": "Price to be announced",
+      "venueLabel": "Venue",
+      "venueHidden": "The venue will be shared once your seat is confirmed.",
+      "mine": {
+        "booked": "Seat booked, to confirm before {date}",
+        "bookedLate": "Seat booked. The confirmation deadline has passed.",
+        "confirmed": "Seat confirmed",
+        "checked_in": "Attendance recorded",
+        "released": "Your seat was released because it was not confirmed.",
+        "waitlisted": "On the waiting list, position {rank}",
+        "paid": "Payment received"
+      },
+      "actions": {
+        "book": "Book my seat",
+        "waitlist": "Join the waiting list",
+        "confirm": "Confirm my seat",
+        "pay": "Pay",
+        "cancel": "Cancel my registration",
+        "cancelAsk": "Do you really want to cancel your registration?",
+        "cancelYes": "Yes, cancel",
+        "cancelNo": "No, keep it"
+      },
+      "done": {
+        "seat": "Your seat is booked. Remember to confirm it before the deadline.",
+        "waitlist": "You are on the waiting list. We will let you know if a seat opens up.",
+        "confirmed": "Your seat is confirmed.",
+        "cancelled": "Your cancellation has been recorded."
+      },
+      "errors": {
+        "not_validated": "Your profile must be approved before you can book an evening.",
+        "couple_exclusivity": "Evenings are not open to you while you are in a relationship on Wanyiyi.",
+        "blocked_until": "Bookings are temporarily closed to you.",
+        "theme_age": "This themed evening is reserved for another age group.",
+        "theme_religion": "This themed evening is reserved for another faith.",
+        "theme_sector": "This themed evening is reserved for another line of work.",
+        "already_registered": "You are already registered for this evening.",
+        "evening_closed": "Registration for this evening is closed.",
+        "confirmation_closed": "The confirmation deadline has passed.",
+        "not_booked": "There is no seat to confirm for this evening.",
+        "not_registered": "There is no registration to cancel for this evening.",
+        "price_not_set": "The price of this evening has not been set yet.",
+        "unavailable": "This service is not available yet. Please try again later.",
+        "generic": "Something went wrong. Please try again in a moment."
+      }
+    },
+    "notifications": {
+      "title": "My notifications",
+      "markAll": "Mark all as read",
+      "unread": "Unread",
+      "filters": {
+        "label": "Filter notifications",
+        "all": "All",
+        "unread": "Unread"
+      },
+      "noUnread": "No unread notifications."
+    },
+    "settings": {
+      "title": "My settings",
+      "language": "Language",
+      "display": "Display",
+      "darkMode": "Dark mode",
+      "notifications": "Notifications",
+      "notificationsHelp": "Choose how Wanyiyi lets you know.",
+      "channels": {
+        "in_app": "In the app",
+        "whatsapp": "WhatsApp",
+        "sms": "SMS"
+      },
+      "saved": "Saved.",
+      "error": "Saving failed. Please try again in a moment."
+    },
+    "verification": {
+      "eyebrow": "Verification",
+      "title": "My verification",
+      "intro": "Every Wanyiyi member is verified. Your documents stay private: only the verification team can view them, and every view is recorded.",
+      "tracking": {
+        "title": "Your file",
+        "note": "Message from the team:",
+        "status": {
+          "not_started": "File to complete",
+          "pending": "Awaiting verification",
+          "to_correct": "Some items need correcting",
+          "approved": "Profile approved",
+          "rejected": "File declined"
+        },
+        "help": {
+          "not_started": "Sign the sworn statement, then send your ID document and a selfie.",
+          "pending": "The team is reviewing your file. You can still replace an item if needed.",
+          "to_correct": "Correct the items the team pointed out, then send them again.",
+          "approved": "Your file is approved. You can book your evenings.",
+          "rejected": "Your file was not accepted."
+        }
+      },
+      "declaration": {
+        "title": "Sworn statement",
+        "intro": "Your situation is checked during the interview.",
+        "statusLabel": "My situation",
+        "statuses": {
+          "single": "Single",
+          "divorced": "Divorced",
+          "widowed": "Widowed",
+          "other": "Other"
+        },
+        "otherLabel": "Describe your situation",
+        "otherHelp": "{count, plural, =0 {No characters left} one {# character left} other {# characters left}}. The team will discuss it with you during the interview.",
+        "childrenLabel": "Children",
+        "withChildren": "With child(ren)",
+        "withoutChildren": "Without children",
+        "textTitle": "Statement",
+        "text": "I solemnly declare that the information above is accurate and complete. I am not bound by any marriage, whether civil, religious or customary, unless I have stated it under \"Other\". I undertake to inform Wanyiyi of any change in my situation. I understand that a false statement may lead to my exclusion from Wanyiyi.",
+        "certify": "I certify that this statement is accurate.",
+        "submit": "Sign the statement",
+        "signedOn": "Signed on {date}",
+        "replace": "Change my statement",
+        "errors": {
+          "status": "Choose your situation.",
+          "otherDetails": "Describe your situation (300 characters at most).",
+          "children": "Say whether you have children.",
+          "certify": "Tick the box to certify your statement."
+        }
+      },
+      "documents": {
+        "title": "ID document and selfie",
+        "intro": "One document is enough. Add a selfie with your face clearly visible, so the team can compare it with the photo on the document.",
+        "kindLabel": "My ID document",
+        "kinds": {
+          "id_card": "Identity card",
+          "driving_licence": "Driving licence",
+          "passport": "Passport"
+        },
+        "slots": {
+          "front": "Front",
+          "back": "Back",
+          "photo_page": "Photo page",
+          "selfie": "Selfie"
+        },
+        "fileHelp": "Photo or PDF, readable and complete.",
+        "selfieHelp": "Your face only, from the front, without sunglasses or a hat.",
+        "submit": "Send my documents",
+        "sending": "Sending",
+        "sentOn": "Sent on {date}",
+        "selfieSent": "selfie sent",
+        "private": "For your safety, files you have sent are no longer shown, even to you.",
+        "replace": "Replace my documents",
+        "errors": {
+          "kind": "Choose your ID document.",
+          "missing": "Add all the requested files.",
+          "type": "This file type is not accepted. The selfie must be a photo (JPEG, PNG or WebP); the document can also be a PDF.",
+          "size": "This file is larger than {size} MB."
+        }
+      },
+      "errors": {
+        "invalid_document_kind": "This ID document is not accepted.",
+        "document_missing": "A file is missing: the front, the back or the selfie.",
+        "duplicate_file": "The same file was chosen twice.",
+        "file_not_found": "A file was not received. Please send it again.",
+        "invalid_declaration": "The statement is incomplete.",
+        "outdated_declaration": "The statement text has changed. Please reload the page.",
+        "verification_closed": "Your file has already been processed.",
+        "upload_failed": "A file could not be sent. Check your connection and try again.",
+        "unavailable": "This service is not available yet. Please try again later.",
+        "generic": "Something went wrong. Please try again in a moment."
+      }
     }
   },
   "SignIn": {
@@ -582,6 +768,138 @@
       "pause_round": "You were on a break during this round.",
       "unavailable": "Voting is not available yet.",
       "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
+  "SimulatedPayment": {
+    "eyebrow": "Demonstration",
+    "title": "Simulated payment",
+    "intro": "This page stands in for the real payment during the demonstration. No money is charged.",
+    "submit": "Approve the demonstration payment",
+    "back": "Back to evenings",
+    "done": "The demonstration payment is approved.",
+    "errors": {
+      "simulated_payments_disabled": "Demonstration payments are turned off.",
+      "invalid_status": "This payment has already been processed.",
+      "not_found": "This payment cannot be found.",
+      "unavailable": "This service is not available yet. Please try again later.",
+      "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
+  "Admin": {
+    "areaLabel": "Administration",
+    "home": "Administration",
+    "expand": "Show menu labels",
+    "collapse": "Collapse the menu",
+    "signOut": "Sign out",
+    "account": "My account",
+    "noModule": "No module is open to your role yet.",
+    "roles": {
+      "moderator": "Moderation",
+      "admin": "Administration",
+      "super_admin": "Super administration"
+    },
+    "groups": {
+      "members": "Members"
+    },
+    "nav": {
+      "verifications": "Verifications"
+    },
+    "navHelp": {
+      "verifications": "Pending files, documents, decisions"
+    },
+    "errors": {
+      "unavailable": "This service is not available yet. Please try again later."
+    },
+    "verifications": {
+      "intro": "Files awaiting review or correction, oldest first. Every time a document is opened, it is recorded in the log.",
+      "filters": {
+        "label": "Filter files",
+        "all": "All",
+        "ready": "Complete, to review",
+        "pending": "Pending",
+        "to_correct": "To correct"
+      },
+      "empty": "No files in this list.",
+      "columns": {
+        "member": "Member",
+        "status": "Status",
+        "dossier": "File",
+        "submitted": "Last upload"
+      },
+      "noProfile": "Profile not created",
+      "status": {
+        "pending": "Pending",
+        "to_correct": "To correct",
+        "approved": "Approved",
+        "rejected": "Declined"
+      },
+      "ready": "Complete",
+      "incomplete": "Incomplete",
+      "kinds": {
+        "id_card": "Identity card",
+        "driving_licence": "Driving licence",
+        "passport": "Passport"
+      },
+      "openFailed": "Could not open. Please try again.",
+      "back": "Back to the queue",
+      "identity": {
+        "title": "Declared identity",
+        "sex": "Sex",
+        "sexes": {
+          "female": "Woman",
+          "male": "Man"
+        },
+        "birthDate": "Date of birth",
+        "age": "{age} years old",
+        "city": "City",
+        "missing": "The member has not created a profile yet.",
+        "compare": "Compare this information and the selfie with the ID document."
+      },
+      "documents": {
+        "title": "Document and selfie",
+        "none": "No document uploaded.",
+        "parts": {
+          "front": "front",
+          "back": "back",
+          "photo_page": "photo page",
+          "face": "face"
+        },
+        "open": "Open",
+        "audit": "The link is valid for 5 minutes. Your name and the date and time of each opening are recorded."
+      },
+      "declaration": {
+        "title": "Sworn statement",
+        "signed": "Signed on {date} (text {version})",
+        "history": "{count, plural, one {# earlier statement} other {# earlier statements}}",
+        "none": "No signed statement."
+      },
+      "decision": {
+        "title": "Decision",
+        "lastNote": "Last request:",
+        "closed": "File processed on {date}.",
+        "choices": {
+          "approved": "Approve",
+          "to_correct": "Request a correction",
+          "rejected": "Decline"
+        },
+        "notReady": "Approval is possible once the document, the selfie and the statement are uploaded.",
+        "noteLabel": "Message to the member (required)",
+        "noteOptional": "Message to the member (optional)",
+        "noteHelp": "The member reads this message on their verification page.",
+        "confirmReject": "Declining excludes the member from Wanyiyi. Do you confirm?",
+        "confirmRejectButton": "Confirm the refusal",
+        "submit": "Save the decision",
+        "errors": {
+          "choose": "Choose a decision.",
+          "dossier_incomplete": "The file is incomplete: document, selfie or statement missing.",
+          "profile_missing": "The member has not created a profile yet.",
+          "note_required": "Tell the member what needs correcting.",
+          "verification_closed": "This file has already been processed.",
+          "forbidden": "Your role does not allow this decision.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
+      }
     }
   }
 }

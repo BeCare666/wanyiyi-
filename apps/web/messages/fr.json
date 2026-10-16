@@ -528,6 +528,192 @@
     "errors": {
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
+    },
+    "evenings": {
+      "title": "Les soirées",
+      "intro": "Choisissez une soirée, réservez votre place, puis confirmez-la avant la date limite indiquée.",
+      "notVerified": "Les réservations sont ouvertes aux membres dont le profil est validé.",
+      "seeVerification": "Voir ma vérification",
+      "filters": {
+        "label": "Filtrer les soirées",
+        "all": "Toutes",
+        "mine": "Mes soirées",
+        "available": "Places disponibles"
+      },
+      "empty": "Aucune soirée annoncée pour le moment.",
+      "emptyFilter": "Aucune soirée ne correspond à ce filtre.",
+      "duration": "rencontres de {minutes} minutes",
+      "theme": "Soirée thématique",
+      "themeAge": "de {min} à {max} ans",
+      "themeMin": "à partir de {min} ans",
+      "themeMax": "jusqu'à {max} ans",
+      "seatsLabel": "Places restantes",
+      "seatsWomen": "Femmes : {count, plural, =0 {complet} one {# place libre} other {# places libres}}",
+      "seatsMen": "Hommes : {count, plural, =0 {complet} one {# place libre} other {# places libres}}",
+      "priceLabel": "Tarif",
+      "noPrice": "Tarif communiqué prochainement",
+      "venueLabel": "Lieu",
+      "venueHidden": "Le lieu vous sera communiqué une fois votre place confirmée.",
+      "mine": {
+        "booked": "Place réservée, à confirmer avant le {date}",
+        "bookedLate": "Place réservée. La date limite de confirmation est passée.",
+        "confirmed": "Place confirmée",
+        "checked_in": "Présence enregistrée",
+        "released": "Votre place a été libérée faute de confirmation.",
+        "waitlisted": "Sur liste d'attente, position {rank}",
+        "paid": "Paiement reçu"
+      },
+      "actions": {
+        "book": "Réserver ma place",
+        "waitlist": "Rejoindre la liste d'attente",
+        "confirm": "Confirmer ma place",
+        "pay": "Payer",
+        "cancel": "Annuler mon inscription",
+        "cancelAsk": "Voulez-vous vraiment annuler votre inscription ?",
+        "cancelYes": "Oui, annuler",
+        "cancelNo": "Non, la garder"
+      },
+      "done": {
+        "seat": "Votre place est réservée. Pensez à la confirmer avant la date limite.",
+        "waitlist": "Vous êtes sur la liste d'attente. Nous vous préviendrons si une place se libère.",
+        "confirmed": "Votre place est confirmée.",
+        "cancelled": "Votre annulation est enregistrée."
+      },
+      "errors": {
+        "not_validated": "Votre profil doit être validé avant de réserver une soirée.",
+        "couple_exclusivity": "Les soirées ne vous sont pas ouvertes pendant une relation en cours sur Wanyiyi.",
+        "blocked_until": "Les réservations vous sont temporairement fermées.",
+        "theme_age": "Cette soirée thématique est réservée à une autre tranche d'âge.",
+        "theme_religion": "Cette soirée thématique est réservée à une autre confession.",
+        "theme_sector": "Cette soirée thématique est réservée à un autre secteur d'activité.",
+        "already_registered": "Vous avez déjà une inscription pour cette soirée.",
+        "evening_closed": "Les inscriptions à cette soirée sont closes.",
+        "confirmation_closed": "La date limite de confirmation est passée.",
+        "not_booked": "Aucune place à confirmer pour cette soirée.",
+        "not_registered": "Aucune inscription à annuler pour cette soirée.",
+        "price_not_set": "Le tarif de cette soirée n'est pas encore fixé.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
+    },
+    "notifications": {
+      "title": "Mes notifications",
+      "markAll": "Tout marquer comme lu",
+      "unread": "Non lue",
+      "filters": {
+        "label": "Filtrer les notifications",
+        "all": "Toutes",
+        "unread": "Non lues"
+      },
+      "noUnread": "Aucune notification non lue."
+    },
+    "settings": {
+      "title": "Mes paramètres",
+      "language": "Langue",
+      "display": "Affichage",
+      "darkMode": "Mode sombre",
+      "notifications": "Notifications",
+      "notificationsHelp": "Choisissez comment Wanyiyi vous prévient.",
+      "channels": {
+        "in_app": "Dans l'application",
+        "whatsapp": "WhatsApp",
+        "sms": "SMS"
+      },
+      "saved": "Enregistré.",
+      "error": "L'enregistrement a échoué. Réessayez dans un instant."
+    },
+    "verification": {
+      "eyebrow": "Vérification",
+      "title": "Ma vérification",
+      "intro": "Tous les membres de Wanyiyi sont vérifiés. Vos documents restent privés : seule l'équipe de vérification peut les consulter, et chaque consultation est enregistrée.",
+      "tracking": {
+        "title": "Suivi de votre dossier",
+        "note": "Message de l'équipe :",
+        "status": {
+          "not_started": "Dossier à compléter",
+          "pending": "En attente de vérification",
+          "to_correct": "Des éléments sont à corriger",
+          "approved": "Profil validé",
+          "rejected": "Dossier refusé"
+        },
+        "help": {
+          "not_started": "Signez la déclaration sur l'honneur, puis envoyez votre pièce d'identité et un selfie.",
+          "pending": "L'équipe examine votre dossier. Vous pouvez encore remplacer un élément si besoin.",
+          "to_correct": "Corrigez les éléments indiqués par l'équipe, puis envoyez-les de nouveau.",
+          "approved": "Votre dossier est validé. Vous pouvez réserver vos soirées.",
+          "rejected": "Votre dossier n'a pas été retenu."
+        }
+      },
+      "declaration": {
+        "title": "Déclaration sur l'honneur",
+        "intro": "Votre situation est vérifiée lors de l'entretien.",
+        "statusLabel": "Ma situation",
+        "statuses": {
+          "single": "Célibataire",
+          "divorced": "Divorcé(e)",
+          "widowed": "Veuf ou veuve",
+          "other": "Autre"
+        },
+        "otherLabel": "Précisez votre situation",
+        "otherHelp": "{count, plural, =0 {Aucun caractère restant} one {# caractère restant} other {# caractères restants}}. L'équipe en parlera avec vous lors de l'entretien.",
+        "childrenLabel": "Enfants",
+        "withChildren": "Avec enfant(s)",
+        "withoutChildren": "Sans enfant",
+        "textTitle": "Texte de la déclaration",
+        "text": "Je déclare sur l'honneur que les informations ci-dessus sont exactes et complètes. Je ne suis engagé(e) dans aucun mariage, civil, religieux ou coutumier, sauf si je l'ai précisé dans « Autre ». Je m'engage à informer Wanyiyi de tout changement de ma situation. Je sais qu'une fausse déclaration peut entraîner mon exclusion de Wanyiyi.",
+        "certify": "Je certifie l'exactitude de cette déclaration.",
+        "submit": "Signer la déclaration",
+        "signedOn": "Signée le {date}",
+        "replace": "Modifier ma déclaration",
+        "errors": {
+          "status": "Choisissez votre situation.",
+          "otherDetails": "Précisez votre situation (300 caractères au maximum).",
+          "children": "Indiquez si vous avez des enfants.",
+          "certify": "Cochez la case pour certifier votre déclaration."
+        }
+      },
+      "documents": {
+        "title": "Pièce d'identité et selfie",
+        "intro": "Une seule pièce suffit. Ajoutez un selfie, visage bien visible, pour que l'équipe le compare à la photo de la pièce.",
+        "kindLabel": "Ma pièce d'identité",
+        "kinds": {
+          "id_card": "Carte d'identité",
+          "driving_licence": "Permis de conduire",
+          "passport": "Passeport"
+        },
+        "slots": {
+          "front": "Recto",
+          "back": "Verso",
+          "photo_page": "Page avec la photo",
+          "selfie": "Selfie"
+        },
+        "fileHelp": "Photo ou PDF, lisible et en entier.",
+        "selfieHelp": "Votre visage seul, de face, sans lunettes de soleil ni chapeau.",
+        "submit": "Envoyer mes documents",
+        "sending": "Envoi en cours",
+        "sentOn": "Envoyés le {date}",
+        "selfieSent": "selfie envoyé",
+        "private": "Pour votre sécurité, les fichiers envoyés ne s'affichent plus, même pour vous.",
+        "replace": "Remplacer mes documents",
+        "errors": {
+          "kind": "Choisissez votre pièce d'identité.",
+          "missing": "Ajoutez tous les fichiers demandés.",
+          "type": "Ce type de fichier n'est pas accepté. Le selfie doit être une photo (JPEG, PNG ou WebP) ; la pièce peut aussi être un PDF.",
+          "size": "Ce fichier dépasse {size} Mo."
+        }
+      },
+      "errors": {
+        "invalid_document_kind": "Cette pièce d'identité n'est pas acceptée.",
+        "document_missing": "Il manque un fichier : le recto, le verso ou le selfie.",
+        "duplicate_file": "Le même fichier a été choisi deux fois.",
+        "file_not_found": "Un fichier n'a pas été reçu. Envoyez-le de nouveau.",
+        "invalid_declaration": "La déclaration est incomplète.",
+        "outdated_declaration": "Le texte de la déclaration a changé. Rechargez la page.",
+        "verification_closed": "Votre dossier est déjà traité.",
+        "upload_failed": "L'envoi d'un fichier a échoué. Vérifiez votre connexion et réessayez.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
     }
   },
   "SignIn": {
@@ -582,6 +768,138 @@
       "pause_round": "Vous étiez en pause pendant ce tour.",
       "unavailable": "Le vote n'est pas encore disponible.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
+  },
+  "SimulatedPayment": {
+    "eyebrow": "Démonstration",
+    "title": "Paiement simulé",
+    "intro": "Cette page remplace le paiement réel pendant la démonstration. Aucun argent n'est débité.",
+    "submit": "Valider le paiement de démonstration",
+    "back": "Retour aux soirées",
+    "done": "Le paiement de démonstration est validé.",
+    "errors": {
+      "simulated_payments_disabled": "Les paiements de démonstration sont désactivés.",
+      "invalid_status": "Ce paiement a déjà été traité.",
+      "not_found": "Ce paiement est introuvable.",
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
+  },
+  "Admin": {
+    "areaLabel": "Administration",
+    "home": "Administration",
+    "expand": "Afficher les libellés du menu",
+    "collapse": "Réduire le menu",
+    "signOut": "Se déconnecter",
+    "account": "Mon compte",
+    "noModule": "Aucun module n'est encore ouvert à votre rôle.",
+    "roles": {
+      "moderator": "Modération",
+      "admin": "Administration",
+      "super_admin": "Super administration"
+    },
+    "groups": {
+      "members": "Membres"
+    },
+    "nav": {
+      "verifications": "Vérifications"
+    },
+    "navHelp": {
+      "verifications": "Dossiers en attente, pièces, décisions"
+    },
+    "errors": {
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard."
+    },
+    "verifications": {
+      "intro": "Les dossiers en attente ou à corriger, les plus anciens d'abord. Chaque ouverture d'une pièce est enregistrée dans le journal.",
+      "filters": {
+        "label": "Filtrer les dossiers",
+        "all": "Tous",
+        "ready": "Complets, à traiter",
+        "pending": "En attente",
+        "to_correct": "À corriger"
+      },
+      "empty": "Aucun dossier dans cette liste.",
+      "columns": {
+        "member": "Membre",
+        "status": "État",
+        "dossier": "Dossier",
+        "submitted": "Dernier dépôt"
+      },
+      "noProfile": "Profil non créé",
+      "status": {
+        "pending": "En attente",
+        "to_correct": "À corriger",
+        "approved": "Validé",
+        "rejected": "Refusé"
+      },
+      "ready": "Complet",
+      "incomplete": "Incomplet",
+      "kinds": {
+        "id_card": "Carte d'identité",
+        "driving_licence": "Permis de conduire",
+        "passport": "Passeport"
+      },
+      "openFailed": "Ouverture impossible. Réessayez.",
+      "back": "Retour à la file",
+      "identity": {
+        "title": "Identité déclarée",
+        "sex": "Sexe",
+        "sexes": {
+          "female": "Femme",
+          "male": "Homme"
+        },
+        "birthDate": "Date de naissance",
+        "age": "{age} ans",
+        "city": "Ville",
+        "missing": "Le membre n'a pas encore créé son profil.",
+        "compare": "Comparez ces informations et le selfie avec la pièce d'identité."
+      },
+      "documents": {
+        "title": "Pièce et selfie",
+        "none": "Aucun document déposé.",
+        "parts": {
+          "front": "recto",
+          "back": "verso",
+          "photo_page": "page photo",
+          "face": "visage"
+        },
+        "open": "Ouvrir",
+        "audit": "Le lien est valable 5 minutes. Votre nom, la date et l'heure de chaque ouverture sont enregistrés."
+      },
+      "declaration": {
+        "title": "Déclaration sur l'honneur",
+        "signed": "Signée le {date} (texte {version})",
+        "history": "{count, plural, one {# déclaration précédente} other {# déclarations précédentes}}",
+        "none": "Aucune déclaration signée."
+      },
+      "decision": {
+        "title": "Décision",
+        "lastNote": "Dernière demande :",
+        "closed": "Dossier traité le {date}.",
+        "choices": {
+          "approved": "Valider",
+          "to_correct": "Demander une correction",
+          "rejected": "Refuser"
+        },
+        "notReady": "Validation possible quand la pièce, le selfie et la déclaration sont déposés.",
+        "noteLabel": "Message au membre (obligatoire)",
+        "noteOptional": "Message au membre (facultatif)",
+        "noteHelp": "Le membre lit ce message sur sa page de vérification.",
+        "confirmReject": "Le refus exclut le membre de Wanyiyi. Confirmez-vous ?",
+        "confirmRejectButton": "Confirmer le refus",
+        "submit": "Enregistrer la décision",
+        "errors": {
+          "choose": "Choisissez une décision.",
+          "dossier_incomplete": "Le dossier est incomplet : pièce, selfie ou déclaration manquant.",
+          "profile_missing": "Le membre n'a pas encore créé son profil.",
+          "note_required": "Écrivez au membre ce qu'il doit corriger.",
+          "verification_closed": "Ce dossier est déjà traité.",
+          "forbidden": "Votre rôle ne permet pas cette décision.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
     }
   }
 }

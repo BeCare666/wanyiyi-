@@ -23,15 +23,17 @@ import { PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./p
 import { ProfileController } from "./profile/profile.controller";
 import { JobsService } from "./scheduler/jobs.service";
 import { SupabaseService } from "./supabase/supabase.service";
+import { AdminVerificationsController } from "./verifications/admin-verifications.controller";
 
 /**
  * Module racine. Phase 2 : authentification (hooks SMS et e-mail via Brevo), profil,
- * soirées, vote QR, matchs, paiements (adaptateur simulé), tâches planifiées.
+ * soirées, vote QR, matchs, paiements (adaptateur simulé), tâches planifiées,
+ * vérifications côté équipe (liens signés vers les pièces).
  * Les adaptateurs (SMS, e-mail, paiement) sont choisis par la configuration.
  */
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true, cache: true, validate: validateEnv }), ScheduleModule.forRoot()],
-  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, PaymentsController, ProfileController],
+  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, PaymentsController, ProfileController],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: RequestLoggingInterceptor },
     SupabaseService,

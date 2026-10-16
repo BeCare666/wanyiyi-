@@ -118,11 +118,16 @@ describe("Écritures directes interdites aux membres", () => {
 describe("Vérification et pièces d'identité (10.1)", () => {
   it("le membre dépose sa pièce mais ne peut jamais la relire", async () => {
     const readBack = await asUser(db, nadege, async (tx) => {
-      const [v] = await rows(tx.query<{ id: string }>("insert into app.verifications (user_id) values ($1) returning id", [nadege]));
-      await tx.query("insert into app.id_documents (verification_id, kind, storage_path) values ($1, 'id_card', 'id-documents/nadege.jpg')", [v!.id]);
-      return rows(tx.query("select * from app.id_documents"));
+      for (const file of ["recto.jpg", "verso.jpg", "selfie.jpg"]) {
+        await tx.query("insert into storage.objects (bucket_id, name) values ('id-documents', $1)", [`${nadege}/${file}`]);
+      }
+      await tx.query("select app.submit_id_documents('id_card', $1, $2, $3)", [`${nadege}/recto.jpg`, `${nadege}/verso.jpg`, `${nadege}/selfie.jpg`]);
+      return {
+        documents: await rows(tx.query("select * from app.id_documents")),
+        files: await rows(tx.query("select * from storage.objects")),
+      };
     });
-    expect(readBack).toEqual([]);
+    expect(readBack).toEqual({ documents: [], files: [] });
   });
 
   it("l'équipe de vérification consulte une pièce par une fonction qui journalise chaque consultation", async () => {
@@ -152,16 +157,30 @@ describe("Vérification et pièces d'identité (10.1)", () => {
 
   it("la validation par l'équipe rend le membre « vérifié » ; un modérateur ne peut pas valider", async () => {
     const [v] = await rows(db.query<{ id: string }>("insert into app.verifications (user_id) values ($1) returning id", [nadege]));
-    const byModerator = await asUser(db, moderator, async (tx) => {
-      await tx.query("update app.verifications set status = 'approved' where id = $1", [v!.id]);
-      return rows(tx.query<{ status: string }>("select status from app.member_profiles where user_id = $1", [nadege]));
-    });
-    expect(byModerator[0]?.status).toBe("pending_verification");
+    const decide = (who: string) =>
+      asUser(db, who, (tx) => failure(tx.query("select app.decide_verification($1, 'approved', null)", [v!.id])));
+    expect(await decide(moderator)).toMatch(/forbidden/);
+    // Dossier encore vide : pas de validation possible
+    expect(await decide(admin)).toMatch(/dossier_incomplete/);
+
+    await db.query(
+      `insert into app.id_documents (verification_id, kind, part, storage_path)
+       values ($1, 'passport', 'photo_page', 'n/p.jpg'), ($1, 'selfie', 'face', 'n/s.jpg')`,
+      [v!.id],
+    );
+    await db.query("insert into app.honor_declarations (user_id, declared_marital_status, has_children, text_version) values ($1, 'single', false, 'v1')", [
+      nadege,
+    ]);
     const byAdmin = await asUser(db, admin, async (tx) => {
-      await tx.query("update app.verifications set status = 'approved' where id = $1", [v!.id]);
-      return rows(tx.query<{ status: string; journey_stage: string }>("select status, journey_stage from app.member_profiles where user_id = $1", [nadege]));
+      // Écriture directe retirée : seule la fonction décide
+      const direct = (await tx.query("update app.verifications set status = 'approved' where id = $1 returning id", [v!.id])).rows.length;
+      await tx.query("select app.decide_verification($1, 'approved', null)", [v!.id]);
+      const [profile] = await rows(
+        tx.query<{ status: string; journey_stage: string }>("select status, journey_stage from app.member_profiles where user_id = $1", [nadege]),
+      );
+      return { direct, profile };
     });
-    expect(byAdmin[0]).toEqual({ status: "verified", journey_stage: "evenings" });
+    expect(byAdmin).toEqual({ direct: 0, profile: { status: "verified", journey_stage: "evenings" } });
   });
 });
 
@@ -394,5 +413,126 @@ describe("Rotation, vote QR et matchs (9.2, 9.3)", () => {
     expect(result).toEqual({ first: 2, second: 0 });
     const visible = await asUser(db, afiwa, (tx) => rows(tx.query<{ partner_first_name: string }>("select partner_first_name from app.my_matches()")));
     expect(visible.map((m) => m.partner_first_name)).toContain("Koffi");
+  });
+});
+
+describe("Mes soirées dans l'espace membre (6.2-4)", () => {
+  type Booking = { event_id: string; status: string; waitlist_rank: number | null; confirm_by: string; paid: boolean };
+  const mine = (user: string, events: string[]) =>
+    asUser(db, user, (tx) =>
+      rows(tx.query<Booking>("select * from app.my_bookings() where event_id = any($1::uuid[]) order by status", [events])),
+    );
+
+  it("situation par soirée, rang dans la liste d'attente du même sexe et limite de confirmation", async () => {
+    const full = await createEvent(db, { startsInHours: 120, capacityWomen: 1 });
+    await register(db, full, sena, "female", "confirmed");
+    const waiting = await createMember(db, { firstName: "Houéfa", sex: "female" });
+    await db.query("insert into app.waitlist_entries (event_id, user_id, sex, position) values ($1, $2, 'female', 1), ($1, $3, 'female', 2)", [
+      full,
+      waiting,
+      afiwa,
+    ]);
+    const booked = await createEvent(db, { startsInHours: 72 });
+    await register(db, booked, afiwa, "female", "booked");
+
+    const result = await mine(afiwa, [full, booked]);
+    expect(result.map(({ event_id, status, waitlist_rank, paid }) => ({ event_id, status, waitlist_rank, paid }))).toEqual([
+      { event_id: booked, status: "booked", waitlist_rank: null, paid: false },
+      { event_id: full, status: "waitlisted", waitlist_rank: 2, paid: false },
+    ]);
+    // Limite par défaut : 48 h avant le début
+    const [event] = await rows(db.query<{ starts_at: string }>("select starts_at from app.events where id = $1", [booked]));
+    const bookedRow = result.find((r) => r.event_id === booked)!;
+    expect(new Date(event!.starts_at).getTime() - new Date(bookedRow.confirm_by).getTime()).toBe(48 * 3600 * 1000);
+  });
+
+  it("chacun ne voit que ses inscriptions ; les soirées annulées par le membre, passées ou en brouillon n'apparaissent pas", async () => {
+    const event = await createEvent(db, { startsInHours: 120 });
+    await register(db, event, afiwa, "female", "cancelled");
+    await register(db, event, koffi, "male", "booked");
+    const past = await createEvent(db, { startsInHours: -30, status: "finished" });
+    await register(db, past, afiwa, "female", "checked_in");
+    expect(await mine(afiwa, [event, past])).toEqual([]);
+    expect((await mine(koffi, [event])).map((r) => r.status)).toEqual(["booked"]);
+  });
+
+  it("une place libérée puis un retour en liste d'attente ne donnent qu'une ligne ; le paiement réussi est signalé", async () => {
+    const event = await createEvent(db, { startsInHours: 120, capacityWomen: 1 });
+    await register(db, event, afiwa, "female", "released");
+    await db.query("insert into app.waitlist_entries (event_id, user_id, sex, position) values ($1, $2, 'female', 1)", [event, afiwa]);
+    expect((await mine(afiwa, [event])).map((r) => r.status)).toEqual(["waitlisted"]);
+
+    const paidEvent = await createEvent(db, { startsInHours: 120 });
+    await register(db, paidEvent, koffi, "male", "booked");
+    await db.query(
+      `with p as (insert into app.payments (user_id, purpose, amount_xof, provider, status)
+                  values ($1, 'evening_booking', 1, 'simulated', 'succeeded') returning id)
+       update app.event_registrations set payment_id = (select id from p) where event_id = $2 and user_id = $1`,
+      [koffi, paidEvent],
+    );
+    expect((await mine(koffi, [paidEvent]))[0]?.paid).toBe(true);
+  });
+});
+
+describe("Notifications du membre", () => {
+  it("le membre marque ses notifications comme lues par la fonction, jamais par une écriture directe", async () => {
+    const member = await createMember(db, { firstName: "Mahougnon", sex: "female" });
+    const other = await createMember(db, { firstName: "Codjo", sex: "male" });
+    const ids = await rows(
+      db.query<{ id: string }>(
+        `insert into app.notifications (user_id, kind) values ($1, 'evening.seat_offered'), ($1, 'match.announced'), ($2, 'match.announced')
+         returning id`,
+        [member, other],
+      ),
+    );
+    const [first, second, foreign] = ids.map((r) => r.id);
+
+    const result = await asUser(db, member, async (tx) => {
+      await tx.exec("savepoint essai");
+      const direct = await failure(tx.query("update app.notifications set kind = 'autre' where id = $1", [first]));
+      await tx.exec("rollback to savepoint essai");
+      const one = await rows(tx.query<{ n: number }>("select app.mark_notifications_read($1::uuid[]) as n", [[first, foreign]]));
+      const again = await rows(tx.query<{ n: number }>("select app.mark_notifications_read($1::uuid[]) as n", [[first]]));
+      const all = await rows(tx.query<{ n: number }>("select app.mark_notifications_read() as n"));
+      // État lu dans la même transaction (elle est annulée à la fin du test)
+      await tx.exec("reset role");
+      const state = await rows(
+        tx.query<{ id: string; read: boolean; kind: string }>("select id, read_at is not null as read, kind from app.notifications where id = any($1::uuid[])", [
+          [first, second, foreign],
+        ]),
+      );
+      return { direct, one: one[0]?.n, again: again[0]?.n, all: all[0]?.n, state };
+    });
+    expect(result.direct).toMatch(/permission denied/);
+    // La notification d'un autre membre n'est jamais touchée
+    expect(result).toMatchObject({ one: 1, again: 0, all: 1 });
+    const { state } = result;
+    expect(Object.fromEntries(state.map((s) => [s.id, s.read]))).toEqual({ [first!]: true, [second!]: true, [foreign!]: false });
+    expect(state.find((s) => s.id === first)?.kind).toBe("evening.seat_offered");
+  });
+});
+
+describe("Paramètres du membre (6.2-9)", () => {
+  it("le membre change sa langue, son mode sombre et ses canaux de notification, pas ceux d'un autre", async () => {
+    const member = await createMember(db, { firstName: "Ayaba", sex: "female" });
+    const other = await createMember(db, { firstName: "Sèwanou", sex: "male" });
+    const result = await asUser(db, member, async (tx) => {
+      const users = await rows(tx.query<{ locale: string; dark_mode: boolean }>("update app.users set locale = 'yo', dark_mode = true where id = $1 returning locale, dark_mode", [member]));
+      await tx.query(
+        `insert into app.notification_preferences (user_id, channel, enabled) values ($1, 'whatsapp', false)
+         on conflict (user_id, channel) do update set enabled = excluded.enabled`,
+        [member],
+      );
+      await tx.exec("savepoint essai");
+      const foreign = await failure(tx.query("insert into app.notification_preferences (user_id, channel, enabled) values ($1, 'sms', false)", [other]));
+      await tx.exec("rollback to savepoint essai");
+      const otherUser = (await tx.query("update app.users set dark_mode = true where id = $1 returning id", [other])).rows.length;
+      const prefs = await rows(tx.query<{ channel: string; enabled: boolean }>("select channel, enabled from app.notification_preferences"));
+      return { users, foreign, otherUser, prefs };
+    });
+    expect(result.users).toEqual([{ locale: "yo", dark_mode: true }]);
+    expect(result.foreign).toMatch(/row-level security/);
+    expect(result.otherUser).toBe(0);
+    expect(result.prefs).toEqual([{ channel: "whatsapp", enabled: false }]);
   });
 });

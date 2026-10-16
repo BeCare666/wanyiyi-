@@ -9,6 +9,9 @@ import { type Env, validateEnv } from "../src/config/env";
 import { AuthHooksService } from "../src/hooks/auth-hooks.service";
 import { authEmail, confirmationLink, otpSms, SUPPORTED_EMAIL_ACTIONS } from "../src/notifications/messages";
 import { BrevoEmailSender, BrevoSmsSender, maskPhone, SimulatedEmailSender, SimulatedSmsSender } from "../src/notifications/senders";
+import { withMyBooking } from "../src/events/bookings";
+import type { AppClient } from "../src/supabase/supabase.service";
+import { documentLink } from "../src/verifications/document-link";
 import { toHttpError } from "../src/supabase/db-errors";
 
 const SUPABASE_URL = "https://projet-fictif.supabase.co";
@@ -184,5 +187,52 @@ describe("Erreurs de la base vers HTTP", () => {
     expect(toHttpError({ message: "forbidden_column" }).getResponse()).toMatchObject({ message: "forbidden_column" });
     expect(toHttpError({ message: "inconnu", code: "42501" }).getStatus()).toBe(403);
     expect(toHttpError({ message: "inconnu" }).getStatus()).toBe(500);
+  });
+});
+
+describe("Soirées : situation du membre", () => {
+  it("ajoute « mine » à la soirée concernée et null aux autres", () => {
+    const booking = { event_id: "b", status: "waitlisted" as const, waitlist_rank: 2, confirm_by: "2026-10-20T18:00:00Z", paid: false };
+    expect(withMyBooking([{ id: "a" }, { id: "b" }], [booking])).toEqual([
+      { id: "a", mine: null },
+      { id: "b", mine: { status: "waitlisted", waitlist_rank: 2, confirm_by: "2026-10-20T18:00:00Z", paid: false } },
+    ]);
+  });
+});
+
+describe("Lien signé vers une pièce d'identité", () => {
+  /** Faux client « membre » : réponses de open_id_document et du paramètre de durée. */
+  const memberClient = (rpc: { data: unknown; error: unknown }, setting: unknown) =>
+    ({
+      rpc: vi.fn(async () => rpc),
+      from: () => ({ select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: setting, error: null }) }) }) }),
+    }) as unknown as AppClient;
+  const systemClient = (createSignedUrl: (path: string, seconds: number) => Promise<unknown>) =>
+    ({ storage: { from: vi.fn(() => ({ createSignedUrl })) } }) as unknown as AppClient;
+
+  it("ouvre la pièce par la base (journalisée), puis crée un lien de la durée paramétrée", async () => {
+    const sign = vi.fn(async () => ({ data: { signedUrl: "https://stockage/lien" }, error: null }));
+    const reasons: string[] = [];
+    const member = memberClient({ data: "u1/abc.jpg", error: null }, { value: 300 });
+    const result = await documentLink(member, (reason) => (reasons.push(reason), systemClient(sign)), "doc-1", "admin-1");
+    expect(result).toEqual({ url: "https://stockage/lien", expiresIn: 300 });
+    expect(member.rpc).toHaveBeenCalledWith("open_id_document", { p_document: "doc-1" });
+    expect(sign).toHaveBeenCalledWith("u1/abc.jpg", 300);
+    expect(reasons).toEqual([expect.stringContaining("admin-1")]);
+  });
+
+  it("refus de la base : aucun lien, aucune clé service role utilisée", async () => {
+    const system = vi.fn();
+    const member = memberClient({ data: null, error: { message: "forbidden", code: "42501" } }, { value: 300 });
+    await expect(documentLink(member, system, "doc-1", "moderateur-1")).rejects.toMatchObject({ status: 403 });
+    expect(system).not.toHaveBeenCalled();
+  });
+
+  it("sans durée valide en base, pas de lien (aucune valeur par défaut inventée)", async () => {
+    const system = vi.fn();
+    await expect(documentLink(memberClient({ data: "u1/a.jpg", error: null }, null), system, "doc-1", "admin-1")).rejects.toMatchObject({
+      status: 503,
+    });
+    expect(system).not.toHaveBeenCalled();
   });
 });

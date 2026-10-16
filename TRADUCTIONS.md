@@ -49,6 +49,24 @@ Toutes les chaînes yoruba sont à valider. Les choix de vocabulaire ci-dessous 
 | Ponctualité | Àsìkò | Terme plus précis possible ? |
 | Se connecter / Se déconnecter | Wọlé / Jáde | |
 | Paramètres | Ètò | |
+| Page Soirées et paiement de démonstration (`Member.evenings`, `SimulatedPayment`, ajoutés le 16 octobre 2026) | environ 80 chaînes | À relire en entier |
+| Confirmer sa place | Fìdí àyè múlẹ̀ | Formulation naturelle ? |
+| Soirée thématique | Ìpàdé alẹ́ àkànṣe | |
+| Paiement de démonstration | Ìsanwó àpẹẹrẹ | |
+| Pages Notifications et Paramètres (`Member.notifications`, `Member.settings`, ajoutées le 16 octobre 2026) | environ 20 chaînes | À relire en entier |
+| Mode sombre | Ìrísí òkùnkùn | Terme courant ? |
+| Marquer comme lu | Sàmì sí pé a ti kà á | |
+| Page Vérification (`Member.verification`, ajoutée le 17 octobre 2026) | environ 70 chaînes | À relire en entier |
+| Texte de la déclaration sur l'honneur (`Member.verification.declaration.text`, version v1) | Mo búra pé... | Texte engageant : à relire avec attention dans les trois langues |
+| Déclaration sur l'honneur | Ìbúra | |
+| Divorcé(e) | Ẹni tí ìgbéyàwó rẹ̀ ti tú | Terme plus court ? |
+| Veuf ou veuve | Opó | |
+| Selfie | Fọ́tò ojú | |
+| Mariage coutumier | Ìgbéyàwó ìbílẹ̀ | |
+| Administration, coquille et Vérifications (`Admin`, ajoutée le 17 octobre 2026) | environ 90 chaînes | À relire en entier |
+| Administration | Ìṣàkóso | |
+| Modération / Super administration | Alábòójútó / Alákòóso àgbà | Termes d'usage dans une équipe ? |
+| Pluriels des places (« 1 place libre ») | àyè # ló kù | Le yoruba n'a pas de forme « one » distincte : une seule forme suffit-elle ? |
 
 ## Règles de rédaction appliquées à toutes les langues
 

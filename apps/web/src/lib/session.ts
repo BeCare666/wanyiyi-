@@ -50,12 +50,17 @@ export const getSessionMember = cache(async (): Promise<SessionMember | null> =>
   };
 });
 
-/** Les dernières notifications du membre et le nombre de non lues. */
-export async function getRecentNotifications(limit = 5): Promise<{ items: SessionNotification[]; unread: number }> {
+/** Les dernières notifications du membre (toutes, ou non lues seulement) et le nombre de non lues. */
+export async function getRecentNotifications(
+  limit = 5,
+  { unreadOnly = false }: { unreadOnly?: boolean } = {},
+): Promise<{ items: SessionNotification[]; unread: number }> {
   const supabase = await createSupabaseServer();
   if (!supabase) return { items: [], unread: 0 };
+  let list = supabase.from("notifications").select("id, kind, created_at, read_at");
+  if (unreadOnly) list = list.is("read_at", null);
   const [{ data }, { count }] = await Promise.all([
-    supabase.from("notifications").select("id, kind, created_at, read_at").order("created_at", { ascending: false }).limit(limit),
+    list.order("created_at", { ascending: false }).limit(limit),
     supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
   ]);
   return {

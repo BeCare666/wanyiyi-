@@ -3,7 +3,7 @@
 import { CaretDoubleLeftIcon, GearSixIcon, ListIcon, SignOutIcon, XIcon } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { LanguageList } from "@/components/layout/LanguageSwitcher";
 import { MemberAvatar } from "@/components/layout/MemberAvatar";
@@ -24,6 +24,31 @@ type Props = {
 const COLLAPSED_KEY = "wanyiyi.sidebar.collapsed";
 
 /**
+ * Barre latérale repliée : préférence mémorisée dans ce navigateur seulement (simple confort
+ * d'affichage). Lue comme une source externe : dépliée au rendu serveur, puis valeur enregistrée.
+ */
+const collapsedListeners = new Set<() => void>();
+const collapsedStore = {
+  subscribe(listener: () => void) {
+    collapsedListeners.add(listener);
+    return () => collapsedListeners.delete(listener);
+  },
+  get(): boolean {
+    try {
+      return window.localStorage.getItem(COLLAPSED_KEY) === "1";
+    } catch {
+      return false;
+    }
+  },
+  set(value: boolean) {
+    try {
+      window.localStorage.setItem(COLLAPSED_KEY, value ? "1" : "0");
+    } catch {}
+    collapsedListeners.forEach((listener) => listener());
+  },
+};
+
+/**
  * Coquille de l'espace membre (section 6.1).
  * Ordinateur : barre latérale fixe à gauche, repliable en icônes seules.
  * Mobile : en-tête avec bouton menu (tiroir latéral) et barre basse des 4 sections principales.
@@ -33,24 +58,11 @@ export function MemberShell({ member, notifications, children }: Props) {
   const t = useTranslations("Member");
   const tc = useTranslations("Common");
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
+  const collapsed = useSyncExternalStore(collapsedStore.subscribe, collapsedStore.get, () => false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Préférence mémorisée dans ce navigateur seulement (simple confort d'affichage)
-  useEffect(() => {
-    try {
-      setCollapsed(window.localStorage.getItem(COLLAPSED_KEY) === "1");
-    } catch {}
-  }, []);
-  const toggleCollapsed = () => {
-    setCollapsed((value) => {
-      try {
-        window.localStorage.setItem(COLLAPSED_KEY, value ? "0" : "1");
-      } catch {}
-      return !value;
-    });
-  };
+  const toggleCollapsed = () => collapsedStore.set(!collapsed);
 
   const closeDrawer = useCallback(() => {
     setDrawerOpen(false);
