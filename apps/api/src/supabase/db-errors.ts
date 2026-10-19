@@ -29,6 +29,8 @@ const BY_CODE: Record<string, (code: string) => HttpException> = {
   not_in_round: (c) => new ForbiddenException(c),
   pause_round: (c) => new ConflictException(c),
   not_found: (c) => new NotFoundException(c),
+  not_editable: (c) => new ConflictException(c),
+  member_inactive: (c) => new ForbiddenException(c),
 };
 
 export function toHttpError(error: { message?: string; code?: string } | null | undefined): HttpException {

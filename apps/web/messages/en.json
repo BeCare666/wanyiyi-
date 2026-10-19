@@ -482,7 +482,12 @@
       "kinds": {
         "evening_seat_offered": "A seat at an evening is now yours. Please remember to confirm it.",
         "match_announced": "You have a new match.",
-        "other": "New notification."
+        "evening_updated": "An evening you registered for has been changed.",
+        "evening_cancelled": "An evening you registered for is cancelled. If you paid, you are refunded in full.",
+        "other": "New notification.",
+        "member_suspended": "Your account is suspended.",
+        "member_reactivated": "Your account is active again.",
+        "member_excluded": "Your account has been excluded from Wanyiyi."
       }
     },
     "dashboard": {
@@ -605,7 +610,8 @@
         "all": "All",
         "unread": "Unread"
       },
-      "noUnread": "No unread notifications."
+      "noUnread": "No unread notifications.",
+      "reason": "Reason: {reason}"
     },
     "settings": {
       "title": "My settings",
@@ -799,13 +805,23 @@
       "super_admin": "Super administration"
     },
     "groups": {
-      "members": "Members"
+      "members": "Members",
+      "evenings": "Evenings",
+      "payments": "Payments"
     },
     "nav": {
-      "verifications": "Verifications"
+      "verifications": "Verifications",
+      "evenings": "Evenings",
+      "venues": "Venues",
+      "members": "Members",
+      "payments": "Payments"
     },
     "navHelp": {
-      "verifications": "Pending files, documents, decisions"
+      "verifications": "Pending files, documents, decisions",
+      "evenings": "Creation, bookings, check-in, running order, results",
+      "venues": "Evening venues and addresses",
+      "members": "List, profiles, history, sanctions",
+      "payments": "Transactions, paid evenings, refunds"
     },
     "errors": {
       "unavailable": "This service is not available yet. Please try again later."
@@ -899,6 +915,376 @@
           "unavailable": "This service is not available yet. Please try again later.",
           "generic": "Something went wrong. Please try again in a moment."
         }
+      }
+    },
+    "evenings": {
+      "intro": "All evenings, drafts included, most recent first. An evening is created as a draft; once published, it can be edited until the tables are prepared, and registered members are notified.",
+      "new": "New evening",
+      "newIntro": "The evening is saved as a draft: members only see it once it is published.",
+      "back": "Back to evenings",
+      "editTitle": "Edit the draft",
+      "editPublishedTitle": "Edit the published evening",
+      "empty": "No evening in this list.",
+      "noVenue": "Venue to be chosen",
+      "noPrice": "Price not set",
+      "fill": "{taken} / {capacity}",
+      "waiting": "{count} waiting",
+      "cellLabel": "{label}:",
+      "minutes": "{count} min",
+      "filters": {
+        "label": "Filter evenings",
+        "all": "All",
+        "upcoming": "Published",
+        "drafts": "Drafts",
+        "live": "In progress",
+        "past": "Finished"
+      },
+      "columns": {
+        "date": "Date",
+        "status": "Status",
+        "women": "Women",
+        "men": "Men",
+        "matches": "Matches"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published",
+        "full": "Full",
+        "in_progress": "In progress",
+        "finished": "Finished",
+        "cancelled": "Cancelled"
+      },
+      "form": {
+        "startsAt": "Start",
+        "startsAtHelp": "Cotonou time.",
+        "venue": "Venue",
+        "venueHelp": "Required to publish. The address is only shared with confirmed participants.",
+        "noVenue": "Choose later",
+        "theme": "Theme",
+        "noTheme": "No theme",
+        "themeMin": "from {min} years old",
+        "themeMax": "up to {max} years old",
+        "format": "Format",
+        "capacityWomen": "Seats for women (1 to 12)",
+        "capacityMen": "Seats for men (1 to 12)",
+        "roundMinutes": "Round length (minutes)",
+        "changeoverMinutes": "Table change (minutes)",
+        "price": "Price (CFA francs)",
+        "priceHelp": "Optional. Without a price, members read “Price to be announced” and cannot pay.",
+        "create": "Create the draft",
+        "save": "Save",
+        "saved": "Changes saved.",
+        "publishedHelp": "This evening is published: registered members and the waiting list will be notified. The number of seats cannot go below the seats already taken.",
+        "errors": {
+          "starts_at": "Enter the start date and time.",
+          "starts_in_past": "The start must be in the future.",
+          "invalid_capacity": "Each sex has 1 to 12 seats.",
+          "invalid_duration": "A round lasts at least 1 minute; the table change cannot be negative.",
+          "invalid_price": "The price is a positive whole number of CFA francs.",
+          "venue_not_found": "This venue no longer exists.",
+          "theme_not_found": "This theme no longer exists.",
+          "not_editable": "This evening can no longer be edited: the tables are prepared or the evening has started.",
+          "venue_required": "A published evening must keep a venue.",
+          "capacity_below_taken": "The number of seats cannot go below the seats already taken.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
+      },
+      "steps": {
+        "confirmButton": "Confirm",
+        "cancel": "Cancel",
+        "publish": {
+          "title": "Publication",
+          "help": "The evening appears in the members' calendar and can be booked.",
+          "confirm": "The evening becomes visible to members. Any later change will be notified to them. Do you confirm?",
+          "button": "Publish the evening"
+        },
+        "prepare": {
+          "title": "Preparation",
+          "help": "Once participants have been checked in at the door: numbering, tables, QR codes and rotation.",
+          "confirm": "Only people already checked in will take part in the rounds. Do you confirm?",
+          "button": "Prepare the tables"
+        },
+        "start": {
+          "title": "Start",
+          "help": "The table QR codes can now be used to vote.",
+          "confirm": "Start the evening now?",
+          "button": "Start the evening"
+        },
+        "finish": {
+          "title": "End",
+          "help": "QR codes are closed and votes can no longer change.",
+          "confirm": "Votes will be frozen. Do you confirm the end of the evening?",
+          "button": "End the evening"
+        },
+        "compute": {
+          "title": "Matches",
+          "help": "A match comes from two “yes” answers. Members learn about it the next day at 8 am.",
+          "confirm": "Compute the matches for this evening?",
+          "button": "Compute the matches"
+        }
+      },
+      "delete": {
+        "button": "Delete the draft",
+        "confirm": "The draft will be permanently deleted. Do you confirm?",
+        "confirmButton": "Confirm deletion"
+      },
+      "cancel": {
+        "title": "Cancel the evening",
+        "help": "All seats are cancelled, the waiting list is cleared and everyone concerned is notified. Payments received are refunded in full.",
+        "button": "Cancel the evening",
+        "confirm": "Cancellation is final. Do you confirm?",
+        "confirmButton": "Confirm cancellation",
+        "keep": "Keep the evening"
+      },
+      "tables": {
+        "title": "Table QR codes",
+        "help": "One card per table, to print and place on the table. The code only works during the evening.",
+        "open": "Print the QR codes",
+        "back": "Back to the evening",
+        "intro": "{count, plural, one {# card to print} other {# cards to print}}, two per page. Place each card on its table before participants arrive.",
+        "notReady": "The codes exist once the tables are prepared, and until the end of the evening.",
+        "print": "Print",
+        "table": "Table {number}",
+        "qrLabel": "QR code for table {number}",
+        "scan": "After each round, scan this code with your phone to give your answer."
+      },
+      "errors": {
+        "venue_required": "Choose a venue before publishing.",
+        "starts_in_past": "This evening's start time has passed.",
+        "not_draft": "This evening is no longer a draft.",
+        "already_prepared": "The tables are already prepared.",
+        "not_prepared": "Prepare the tables first.",
+        "not_enough_participants": "Check in at least one woman and one man before preparing the tables.",
+        "invalid_status": "This step no longer matches the evening's status. Reload the page.",
+        "evening_not_finished": "End the evening before computing the matches.",
+        "not_confirmed": "Only a confirmed seat can be checked in.",
+        "forbidden": "Your role does not allow this action.",
+        "unavailable": "This service is not available yet. Please try again later.",
+        "generic": "Something went wrong. Please try again in a moment."
+      },
+      "participants": {
+        "title": "Bookings",
+        "prepared": "Tables prepared: {tables}.",
+        "none": "No booking.",
+        "waitlisted": "Waiting list, position {rank}",
+        "seat": "table {seat}",
+        "checkIn": "Check in",
+        "checkInLabel": "Check in {name}",
+        "status": {
+          "booked": "Seat booked, not confirmed",
+          "confirmed": "Seat confirmed",
+          "checked_in": "Present",
+          "cancelled": "Cancelled",
+          "released": "Released for lack of confirmation",
+          "no_show": "Absent",
+          "waitlisted": "Waiting list"
+        }
+      },
+      "results": {
+        "title": "Results",
+        "checkedIn": "Present",
+        "voters": "Voters",
+        "matches": "Matches",
+        "announce": "Announcement to members: {date}.",
+        "noNo": "No “no” is ever shown."
+      }
+    },
+    "venues": {
+      "intro": "The venues for the evenings. For the demonstration, fictitious venues only. The address is only shared with participants whose seat is confirmed.",
+      "empty": "No venue recorded.",
+      "partner": "Partner",
+      "new": "New venue",
+      "form": {
+        "name": "Name",
+        "address": "Address",
+        "addressHelp": "Shared only with confirmed participants.",
+        "city": "City",
+        "partner": "Partner venue",
+        "submit": "Add the venue",
+        "saved": "Venue added.",
+        "errors": {
+          "name": "Enter the venue's name.",
+          "address": "Enter the address.",
+          "city": "Enter the city.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
+      }
+    },
+    "members": {
+      "intro": "All accounts, most recent first. Search by first name, last name, member number or phone.",
+      "search": "Search",
+      "any": "All",
+      "apply": "Filter",
+      "sex": "Sex",
+      "empty": "No member matches this search.",
+      "count": "{count, plural, one {# member} other {# members}}",
+      "pagination": "List pages",
+      "previous": "Previous page",
+      "next": "Next page",
+      "page": "Page {page} of {pages}",
+      "activity": "{evenings, plural, =0 {no evening} one {# evening} other {# evenings}} · {matches, plural, =0 {no match} one {# match} other {# matches}}",
+      "back": "Back to members",
+      "columns": {
+        "member": "Member",
+        "status": "Status",
+        "role": "Role",
+        "activity": "Activity",
+        "joined": "Joined"
+      },
+      "status": {
+        "registering": "Registering",
+        "pending_verification": "Awaiting verification",
+        "to_correct": "File to correct",
+        "verified": "Approved",
+        "suspended": "Suspended",
+        "excluded": "Excluded",
+        "deleted": "Account deleted"
+      },
+      "roles": {
+        "member": "Member",
+        "counselor": "Counsellor",
+        "moderator": "Moderation",
+        "admin": "Administration",
+        "super_admin": "Super administration"
+      },
+      "card": {
+        "number": "Member number",
+        "phone": "Phone",
+        "joined": "Joined",
+        "consent": "Consent",
+        "noConsent": "Not recorded",
+        "blocked": "Evenings blocked until",
+        "notBlocked": "No block",
+        "verification": "Verification: {status}.",
+        "openVerification": "Open the file"
+      },
+      "actions": {
+        "title": "Actions",
+        "none": "No action is possible on this account.",
+        "done": "Action saved.",
+        "reasonHelp": "The member reads this reason in their notification.",
+        "suspend": {
+          "title": "Suspend",
+          "reason": "Reason for the suspension (required)",
+          "button": "Suspend the member"
+        },
+        "exclude": {
+          "title": "Exclude",
+          "reason": "Reason for the exclusion (required)",
+          "button": "Exclude the member",
+          "confirm": "Exclusion is permanent. Do you confirm?",
+          "confirmButton": "Confirm the exclusion"
+        },
+        "reactivate": {
+          "title": "Reactivate",
+          "help": "The member returns to the status they had before the suspension and is informed.",
+          "button": "Reactivate the member"
+        },
+        "block": {
+          "title": "Block evenings",
+          "until": "Until",
+          "help": "Cotonou time. The member cannot book before this date.",
+          "button": "Save the block",
+          "lift": "Lift the block"
+        },
+        "role": {
+          "title": "Role",
+          "button": "Change the role",
+          "confirm": "New role: {role}. Do you confirm?",
+          "confirmButton": "Confirm the change"
+        },
+        "errors": {
+          "reason_required": "Write the reason.",
+          "self_action": "This action is not possible on your own account.",
+          "invalid_status": "This action no longer matches the member's status. Reload the page.",
+          "profile_missing": "This account has no profile yet.",
+          "date_in_past": "Choose a future date.",
+          "date_invalid": "Enter a date and time.",
+          "not_found": "This account no longer exists.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
+      },
+      "history": {
+        "title": "History",
+        "noVotes": "Votes never appear in the history.",
+        "empty": "No event.",
+        "evening": "Evening of {date}",
+        "reason": "Reason: {reason}",
+        "note": "Message: {note}",
+        "role": "{from} to {to}",
+        "blockedUntil": "Until {date}",
+        "unblocked": "Block lifted",
+        "kinds": {
+          "account_created": "Account created",
+          "verification_pending": "Verification file pending",
+          "verification_to_correct": "Correction requested",
+          "verification_approved": "Profile approved",
+          "verification_rejected": "File rejected",
+          "evening_booked": "Seat booked",
+          "evening_confirmed": "Seat confirmed",
+          "evening_checked_in": "Present at the evening",
+          "evening_cancelled": "Booking cancelled",
+          "evening_released": "Seat released for lack of confirmation",
+          "evening_no_show": "Absent from the evening",
+          "evening_waitlisted": "Waiting list",
+          "match": "Match",
+          "sanction_warning": "Warning",
+          "sanction_suspension": "Suspension",
+          "sanction_exclusion": "Exclusion",
+          "payment_pending": "Payment pending",
+          "payment_succeeded": "Payment received",
+          "payment_failed": "Payment failed",
+          "payment_refunded": "Payment refunded",
+          "payment_cancelled": "Payment cancelled",
+          "role_changed": "Role changed",
+          "member_reactivated": "Reactivation",
+          "member_evenings_blocked": "Evenings blocked",
+          "other": "Event"
+        }
+      }
+    },
+    "payments": {
+      "intro": "All transactions, most recent first. Refunds are triggered by cancelling an evening. Reconciliation with the provider will come with its integration.",
+      "search": "First name, last name, member number or reference",
+      "refund": "Refund",
+      "empty": "No payments in this list.",
+      "count": "{count, plural, one {# payment} other {# payments}}",
+      "evening": "Evening of {date}",
+      "refunded": "{amount} refunded",
+      "columns": {
+        "date": "Date",
+        "member": "Member",
+        "purpose": "Purpose",
+        "status": "Status",
+        "amount": "Amount"
+      },
+      "status": {
+        "pending": "Pending",
+        "succeeded": "Received",
+        "failed": "Failed",
+        "refunded": "Refunded",
+        "cancelled": "Cancelled"
+      },
+      "purposes": {
+        "registration_fee": "Registration fee",
+        "evening_booking": "Evening",
+        "contribution": "Contribution"
+      },
+      "refunds": {
+        "requested": "Refund requested",
+        "refunded": "Refunded"
+      },
+      "providers": {
+        "simulated": "Demo payment",
+        "fedapay": "FedaPay",
+        "kkiapay": "KkiaPay",
+        "other": "Other provider"
       }
     }
   }

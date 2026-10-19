@@ -63,7 +63,7 @@ export function AdminShell({ staff, children }: { staff: StaffMember; children: 
         data-theme="dark"
         aria-label={t("areaLabel")}
         className={cn(
-          "fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-line bg-bg text-fg lg:flex",
+          "fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-line bg-bg text-fg lg:flex print:hidden",
           collapsed ? "w-[4.75rem] px-3" : "w-64 px-5",
         )}
       >
@@ -96,8 +96,8 @@ export function AdminShell({ staff, children }: { staff: StaffMember; children: 
         </nav>
       </aside>
 
-      <div className={cn("flex min-h-svh flex-col", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-64")}>
-        <header className="sticky top-0 z-30 border-b border-line bg-bg/95 backdrop-blur-md">
+      <div className={cn("flex min-h-svh flex-col print:pl-0!", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-64")}>
+        <header className="sticky top-0 z-30 border-b border-line bg-bg/95 backdrop-blur-md print:hidden">
           <div className="flex h-16 items-center justify-between gap-3 px-gutter">
             <div className="flex items-center gap-2 lg:hidden">
               <button
@@ -128,7 +128,7 @@ export function AdminShell({ staff, children }: { staff: StaffMember; children: 
             </div>
           </div>
         </header>
-        <main id="contenu" className="flex-1 px-gutter pb-16 pt-10 lg:pt-12">
+        <main id="contenu" className="flex-1 px-gutter pb-16 pt-10 lg:pt-12 print:p-0">
           {children}
         </main>
       </div>

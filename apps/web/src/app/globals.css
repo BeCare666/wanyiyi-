@@ -289,3 +289,15 @@ html[data-js] [data-reveal]:not([data-revealed]) .reveal-zoom {
     transform: none;
   }
 }
+
+/* Impression (codes QR des tables) : toujours en clair, même en mode sombre */
+@media print {
+  [data-theme="dark"] {
+    --bg: var(--white);
+    --bg-elevated: var(--white);
+    --fg: var(--ink);
+    --fg-muted: var(--stone-600);
+    --line: var(--stone-200);
+    --line-strong: var(--stone-400);
+  }
+}

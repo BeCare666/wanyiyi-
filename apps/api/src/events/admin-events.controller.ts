@@ -1,6 +1,7 @@
-import { Controller, HttpCode, Param, ParseUUIDPipe, Post, UseGuards } from "@nestjs/common";
+import { Controller, HttpCode, Logger, Param, ParseUUIDPipe, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { type AuthenticatedMember, CurrentMember, MemberGuard } from "../auth/member.guard";
+import { PaymentsService } from "../payments/payments.service";
 import { unwrap } from "../supabase/db-errors";
 import { SupabaseService } from "../supabase/supabase.service";
 
@@ -13,7 +14,12 @@ import { SupabaseService } from "../supabase/supabase.service";
 @UseGuards(MemberGuard)
 @Controller("admin/events/:id")
 export class AdminEventsController {
-  constructor(private readonly supabase: SupabaseService) {}
+  private readonly logger = new Logger("Administration des soirées");
+
+  constructor(
+    private readonly supabase: SupabaseService,
+    private readonly payments: PaymentsService,
+  ) {}
 
   private db(member: AuthenticatedMember) {
     return this.supabase.forMember(member.accessToken);
@@ -54,5 +60,18 @@ export class AdminEventsController {
   @ApiOperation({ summary: "Calcul des matchs (annoncés le lendemain à 8 h)" })
   async computeMatches(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
     return { matches: unwrap(await this.db(member).rpc("compute_matches", { p_event: id })) };
+  }
+
+  @Post("cancel")
+  @ApiOperation({
+    summary: "Annulation d'une soirée publiée : places annulées, inscrits notifiés, paiements reçus remboursés en entier",
+    description: "Les remboursements sont lancés aussitôt ; un échec est relancé par la tâche planifiée.",
+  })
+  async cancel(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
+    const refunds = unwrap(await this.db(member).rpc("cancel_event", { p_event: id })) as number;
+    if (refunds > 0) {
+      await this.payments.refundPending().catch((error: Error) => this.logger.error(`Remboursements de la soirée ${id} : ${error.message}`));
+    }
+    return { refunds };
   }
 }

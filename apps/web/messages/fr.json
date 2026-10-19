@@ -482,7 +482,12 @@
       "kinds": {
         "evening_seat_offered": "Une place vous est attribuée pour une soirée. Pensez à la confirmer.",
         "match_announced": "Vous avez un nouveau match.",
-        "other": "Nouvelle notification."
+        "evening_updated": "Une soirée pour laquelle vous avez une place ou attendez une place a été modifiée.",
+        "evening_cancelled": "Une soirée pour laquelle vous aviez une place est annulée. Si vous aviez payé, le montant vous est remboursé en entier.",
+        "other": "Nouvelle notification.",
+        "member_suspended": "Votre compte est suspendu.",
+        "member_reactivated": "Votre compte est de nouveau actif.",
+        "member_excluded": "Votre compte est exclu de Wanyiyi."
       }
     },
     "dashboard": {
@@ -605,7 +610,8 @@
         "all": "Toutes",
         "unread": "Non lues"
       },
-      "noUnread": "Aucune notification non lue."
+      "noUnread": "Aucune notification non lue.",
+      "reason": "Motif : {reason}"
     },
     "settings": {
       "title": "Mes paramètres",
@@ -799,13 +805,23 @@
       "super_admin": "Super administration"
     },
     "groups": {
-      "members": "Membres"
+      "members": "Membres",
+      "evenings": "Soirées",
+      "payments": "Paiements"
     },
     "nav": {
-      "verifications": "Vérifications"
+      "verifications": "Vérifications",
+      "evenings": "Soirées",
+      "venues": "Lieux",
+      "members": "Membres",
+      "payments": "Paiements"
     },
     "navHelp": {
-      "verifications": "Dossiers en attente, pièces, décisions"
+      "verifications": "Dossiers en attente, pièces, décisions",
+      "evenings": "Création, inscriptions, pointage, déroulé, résultats",
+      "venues": "Lieux des soirées et adresses",
+      "members": "Liste, fiches, historique, sanctions",
+      "payments": "Transactions, soirées payées, remboursements"
     },
     "errors": {
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard."
@@ -899,6 +915,376 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      }
+    },
+    "evenings": {
+      "intro": "Toutes les soirées, brouillons compris, les plus récentes d'abord. Une soirée se crée en brouillon ; une fois publiée, elle se modifie jusqu'à la préparation des tables, et les inscrits sont notifiés.",
+      "new": "Nouvelle soirée",
+      "newIntro": "La soirée est enregistrée en brouillon : les membres ne la voient qu'après sa publication.",
+      "back": "Retour aux soirées",
+      "editTitle": "Modifier le brouillon",
+      "editPublishedTitle": "Modifier la soirée publiée",
+      "empty": "Aucune soirée dans cette liste.",
+      "noVenue": "Lieu à choisir",
+      "noPrice": "Tarif non fixé",
+      "fill": "{taken} / {capacity}",
+      "waiting": "{count} en attente",
+      "cellLabel": "{label} :",
+      "minutes": "{count} min",
+      "filters": {
+        "label": "Filtrer les soirées",
+        "all": "Toutes",
+        "upcoming": "Publiées",
+        "drafts": "Brouillons",
+        "live": "En cours",
+        "past": "Terminées"
+      },
+      "columns": {
+        "date": "Date",
+        "status": "État",
+        "women": "Femmes",
+        "men": "Hommes",
+        "matches": "Matchs"
+      },
+      "status": {
+        "draft": "Brouillon",
+        "published": "Publiée",
+        "full": "Complète",
+        "in_progress": "En cours",
+        "finished": "Terminée",
+        "cancelled": "Annulée"
+      },
+      "form": {
+        "startsAt": "Début",
+        "startsAtHelp": "Heure de Cotonou.",
+        "venue": "Lieu",
+        "venueHelp": "Obligatoire pour publier. L'adresse n'est communiquée qu'aux participants confirmés.",
+        "noVenue": "Choisir plus tard",
+        "theme": "Thème",
+        "noTheme": "Soirée sans thème",
+        "themeMin": "à partir de {min} ans",
+        "themeMax": "jusqu'à {max} ans",
+        "format": "Format",
+        "capacityWomen": "Places femmes (1 à 12)",
+        "capacityMen": "Places hommes (1 à 12)",
+        "roundMinutes": "Durée d'un tour (minutes)",
+        "changeoverMinutes": "Changement de table (minutes)",
+        "price": "Tarif (francs CFA)",
+        "priceHelp": "Facultatif. Sans tarif, les membres lisent « Tarif communiqué prochainement » et ne peuvent pas payer.",
+        "create": "Créer le brouillon",
+        "save": "Enregistrer",
+        "saved": "Modifications enregistrées.",
+        "publishedHelp": "Cette soirée est publiée : les inscrits et la liste d'attente recevront une notification. Le nombre de places ne peut pas descendre sous les places déjà prises.",
+        "errors": {
+          "starts_at": "Indiquez la date et l'heure de début.",
+          "starts_in_past": "Le début doit être dans le futur.",
+          "invalid_capacity": "Chaque sexe compte de 1 à 12 places.",
+          "invalid_duration": "Un tour dure au moins 1 minute ; le changement de table ne peut pas être négatif.",
+          "invalid_price": "Le tarif est un nombre entier positif de francs CFA.",
+          "venue_not_found": "Ce lieu n'existe plus.",
+          "theme_not_found": "Ce thème n'existe plus.",
+          "not_editable": "Cette soirée ne se modifie plus : les tables sont préparées ou la soirée a commencé.",
+          "venue_required": "Une soirée publiée garde un lieu.",
+          "capacity_below_taken": "Le nombre de places ne peut pas descendre sous les places déjà prises.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "steps": {
+        "confirmButton": "Confirmer",
+        "cancel": "Annuler",
+        "publish": {
+          "title": "Publication",
+          "help": "La soirée apparaît au calendrier des membres et devient réservable.",
+          "confirm": "La soirée devient visible des membres. Toute modification ultérieure leur sera notifiée. Confirmez-vous ?",
+          "button": "Publier la soirée"
+        },
+        "prepare": {
+          "title": "Préparation",
+          "help": "Quand les participants sont pointés à l'entrée : numérotation, tables, codes QR et rotation.",
+          "confirm": "Seules les personnes déjà pointées participeront aux tours. Confirmez-vous ?",
+          "button": "Préparer les tables"
+        },
+        "start": {
+          "title": "Début",
+          "help": "Les codes QR des tables deviennent utilisables pour voter.",
+          "confirm": "Commencer la soirée maintenant ?",
+          "button": "Commencer la soirée"
+        },
+        "finish": {
+          "title": "Fin",
+          "help": "Les codes QR sont fermés et les votes ne peuvent plus changer.",
+          "confirm": "Les votes seront figés. Confirmez-vous la fin de la soirée ?",
+          "button": "Terminer la soirée"
+        },
+        "compute": {
+          "title": "Matchs",
+          "help": "Un match naît de deux « oui ». Les membres le découvrent le lendemain à 8 h.",
+          "confirm": "Calculer les matchs de cette soirée ?",
+          "button": "Calculer les matchs"
+        }
+      },
+      "delete": {
+        "button": "Supprimer le brouillon",
+        "confirm": "Le brouillon sera supprimé définitivement. Confirmez-vous ?",
+        "confirmButton": "Confirmer la suppression"
+      },
+      "cancel": {
+        "title": "Annuler la soirée",
+        "help": "Toutes les places sont annulées, la liste d'attente est vidée et chaque personne concernée est notifiée. Les paiements reçus sont remboursés en entier.",
+        "button": "Annuler la soirée",
+        "confirm": "L'annulation est définitive. Confirmez-vous ?",
+        "confirmButton": "Confirmer l'annulation",
+        "keep": "Garder la soirée"
+      },
+      "tables": {
+        "title": "Codes QR des tables",
+        "help": "Une carte par table, à imprimer et à poser sur la table. Le code ne fonctionne que pendant la soirée.",
+        "open": "Imprimer les codes QR",
+        "back": "Retour à la soirée",
+        "intro": "{count, plural, one {# carte à imprimer} other {# cartes à imprimer}}, deux par page. Posez chaque carte sur sa table avant l'arrivée des participants.",
+        "notReady": "Les codes existent une fois les tables préparées, et jusqu'à la fin de la soirée.",
+        "print": "Imprimer",
+        "table": "Table {number}",
+        "qrLabel": "Code QR de la table {number}",
+        "scan": "Après chaque tour, scannez ce code avec votre téléphone pour donner votre réponse."
+      },
+      "errors": {
+        "venue_required": "Choisissez un lieu avant de publier.",
+        "starts_in_past": "Le début de cette soirée est passé.",
+        "not_draft": "Cette soirée n'est plus un brouillon.",
+        "already_prepared": "Les tables sont déjà préparées.",
+        "not_prepared": "Préparez d'abord les tables.",
+        "not_enough_participants": "Pointez au moins une femme et un homme avant de préparer les tables.",
+        "invalid_status": "Cette étape ne correspond plus à l'état de la soirée. Rechargez la page.",
+        "evening_not_finished": "Terminez la soirée avant de calculer les matchs.",
+        "not_confirmed": "Seule une place confirmée peut être pointée.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      },
+      "participants": {
+        "title": "Inscriptions",
+        "prepared": "Tables préparées : {tables}.",
+        "none": "Aucune inscription.",
+        "waitlisted": "Liste d'attente, rang {rank}",
+        "seat": "table {seat}",
+        "checkIn": "Pointer",
+        "checkInLabel": "Pointer l'arrivée de {name}",
+        "status": {
+          "booked": "Place réservée, non confirmée",
+          "confirmed": "Place confirmée",
+          "checked_in": "Présent",
+          "cancelled": "Annulée",
+          "released": "Libérée faute de confirmation",
+          "no_show": "Absent",
+          "waitlisted": "Liste d'attente"
+        }
+      },
+      "results": {
+        "title": "Résultats",
+        "checkedIn": "Présents",
+        "voters": "Votants",
+        "matches": "Matchs",
+        "announce": "Annonce aux membres : {date}.",
+        "noNo": "Aucun « non » n'est jamais affiché."
+      }
+    },
+    "venues": {
+      "intro": "Les lieux des soirées. Pour la démonstration, uniquement des lieux fictifs. L'adresse n'est communiquée qu'aux participants dont la place est confirmée.",
+      "empty": "Aucun lieu enregistré.",
+      "partner": "Partenaire",
+      "new": "Nouveau lieu",
+      "form": {
+        "name": "Nom",
+        "address": "Adresse",
+        "addressHelp": "Communiquée aux seuls participants confirmés.",
+        "city": "Ville",
+        "partner": "Lieu partenaire",
+        "submit": "Ajouter le lieu",
+        "saved": "Lieu ajouté.",
+        "errors": {
+          "name": "Indiquez le nom du lieu.",
+          "address": "Indiquez l'adresse.",
+          "city": "Indiquez la ville.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
+    },
+    "members": {
+      "intro": "Tous les comptes, les plus récents d'abord. Recherche par prénom, nom, numéro de membre ou téléphone.",
+      "search": "Rechercher",
+      "any": "Tous",
+      "apply": "Filtrer",
+      "sex": "Sexe",
+      "empty": "Aucun membre ne correspond à cette recherche.",
+      "count": "{count, plural, one {# membre} other {# membres}}",
+      "pagination": "Pages de la liste",
+      "previous": "Page précédente",
+      "next": "Page suivante",
+      "page": "Page {page} sur {pages}",
+      "activity": "{evenings, plural, =0 {aucune soirée} one {# soirée} other {# soirées}} · {matches, plural, =0 {aucun match} one {# match} other {# matchs}}",
+      "back": "Retour aux membres",
+      "columns": {
+        "member": "Membre",
+        "status": "État",
+        "role": "Rôle",
+        "activity": "Activité",
+        "joined": "Inscription"
+      },
+      "status": {
+        "registering": "Inscription en cours",
+        "pending_verification": "En attente de vérification",
+        "to_correct": "Dossier à corriger",
+        "verified": "Validé",
+        "suspended": "Suspendu",
+        "excluded": "Exclu",
+        "deleted": "Compte supprimé"
+      },
+      "roles": {
+        "member": "Membre",
+        "counselor": "Conseiller",
+        "moderator": "Modération",
+        "admin": "Administration",
+        "super_admin": "Super administration"
+      },
+      "card": {
+        "number": "Numéro de membre",
+        "phone": "Téléphone",
+        "joined": "Inscription",
+        "consent": "Consentement",
+        "noConsent": "Non enregistré",
+        "blocked": "Soirées bloquées jusqu'au",
+        "notBlocked": "Aucun blocage",
+        "verification": "Vérification : {status}.",
+        "openVerification": "Ouvrir le dossier"
+      },
+      "actions": {
+        "title": "Actions",
+        "none": "Aucune action possible sur ce compte.",
+        "done": "Action enregistrée.",
+        "reasonHelp": "Le membre lit ce motif dans sa notification.",
+        "suspend": {
+          "title": "Suspendre",
+          "reason": "Motif de la suspension (obligatoire)",
+          "button": "Suspendre le membre"
+        },
+        "exclude": {
+          "title": "Exclure",
+          "reason": "Motif de l'exclusion (obligatoire)",
+          "button": "Exclure le membre",
+          "confirm": "L'exclusion est définitive. Confirmez-vous ?",
+          "confirmButton": "Confirmer l'exclusion"
+        },
+        "reactivate": {
+          "title": "Réactiver",
+          "help": "Le membre retrouve l'état qu'il avait avant la suspension et en est informé.",
+          "button": "Réactiver le membre"
+        },
+        "block": {
+          "title": "Bloquer les soirées",
+          "until": "Jusqu'au",
+          "help": "Heure de Cotonou. Le membre ne peut pas réserver avant cette date.",
+          "button": "Enregistrer le blocage",
+          "lift": "Lever le blocage"
+        },
+        "role": {
+          "title": "Rôle",
+          "button": "Changer le rôle",
+          "confirm": "Nouveau rôle : {role}. Confirmez-vous ?",
+          "confirmButton": "Confirmer le changement"
+        },
+        "errors": {
+          "reason_required": "Écrivez le motif.",
+          "self_action": "Cette action n'est pas possible sur votre propre compte.",
+          "invalid_status": "Cette action ne correspond plus à l'état du membre. Rechargez la page.",
+          "profile_missing": "Ce compte n'a pas encore de profil.",
+          "date_in_past": "Choisissez une date future.",
+          "date_invalid": "Indiquez une date et une heure.",
+          "not_found": "Ce compte n'existe plus.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "history": {
+        "title": "Historique",
+        "noVotes": "Les votes ne figurent jamais dans l'historique.",
+        "empty": "Aucun événement.",
+        "evening": "Soirée du {date}",
+        "reason": "Motif : {reason}",
+        "note": "Message : {note}",
+        "role": "{from} vers {to}",
+        "blockedUntil": "Jusqu'au {date}",
+        "unblocked": "Blocage levé",
+        "kinds": {
+          "account_created": "Compte créé",
+          "verification_pending": "Dossier de vérification en attente",
+          "verification_to_correct": "Correction demandée",
+          "verification_approved": "Profil validé",
+          "verification_rejected": "Dossier refusé",
+          "evening_booked": "Place réservée",
+          "evening_confirmed": "Place confirmée",
+          "evening_checked_in": "Présent à la soirée",
+          "evening_cancelled": "Inscription annulée",
+          "evening_released": "Place libérée faute de confirmation",
+          "evening_no_show": "Absent à la soirée",
+          "evening_waitlisted": "Liste d'attente",
+          "match": "Match",
+          "sanction_warning": "Avertissement",
+          "sanction_suspension": "Suspension",
+          "sanction_exclusion": "Exclusion",
+          "payment_pending": "Paiement en attente",
+          "payment_succeeded": "Paiement reçu",
+          "payment_failed": "Paiement échoué",
+          "payment_refunded": "Paiement remboursé",
+          "payment_cancelled": "Paiement annulé",
+          "role_changed": "Rôle modifié",
+          "member_reactivated": "Réactivation",
+          "member_evenings_blocked": "Blocage des soirées",
+          "other": "Événement"
+        }
+      }
+    },
+    "payments": {
+      "intro": "Toutes les transactions, les plus récentes d'abord. Les remboursements sont lancés par l'annulation d'une soirée. Le rapprochement avec le prestataire viendra avec son intégration.",
+      "search": "Prénom, nom, numéro de membre ou référence",
+      "refund": "Remboursement",
+      "empty": "Aucun paiement dans cette liste.",
+      "count": "{count, plural, one {# paiement} other {# paiements}}",
+      "evening": "Soirée du {date}",
+      "refunded": "{amount} remboursés",
+      "columns": {
+        "date": "Date",
+        "member": "Membre",
+        "purpose": "Objet",
+        "status": "État",
+        "amount": "Montant"
+      },
+      "status": {
+        "pending": "En attente",
+        "succeeded": "Reçu",
+        "failed": "Échoué",
+        "refunded": "Remboursé",
+        "cancelled": "Annulé"
+      },
+      "purposes": {
+        "registration_fee": "Frais d'inscription",
+        "evening_booking": "Soirée",
+        "contribution": "Contribution"
+      },
+      "refunds": {
+        "requested": "Remboursement demandé",
+        "refunded": "Remboursé"
+      },
+      "providers": {
+        "simulated": "Paiement de démonstration",
+        "fedapay": "FedaPay",
+        "kkiapay": "KkiaPay",
+        "other": "Autre prestataire"
       }
     }
   }

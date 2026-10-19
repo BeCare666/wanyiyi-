@@ -133,8 +133,61 @@ Décisions du 14 octobre 2026
     verification_documents, decide_verification ; écriture directe retirée ;
     paramètre safety.signed_id_document_url_seconds = 300. Migration
     20261017000200_admin_verifications.sql.
-  Reste : membres, modération des textes, soirées, paiements ; recherche
-    globale et filtres avancés 11.3 ; compte rendu d'entretien (question 5).
+  Fait le 19 octobre 2026 : module Soirées (/admin/soirees) et Lieux
+    (/admin/lieux), menu « Soirées » (permission events.manage). Liste
+    (filtres dans l'adresse : publiées, brouillons, en cours, terminées ;
+    remplissage par sexe, liste d'attente, matchs). Création en brouillon
+    (heure de Cotonou, lieu, thème existant, 1 à 12 places par sexe, durée
+    des tours et du changement, tarif facultatif), modification et suppression
+    du brouillon seulement, publication (lieu obligatoire, début futur).
+    Fiche : déroulé pas à pas avec seconde confirmation (publier, préparer les
+    tables, commencer, terminer, calculer les matchs), inscriptions par sexe
+    avec liste d'attente classée, pointage à l'entrée, résultats (présents,
+    votants, matchs, heure d'annonce ; aucun « non » affiché). Plus aucune
+    écriture directe sur les soirées, tables, tours et rencontres, même par
+    l'équipe : tout passe par les fonctions (save_event, publish_event,
+    delete_draft_event, admin_events, event_participants, event_results,
+    event_matches), journalisées. Migration 20261019000000_admin_soirees.sql.
+  Décisions du 19 octobre 2026 (questions 19 et 20) : une soirée publiée se
+    modifie, les inscrits et la liste d'attente sont notifiés ; une soirée
+    annulée est remboursée en entier aux personnes qui ont payé ; bibliothèque
+    « qrcode » acceptée, domaine lu dans NEXT_PUBLIC_SITE_URL.
+  Fait le 19 octobre 2026 (suite) : module Membres (/admin/membres, permission
+    members.manage : administration et super administration). Liste avec
+    recherche (prénom, numéro, téléphone), filtres dans l'adresse et
+    pagination côté serveur ; fiche avec historique (soirées, sanctions, aucun
+    vote) ; suspension et exclusion avec motif obligatoire notifié au membre,
+    réactivation à l'état d'avant, blocage des soirées jusqu'à une date, rôle
+    (super administration, jamais le sien). Un membre suspendu ou exclu ne
+    réserve plus, ne vote plus et n'est plus pointé. Écriture directe de
+    l'équipe sur les profils retirée. Migration 20261019000100_admin_membres.sql.
+    Soirées publiées : modification jusqu'à la préparation des tables (lieu
+    obligatoire, places jamais sous les places prises, liste d'attente promue,
+    notification « evening.updated ») ; annulation avant le début (places
+    annulées, liste d'attente vidée, notification « evening.cancelled »,
+    paiements en attente annulés, paiements reçus remboursés en entier par
+    l'adaptateur de paiement via POST /api/admin/events/:id/cancel, relance
+    toutes les 5 minutes en cas d'échec). Migration
+    20261019000200_soirees_publiees.sql. Textes fr, en, yo complétés, et un
+    test vérifie désormais que chaque clé écrite dans le code a son texte.
+    Impression des codes QR (/admin/soirees/[id]/qr) : une carte par table
+    (logo, date, lieu, numéro, code QR, consigne), deux par page, menu masqué
+    à l'impression et impression toujours en clair ; disponible des tables
+    préparées jusqu'à la fin de la soirée. Code dessiné côté serveur avec la
+    bibliothèque « qrcode » (correction M), adresse
+    <NEXT_PUBLIC_SITE_URL>/vote/<code>.
+    Module Paiements (/admin/paiements, permission payments.read), en
+    lecture : transactions avec le membre et la soirée concernés, filtres
+    dans l'adresse (état, objet, remboursement demandé ou effectué),
+    recherche (nom, numéro de membre, référence du prestataire), pagination
+    côté serveur. Fonction app.admin_payments, migration
+    20261019000300_admin_paiements.sql. Le rapprochement attend le choix du
+    prestataire (question 7).
+  Reste : modération des textes ; dans Soirées : minuteur sur tablette
+    (question 8),
+    création des thèmes (questions 4 et 21), composition assistée (critères
+    non négociables, après le profil) ; recherche globale et filtres avancés
+    11.3 ; compte rendu d'entretien (question 5).
 
 Étape 6. Données fictives et simulation complète (critère de fin)
   - 24 profils fictifs (prénoms et villes béninois), une soirée 10 × 10 plus
@@ -199,3 +252,23 @@ QUESTIONS (je n'invente pas les réponses)
  18. Les envois par WhatsApp ne sont pas encore prévus côté API (seuls SMS et
      e-mail via Brevo existent). Quel service pour WhatsApp (Brevo le
      propose aussi) ?
+ 19. Soirée déjà publiée : peut-on encore la modifier (date, lieu, places,
+     tarif) ou l'annuler ? Si oui, que deviennent les inscrits (notification,
+     remboursement, voir question 2) ? Pour l'instant, une soirée ne se
+     modifie et ne se supprime qu'en brouillon.
+ 20. Impression des codes QR des tables : j'aimerais ajouter la bibliothèque
+     libre « qrcode » (npm, licence MIT) pour dessiner les codes côté serveur.
+     L'acceptez-vous ? Quel est le domaine définitif du site, que le code
+     contiendra (adresse de la forme <domaine>/vote/<code>) ?
+ 21. Thèmes des soirées : quelles confessions proposer pour les soirées
+     « foi » (liste exacte), et quels secteurs pour les soirées « profession »
+     (liée à la question 4) ? Les thèmes existants restent sélectionnables.
+ 22. Modération des textes de profil (et des photos, même permission) :
+     a) un refus exige-t-il un motif écrit par l'équipe ?
+     b) le membre est-il prévenu (notification avec le motif) ?
+     c) le texte refusé est-il masqué jusqu'à ce que le membre le réécrive
+        (une réécriture repasse déjà en relecture), ou supprimé ?
+     d) un texte en attente de relecture est-il visible des autres en
+        attendant, ou seulement une fois approuvé ?
+     Le filtre automatique des textes (numéros, liens, réseaux sociaux) existe
+     déjà côté domaine ; ces règles concernent la relecture humaine.

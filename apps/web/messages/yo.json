@@ -482,7 +482,12 @@
       "kinds": {
         "evening_seat_offered": "A ti fún yín ní àyè kan fún ìpàdé alẹ́. Ẹ rántí láti fìdí rẹ̀ múlẹ̀.",
         "match_announced": "Ẹ ní ìfohùnṣọ̀kan tuntun.",
-        "other": "Ìfitónilétí tuntun."
+        "evening_updated": "A ti ṣàtúnṣe ìpàdé kan tí ẹ forúkọ sílẹ̀ fún.",
+        "evening_cancelled": "A ti fagilé ìpàdé kan tí ẹ forúkọ sílẹ̀ fún. Bí ẹ bá ti sanwó, a ó dá gbogbo rẹ̀ padà fún yín.",
+        "other": "Ìfitónilétí tuntun.",
+        "member_suspended": "A ti dá àkọọ́lẹ̀ yín dúró.",
+        "member_reactivated": "Àkọọ́lẹ̀ yín ti padà ṣiṣẹ́.",
+        "member_excluded": "A ti yọ àkọọ́lẹ̀ yín kúrò nínú Wanyiyi."
       }
     },
     "dashboard": {
@@ -605,7 +610,8 @@
         "all": "Gbogbo wọn",
         "unread": "Èyí tí a kò tíì kà"
       },
-      "noUnread": "Kò sí ìfitónilétí tí a kò tíì kà."
+      "noUnread": "Kò sí ìfitónilétí tí a kò tíì kà.",
+      "reason": "Ìdí: {reason}"
     },
     "settings": {
       "title": "Ètò mi",
@@ -799,13 +805,23 @@
       "super_admin": "Alákòóso àgbà"
     },
     "groups": {
-      "members": "Ọmọ ẹgbẹ́"
+      "members": "Ọmọ ẹgbẹ́",
+      "evenings": "Ìpàdé alẹ́",
+      "payments": "Ìsanwó"
     },
     "nav": {
-      "verifications": "Àyẹ̀wò"
+      "verifications": "Àyẹ̀wò",
+      "evenings": "Ìpàdé alẹ́",
+      "venues": "Àwọn ibi ìpàdé",
+      "members": "Ọmọ ẹgbẹ́",
+      "payments": "Ìsanwó"
     },
     "navHelp": {
-      "verifications": "Àwọn ìwé tó ń dúró, àwọn káàdì, àwọn ìpinnu"
+      "verifications": "Àwọn ìwé tó ń dúró, àwọn káàdì, àwọn ìpinnu",
+      "evenings": "Ìṣẹ̀dá, ìforúkọsílẹ̀, ìkọsílẹ̀ wíwá, ìtòlẹ́sẹẹsẹ, àbájáde",
+      "venues": "Ibi ìpàdé alẹ́ àti àdírẹ́sì wọn",
+      "members": "Àkójọ, àpèjúwe, ìtàn, ìjìyà",
+      "payments": "Àwọn ìdúnàádúrà, ìpàdé tí a ti sanwó fún, owó tí a dá padà"
     },
     "errors": {
       "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà."
@@ -899,6 +915,376 @@
           "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
         }
+      }
+    },
+    "evenings": {
+      "intro": "Gbogbo ìpàdé alẹ́, pẹ̀lú àwọn àkọsílẹ̀ àkọ́kọ́, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. A máa ń ṣẹ̀dá ìpàdé gẹ́gẹ́ bí àkọsílẹ̀ àkọ́kọ́; lẹ́yìn ìtẹ̀jáde, a lè ṣàtúnṣe rẹ̀ títí a ó fi ṣètò àwọn tábìlì, a ó sì fi tó àwọn tó forúkọ sílẹ̀ létí.",
+      "new": "Ìpàdé alẹ́ tuntun",
+      "newIntro": "A fi ìpàdé náà pamọ́ gẹ́gẹ́ bí àkọsílẹ̀ àkọ́kọ́: àwọn ọmọ ẹgbẹ́ kò ní rí i títí a ó fi tẹ̀ ẹ́ jáde.",
+      "back": "Padà sí àwọn ìpàdé alẹ́",
+      "editTitle": "Ṣàtúnṣe àkọsílẹ̀ àkọ́kọ́",
+      "editPublishedTitle": "Ṣàtúnṣe ìpàdé tí a ti tẹ̀ jáde",
+      "empty": "Kò sí ìpàdé alẹ́ kankan nínú àkójọ yìí.",
+      "noVenue": "A ó yan ibi ìpàdé",
+      "noPrice": "A kò tíì pinnu owó",
+      "fill": "{taken} / {capacity}",
+      "waiting": "{count} ń dúró",
+      "cellLabel": "{label}:",
+      "minutes": "ìṣẹ́jú {count}",
+      "filters": {
+        "label": "Ṣẹ́ àwọn ìpàdé alẹ́",
+        "all": "Gbogbo wọn",
+        "upcoming": "A ti tẹ̀ wọ́n jáde",
+        "drafts": "Àkọsílẹ̀ àkọ́kọ́",
+        "live": "Ó ń lọ lọ́wọ́",
+        "past": "Ó ti parí"
+      },
+      "columns": {
+        "date": "Ọjọ́",
+        "status": "Ipò",
+        "women": "Obìnrin",
+        "men": "Ọkùnrin",
+        "matches": "Ìfohùnṣọ̀kan"
+      },
+      "status": {
+        "draft": "Àkọsílẹ̀ àkọ́kọ́",
+        "published": "A ti tẹ̀ ẹ́ jáde",
+        "full": "Ó ti kún",
+        "in_progress": "Ó ń lọ lọ́wọ́",
+        "finished": "Ó ti parí",
+        "cancelled": "A ti fagi lé e"
+      },
+      "form": {
+        "startsAt": "Ìbẹ̀rẹ̀",
+        "startsAtHelp": "Aago Cotonou.",
+        "venue": "Ibi ìpàdé",
+        "venueHelp": "Ó pọn dandan kí a tó tẹ̀ ẹ́ jáde. Àwọn olùkópa tí wọ́n ti fìdí àyè wọn múlẹ̀ nìkan ló máa mọ àdírẹ́sì náà.",
+        "noVenue": "Yan án lẹ́yìn náà",
+        "theme": "Àkòrí",
+        "noTheme": "Ìpàdé láìsí àkòrí",
+        "themeMin": "láti ọmọ ọdún {min}",
+        "themeMax": "títí dé ọmọ ọdún {max}",
+        "format": "Ètò ìpàdé",
+        "capacityWomen": "Àyè obìnrin (1 sí 12)",
+        "capacityMen": "Àyè ọkùnrin (1 sí 12)",
+        "roundMinutes": "Gígùn ìyípo kan (ìṣẹ́jú)",
+        "changeoverMinutes": "Ìyípadà tábìlì (ìṣẹ́jú)",
+        "price": "Owó (franc CFA)",
+        "priceHelp": "Kò pọn dandan. Láìsí owó, àwọn ọmọ ẹgbẹ́ yóò ka « A ó kéde owó rẹ̀ láìpẹ́ », wọn kò sì ní lè sanwó.",
+        "create": "Ṣẹ̀dá àkọsílẹ̀ àkọ́kọ́",
+        "save": "Fi pamọ́",
+        "saved": "A ti fi àwọn àtúnṣe pamọ́.",
+        "publishedHelp": "A ti tẹ ìpàdé yìí jáde: àwọn tó forúkọ sílẹ̀ àti àwọn tó ń dúró yóò gba ìfitónilétí. Iye àyè kò lè kéré sí àwọn àyè tí a ti gbà.",
+        "errors": {
+          "starts_at": "Ẹ kọ ọjọ́ àti aago ìbẹ̀rẹ̀.",
+          "starts_in_past": "Ìbẹ̀rẹ̀ gbọ́dọ̀ wà ní ọjọ́ iwájú.",
+          "invalid_capacity": "Àyè 1 sí 12 ló wà fún ẹ̀yà kọ̀ọ̀kan.",
+          "invalid_duration": "Ìyípo kan gbọ́dọ̀ gba ìṣẹ́jú kan ó kéré tán; ìyípadà tábìlì kò lè kéré sí òdo.",
+          "invalid_price": "Owó gbọ́dọ̀ jẹ́ odidi nọ́ńbà franc CFA tí kò kéré sí òdo.",
+          "venue_not_found": "Ibi ìpàdé yìí kò sí mọ́.",
+          "theme_not_found": "Àkòrí yìí kò sí mọ́.",
+          "not_editable": "A kò lè ṣàtúnṣe ìpàdé yìí mọ́: a ti ṣètò àwọn tábìlì tàbí ìpàdé ti bẹ̀rẹ̀.",
+          "venue_required": "Ìpàdé tí a ti tẹ̀ jáde gbọ́dọ̀ ní ibi ìpàdé.",
+          "capacity_below_taken": "Iye àyè kò lè kéré sí àwọn àyè tí a ti gbà.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        }
+      },
+      "steps": {
+        "confirmButton": "Fìdí rẹ̀ múlẹ̀",
+        "cancel": "Fagi lé e",
+        "publish": {
+          "title": "Ìtẹ̀jáde",
+          "help": "Ìpàdé náà yóò hàn nínú kàlẹ́ńdà àwọn ọmọ ẹgbẹ́, wọn yóò sì lè gba àyè.",
+          "confirm": "Ìpàdé náà yóò hàn sí àwọn ọmọ ẹgbẹ́. A ó fi gbogbo àtúnṣe tó bá tẹ̀lé e tó wọn létí. Ṣé ẹ fọwọ́ sí i?",
+          "button": "Tẹ ìpàdé náà jáde"
+        },
+        "prepare": {
+          "title": "Ìmúrasílẹ̀",
+          "help": "Nígbà tí a bá ti kọ wíwá àwọn olùkópa sílẹ̀ lẹ́nu ọ̀nà: nọ́ńbà, tábìlì, kóòdù QR àti ìyípo.",
+          "confirm": "Àwọn tí a ti kọ wíwá wọn sílẹ̀ nìkan ló máa kópa nínú àwọn ìyípo. Ṣé ẹ fọwọ́ sí i?",
+          "button": "Ṣètò àwọn tábìlì"
+        },
+        "start": {
+          "title": "Ìbẹ̀rẹ̀",
+          "help": "Àwọn kóòdù QR tábìlì yóò ṣeé lò fún ìdìbò.",
+          "confirm": "Ṣé kí ìpàdé náà bẹ̀rẹ̀ báyìí?",
+          "button": "Bẹ̀rẹ̀ ìpàdé náà"
+        },
+        "finish": {
+          "title": "Ìparí",
+          "help": "A ó ti àwọn kóòdù QR pa, ìdìbò kò sì ní yí padà mọ́.",
+          "confirm": "Ìdìbò yóò dúró bí ó ṣe wà. Ṣé ẹ fọwọ́ sí ìparí ìpàdé náà?",
+          "button": "Parí ìpàdé náà"
+        },
+        "compute": {
+          "title": "Ìfohùnṣọ̀kan",
+          "help": "Ìfohùnṣọ̀kan máa ń wáyé nígbà tí ẹni méjèèjì bá sọ « bẹ́ẹ̀ ni ». Àwọn ọmọ ẹgbẹ́ yóò mọ̀ ọ́n ní ọjọ́ kejì ní aago mẹ́jọ àárọ̀.",
+          "confirm": "Ṣé kí a ṣírò ìfohùnṣọ̀kan ìpàdé yìí?",
+          "button": "Ṣírò ìfohùnṣọ̀kan"
+        }
+      },
+      "delete": {
+        "button": "Pa àkọsílẹ̀ àkọ́kọ́ rẹ́",
+        "confirm": "A ó pa àkọsílẹ̀ àkọ́kọ́ náà rẹ́ pátápátá. Ṣé ẹ fọwọ́ sí i?",
+        "confirmButton": "Fìdí píparẹ́ múlẹ̀"
+      },
+      "cancel": {
+        "title": "Fagilé ìpàdé náà",
+        "help": "A ó fagilé gbogbo àyè, a ó ṣófo àwọn tó ń dúró, a ó sì fi tó gbogbo ẹni tọ́rọ̀ kàn létí. A ó dá gbogbo owó tí a ti gbà padà lẹ́kùnrẹ́rẹ́.",
+        "button": "Fagilé ìpàdé náà",
+        "confirm": "Ìfagilé yìí kò ní àyípadà. Ṣé ẹ fọwọ́ sí i?",
+        "confirmButton": "Fìdí ìfagilé múlẹ̀",
+        "keep": "Pa ìpàdé náà mọ́"
+      },
+      "tables": {
+        "title": "Àwọn kóòdù QR tábìlì",
+        "help": "Káàdì kan fún tábìlì kọ̀ọ̀kan, láti tẹ̀ jáde kí a sì gbé e sórí tábìlì. Kóòdù náà ń ṣiṣẹ́ nígbà ìpàdé nìkan.",
+        "open": "Tẹ àwọn kóòdù QR jáde",
+        "back": "Padà sí ìpàdé náà",
+        "intro": "{count, plural, other {Káàdì # láti tẹ̀ jáde}}, méjì ní ojú-ìwé kan. Ẹ gbé káàdì kọ̀ọ̀kan sórí tábìlì rẹ̀ kí àwọn olùkópa tó dé.",
+        "notReady": "Àwọn kóòdù wà lẹ́yìn tí a bá ti ṣètò àwọn tábìlì, títí ìpàdé yóò fi parí.",
+        "print": "Tẹ̀ jáde",
+        "table": "Tábìlì {number}",
+        "qrLabel": "Kóòdù QR tábìlì {number}",
+        "scan": "Lẹ́yìn ìyípo kọ̀ọ̀kan, ẹ fi fóònù yín ka kóòdù yìí láti fi ìdáhùn yín hàn."
+      },
+      "errors": {
+        "venue_required": "Ẹ yan ibi ìpàdé kí ẹ tó tẹ̀ ẹ́ jáde.",
+        "starts_in_past": "Àkókò ìbẹ̀rẹ̀ ìpàdé yìí ti kọjá.",
+        "not_draft": "Ìpàdé yìí kì í ṣe àkọsílẹ̀ àkọ́kọ́ mọ́.",
+        "already_prepared": "A ti ṣètò àwọn tábìlì tẹ́lẹ̀.",
+        "not_prepared": "Ẹ kọ́kọ́ ṣètò àwọn tábìlì.",
+        "not_enough_participants": "Ẹ kọ wíwá obìnrin kan àti ọkùnrin kan sílẹ̀ ó kéré tán kí ẹ tó ṣètò àwọn tábìlì.",
+        "invalid_status": "Ìgbésẹ̀ yìí kò bá ipò ìpàdé náà mu mọ́. Ẹ tún ojú-ìwé náà ṣí.",
+        "evening_not_finished": "Ẹ parí ìpàdé náà kí ẹ tó ṣírò ìfohùnṣọ̀kan.",
+        "not_confirmed": "Àyè tí a ti fìdí rẹ̀ múlẹ̀ nìkan ni a lè kọ wíwá rẹ̀ sílẹ̀.",
+        "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+      },
+      "participants": {
+        "title": "Ìforúkọsílẹ̀",
+        "prepared": "Àwọn tábìlì tí a ṣètò: {tables}.",
+        "none": "Kò sí ìforúkọsílẹ̀ kankan.",
+        "waitlisted": "Àkójọ ìdúró, ipò {rank}",
+        "seat": "tábìlì {seat}",
+        "checkIn": "Kọ wíwá sílẹ̀",
+        "checkInLabel": "Kọ wíwá {name} sílẹ̀",
+        "status": {
+          "booked": "A ti gba àyè, a kò tíì fìdí rẹ̀ múlẹ̀",
+          "confirmed": "A ti fìdí àyè múlẹ̀",
+          "checked_in": "Ó wà níbẹ̀",
+          "cancelled": "A ti fagi lé e",
+          "released": "A ti fi àyè sílẹ̀ nítorí àìfìdímúlẹ̀",
+          "no_show": "Kò wá",
+          "waitlisted": "Àkójọ ìdúró"
+        }
+      },
+      "results": {
+        "title": "Àbájáde",
+        "checkedIn": "Àwọn tó wá",
+        "voters": "Àwọn tó dìbò",
+        "matches": "Ìfohùnṣọ̀kan",
+        "announce": "Ìkéde fún àwọn ọmọ ẹgbẹ́: {date}.",
+        "noNo": "A kì í fi « rárá » kankan hàn láé."
+      }
+    },
+    "venues": {
+      "intro": "Àwọn ibi ìpàdé alẹ́. Fún àfihàn, ibi àròsọ nìkan ni. Àwọn olùkópa tí wọ́n ti fìdí àyè wọn múlẹ̀ nìkan ló máa mọ àdírẹ́sì.",
+      "empty": "Kò sí ibi ìpàdé kankan tí a kọ sílẹ̀.",
+      "partner": "Alábàáṣiṣẹ́pọ̀",
+      "new": "Ibi ìpàdé tuntun",
+      "form": {
+        "name": "Orúkọ",
+        "address": "Àdírẹ́sì",
+        "addressHelp": "Àwọn olùkópa tí wọ́n ti fìdí àyè wọn múlẹ̀ nìkan ló máa mọ̀ ọ́n.",
+        "city": "Ìlú",
+        "partner": "Ibi ìpàdé alábàáṣiṣẹ́pọ̀",
+        "submit": "Ṣàfikún ibi ìpàdé náà",
+        "saved": "A ti ṣàfikún ibi ìpàdé náà.",
+        "errors": {
+          "name": "Ẹ kọ orúkọ ibi ìpàdé náà.",
+          "address": "Ẹ kọ àdírẹ́sì náà.",
+          "city": "Ẹ kọ ìlú náà.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        }
+      }
+    },
+    "members": {
+      "intro": "Gbogbo àkọọ́lẹ̀, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. Ẹ wá pẹ̀lú orúkọ, orúkọ ìdílé, nọ́ńbà ọmọ ẹgbẹ́ tàbí fóònù.",
+      "search": "Wá",
+      "any": "Gbogbo wọn",
+      "apply": "Ṣẹ́ ẹ",
+      "sex": "Ẹ̀yà",
+      "empty": "Kò sí ọmọ ẹgbẹ́ tí ó bá ìwádìí yìí mu.",
+      "count": "{count, plural, other {ọmọ ẹgbẹ́ #}}",
+      "pagination": "Àwọn ojú-ìwé àkójọ",
+      "previous": "Ojú-ìwé tó ṣáájú",
+      "next": "Ojú-ìwé tó kàn",
+      "page": "Ojú-ìwé {page} nínú {pages}",
+      "activity": "{evenings, plural, =0 {kò sí ìpàdé} other {ìpàdé #}} · {matches, plural, =0 {kò sí ìfohùnṣọ̀kan} other {ìfohùnṣọ̀kan #}}",
+      "back": "Padà sí àwọn ọmọ ẹgbẹ́",
+      "columns": {
+        "member": "Ọmọ ẹgbẹ́",
+        "status": "Ipò",
+        "role": "Ipa",
+        "activity": "Ìkópa",
+        "joined": "Ìforúkọsílẹ̀"
+      },
+      "status": {
+        "registering": "Ìforúkọsílẹ̀ ń lọ lọ́wọ́",
+        "pending_verification": "Ó ń dúró de àyẹ̀wò",
+        "to_correct": "Ìwé tí a gbọ́dọ̀ tún ṣe",
+        "verified": "A ti fọwọ́ sí i",
+        "suspended": "A ti dá a dúró",
+        "excluded": "A ti yọ ọ́ kúrò",
+        "deleted": "A ti pa àkọọ́lẹ̀ rẹ́"
+      },
+      "roles": {
+        "member": "Ọmọ ẹgbẹ́",
+        "counselor": "Olùdámọ̀ràn",
+        "moderator": "Alábòójútó",
+        "admin": "Ìṣàkóso",
+        "super_admin": "Alákòóso àgbà"
+      },
+      "card": {
+        "number": "Nọ́ńbà ọmọ ẹgbẹ́",
+        "phone": "Fóònù",
+        "joined": "Ìforúkọsílẹ̀",
+        "consent": "Ìfọwọ́sí",
+        "noConsent": "A kò kọ ọ́ sílẹ̀",
+        "blocked": "A ti dí ìpàdé alẹ́ títí di",
+        "notBlocked": "Kò sí ìdínà",
+        "verification": "Àyẹ̀wò: {status}.",
+        "openVerification": "Ṣí ìwé náà"
+      },
+      "actions": {
+        "title": "Ìgbésẹ̀",
+        "none": "Kò sí ìgbésẹ̀ tí a lè gbé lórí àkọọ́lẹ̀ yìí.",
+        "done": "A ti kọ ìgbésẹ̀ náà sílẹ̀.",
+        "reasonHelp": "Ọmọ ẹgbẹ́ náà yóò ka ìdí yìí nínú ìfitónilétí rẹ̀.",
+        "suspend": {
+          "title": "Dá dúró",
+          "reason": "Ìdí ìdádúró (dandan)",
+          "button": "Dá ọmọ ẹgbẹ́ náà dúró"
+        },
+        "exclude": {
+          "title": "Yọ kúrò",
+          "reason": "Ìdí ìyọkúrò (dandan)",
+          "button": "Yọ ọmọ ẹgbẹ́ náà kúrò",
+          "confirm": "Ìyọkúrò jẹ́ títí láé. Ṣé ẹ fọwọ́ sí i?",
+          "confirmButton": "Fìdí ìyọkúrò múlẹ̀"
+        },
+        "reactivate": {
+          "title": "Mú padà",
+          "help": "Ọmọ ẹgbẹ́ náà yóò padà sí ipò tó wà kí a tó dá a dúró, a ó sì sọ fún un.",
+          "button": "Mú ọmọ ẹgbẹ́ náà padà"
+        },
+        "block": {
+          "title": "Dí ìpàdé alẹ́",
+          "until": "Títí di",
+          "help": "Aago Cotonou. Ọmọ ẹgbẹ́ náà kò lè gba àyè ṣáájú ọjọ́ yìí.",
+          "button": "Fi ìdínà pamọ́",
+          "lift": "Mú ìdínà kúrò"
+        },
+        "role": {
+          "title": "Ipa",
+          "button": "Yí ipa padà",
+          "confirm": "Ipa tuntun: {role}. Ṣé ẹ fọwọ́ sí i?",
+          "confirmButton": "Fìdí ìyípadà múlẹ̀"
+        },
+        "errors": {
+          "reason_required": "Ẹ kọ ìdí rẹ̀.",
+          "self_action": "A kò lè gbé ìgbésẹ̀ yìí lórí àkọọ́lẹ̀ ara yín.",
+          "invalid_status": "Ìgbésẹ̀ yìí kò bá ipò ọmọ ẹgbẹ́ náà mu mọ́. Ẹ tún ojú-ìwé náà ṣí.",
+          "profile_missing": "Àkọọ́lẹ̀ yìí kò tíì ní àpèjúwe.",
+          "date_in_past": "Ẹ yan ọjọ́ iwájú.",
+          "date_invalid": "Ẹ kọ ọjọ́ àti aago.",
+          "not_found": "Àkọọ́lẹ̀ yìí kò sí mọ́.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        }
+      },
+      "history": {
+        "title": "Ìtàn",
+        "noVotes": "Ìdìbò kì í hàn nínú ìtàn láé.",
+        "empty": "Kò sí ìṣẹ̀lẹ̀ kankan.",
+        "evening": "Ìpàdé alẹ́ ọjọ́ {date}",
+        "reason": "Ìdí: {reason}",
+        "note": "Ọ̀rọ̀: {note}",
+        "role": "Láti {from} sí {to}",
+        "blockedUntil": "Títí di {date}",
+        "unblocked": "A ti mú ìdínà kúrò",
+        "kinds": {
+          "account_created": "A ṣẹ̀dá àkọọ́lẹ̀",
+          "verification_pending": "Ìwé àyẹ̀wò ń dúró",
+          "verification_to_correct": "A béèrè àtúnṣe",
+          "verification_approved": "A fọwọ́ sí àpèjúwe",
+          "verification_rejected": "A kọ ìwé náà",
+          "evening_booked": "A gba àyè",
+          "evening_confirmed": "A fìdí àyè múlẹ̀",
+          "evening_checked_in": "Ó wá sí ìpàdé",
+          "evening_cancelled": "A fagi lé ìforúkọsílẹ̀",
+          "evening_released": "A fi àyè sílẹ̀ nítorí àìfìdímúlẹ̀",
+          "evening_no_show": "Kò wá sí ìpàdé",
+          "evening_waitlisted": "Àkójọ ìdúró",
+          "match": "Ìfohùnṣọ̀kan",
+          "sanction_warning": "Ìkìlọ̀",
+          "sanction_suspension": "Ìdádúró",
+          "sanction_exclusion": "Ìyọkúrò",
+          "payment_pending": "Ìsanwó ń dúró",
+          "payment_succeeded": "A gba owó",
+          "payment_failed": "Ìsanwó kò yọrí",
+          "payment_refunded": "A dá owó padà",
+          "payment_cancelled": "A fagi lé ìsanwó",
+          "role_changed": "A yí ipa padà",
+          "member_reactivated": "Ìmúpadà",
+          "member_evenings_blocked": "Ìdínà ìpàdé alẹ́",
+          "other": "Ìṣẹ̀lẹ̀"
+        }
+      }
+    },
+    "payments": {
+      "intro": "Gbogbo ìdúnàádúrà, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. Ìfagilé ìpàdé ló ń mú kí a dá owó padà. Ìbáramu pẹ̀lú olùpèsè yóò dé pẹ̀lú ìsopọ̀ rẹ̀.",
+      "search": "Orúkọ, orúkọ ìdílé, nọ́ńbà ọmọ ẹgbẹ́ tàbí ìtọ́kasí",
+      "refund": "Ìdápadà owó",
+      "empty": "Kò sí ìsanwó kankan nínú àkójọ yìí.",
+      "count": "{count, plural, other {Ìsanwó #}}",
+      "evening": "Ìpàdé ọjọ́ {date}",
+      "refunded": "A ti dá {amount} padà",
+      "columns": {
+        "date": "Ọjọ́",
+        "member": "Ọmọ ẹgbẹ́",
+        "purpose": "Ohun tí a san fún",
+        "status": "Ipò",
+        "amount": "Iye owó"
+      },
+      "status": {
+        "pending": "Ó ń dúró",
+        "succeeded": "A ti gbà á",
+        "failed": "Kò yọrí sí rere",
+        "refunded": "A ti dá a padà",
+        "cancelled": "A ti fagilé e"
+      },
+      "purposes": {
+        "registration_fee": "Owó ìforúkọsílẹ̀",
+        "evening_booking": "Ìpàdé alẹ́",
+        "contribution": "Ìdáwó"
+      },
+      "refunds": {
+        "requested": "A ti béèrè ìdápadà owó",
+        "refunded": "A ti dá a padà"
+      },
+      "providers": {
+        "simulated": "Ìsanwó àpẹẹrẹ",
+        "fedapay": "FedaPay",
+        "kkiapay": "KkiaPay",
+        "other": "Olùpèsè mìíràn"
       }
     }
   }

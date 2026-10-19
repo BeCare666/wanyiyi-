@@ -1,24 +1,38 @@
 import type { Icon } from "@phosphor-icons/react";
-import { ShieldCheckIcon } from "@phosphor-icons/react/ssr";
+import { ChampagneIcon, MapPinIcon, ReceiptIcon, ShieldCheckIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
 import type { StaffPermission } from "@/lib/staff";
 
 /** Entrée du menu de l'administration : clé de traduction (Admin.nav), adresse, icône, permission requise. */
 export type AdminNavItem = {
-  key: "verifications";
+  key: "members" | "verifications" | "evenings" | "venues" | "payments";
   href: string;
   Icon: Icon;
   permission: StaffPermission;
 };
 
 /** Groupe de menus (11.1). Seuls les modules déjà livrés y figurent : aucun lien vers une page absente. */
-export type AdminNavGroup = { key: "members"; items: AdminNavItem[] };
+export type AdminNavGroup = { key: "members" | "evenings" | "payments"; items: AdminNavItem[] };
 
 export const adminHome = "/admin";
 
 export const adminNav: AdminNavGroup[] = [
   {
     key: "members",
-    items: [{ key: "verifications", href: "/admin/verifications", Icon: ShieldCheckIcon, permission: "verifications.review" }],
+    items: [
+      { key: "members", href: "/admin/membres", Icon: UsersThreeIcon, permission: "members.manage" },
+      { key: "verifications", href: "/admin/verifications", Icon: ShieldCheckIcon, permission: "verifications.review" },
+    ],
+  },
+  {
+    key: "evenings",
+    items: [
+      { key: "evenings", href: "/admin/soirees", Icon: ChampagneIcon, permission: "events.manage" },
+      { key: "venues", href: "/admin/lieux", Icon: MapPinIcon, permission: "events.manage" },
+    ],
+  },
+  {
+    key: "payments",
+    items: [{ key: "payments", href: "/admin/paiements", Icon: ReceiptIcon, permission: "payments.read" }],
   },
 ];
 

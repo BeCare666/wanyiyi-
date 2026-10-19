@@ -67,6 +67,7 @@ export function NotificationList({ items }: { items: SessionNotification[] }) {
                 ) : (
                   text
                 )}
+                {n.reason && <span className="mt-2 block text-fg-muted">{t("notifications.reason", { reason: n.reason })}</span>}
               </p>
               <p className="text-sm text-fg-muted md:col-span-4 md:text-right">
                 {format.dateTime(new Date(n.createdAt), { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}

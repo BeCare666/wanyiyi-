@@ -7,7 +7,7 @@ export const staffRoles = ["moderator", "admin", "super_admin"] as const;
 export type StaffRole = (typeof staffRoles)[number];
 
 /** Permissions fines utilisées par l'administration (table app.role_permissions). */
-export const staffPermissions = ["verifications.review", "profile_texts.review", "events.manage", "payments.read", "roles.manage"] as const;
+export const staffPermissions = ["verifications.review", "members.manage", "profile_texts.review", "events.manage", "payments.read", "roles.manage"] as const;
 export type StaffPermission = (typeof staffPermissions)[number];
 
 export type StaffMember = SessionMember & { role: StaffRole; permissions: StaffPermission[] };

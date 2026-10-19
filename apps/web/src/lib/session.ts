@@ -17,6 +17,8 @@ export type SessionNotification = {
   kind: string;
   createdAt: string;
   read: boolean;
+  /** Motif écrit par l'équipe (suspension, exclusion), affiché au membre. */
+  reason: string | null;
 };
 
 function initialsOf(firstName: string | null, lastName: string | null): string {
@@ -57,14 +59,20 @@ export async function getRecentNotifications(
 ): Promise<{ items: SessionNotification[]; unread: number }> {
   const supabase = await createSupabaseServer();
   if (!supabase) return { items: [], unread: 0 };
-  let list = supabase.from("notifications").select("id, kind, created_at, read_at");
+  let list = supabase.from("notifications").select("id, kind, created_at, read_at, payload");
   if (unreadOnly) list = list.is("read_at", null);
   const [{ data }, { count }] = await Promise.all([
     list.order("created_at", { ascending: false }).limit(limit),
     supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
   ]);
   return {
-    items: (data ?? []).map((n) => ({ id: n.id, kind: n.kind, createdAt: n.created_at, read: n.read_at !== null })),
+    items: (data ?? []).map((n) => ({
+      id: n.id,
+      kind: n.kind,
+      createdAt: n.created_at,
+      read: n.read_at !== null,
+      reason: typeof n.payload?.reason === "string" ? n.payload.reason : null,
+    })),
     unread: count ?? 0,
   };
 }

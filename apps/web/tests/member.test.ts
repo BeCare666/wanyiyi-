@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import fr from "../messages/fr.json";
 import {
   type Evening,
   eveningActions,
@@ -250,5 +251,26 @@ describe("Vérification (6.2-2)", () => {
     expect(canSubmit(v("to_correct"))).toBe(true);
     expect(canSubmit(v("approved"))).toBe(false);
     expect(canSubmit(v("rejected"))).toBe(false);
+  });
+});
+
+describe("Notifications de l'équipe (19 octobre 2026)", () => {
+  it("suspension, réactivation, exclusion : texte connu, sans page associée", () => {
+    for (const kind of ["member.suspended", "member.reactivated", "member.excluded"]) {
+      expect(notificationKey(kind)).toBe(kind.replace(".", "_"));
+      expect(notificationHref(kind)).toBeNull();
+    }
+  });
+
+  it("soirée publiée modifiée ou annulée : texte connu, lien vers mes soirées", () => {
+    for (const kind of ["evening.updated", "evening.cancelled"]) {
+      expect(notificationKey(kind)).toBe(kind.replace(".", "_"));
+      expect(notificationHref(kind)).toEqual({ pathname: "/espace/soirees", query: { filtre: "mine" } });
+    }
+  });
+
+  it("chaque type écrit par la base a son texte dans la cloche", () => {
+    const kinds = ["evening.seat_offered", "match.announced", "evening.updated", "evening.cancelled", "member.suspended", "member.reactivated", "member.excluded"];
+    for (const kind of kinds) expect(Object.keys(fr.Member.bell.kinds)).toContain(notificationKey(kind));
   });
 });

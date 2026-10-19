@@ -67,6 +67,20 @@ Toutes les chaînes yoruba sont à valider. Les choix de vocabulaire ci-dessous 
 | Administration | Ìṣàkóso | |
 | Modération / Super administration | Alábòójútó / Alákòóso àgbà | Termes d'usage dans une équipe ? |
 | Pluriels des places (« 1 place libre ») | àyè # ló kù | Le yoruba n'a pas de forme « one » distincte : une seule forme suffit-elle ? |
+| Administration, Soirées et Lieux (`Admin.evenings`, `Admin.venues`, ajoutées le 19 octobre 2026) | environ 130 chaînes | À relire en entier |
+| Brouillon (soirée non publiée) | Àkọsílẹ̀ àkọ́kọ́ | Terme d'usage ? |
+| Publier | Tẹ̀ jáde | |
+| Pointer (enregistrer l'arrivée) | Kọ wíwá sílẹ̀ | Formulation naturelle ? |
+| Tour (rotation des tables) | Ìyípo | |
+| Lieu partenaire | Ibi ìpàdé alábàáṣiṣẹ́pọ̀ | |
+| Administration, Membres (`Admin.members`, ajoutée le 19 octobre 2026) | environ 110 chaînes | À relire en entier |
+| Suspendre / Exclure (un membre) | Dá dúró / Yọ kúrò | Termes justes pour une sanction ? |
+| Soirée publiée modifiée ou annulée (`Admin.evenings.cancel`, `Member.bell.kinds`, ajoutées le 19 octobre 2026) | environ 15 chaînes | À relire en entier |
+| Annuler (une soirée) | Fagilé | |
+| Rembourser en entier | Dá owó padà lẹ́kùnrẹ́rẹ́ | |
+| Codes QR des tables (`Admin.evenings.tables`, ajoutée le 19 octobre 2026) | environ 10 chaînes | Texte imprimé sur les tables, lu par les participants : à relire avec attention |
+| Paiements (`Admin.payments`, ajoutée le 19 octobre 2026) | environ 35 chaînes | À relire en entier |
+| Rapprochement (avec le prestataire) | Ìbáramu | Terme comptable d'usage ? |
 
 ## Règles de rédaction appliquées à toutes les langues
 

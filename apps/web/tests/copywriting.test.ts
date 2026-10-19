@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, readFileSync } from "node:fs";
+import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
 type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
@@ -60,6 +60,30 @@ describe("Règles de rédaction (section 3.8)", () => {
   }
 });
 
+/** Fichiers .ts et .tsx du site. */
+function sources(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) return sources(path);
+    return /\.tsx?$/.test(entry.name) ? [path] : [];
+  });
+}
+
+/**
+ * Clés écrites en toutes lettres dans le code : `const t = useTranslations("Espace")` (ou
+ * getTranslations) puis `t("clé")`, jusqu'à la liaison suivante du même nom (un composant
+ * par liaison). Les clés composées (`t(\`kinds.${x}\`)`) ne sont pas lues.
+ */
+function literalKeys(file: string): string[] {
+  const code = readFileSync(file, "utf8");
+  const bindings = [...code.matchAll(/const (\w+) = (?:await )?(?:useTranslations|getTranslations)\(\s*(?:"([\w.]+)")?\s*\)/g)];
+  return bindings.flatMap(({ 1: name, 2: namespace, index }, i) => {
+    const next = bindings.slice(i + 1).find((b) => b[1] === name);
+    const scope = code.slice(index, next?.index ?? code.length);
+    return [...scope.matchAll(new RegExp(`\\b${name}\\("([\\w.]+)"`, "g"))].map(([, key]) => (namespace ? `${namespace}.${key}` : key));
+  });
+}
+
 describe("Cohérence des traductions (section 4)", () => {
   const reference = shape(load("fr")).sort();
 
@@ -68,4 +92,15 @@ describe("Cohérence des traductions (section 4)", () => {
       expect(shape(load(locale)).sort()).toEqual(reference);
     });
   }
+
+  it("chaque clé écrite dans le code a son texte", () => {
+    const known = new Set(reference);
+    const missing = sources(join(__dirname, "../src")).flatMap((file) =>
+      literalKeys(file)
+        .filter((key) => !known.has(key))
+        .map((key) => `${relative(join(__dirname, ".."), file)} : ${key}`),
+    );
+    expect(missing).toEqual([]);
+    // Lecture de tout src : plusieurs secondes sur un poste lent
+  }, 60_000);
 });

@@ -1,12 +1,14 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
+import { PaymentsService } from "../payments/payments.service";
 import { SupabaseService } from "../supabase/supabase.service";
 
 /**
  * Tâches planifiées (clé service role, chaque usage journalisé) :
  * - limite des 48 h : libération des places non confirmées et promotion de la liste d'attente ;
  * - calcul des matchs des soirées terminées ;
- * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h.
+ * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h ;
+ * - remboursement des soirées annulées (relance si un remboursement a échoué).
  * Les règles elles-mêmes sont dans les fonctions SQL : ces tâches ne font que les déclencher.
  */
 @Injectable()
@@ -15,7 +17,10 @@ export class JobsService {
 
   private warned = false;
 
-  constructor(private readonly supabase: SupabaseService) {}
+  constructor(
+    private readonly supabase: SupabaseService,
+    private readonly payments: PaymentsService,
+  ) {}
 
   /** Sans projet Supabase configuré, les tâches attendent ; l'avertissement n'est écrit qu'une fois. */
   private ready(): boolean {
@@ -75,5 +80,15 @@ export class JobsService {
     const { data: count, error } = await db.rpc("announce_matches");
     if (error) return this.logger.error(`Annonce des matchs : ${error.message}`);
     if (count) this.logger.log(`${count} notification(s) de match créée(s)`);
+  }
+
+  @Cron("*/5 * * * *", { name: "refund-cancelled-evenings", timeZone: "Africa/Porto-Novo" })
+  async refundCancelledEvenings() {
+    if (!this.ready()) return;
+    try {
+      await this.payments.refundPending();
+    } catch (error) {
+      this.logger.error(`Remboursements : ${(error as Error).message}`);
+    }
   }
 }

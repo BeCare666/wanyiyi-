@@ -10,6 +10,8 @@ import { AuthHooksService } from "../src/hooks/auth-hooks.service";
 import { authEmail, confirmationLink, otpSms, SUPPORTED_EMAIL_ACTIONS } from "../src/notifications/messages";
 import { BrevoEmailSender, BrevoSmsSender, maskPhone, SimulatedEmailSender, SimulatedSmsSender } from "../src/notifications/senders";
 import { withMyBooking } from "../src/events/bookings";
+import { PaymentsService } from "../src/payments/payments.service";
+import type { SupabaseService } from "../src/supabase/supabase.service";
 import type { AppClient } from "../src/supabase/supabase.service";
 import { documentLink } from "../src/verifications/document-link";
 import { toHttpError } from "../src/supabase/db-errors";
@@ -234,5 +236,51 @@ describe("Lien signé vers une pièce d'identité", () => {
       status: 503,
     });
     expect(system).not.toHaveBeenCalled();
+  });
+});
+
+describe("Remboursement des soirées annulées (19 octobre 2026)", () => {
+  type Pending = { payment_id: string; amount_xof: number; provider: string; provider_transaction_id: string | null };
+
+  function setup(pending: Pending[], refund: (input: { paymentId: string; amountXof: number }) => Promise<void>) {
+    const calls: Array<[string, unknown]> = [];
+    const db = {
+      rpc: vi.fn(async (fn: string, args?: unknown) => {
+        calls.push([fn, args]);
+        return { data: fn === "pending_refunds" ? pending : null, error: null };
+      }),
+    };
+    const supabase = { system: () => db } as unknown as SupabaseService;
+    const provider = { name: "simulated" as const, createCheckout: vi.fn(), refund: vi.fn(refund) };
+    return { service: new PaymentsService(supabase, configOf({}), provider), calls, provider };
+  }
+
+  it("montant intégral par l'adaptateur, puis marqué dans la base ; l'autre prestataire attend son adaptateur", async () => {
+    const { service, calls, provider } = setup(
+      [
+        { payment_id: "p1", amount_xof: 5000, provider: "simulated", provider_transaction_id: "sim_p1" },
+        { payment_id: "p2", amount_xof: 5000, provider: "fedapay", provider_transaction_id: "fp_2" },
+      ],
+      async () => {},
+    );
+    expect(await service.refundPending()).toEqual({ refunded: 1, failed: 1 });
+    expect(provider.refund).toHaveBeenCalledWith({ paymentId: "p1", providerTransactionId: "sim_p1", amountXof: 5000 });
+    expect(calls).toEqual([
+      ["pending_refunds", undefined],
+      ["mark_refunded", { p_payment: "p1" }],
+    ]);
+  });
+
+  it("échec du prestataire : rien n'est marqué, la tâche planifiée relancera", async () => {
+    const { service, calls } = setup([{ payment_id: "p1", amount_xof: 5000, provider: "simulated", provider_transaction_id: null }], async () => {
+      throw new Error("prestataire injoignable");
+    });
+    expect(await service.refundPending()).toEqual({ refunded: 0, failed: 1 });
+    expect(calls.map(([fn]) => fn)).toEqual(["pending_refunds"]);
+  });
+
+  it("codes d'erreur des soirées et des membres traduits en réponses HTTP", () => {
+    expect(toHttpError({ message: "not_editable" }).getStatus()).toBe(409);
+    expect(toHttpError({ message: "member_inactive" }).getStatus()).toBe(403);
   });
 });

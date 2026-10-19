@@ -4,6 +4,13 @@ import { memberNav } from "./memberNav";
 const kinds = {
   evening_seat_offered: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
   match_announced: { href: { pathname: memberNav.matches.href } },
+  // Soirée publiée modifiée ou annulée (19 octobre 2026)
+  evening_updated: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
+  evening_cancelled: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
+  // Décisions de l'équipe (19 octobre 2026) : le motif est affiché avec la notification
+  member_suspended: { href: null },
+  member_reactivated: { href: null },
+  member_excluded: { href: null },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

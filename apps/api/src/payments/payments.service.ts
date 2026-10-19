@@ -17,6 +17,8 @@ export type Checkout = { providerTransactionId: string; checkoutUrl: string };
 export interface PaymentProvider {
   readonly name: "simulated" | "fedapay";
   createCheckout(input: { paymentId: string; amountXof: number; description: string }): Promise<Checkout>;
+  /** Remboursement intégral d'un paiement reçu (annulation d'une soirée, décision du 19 octobre 2026). */
+  refund(input: { paymentId: string; providerTransactionId: string | null; amountXof: number }): Promise<void>;
 }
 
 export class SimulatedPaymentProvider implements PaymentProvider {
@@ -27,6 +29,9 @@ export class SimulatedPaymentProvider implements PaymentProvider {
     // Page de démonstration du site : elle appelle POST /api/payments/simulated/:id/succeed
     return { providerTransactionId: `sim_${paymentId}`, checkoutUrl: `${this.webOrigin}/paiement-simule/${paymentId}` };
   }
+
+  /** Démonstration : aucun argent ne circule, le remboursement réussit immédiatement. */
+  async refund(): Promise<void> {}
 }
 
 @Injectable()
@@ -80,5 +85,40 @@ export class PaymentsService {
       await system.from("audit_log").insert({ actor_id: memberId, action: "payment.simulated_succeeded", target_table: "payments", target_id: paymentId }),
     );
     this.logger.log(`Paiement simulé ${paymentId} validé`);
+  }
+
+  /**
+   * Remboursements demandés par l'annulation d'une soirée (app.cancel_event) : montant intégral,
+   * par l'adaptateur du prestataire, puis marqués dans la base. Tâche système, journalisée ;
+   * relancée par la tâche planifiée si un remboursement échoue.
+   */
+  async refundPending(): Promise<{ refunded: number; failed: number }> {
+    const db = this.supabase.system("remboursement des soirées annulées");
+    const pending = unwrap(await db.rpc("pending_refunds")) as Array<{
+      payment_id: string;
+      amount_xof: number;
+      provider: string;
+      provider_transaction_id: string | null;
+    }> | null;
+    let refunded = 0;
+    let failed = 0;
+    for (const payment of pending ?? []) {
+      if (payment.provider !== this.provider.name) {
+        // Paiement d'un autre prestataire : il attend l'adaptateur correspondant
+        this.logger.warn(`Remboursement ${payment.payment_id} : prestataire ${payment.provider} indisponible`);
+        failed += 1;
+        continue;
+      }
+      try {
+        await this.provider.refund({ paymentId: payment.payment_id, providerTransactionId: payment.provider_transaction_id, amountXof: payment.amount_xof });
+        unwrap(await db.rpc("mark_refunded", { p_payment: payment.payment_id }));
+        refunded += 1;
+      } catch (error) {
+        this.logger.error(`Remboursement ${payment.payment_id} : ${(error as Error).message}`);
+        failed += 1;
+      }
+    }
+    if (refunded) this.logger.log(`${refunded} remboursement(s) effectué(s)`);
+    return { refunded, failed };
   }
 }
