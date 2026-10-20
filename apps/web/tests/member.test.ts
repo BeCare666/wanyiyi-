@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
+import { canRetryVerification, type CheckoutInfo, transactionIdOf, widgetOptions } from "../src/app/[locale]/(membre)/paiement/[id]/checkout";
 import { ageOnCotonouDay, checkIdentity, type Identity, latestBirthDate } from "../src/app/[locale]/(vitrine)/inscription/registration";
 import {
   type Evening,
@@ -338,5 +339,40 @@ describe("Messages de l'équipe (actions groupées, 19 octobre 2026)", () => {
     expect(teamMessage(null, "fr")).toBeNull();
     expect(notificationHref("team.message")).toBeNull();
     expect(notificationHref("evening.invitation")).toEqual({ pathname: "/espace/soirees" });
+  });
+});
+
+describe("Paiement KkiaPay (question 7 réglée le 20 octobre 2026)", () => {
+  const info: CheckoutInfo = {
+    paymentId: "p1",
+    purpose: "evening_booking",
+    amountXof: 5000,
+    status: "pending",
+    provider: "kkiapay",
+    widget: { publicKey: "pk_test", sandbox: true },
+  };
+
+  it("widget ouvert avec le montant exact, la clé publique, le mode test et l'identifiant du paiement", () => {
+    expect(widgetOptions(info)).toEqual({ amount: 5000, key: "pk_test", sandbox: true, partnerId: "p1" });
+  });
+
+  it("rien à payer : paiement réglé, autre prestataire ou widget non configuré", () => {
+    expect(widgetOptions({ ...info, status: "succeeded" })).toBeNull();
+    expect(widgetOptions({ ...info, provider: "simulated" })).toBeNull();
+    expect(widgetOptions({ ...info, widget: null })).toBeNull();
+  });
+
+  it("référence de transaction lue dans la réponse du widget, valeurs douteuses écartées", () => {
+    expect(transactionIdOf({ transactionId: "3iH6wjHJ3" })).toBe("3iH6wjHJ3");
+    expect(transactionIdOf({ transactionId: "<script>" })).toBeNull();
+    expect(transactionIdOf({ id: "3iH6wjHJ3" })).toBeNull();
+    expect(transactionIdOf(null)).toBeNull();
+  });
+
+  it("KkiaPay injoignable ou transaction pas encore visible : nouvelle vérification, jamais un second paiement", () => {
+    expect(canRetryVerification("kkiapay_unavailable")).toBe(true);
+    expect(canRetryVerification("transaction_not_found")).toBe(true);
+    expect(canRetryVerification("amount_mismatch")).toBe(false);
+    expect(canRetryVerification("failed")).toBe(false);
   });
 });

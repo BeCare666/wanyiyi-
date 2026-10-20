@@ -37,8 +37,8 @@ describe("Configuration (phase 2)", () => {
     expect(validateEnv({ SMS_PROVIDER: "brevo", BREVO_API_KEY: "k", BREVO_SMS_SENDER: "Wanyiyi" }).SMS_PROVIDER).toBe("brevo");
   });
 
-  it("refuse FedaPay tant que la clé manque", () => {
-    expect(() => validateEnv({ PAYMENT_PROVIDER: "fedapay" })).toThrow(/FEDAPAY_SECRET_KEY/);
+  it("refuse KkiaPay tant que les clés manquent", () => {
+    expect(() => validateEnv({ PAYMENT_PROVIDER: "kkiapay" })).toThrow(/KKIAPAY_PUBLIC_KEY/);
   });
 });
 

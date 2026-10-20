@@ -236,6 +236,22 @@ Décisions du 14 octobre 2026
     création des thèmes (questions 4 et 21), composition assistée (critères
     non négociables, après le profil) ; recherche globale et filtres avancés
     11.3 ; compte rendu d'entretien (question 5).
+  Fait le 20 octobre 2026 : adaptateur de paiement KkiaPay (question 7). Le
+    membre paie dans le widget officiel (cdn.kkiapay.me/k.js) ouvert par la
+    page /paiement/<id> du site (montant exact, clé publique, mode test,
+    partnerId = identifiant du paiement). L'API relit ensuite la transaction
+    chez KkiaPay avec les clés privées (POST /api/v1/transactions/status, mêmes
+    appels que le SDK serveur officiel 1.0.7) et ne valide le paiement que si
+    elle est réussie, du montant exact et liée à ce paiement ; une même
+    transaction ne paie qu'un paiement ; journalisé (payment.succeeded).
+    Remboursement des soirées annulées par POST /api/v1/transactions/revert.
+    Routes GET /api/payments/:id et POST /api/payments/:id/kkiapay. Si KkiaPay
+    ne répond pas, la référence est gardée et le membre vérifie de nouveau
+    au lieu de payer deux fois. Configuration : PAYMENT_PROVIDER=kkiapay,
+    KKIAPAY_PUBLIC_KEY, KKIAPAY_PRIVATE_KEY, KKIAPAY_SECRET, KKIAPAY_SANDBOX
+    (bac à sable interdit en production) ; FedaPay retiré. Le 20 octobre, le
+    bac à sable de KkiaPay répondait « 502 Bad Gateway » à toute requête :
+    aucun paiement de test réel n'a encore pu être fait.
 
 Étape 6. Données fictives et simulation complète (critère de fin)
   - 24 profils fictifs (prénoms et villes béninois), une soirée 10 × 10 plus
@@ -266,6 +282,7 @@ QUESTIONS (je n'invente pas les réponses)
      la démonstration ?
   7. Paiement : FedaPay ou KkiaPay en premier ? Avez-vous un compte
      de test (sandbox) ? Les moyens visés : MTN MoMo, Moov Money, carte ?
+     RÉPONSE (20 octobre 2026) : KkiaPay, clés du bac à sable fournies.
   8. Minuteur : durée de la pause après la moitié des tours ? Avec un
      nombre impair de tours (par exemple 11), pause après le 5e ou le 6e ?
      (Programmé pour l'instant : après le 5e, arrondi à l'inférieur.)
@@ -336,3 +353,11 @@ QUESTIONS (je n'invente pas les réponses)
         quelle langue (celle de chaque membre ?) et par quels canaux ?
      c) « Inviter à une soirée » : simple notification avec un lien vers la
         soirée, ou réservation d'une place au nom du membre ?
+ 25. KkiaPay, webhook (facultatif, recommandé) : pour être prévenu même si le
+     membre ferme la page juste après avoir payé, KkiaPay peut appeler notre
+     API. Il faut l'adresse de l'API en ligne et le « hash secret » choisi dans
+     le tableau de bord KkiaPay (Développeurs > Webhook). La documentation ne
+     dit pas si l'en-tête x-kkiapay-secret contient ce secret tel quel ou une
+     signature calculée : pouvez-vous le demander au support KkiaPay
+     (support@kkiapay.me) ? Sans webhook, le paiement est validé par la page
+     de paiement, après vérification auprès de KkiaPay.

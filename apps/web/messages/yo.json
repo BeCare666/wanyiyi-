@@ -849,6 +849,42 @@
       "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
     }
   },
+  "Payment": {
+    "eyebrow": "Ìsanwó",
+    "title": "Ẹ san owó àyè yín",
+    "intro": "Ìsanwó máa ṣí nínú fèrèsé ààbò KkiaPay: Mobile Money (MTN, Moov) tàbí káàdì báńkì.",
+    "sandbox": "Ìpò àdánwò: a kò ní gba owó kankan.",
+    "purposes": {
+      "evening_booking": "Àyè fún ìpàdé alẹ́ Wanyiyi",
+      "registration_fee": "Owó ìforúkọsílẹ̀"
+    },
+    "pay": "Sanwó pẹ̀lú KkiaPay",
+    "loading": "Ìsanwó ń ṣí…",
+    "verifying": "À ń yẹ ìsanwó náà wò lọ́dọ̀ KkiaPay…",
+    "retry": "Tún yẹ̀ ẹ́ wò",
+    "done": "A ti gba ìsanwó náà, a sì ti yẹ̀ ẹ́ wò. Ẹ ṣé.",
+    "back": "Padà sí àwọn ìpàdé mi",
+    "statuses": {
+      "succeeded": "A ti san owó yìí tẹ́lẹ̀.",
+      "failed": "Ìsanwó yìí kùnà. Ẹ tún gba àyè láti inú àwọn ìpàdé yín.",
+      "refunded": "A ti dá owó yìí padà.",
+      "cancelled": "A ti fagilé ìsanwó yìí.",
+      "unavailable": "Ìsanwó orí ayélujára kò sí ní báyìí."
+    },
+    "errors": {
+      "failed": "Ìsanwó náà kò yọrí. Ẹ lè gbìyànjú lẹ́ẹ̀kan sí i.",
+      "transaction_not_successful": "KkiaPay kò fìdí ìsanwó yìí múlẹ̀. Ẹ lè gbìyànjú lẹ́ẹ̀kan sí i.",
+      "amount_mismatch": "Iye owó tí ẹ san kò bá a mu. Ẹ kàn sí ẹgbẹ́ wa kí ẹ tó tún gbìyànjú.",
+      "payment_mismatch": "Ìsanwó yìí kò bá àyè tí ẹ gbà mu. Ẹ kàn sí ẹgbẹ́ wa.",
+      "transaction_not_found": "KkiaPay kò tíì rí ìsanwó yìí. Ẹ má ṣe sanwó lẹ́ẹ̀kejì: ẹ tún yẹ̀ ẹ́ wò láìpẹ́, tàbí kí ẹ fún ẹgbẹ́ wa ní ìtọ́kasí {ref}.",
+      "transaction_already_used": "A ti lo ìsanwó yìí fún àyè mìíràn. Ẹ kàn sí ẹgbẹ́ wa.",
+      "kkiapay_unavailable": "KkiaPay kò dáhùn ní báyìí. Ẹ má ṣe sanwó lẹ́ẹ̀kejì: ẹ tún yẹ̀ ẹ́ wò láìpẹ́, tàbí kí ẹ fún ẹgbẹ́ wa ní ìtọ́kasí {ref}.",
+      "invalid_status": "Ìsanwó yìí kò dúró mọ́.",
+      "not_found": "A kò rí ìsanwó yìí.",
+      "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+      "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+    }
+  },
   "Admin": {
     "areaLabel": "Ìṣàkóso",
     "home": "Ìṣàkóso",

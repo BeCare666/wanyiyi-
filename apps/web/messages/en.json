@@ -849,6 +849,42 @@
       "generic": "Something went wrong. Please try again in a moment."
     }
   },
+  "Payment": {
+    "eyebrow": "Payment",
+    "title": "Pay for your seat",
+    "intro": "Payment opens in KkiaPay's secure window: Mobile Money (MTN, Moov) or bank card.",
+    "sandbox": "Test mode: no money is charged.",
+    "purposes": {
+      "evening_booking": "Seat for a Wanyiyi evening",
+      "registration_fee": "Registration fee"
+    },
+    "pay": "Pay with KkiaPay",
+    "loading": "Loading payment…",
+    "verifying": "Checking the payment with KkiaPay…",
+    "retry": "Check again",
+    "done": "Payment received and verified. Thank you.",
+    "back": "Back to my evenings",
+    "statuses": {
+      "succeeded": "This payment has already been made.",
+      "failed": "This payment failed. Book again from your evenings.",
+      "refunded": "This payment has been refunded.",
+      "cancelled": "This payment has been cancelled.",
+      "unavailable": "Online payment is not available at the moment."
+    },
+    "errors": {
+      "failed": "The payment did not go through. You can try again.",
+      "transaction_not_successful": "KkiaPay did not confirm this payment. You can try again.",
+      "amount_mismatch": "The amount paid does not match. Contact our team before trying again.",
+      "payment_mismatch": "This payment does not match your booking. Contact our team.",
+      "transaction_not_found": "KkiaPay cannot find this payment yet. Do not pay a second time: check again in a moment, or give reference {ref} to our team.",
+      "transaction_already_used": "This payment has already been used for another booking. Contact our team.",
+      "kkiapay_unavailable": "KkiaPay is not responding at the moment. Do not pay a second time: check again in a moment, or give reference {ref} to our team.",
+      "invalid_status": "This payment is no longer pending.",
+      "not_found": "This payment cannot be found.",
+      "unavailable": "This service is not available yet. Please try again later.",
+      "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
   "Admin": {
     "areaLabel": "Administration",
     "home": "Administration",

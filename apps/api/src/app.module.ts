@@ -20,7 +20,8 @@ import {
 } from "./notifications/senders";
 import { DeliveriesService } from "./notifications/deliveries.service";
 import { PaymentsController } from "./payments/payments.controller";
-import { PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./payments/payments.service";
+import { KkiapayClient } from "./payments/kkiapay";
+import { KkiapayPaymentProvider, PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./payments/payments.service";
 import { ProfileController } from "./profile/profile.controller";
 import { JobsService } from "./scheduler/jobs.service";
 import { SupabaseService } from "./supabase/supabase.service";
@@ -28,7 +29,7 @@ import { AdminVerificationsController } from "./verifications/admin-verification
 
 /**
  * Module racine. Phase 2 : authentification (hooks SMS et e-mail via Brevo), profil,
- * soirées, vote QR, matchs, paiements (adaptateur simulé), tâches planifiées,
+ * soirées, vote QR, matchs, paiements (KkiaPay ou adaptateur simulé), tâches planifiées,
  * vérifications côté équipe (liens signés vers les pièces).
  * Les adaptateurs (SMS, e-mail, paiement) sont choisis par la configuration.
  */
@@ -67,11 +68,18 @@ import { AdminVerificationsController } from "./verifications/admin-verification
       provide: PAYMENT_PROVIDER,
       inject: [ConfigService],
       useFactory: (config: ConfigService<Env, true>) => {
-        if (config.get("PAYMENT_PROVIDER", { infer: true }) === "fedapay") {
-          // Adaptateur FedaPay non écrit : question 7 de PHASE2.txt en attente
-          throw new Error("Adaptateur FedaPay pas encore disponible (question 7 de PHASE2.txt)");
+        const webOrigin = config.get("WEB_ORIGIN", { infer: true });
+        if (config.get("PAYMENT_PROVIDER", { infer: true }) === "kkiapay") {
+          // KkiaPay retenu le 20 octobre 2026 (question 7) ; clés contrôlées par validateEnv
+          const keys = {
+            publicKey: config.get("KKIAPAY_PUBLIC_KEY", { infer: true })!,
+            privateKey: config.get("KKIAPAY_PRIVATE_KEY", { infer: true })!,
+            secret: config.get("KKIAPAY_SECRET", { infer: true })!,
+          };
+          const sandbox = config.get("KKIAPAY_SANDBOX", { infer: true });
+          return new KkiapayPaymentProvider(new KkiapayClient(keys, sandbox), keys.publicKey, sandbox, webOrigin);
         }
-        return new SimulatedPaymentProvider(config.get("WEB_ORIGIN", { infer: true }));
+        return new SimulatedPaymentProvider(webOrigin);
       },
     },
   ],

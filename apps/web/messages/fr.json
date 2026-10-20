@@ -849,6 +849,42 @@
       "generic": "Une erreur est survenue. Réessayez dans un instant."
     }
   },
+  "Payment": {
+    "eyebrow": "Paiement",
+    "title": "Régler votre place",
+    "intro": "Le paiement s'ouvre dans la fenêtre sécurisée de KkiaPay : Mobile Money (MTN, Moov) ou carte bancaire.",
+    "sandbox": "Mode test : aucun argent n'est débité.",
+    "purposes": {
+      "evening_booking": "Place pour une soirée Wanyiyi",
+      "registration_fee": "Frais d'inscription"
+    },
+    "pay": "Payer avec KkiaPay",
+    "loading": "Chargement du paiement…",
+    "verifying": "Vérification du paiement auprès de KkiaPay…",
+    "retry": "Vérifier à nouveau",
+    "done": "Paiement reçu et vérifié. Merci.",
+    "back": "Retour à mes soirées",
+    "statuses": {
+      "succeeded": "Ce paiement est déjà réglé.",
+      "failed": "Ce paiement a échoué. Réservez de nouveau depuis vos soirées.",
+      "refunded": "Ce paiement a été remboursé.",
+      "cancelled": "Ce paiement a été annulé.",
+      "unavailable": "Le paiement en ligne n'est pas disponible pour le moment."
+    },
+    "errors": {
+      "failed": "Le paiement n'a pas abouti. Vous pouvez réessayer.",
+      "transaction_not_successful": "KkiaPay n'a pas confirmé ce paiement. Vous pouvez réessayer.",
+      "amount_mismatch": "Le montant payé ne correspond pas. Contactez notre équipe avant de réessayer.",
+      "payment_mismatch": "Ce paiement ne correspond pas à votre réservation. Contactez notre équipe.",
+      "transaction_not_found": "KkiaPay ne retrouve pas encore ce paiement. Ne payez pas une seconde fois : vérifiez de nouveau dans un instant, ou donnez la référence {ref} à notre équipe.",
+      "transaction_already_used": "Ce paiement a déjà servi pour une autre réservation. Contactez notre équipe.",
+      "kkiapay_unavailable": "KkiaPay ne répond pas pour le moment. Ne payez pas une seconde fois : vérifiez de nouveau dans un instant, ou donnez la référence {ref} à notre équipe.",
+      "invalid_status": "Ce paiement n'est plus en attente.",
+      "not_found": "Ce paiement est introuvable.",
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
+  },
   "Admin": {
     "areaLabel": "Administration",
     "home": "Administration",

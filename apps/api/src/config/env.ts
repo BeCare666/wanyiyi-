@@ -25,7 +25,8 @@ export const envSchema = z.object({
 
   SMS_PROVIDER: z.enum(["simulated", "brevo"]).default("simulated"),
   EMAIL_PROVIDER: z.enum(["simulated", "brevo"]).default("simulated"),
-  PAYMENT_PROVIDER: z.enum(["simulated", "fedapay"]).default("simulated"),
+  // KkiaPay retenu le 20 octobre 2026 (question 7)
+  PAYMENT_PROVIDER: z.enum(["simulated", "kkiapay"]).default("simulated"),
 
   BREVO_API_KEY: optional,
   // Expéditeur des SMS : 11 lettres ou chiffres au maximum (contrainte Brevo)
@@ -37,8 +38,14 @@ export const envSchema = z.object({
   CLOUDINARY_API_KEY: optional,
   CLOUDINARY_API_SECRET: optional,
 
-  FEDAPAY_SECRET_KEY: optional,
-  FEDAPAY_ENVIRONMENT: z.enum(["sandbox", "live"]).default("sandbox"),
+  // KkiaPay : clés du tableau de bord (Développeurs > Clés API) ; bac à sable tant que KKIAPAY_SANDBOX=true
+  KKIAPAY_PUBLIC_KEY: optional,
+  KKIAPAY_PRIVATE_KEY: optional,
+  KKIAPAY_SECRET: optional,
+  KKIAPAY_SANDBOX: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((v) => v === "true"),
 });
 
 export type Env = z.infer<typeof envSchema>;
@@ -67,11 +74,11 @@ export function validateEnv(raw: Record<string, unknown>): Env {
   if (env.EMAIL_PROVIDER === "brevo" && (!env.BREVO_API_KEY || !env.BREVO_SENDER_EMAIL)) {
     problems.push("BREVO_API_KEY et BREVO_SENDER_EMAIL sont requises avec EMAIL_PROVIDER=brevo");
   }
-  if (env.PAYMENT_PROVIDER === "fedapay" && !env.FEDAPAY_SECRET_KEY) {
-    problems.push("FEDAPAY_SECRET_KEY est requise avec PAYMENT_PROVIDER=fedapay");
+  if (env.PAYMENT_PROVIDER === "kkiapay" && (!env.KKIAPAY_PUBLIC_KEY || !env.KKIAPAY_PRIVATE_KEY || !env.KKIAPAY_SECRET)) {
+    problems.push("KKIAPAY_PUBLIC_KEY, KKIAPAY_PRIVATE_KEY et KKIAPAY_SECRET sont requises avec PAYMENT_PROVIDER=kkiapay");
   }
-  if (env.NODE_ENV === "production" && env.FEDAPAY_ENVIRONMENT === "live" && !env.FEDAPAY_SECRET_KEY) {
-    problems.push("FEDAPAY_SECRET_KEY est requise en mode live.");
+  if (env.NODE_ENV === "production" && env.PAYMENT_PROVIDER === "kkiapay" && env.KKIAPAY_SANDBOX) {
+    problems.push("KKIAPAY_SANDBOX doit valoir false en production");
   }
   if (problems.length) throw new Error(`Configuration invalide : ${problems.join("; ")}`);
   return env;
