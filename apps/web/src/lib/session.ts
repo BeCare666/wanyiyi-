@@ -1,4 +1,6 @@
+import { getLocale } from "next-intl/server";
 import { cache } from "react";
+import { teamMessage } from "@/components/member/notificationKinds";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 /** Membre connecté, tel que l'affichent l'en-tête, la barre mobile et l'espace membre. */
@@ -19,6 +21,8 @@ export type SessionNotification = {
   read: boolean;
   /** Motif écrit par l'équipe (suspension, exclusion), affiché au membre. */
   reason: string | null;
+  /** Message de l'équipe (action groupée), dans la langue affichée. */
+  message: string | null;
 };
 
 function initialsOf(firstName: string | null, lastName: string | null): string {
@@ -61,9 +65,10 @@ export async function getRecentNotifications(
   if (!supabase) return { items: [], unread: 0 };
   let list = supabase.from("notifications").select("id, kind, created_at, read_at, payload");
   if (unreadOnly) list = list.is("read_at", null);
-  const [{ data }, { count }] = await Promise.all([
+  const [{ data }, { count }, locale] = await Promise.all([
     list.order("created_at", { ascending: false }).limit(limit),
     supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
+    getLocale(),
   ]);
   return {
     items: (data ?? []).map((n) => ({
@@ -72,6 +77,7 @@ export async function getRecentNotifications(
       createdAt: n.created_at,
       read: n.read_at !== null,
       reason: typeof n.payload?.reason === "string" ? n.payload.reason : null,
+      message: teamMessage(n.payload, locale),
     })),
     unread: count ?? 0,
   };

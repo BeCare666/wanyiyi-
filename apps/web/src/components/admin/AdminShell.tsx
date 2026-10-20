@@ -13,6 +13,7 @@ import { cn } from "@/lib/cn";
 import { durations, easeSoft } from "@/lib/motion";
 import type { StaffMember } from "@/lib/staff";
 import { adminHome, type AdminNavGroup, type AdminNavItem, isAdminNavActive, visibleAdminNav } from "./adminNav";
+import { GlobalSearch } from "./GlobalSearch";
 
 const COLLAPSED_KEY = "wanyiyi.admin.sidebar.collapsed";
 
@@ -41,7 +42,7 @@ const collapsedStore = {
 /**
  * Coquille de l'administration (section 11.1).
  * Barre latérale fixe sur fond encre, groupes de menus, repliable en icônes seules ;
- * sur mobile, tiroir latéral. En-tête : langue et avatar de la personne connectée.
+ * sur mobile, tiroir latéral. En-tête : recherche globale, langue et avatar de la personne connectée.
  */
 export function AdminShell({ staff, children }: { staff: StaffMember; children: ReactNode }) {
   const t = useTranslations("Admin");
@@ -117,6 +118,7 @@ export function AdminShell({ staff, children }: { staff: StaffMember; children: 
             </div>
             <p className="eyebrow hidden lg:block">{t("areaLabel")}</p>
             <div className="flex items-center gap-3">
+              <GlobalSearch />
               <LanguageMenu className="hidden sm:block" />
               <span className="flex items-center gap-3">
                 <MemberAvatar member={staff} size={36} tone="night" />

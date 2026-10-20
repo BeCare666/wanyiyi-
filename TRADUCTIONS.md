@@ -81,6 +81,10 @@ Toutes les chaînes yoruba sont à valider. Les choix de vocabulaire ci-dessous 
 | Codes QR des tables (`Admin.evenings.tables`, ajoutée le 19 octobre 2026) | environ 10 chaînes | Texte imprimé sur les tables, lu par les participants : à relire avec attention |
 | Paiements (`Admin.payments`, ajoutée le 19 octobre 2026) | environ 35 chaînes | À relire en entier |
 | Rapprochement (avec le prestataire) | Ìbáramu | Terme comptable d'usage ? |
+| Recherche globale, filtres avancés, export (`Admin.search`, `Admin.members.advanced`, `Admin.members.export`, ajoutées le 19 octobre 2026) | environ 110 chaînes | À relire en entier |
+| Actions groupées (`Admin.members.bulk`) et messages reçus (`Member.bell.kinds`), ajoutées le 19 octobre 2026 | environ 45 chaînes | À relire en entier |
+| Inscription (`Register`) et adresse e-mail (`Member.settings.email`), ajoutées le 19 octobre 2026 | environ 50 chaînes | Texte du consentement à relire avec attention |
+| SMS et e-mails des actions groupées (`apps/api/src/notifications/team-messages.ts`) | 6 phrases | Envoyées telles quelles aux membres : à relire avec attention |
 
 ## Règles de rédaction appliquées à toutes les langues
 

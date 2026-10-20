@@ -18,6 +18,7 @@ import {
   SimulatedSmsSender,
   SMS_SENDER,
 } from "./notifications/senders";
+import { DeliveriesService } from "./notifications/deliveries.service";
 import { PaymentsController } from "./payments/payments.controller";
 import { PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./payments/payments.service";
 import { ProfileController } from "./profile/profile.controller";
@@ -41,6 +42,7 @@ import { AdminVerificationsController } from "./verifications/admin-verification
     AuthHooksService,
     PaymentsService,
     JobsService,
+    DeliveriesService,
     {
       provide: SMS_SENDER,
       inject: [ConfigService],

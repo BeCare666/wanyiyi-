@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
+import { DeliveriesService } from "../notifications/deliveries.service";
 import { PaymentsService } from "../payments/payments.service";
 import { SupabaseService } from "../supabase/supabase.service";
 
@@ -8,7 +9,8 @@ import { SupabaseService } from "../supabase/supabase.service";
  * - limite des 48 h : libération des places non confirmées et promotion de la liste d'attente ;
  * - calcul des matchs des soirées terminées ;
  * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h ;
- * - remboursement des soirées annulées (relance si un remboursement a échoué).
+ * - remboursement des soirées annulées (relance si un remboursement a échoué) ;
+ * - envoi par SMS et e-mail des notifications des actions groupées (chaque minute).
  * Les règles elles-mêmes sont dans les fonctions SQL : ces tâches ne font que les déclencher.
  */
 @Injectable()
@@ -20,6 +22,7 @@ export class JobsService {
   constructor(
     private readonly supabase: SupabaseService,
     private readonly payments: PaymentsService,
+    private readonly deliveries: DeliveriesService,
   ) {}
 
   /** Sans projet Supabase configuré, les tâches attendent ; l'avertissement n'est écrit qu'une fois. */
@@ -89,6 +92,16 @@ export class JobsService {
       await this.payments.refundPending();
     } catch (error) {
       this.logger.error(`Remboursements : ${(error as Error).message}`);
+    }
+  }
+
+  @Cron("* * * * *", { name: "send-notifications", timeZone: "Africa/Porto-Novo" })
+  async sendNotifications() {
+    if (!this.ready()) return;
+    try {
+      await this.deliveries.dispatch();
+    } catch (error) {
+      this.logger.error(`Envois des notifications : ${(error as Error).message}`);
     }
   }
 }

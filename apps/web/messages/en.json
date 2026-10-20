@@ -451,8 +451,50 @@
       "Your sworn statement",
       "Payment of the registration fee by Mobile Money"
     ],
-    "notice": "Online registration will open soon. In the meantime, our team is happy to answer your questions.",
-    "contactCta": "Write to us"
+    "phoneTitle": "Your phone number",
+    "phone": "Phone number",
+    "phoneHelp": "International format: the + sign, the country code, then the number. You will receive a code by SMS.",
+    "send": "Get the code",
+    "already": "Already a member? <signin>Sign in</signin>",
+    "codeTitle": "The code received by SMS",
+    "sentTo": "Code sent to {phone}.",
+    "code": "Code received by SMS",
+    "verify": "Confirm the code",
+    "resend": "Send the code again",
+    "changeNumber": "Change number",
+    "identityTitle": "Who are you?",
+    "identityIntro": "This information will be compared with your identity document during verification.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "lastNameHelp": "Never visible to other members.",
+    "sex": "Sex",
+    "sexes": {
+      "female": "Woman",
+      "male": "Man"
+    },
+    "birthDate": "Date of birth",
+    "city": "City",
+    "cityHelp": "Your city only, never your address. Optional.",
+    "identityHelp": "You must be at least 18 years old. Sex and date of birth are checked against your identity document and cannot be changed afterwards.",
+    "email": "E-mail address (optional)",
+    "emailHelp": "A confirmation link will be sent to you. Without an address, you receive our messages by SMS and in your space.",
+    "consent": "I have read and accept the <rules>rules</rules> and the <privacy>privacy policy</privacy>.",
+    "submit": "Create my account",
+    "errors": {
+      "invalidPhone": "Check the number: it must start with + and the country code.",
+      "invalidCode": "This code is incorrect or has expired.",
+      "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
+      "unavailable": "Registration is not open yet. Please try again later.",
+      "invalid_name": "Enter your first and last name (60 characters at most each).",
+      "invalid_sex": "Indicate your sex.",
+      "invalid_birth_date": "Enter a valid date of birth.",
+      "too_young": "Registration is reserved for people aged 18 or over.",
+      "invalid_city": "The city name is too long.",
+      "invalid_email": "Check the e-mail address, or leave the field empty.",
+      "consent_required": "To create your account, accept the rules and the privacy policy.",
+      "forbidden": "Your session has expired. Start again from the phone number.",
+      "generic": "Something went wrong. Please try again in a moment."
+    }
   },
   "Social": {
     "title": "Follow us",
@@ -484,6 +526,8 @@
         "match_announced": "You have a new match.",
         "evening_updated": "An evening you registered for has been changed.",
         "evening_cancelled": "An evening you registered for is cancelled. If you paid, you are refunded in full.",
+        "team_message": "Message from the Wanyiyi team",
+        "evening_invitation": "An invitation to an evening is waiting for you. Book while seats remain.",
         "other": "New notification.",
         "member_suspended": "Your account is suspended.",
         "member_reactivated": "Your account is active again.",
@@ -623,10 +667,24 @@
       "channels": {
         "in_app": "In the app",
         "whatsapp": "WhatsApp",
-        "sms": "SMS"
+        "sms": "SMS",
+        "email": "E-mail"
       },
       "saved": "Saved.",
-      "error": "Saving failed. Please try again in a moment."
+      "error": "Saving failed. Please try again in a moment.",
+      "email": {
+        "title": "E-mail address",
+        "help": "Optional. It is used to write to you if you chose it among your notification channels.",
+        "current": "Confirmed address: {email}",
+        "pending": "Awaiting confirmation: {email}. Open the link received by e-mail.",
+        "label": "New address",
+        "save": "Save the address",
+        "states": {
+          "sent": "A confirmation link has just been sent to this address.",
+          "invalid": "Check the e-mail address.",
+          "failed": "The address could not be saved. Check it, or try again later."
+        }
+      }
     },
     "verification": {
       "eyebrow": "Verification",
@@ -1247,6 +1305,147 @@
           "member_evenings_blocked": "Evenings blocked",
           "other": "Event"
         }
+      },
+      "advanced": {
+        "title": "Advanced filters, sorting and columns",
+        "conditions": "Conditions",
+        "conditionsHelp": "Combine conditions with AND or OR, and group them if needed. {max} conditions at most.",
+        "operator": "How conditions combine",
+        "and": "All conditions (AND)",
+        "or": "At least one condition (OR)",
+        "empty": "No conditions: all members.",
+        "addCondition": "Add a condition",
+        "addGroup": "Add a group",
+        "removeGroup": "Remove the group",
+        "removeCondition": "Remove the condition",
+        "field": "Field",
+        "contains": "Contains",
+        "min": "Minimum",
+        "max": "Maximum",
+        "from": "From",
+        "to": "To",
+        "yes": "Yes",
+        "no": "No",
+        "shortcuts": {
+          "today": "Today",
+          "week": "Last 7 days",
+          "month": "This month"
+        },
+        "fields": {
+          "name": "Name",
+          "member_number": "Member number",
+          "phone": "Phone",
+          "city": "City",
+          "status": "Status",
+          "role": "Role",
+          "sex": "Sex",
+          "age": "Age",
+          "evenings_attended": "Evenings attended",
+          "matches": "Matches",
+          "created_at": "Registration date",
+          "evenings_blocked": "Evenings blocked",
+          "sanctioned": "Previously sanctioned"
+        },
+        "sort": "Sorting",
+        "sortField": "Sort column {rank}",
+        "sortDirection": "Sort order {rank}",
+        "sortDefault": "Registration, newest first",
+        "sortNone": "None",
+        "asc": "Ascending",
+        "desc": "Descending",
+        "columns": "Columns shown",
+        "columnNames": {
+          "status": "Status",
+          "role": "Role",
+          "sex": "Sex",
+          "age": "Age",
+          "city": "City",
+          "phone": "Phone",
+          "activity": "Activity",
+          "joined": "Registered"
+        },
+        "apply": "Apply",
+        "reset": "Clear advanced filters",
+        "saved": "Saved filters",
+        "savedEmpty": "No saved filters.",
+        "sharedBadge": "Shared",
+        "privateBadge": "Personal",
+        "deleteSaved": "Delete the filter {name}",
+        "saveName": "Save the filter shown",
+        "saveHelp": "Conditions, sorting and columns of the current list.",
+        "share": "Share with the team",
+        "save": "Save",
+        "savedDone": "Filter saved.",
+        "errors": {
+          "name_required": "Give the filter a name (80 characters at most).",
+          "invalid_filter": "This filter is not valid. Check each condition.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
+      },
+      "export": {
+        "label": "Export:",
+        "formats": {
+          "csv": "CSV",
+          "xlsx": "Excel"
+        },
+        "limit": "The export contains the first {max} rows: narrow the filter for the rest.",
+        "columns": {
+          "member_number": "Member number",
+          "first_name": "First name",
+          "last_name": "Last name",
+          "status": "Status",
+          "role": "Role",
+          "sex": "Sex",
+          "age": "Age",
+          "city": "City",
+          "phone": "Phone",
+          "evenings_attended": "Evenings attended",
+          "matches": "Matches",
+          "joined": "Registered"
+        }
+      },
+      "bulk": {
+        "title": "Bulk actions",
+        "target": "Members targeted",
+        "selected": "{count, plural, =0 {Selected members (none)} one {# member selected} other {# members selected}}",
+        "filtered": "{count, plural, one {Whole filter result (# member)} other {Whole filter result (# members)}}",
+        "tooMany": "{max} selected members at most: use the filter result instead.",
+        "filterLimit": "Only the first {max} members of the filter.",
+        "action": "Action",
+        "notify": "Send a notification",
+        "invite": "Invite to an evening",
+        "message": "Message",
+        "messageHelp": "Write it in all three languages: each member receives the one in their language, in their space, and by SMS and e-mail if they chose these channels. 500 characters at most.",
+        "languages": {
+          "fr": "French",
+          "en": "English",
+          "yo": "Yoruba"
+        },
+        "evening": "Evening",
+        "eveningHelp": "Only approved members are invited; each books and pays for themselves, while seats remain.",
+        "noEvening": "No upcoming published evening.",
+        "full": "full",
+        "sendNotify": "Send the notification",
+        "sendInvite": "Send the invitation",
+        "confirmNotify": "{count, plural, one {The message goes to # member.} other {The message goes to # members.}} A sending cannot be undone. Do you confirm?",
+        "confirmInvite": "{count, plural, one {The invitation goes to # member at most.} other {The invitation goes to # members at most.}} A sending cannot be undone. Do you confirm?",
+        "confirmButton": "Confirm sending",
+        "cancel": "Cancel",
+        "notified": "{count, plural, one {Notification sent to # member.} other {Notification sent to # members.}}",
+        "invited": "{count, plural, one {Invitation sent to # member.} other {Invitation sent to # members.}} {skipped, plural, =0 {} one {# member not approved left out.} other {# members not approved left out.}}",
+        "selectAll": "Select all members on this page",
+        "selectOne": "Select {name}",
+        "errors": {
+          "invalid_targets": "Select at least one member, or choose the filter result.",
+          "invalid_message": "Write the message in all three languages (500 characters at most each).",
+          "not_invitable": "This evening no longer accepts invitations: it is no longer published or has started.",
+          "not_found": "This evening no longer exists.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
       }
     },
     "payments": {
@@ -1285,6 +1484,24 @@
         "fedapay": "FedaPay",
         "kkiapay": "KkiaPay",
         "other": "Other provider"
+      }
+    },
+    "search": {
+      "button": "Search",
+      "title": "Search the administration",
+      "label": "Search for a member, a file, an evening, a venue or a payment",
+      "placeholder": "Name, member number, phone, venue, reference…",
+      "close": "Close search",
+      "hint": "Type at least 2 characters. Shortcut: Ctrl K or “/”.",
+      "searching": "Searching…",
+      "count": "{count, plural, =0 {No results} one {# result} other {# results}}",
+      "untitled": "Untitled",
+      "kinds": {
+        "member": "Members",
+        "verification": "Verifications",
+        "evening": "Evenings",
+        "venue": "Venues",
+        "payment": "Payments"
       }
     }
   }

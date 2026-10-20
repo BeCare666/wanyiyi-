@@ -65,7 +65,8 @@ export default async function DashboardPage() {
         <div className="grid gap-3 border-b border-line py-8 md:grid-cols-12 md:gap-8">
           <dt className="eyebrow md:col-span-4">{t("verification")}</dt>
           <dd className="md:col-span-8">
-            <Link href={memberNav.verification.href} className="font-serif text-2xl underline-offset-8 hover:underline">
+            {/* Sans profil, l'inscription n'est pas terminée : elle reprend à l'identité */}
+            <Link href={status === "none" ? "/inscription" : memberNav.verification.href} className="font-serif text-2xl underline-offset-8 hover:underline">
               {t(`status.${status}`)}
             </Link>
           </dd>

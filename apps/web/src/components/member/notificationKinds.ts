@@ -11,6 +11,9 @@ const kinds = {
   member_suspended: { href: null },
   member_reactivated: { href: null },
   member_excluded: { href: null },
+  // Actions groupées de l'équipe (19 octobre 2026) : message en trois langues, invitation à une soirée
+  team_message: { href: null },
+  evening_invitation: { href: { pathname: memberNav.evenings.href } },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";
@@ -25,4 +28,15 @@ export function notificationKey(kind: string): NotificationKey {
 export function notificationHref(kind: string) {
   const key = notificationKey(kind);
   return key === "other" ? null : kinds[key].href;
+}
+
+/**
+ * Texte d'un message de l'équipe (action groupée, 19 octobre 2026) dans la langue affichée,
+ * en français à défaut ; null pour les autres notifications.
+ */
+export function teamMessage(payload: unknown, locale: string): string | null {
+  const body = (payload as { body?: Record<string, unknown> } | null)?.body;
+  if (!body || typeof body !== "object") return null;
+  const text = body[locale] ?? body.fr;
+  return typeof text === "string" && text.trim() !== "" ? text : null;
 }

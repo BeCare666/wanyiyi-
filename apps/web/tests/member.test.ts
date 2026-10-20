@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
+import { ageOnCotonouDay, checkIdentity, type Identity, latestBirthDate } from "../src/app/[locale]/(vitrine)/inscription/registration";
 import {
   type Evening,
   eveningActions,
@@ -11,8 +12,8 @@ import {
 } from "../src/app/[locale]/(membre)/espace/soirees/evenings";
 import { defaultRound, isQrToken, parseVote, type Round } from "../src/app/[locale]/(membre)/vote/[qr]/vote";
 import { isMemberNavActive, memberNav, memberPrimary } from "../src/components/member/memberNav";
-import { notificationHref, notificationKey } from "../src/components/member/notificationKinds";
-import { channelsFrom, isChannel, isLocale } from "../src/app/[locale]/(membre)/espace/parametres/settings";
+import { notificationHref, notificationKey, teamMessage } from "../src/components/member/notificationKinds";
+import { channelsFrom, isChannel, isEmail, isLocale } from "../src/app/[locale]/(membre)/espace/parametres/settings";
 import {
   canSubmit,
   fileError,
@@ -191,20 +192,29 @@ describe("Notifications", () => {
 });
 
 describe("Paramètres (6.2-9)", () => {
-  it("un canal sans ligne en base reste actif ; les canaux inconnus sont ignorés", () => {
-    expect(channelsFrom([])).toEqual({ in_app: true, whatsapp: true, sms: true });
-    expect(channelsFrom([{ channel: "sms", enabled: false }, { channel: "email", enabled: false }])).toEqual({
+  it("un canal sans ligne en base reste actif ; e-mail proposé (19 octobre 2026) ; canaux inconnus ignorés", () => {
+    expect(channelsFrom([])).toEqual({ in_app: true, whatsapp: true, sms: true, email: true });
+    expect(channelsFrom([{ channel: "sms", enabled: false }, { channel: "email", enabled: false }, { channel: "pigeon", enabled: false }])).toEqual({
       in_app: true,
       whatsapp: true,
       sms: false,
+      email: false,
     });
+  });
+
+  it("adresse e-mail plausible ; la confirmation par lien fait foi", () => {
+    expect(isEmail("ayaba@example.com")).toBe(true);
+    expect(isEmail("ayaba@example")).toBe(false);
+    expect(isEmail("ay aba@example.com")).toBe(false);
+    expect(isEmail(`${"a".repeat(250)}@example.com`)).toBe(false);
   });
 
   it("n'accepte que les langues et canaux prévus", () => {
     expect(["fr", "en", "yo"].every(isLocale)).toBe(true);
     expect(isLocale("de")).toBe(false);
     expect(isChannel("whatsapp")).toBe(true);
-    expect(isChannel("email")).toBe(false);
+    expect(isChannel("email")).toBe(true);
+    expect(isChannel("pigeon")).toBe(false);
   });
 });
 
@@ -270,7 +280,63 @@ describe("Notifications de l'équipe (19 octobre 2026)", () => {
   });
 
   it("chaque type écrit par la base a son texte dans la cloche", () => {
-    const kinds = ["evening.seat_offered", "match.announced", "evening.updated", "evening.cancelled", "member.suspended", "member.reactivated", "member.excluded"];
+    const kinds = [
+      "evening.seat_offered",
+      "match.announced",
+      "evening.updated",
+      "evening.cancelled",
+      "member.suspended",
+      "member.reactivated",
+      "member.excluded",
+      "team.message",
+      "evening.invitation",
+    ];
     for (const kind of kinds) expect(Object.keys(fr.Member.bell.kinds)).toContain(notificationKey(kind));
+  });
+});
+
+describe("Inscription (6.2-2, décisions du 19 octobre 2026)", () => {
+  const now = new Date("2026-10-19T23:30:00Z"); // déjà le 20 octobre à Cotonou
+  const identity: Identity = {
+    firstName: " Mahougnon ",
+    lastName: "Fictif",
+    sex: "female",
+    birthDate: "1995-04-12",
+    city: "Cotonou",
+    email: "",
+    consent: true,
+  };
+
+  it("18 ans révolus au jour de Cotonou, sans âge maximum", () => {
+    expect(checkIdentity(identity, now)).toBeNull();
+    expect(checkIdentity({ ...identity, birthDate: "2008-10-20" }, now)).toBeNull();
+    expect(checkIdentity({ ...identity, birthDate: "2008-10-21" }, now)).toBe("too_young");
+    expect(checkIdentity({ ...identity, birthDate: "1930-01-01" }, now)).toBeNull();
+    expect(ageOnCotonouDay("2008-10-20", now)).toBe(18);
+    expect(latestBirthDate(now)).toBe("2008-10-20");
+    expect(latestBirthDate(new Date("2028-02-29T12:00:00Z"))).toBe("2010-02-28");
+  });
+
+  it("nom, sexe, date réelle, ville, e-mail facultatif, consentement", () => {
+    expect(checkIdentity({ ...identity, firstName: "  " }, now)).toBe("invalid_name");
+    expect(checkIdentity({ ...identity, sex: "" }, now)).toBe("invalid_sex");
+    expect(checkIdentity({ ...identity, birthDate: "1995-02-30" }, now)).toBe("invalid_birth_date");
+    expect(checkIdentity({ ...identity, birthDate: "2027-01-01" }, now)).toBe("invalid_birth_date");
+    expect(checkIdentity({ ...identity, city: "x".repeat(81) }, now)).toBe("invalid_city");
+    expect(checkIdentity({ ...identity, email: "ayaba@example.com" }, now)).toBeNull();
+    expect(checkIdentity({ ...identity, email: "pas-une-adresse" }, now)).toBe("invalid_email");
+    expect(checkIdentity({ ...identity, consent: false }, now)).toBe("consent_required");
+  });
+});
+
+describe("Messages de l'équipe (actions groupées, 19 octobre 2026)", () => {
+  it("texte dans la langue affichée, en français à défaut ; rien pour les autres notifications", () => {
+    const payload = { body: { fr: "Bonjour", en: "Hello", yo: "Ẹ n lẹ́" } };
+    expect(teamMessage(payload, "yo")).toBe("Ẹ n lẹ́");
+    expect(teamMessage({ body: { fr: "Bonjour" } }, "en")).toBe("Bonjour");
+    expect(teamMessage({ reason: "Retard" }, "fr")).toBeNull();
+    expect(teamMessage(null, "fr")).toBeNull();
+    expect(notificationHref("team.message")).toBeNull();
+    expect(notificationHref("evening.invitation")).toEqual({ pathname: "/espace/soirees" });
   });
 });

@@ -125,25 +125,50 @@ const escapeHtml = (s: string) =>
 /**
  * E-mail sobre, aux couleurs de la marque (noir encre, ivoire, rose profond), sans couleur dorée.
  * HTML en tableaux et styles en ligne : seule forme fiable dans les messageries.
+ * Les paragraphes sont du texte brut, échappé ; `extraHtml` est déjà construit et échappé.
  */
-export function authEmail(locale: Locale, action: EmailAction, link: string, code: string) {
-  const t = EMAIL_TEXTS[locale][action];
-  const html = `<!doctype html>
-<html lang="${locale}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${escapeHtml(t.subject)}</title></head>
+export function emailLayout(input: {
+  locale: Locale;
+  title: string;
+  paragraphs: string[];
+  button: { label: string; href: string };
+  extraHtml?: string;
+  footer: string;
+}): string {
+  const paragraphs = input.paragraphs
+    .map(
+      (p) =>
+        `<tr><td style="padding:16px 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#47423b;">${escapeHtml(p).replace(/\n/g, "<br>")}</td></tr>`,
+    )
+    .join("\n");
+  return `<!doctype html>
+<html lang="${input.locale}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${escapeHtml(input.title)}</title></head>
 <body style="margin:0;padding:0;background:#faf7f2;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf7f2;padding:40px 16px;">
 <tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border:1px solid #e4dfd7;">
 <tr><td style="padding:36px 36px 8px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:28px;color:#0e0d10;">wanyiyi</td></tr>
-<tr><td style="padding:16px 36px 0;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.25;color:#0e0d10;">${escapeHtml(t.subject)}</td></tr>
-<tr><td style="padding:16px 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#47423b;">${escapeHtml(t.intro)}</td></tr>
-<tr><td style="padding:28px 36px 0;"><a href="${escapeHtml(link)}" style="display:inline-block;background:#a63a50;color:#faf7f2;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:14px 26px;border-radius:2px;">${escapeHtml(t.button)}</a></td></tr>
-<tr><td style="padding:28px 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#47423b;">${escapeHtml(t.codeLine)} <strong style="font-size:18px;letter-spacing:4px;color:#0e0d10;">${escapeHtml(code)}</strong></td></tr>
-<tr><td style="padding:28px 36px 36px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#7d766c;border-top:0;">${escapeHtml(t.ignore)}</td></tr>
+<tr><td style="padding:16px 36px 0;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.25;color:#0e0d10;">${escapeHtml(input.title)}</td></tr>
+${paragraphs}
+<tr><td style="padding:28px 36px 0;"><a href="${escapeHtml(input.button.href)}" style="display:inline-block;background:#a63a50;color:#faf7f2;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:14px 26px;border-radius:2px;">${escapeHtml(input.button.label)}</a></td></tr>
+${input.extraHtml ?? ""}
+<tr><td style="padding:28px 36px 36px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#7d766c;border-top:0;">${escapeHtml(input.footer)}</td></tr>
 </table>
 </td></tr>
 </table>
 </body></html>`;
+}
+
+export function authEmail(locale: Locale, action: EmailAction, link: string, code: string) {
+  const t = EMAIL_TEXTS[locale][action];
+  const html = emailLayout({
+    locale,
+    title: t.subject,
+    paragraphs: [t.intro],
+    button: { label: t.button, href: link },
+    extraHtml: `<tr><td style="padding:28px 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#47423b;">${escapeHtml(t.codeLine)} <strong style="font-size:18px;letter-spacing:4px;color:#0e0d10;">${escapeHtml(code)}</strong></td></tr>`,
+    footer: t.ignore,
+  });
   const text = `${t.subject}\n\n${t.intro}\n\n${link}\n\n${t.codeLine} ${code}\n\n${t.ignore}`;
   return { subject: t.subject, html, text };
 }

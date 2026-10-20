@@ -10,6 +10,8 @@ import { AuthHooksService } from "../src/hooks/auth-hooks.service";
 import { authEmail, confirmationLink, otpSms, SUPPORTED_EMAIL_ACTIONS } from "../src/notifications/messages";
 import { BrevoEmailSender, BrevoSmsSender, maskPhone, SimulatedEmailSender, SimulatedSmsSender } from "../src/notifications/senders";
 import { withMyBooking } from "../src/events/bookings";
+import { DeliveriesService } from "../src/notifications/deliveries.service";
+import { deliveryContent, siteUrl } from "../src/notifications/team-messages";
 import { PaymentsService } from "../src/payments/payments.service";
 import type { SupabaseService } from "../src/supabase/supabase.service";
 import type { AppClient } from "../src/supabase/supabase.service";
@@ -282,5 +284,62 @@ describe("Remboursement des soirées annulées (19 octobre 2026)", () => {
   it("codes d'erreur des soirées et des membres traduits en réponses HTTP", () => {
     expect(toHttpError({ message: "not_editable" }).getStatus()).toBe(409);
     expect(toHttpError({ message: "member_inactive" }).getStatus()).toBe(403);
+  });
+});
+
+describe("Envois des actions groupées (19 octobre 2026)", () => {
+  const body = { fr: "La soirée de vendredi est maintenue.", en: "Friday's evening is going ahead.", yo: "Ìpàdé ọjọ́ Ẹtì ṣì ń lọ." };
+
+  it("message de l'équipe dans la langue du membre ; lien vers son espace, préfixe de langue hors français", () => {
+    const fr = deliveryContent("team.message", { body }, "fr", "https://wanyiyi.example/")!;
+    expect(fr.sms).toBe("Wanyiyi : La soirée de vendredi est maintenue.");
+    expect(fr.email.text).toContain("https://wanyiyi.example/espace/notifications");
+    const yo = deliveryContent("team.message", { body }, "yo", "https://wanyiyi.example")!;
+    expect(yo.sms).toContain("Ìpàdé ọjọ́ Ẹtì");
+    expect(yo.email.html).toContain('href="https://wanyiyi.example/yo/espace/notifications"');
+    expect(deliveryContent("team.message", { body: { fr: "Seulement en français" } }, "en", "https://w.example")!.sms).toBe("Wanyiyi : Seulement en français");
+  });
+
+  it("le texte de l'équipe est échappé dans l'e-mail", () => {
+    const html = deliveryContent("team.message", { body: { ...body, fr: "<script>x</script>" } }, "fr", "https://w.example")!.email.html;
+    expect(html).not.toContain("<script>");
+    expect(html).toContain("&lt;script&gt;");
+  });
+
+  it("invitation : date à l'heure de Cotonou dans la langue du membre, lien vers les soirées ; type inconnu sans envoi", () => {
+    const invitation = deliveryContent("evening.invitation", { starts_at: "2026-10-23T19:00:00Z" }, "fr", "https://w.example")!;
+    expect(invitation.sms).toMatch(/vendredi 23 octobre.*20:00/);
+    expect(invitation.sms).toContain("https://w.example/espace/soirees");
+    expect(deliveryContent("evening.invitation", { starts_at: "2026-10-23T19:00:00Z" }, "en", "https://w.example")!.sms).toContain("https://w.example/en/espace/soirees");
+    expect(deliveryContent("evening.invitation", {}, "fr", "https://w.example")).toBeNull();
+    expect(deliveryContent("autre.type", {}, "fr", "https://w.example")).toBeNull();
+    expect(siteUrl("https://w.example/", "fr", "/espace")).toBe("https://w.example/espace");
+  });
+
+  it("file : envoyé, sans destinataire abandonné sans appel, échec du prestataire signalé pour relance", async () => {
+    const calls: Array<[string, unknown]> = [];
+    const pending = [
+      { delivery_id: "d1", channel: "sms", kind: "team.message", payload: { body }, locale: "en", phone: "+22901970000001", email: null },
+      { delivery_id: "d2", channel: "email", kind: "team.message", payload: { body }, locale: "fr", phone: "+22901970000001", email: null },
+      { delivery_id: "d3", channel: "email", kind: "evening.invitation", payload: { starts_at: "2026-10-23T19:00:00Z" }, locale: "yo", phone: null, email: "ayaba@example.com" },
+    ];
+    const db = {
+      rpc: vi.fn(async (fn: string, args?: unknown) => {
+        calls.push([fn, args]);
+        return { data: fn === "pending_deliveries" ? pending : null, error: null };
+      }),
+    };
+    const supabase = { system: () => db } as unknown as SupabaseService;
+    const sms = new SimulatedSmsSender();
+    const email = { send: vi.fn(async () => Promise.reject(new Error("Brevo 503"))) };
+    const service = new DeliveriesService(supabase, configOf({ WEB_ORIGIN: "https://w.example" }), sms, email);
+    expect(await service.dispatch()).toEqual({ sent: 1, failed: 1, skipped: 1 });
+    expect(sms.sent).toEqual([{ to: "+22901970000001", text: "Wanyiyi : Friday's evening is going ahead.", tag: "team.message" }]);
+    expect(email.send).toHaveBeenCalledWith(expect.objectContaining({ to: "ayaba@example.com", tag: "evening.invitation" }));
+    expect(calls.slice(1)).toEqual([
+      ["mark_delivery", { p_delivery: "d1", p_ok: true }],
+      ["mark_delivery", { p_delivery: "d2", p_ok: false, p_error: "aucune adresse e-mail confirmée", p_skip: true }],
+      ["mark_delivery", { p_delivery: "d3", p_ok: false, p_error: "Brevo 503" }],
+    ]);
   });
 });

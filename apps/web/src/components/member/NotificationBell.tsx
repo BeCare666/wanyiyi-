@@ -71,6 +71,7 @@ export function NotificationBell({ items, unread }: { items: SessionNotification
                       {!n.read && <span aria-hidden="true" className="mr-2 inline-block size-1.5 translate-y-[-2px] bg-accent" />}
                       {t(`kinds.${notificationKey(n.kind)}`)}
                     </p>
+                    {n.message && <p className="mt-1 line-clamp-2 text-xs text-fg-muted">{n.message}</p>}
                     <p className="mt-1 text-xs text-fg-muted">
                       {format.dateTime(new Date(n.createdAt), { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}
                     </p>

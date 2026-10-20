@@ -101,17 +101,23 @@ describe("Écritures directes interdites aux membres", () => {
     expect(settingsRows).toBe(0);
   });
 
-  it("un nouveau profil créé par le membre démarre toujours en « inscription », quel que soit l'état envoyé", async () => {
+  it("un nouveau profil créé par le membre démarre toujours en « inscription » ; plus d'écriture directe (19 octobre 2026)", async () => {
     const id = await createMember(db, { firstName: "Bienvenu", sex: "male" });
     await db.query("delete from app.member_profiles where user_id = $1", [id]);
-    const status = await asUser(db, id, async (tx) => {
-      await tx.query(
-        "insert into app.member_profiles (user_id, first_name, last_name, sex, birth_date, status) values ($1, 'Bienvenu', 'Fictif', 'male', '1990-01-01', 'verified')",
-        [id],
+    const result = await asUser(db, id, async (tx) => {
+      await tx.exec("savepoint direct");
+      const direct = await failure(
+        tx.query(
+          "insert into app.member_profiles (user_id, first_name, last_name, sex, birth_date, status) values ($1, 'Bienvenu', 'Fictif', 'male', '1990-01-01', 'verified')",
+          [id],
+        ),
       );
-      return rows(tx.query<{ status: string }>("select status from app.member_profiles where user_id = $1", [id]));
+      await tx.exec("rollback to savepoint direct");
+      await tx.query("select app.complete_registration('Bienvenu', 'Fictif', 'male', '1990-01-01', 'Cotonou', true)");
+      return { direct, status: await rows(tx.query<{ status: string }>("select status from app.member_profiles where user_id = $1", [id])) };
     });
-    expect(status[0]?.status).toBe("registering");
+    expect(result.direct).toMatch(/row-level security/);
+    expect(result.status[0]?.status).toBe("registering");
   });
 });
 

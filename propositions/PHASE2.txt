@@ -108,6 +108,22 @@ Décisions du 14 octobre 2026
     20261017000100_depot_verification.sql. À l'étape 5 : consultation des
     fichiers par l'équipe (lien signé créé par l'API après open_id_document,
     journalisé).
+  Décisions du 19 octobre 2026 : âge minimum 18 ans révolus, sans maximum
+    (question 3) ; adresse e-mail facultative à l'inscription, confirmée par
+    lien, modifiable dans les paramètres.
+  Fait le 19 octobre 2026 : inscription (/inscription, qui remplace la page
+    provisoire de la phase 1) en trois étapes : numéro de téléphone, code SMS
+    (le compte naît ici), identité (prénom, nom, sexe, date de naissance, ville,
+    e-mail facultatif) et consentement au règlement et à la confidentialité,
+    puis direction la vérification. Déjà membre : vers l'espace ; compte sans
+    profil : reprise à l'identité. Fonction app.complete_registration (18 ans
+    au jour de Cotonou, paramètre members.minimum_age, journalisée) ; plus de
+    création directe du profil. Migration 20261019000700_inscription.sql.
+    Paramètres : rubrique adresse e-mail (lien de confirmation) et canal
+    « e-mail » ajouté aux canaux de notification.
+    L'inscription ne fonctionne réellement qu'une fois le projet Supabase
+    configuré (question 1) et l'API en ligne pour l'envoi des SMS par Brevo
+    (questions 13 et 14) ; sans cela, la page affiche « pas encore ouverte ».
   Reste : entretien et frais d'inscription (questions 2 et 5), profil ; dans les paramètres :
     confidentialité, téléchargement des données, suppression du compte
     (questions 15 à 17).
@@ -183,6 +199,38 @@ Décisions du 14 octobre 2026
     côté serveur. Fonction app.admin_payments, migration
     20261019000300_admin_paiements.sql. Le rapprochement attend le choix du
     prestataire (question 7).
+    Recherche globale (11.1) : bouton de l'en-tête, raccourci Ctrl+K (Cmd+K)
+    ou « / », fenêtre accessible au clavier, recherche instantanée ; membres,
+    dossiers, soirées, lieux et paiements selon les permissions de chacun.
+    Fonction app.admin_search, migration 20261019000400_recherche_globale.sql.
+    Filtres avancés (11.3), liste des membres : constructeur ET / OU avec un
+    niveau de sous-groupes (14 conditions), texte, listes, plages d'âge et de
+    nombres, dates avec raccourcis (aujourd'hui, 7 jours, ce mois), oui / non,
+    relations (soirées suivies, matchs) ; tri sur 3 colonnes, choix des
+    colonnes, tout dans l'adresse ; filtres enregistrés, personnels ou
+    partagés (table saved_filters du schéma initial, politiques ajoutées).
+    SQL construit en liste blanche, valeurs échappées. Fonction
+    app.admin_members_filtered, migration 20261019000500_filtres_avances.sql.
+    Décisions du 19 octobre 2026 (question 23) : bibliothèque « exceljs »
+    acceptée ; téléphones dans un export réservés à la super administration.
+    Export CSV et Excel du résultat filtré (/admin/membres/export) : mêmes
+    filtres, tri et colonnes que la liste, 5 000 lignes au plus, téléphones
+    retirés par la base hors super administration, chaque export journalisé
+    (members.exported). CSV protégé contre les formules de tableur. Fonction
+    app.admin_members_export, migration 20261019000600_export_membres.sql.
+    Actions groupées (question 24 réglée) sur la liste des membres : cases à
+    cocher (200 au plus) ou tout le résultat du filtre (5 000 au plus) ;
+    « envoyer une notification » (texte écrit en français, anglais et yoruba,
+    chaque membre reçoit le sien) et « inviter à une soirée » publiée à venir
+    (notification avec lien, membres validés seulement), avec seconde
+    confirmation. Notification dans l'espace membre, plus une file d'envoi SMS
+    et e-mail selon les canaux de chacun (e-mail seulement vers une adresse
+    confirmée), vidée chaque minute par l'API via Brevo, retentée jusqu'à 5
+    fois. Fonctions app.admin_notify_members, app.admin_invite_members,
+    app.invitable_events, app.pending_deliveries, app.mark_delivery ; table
+    notification_deliveries du schéma initial complétée. Migration
+    20261019000800_actions_groupees.sql. Journalisées.
+    En attente : extension des filtres aux autres listes.
   Reste : modération des textes ; dans Soirées : minuteur sur tablette
     (question 8),
     création des thèmes (questions 4 et 21), composition assistée (critères
@@ -209,6 +257,7 @@ QUESTIONS (je n'invente pas les réponses)
   2. Tarifs en francs CFA : frais d'inscription, prix d'une soirée.
      Remboursement en cas d'annulation : oui ou non, et jusqu'à quand ?
   3. Âge minimum pour s'inscrire (et âge maximum éventuel).
+     RÉPONSE (19 octobre 2026) : 18 ans révolus, pas d'âge maximum.
   4. Profil : bornes des tranches de taille (10 cm), tranches de revenus,
      liste des secteurs d'activité.
   5. Entretien de vérification : en personne, par appel vidéo, ou les deux ?
@@ -272,3 +321,18 @@ QUESTIONS (je n'invente pas les réponses)
         attendant, ou seulement une fois approuvé ?
      Le filtre automatique des textes (numéros, liens, réseaux sociaux) existe
      déjà côté domaine ; ces règles concernent la relecture humaine.
+ 23. Export Excel des listes filtrées (11.3) : j'aimerais ajouter la bibliothèque
+     libre « exceljs » (npm, licence MIT) pour produire un vrai fichier .xlsx.
+     L'acceptez-vous ? L'export CSV, lui, se fait sans bibliothèque. Un export
+     de membres peut contenir des téléphones : faut-il les inclure, ou les
+     réserver à la super administration ?
+ 24. Actions groupées (11.3) : préciser chacune.
+     RÉPONSE (19 octobre 2026) : seulement « envoyer une notification » (texte
+     écrit en 3 langues, chaque membre reçoit le sien ; espace membre, SMS et
+     e-mail selon ses canaux) et « inviter à une soirée » (notification avec
+     lien ; le membre réserve et paie lui-même).
+     a) « Valider » : valider en lot des dossiers de vérification complets ?
+     b) « Envoyer une notification » : texte libre écrit par l'équipe, dans
+        quelle langue (celle de chaque membre ?) et par quels canaux ?
+     c) « Inviter à une soirée » : simple notification avec un lien vers la
+        soirée, ou réservation d'une place au nom du membre ?

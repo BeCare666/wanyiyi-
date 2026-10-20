@@ -25,7 +25,25 @@ import {
 } from "../src/app/[locale]/(admin)/admin/soirees/evenings";
 import { canPrintTables, qrPath, voteUrl } from "../src/app/[locale]/(admin)/admin/soirees/tables";
 import { parsePaymentQuery, paymentQueryParams, paymentRpcArgs, providerKey, refundState } from "../src/app/[locale]/(admin)/admin/paiements/payments";
+import {
+  combineFilters,
+  dateRange,
+  decodeFilter,
+  emptyCondition,
+  encodeFilter,
+  type FilterGroup,
+  formatSort,
+  isBuilderFilter,
+  isValidFilter,
+  parseColumns,
+  parseSort,
+  pruneFilter,
+} from "../src/app/[locale]/(admin)/admin/membres/filters";
+import { csvCell, exportColumns, exportFileName, exportTable, toCsv, toXlsx } from "../src/app/[locale]/(admin)/admin/membres/exporting";
+import { checkMessage, everyone, targetArgs } from "../src/app/[locale]/(admin)/admin/membres/bulk";
 import { isAdminNavActive, visibleAdminNav } from "../src/components/admin/adminNav";
+import ExcelJS from "exceljs";
+import { groupHits, hitStatusKey, isSearchShortcut, type SearchHit, searchHref } from "../src/components/admin/search";
 import QRCode from "qrcode";
 
 describe("Menu de l'administration (11.1)", () => {
@@ -187,6 +205,202 @@ describe("Codes QR des tables (11.2-5, question 20)", () => {
     expect((size - 17) % 4).toBe(0);
     expect(path.match(/M/g)?.length).toBe(Array.from(modules.data).filter(Boolean).length);
     expect(path).not.toMatch(/#|rgb/);
+  });
+});
+
+describe("Filtres avancés des membres (11.3)", () => {
+  const nested: FilterGroup = {
+    op: "and",
+    items: [
+      { field: "sex", cmp: "in", value: ["female"] },
+      { op: "or", items: [{ field: "age", cmp: "between", value: [25, 35] }, { field: "created_at", cmp: "between", value: ["2026-10-01", null] }] },
+    ],
+  };
+
+  it("mêmes règles que la base : champ, comparaison, valeur, profondeur, nombre", () => {
+    expect(isValidFilter(nested)).toBe(true);
+    expect(isValidFilter({ field: "phone; drop", cmp: "contains", value: "1" })).toBe(false);
+    expect(isValidFilter({ field: "name", cmp: "equals", value: "x" })).toBe(false);
+    expect(isValidFilter({ field: "status", cmp: "in", value: ["inconnu"] })).toBe(false);
+    expect(isValidFilter({ field: "age", cmp: "between", value: [null, null] })).toBe(false);
+    expect(isValidFilter({ field: "age", cmp: "between", value: [18.5, null] })).toBe(false);
+    expect(isValidFilter({ field: "created_at", cmp: "between", value: ["hier", null] })).toBe(false);
+    const deep = { op: "and", items: [{ op: "and", items: [{ op: "and", items: [{ op: "and", items: [] }] }] }] };
+    expect(isValidFilter(deep)).toBe(false);
+    expect(isValidFilter({ op: "and", items: Array.from({ length: 21 }, () => ({ field: "name", cmp: "contains", value: "a" })) })).toBe(false);
+  });
+
+  it("adresse : aller-retour du filtre (accents compris) ; paramètre illisible ou trop profond ignoré", () => {
+    const withAccent: FilterGroup = { op: "or", items: [{ field: "name", cmp: "contains", value: "Houéfa" }] };
+    expect(decodeFilter(encodeFilter(nested))).toEqual(nested);
+    expect(decodeFilter(encodeFilter(withAccent))).toEqual(withAccent);
+    expect(encodeFilter(nested)).toMatch(/^[\w-]+$/);
+    expect(decodeFilter("pas-du-json")).toBeNull();
+    expect(decodeFilter(undefined)).toBeNull();
+    const twoLevels: FilterGroup = { op: "and", items: [{ op: "or", items: [{ op: "and", items: [{ field: "sanctioned", cmp: "is", value: true }] }] }] };
+    expect(decodeFilter(encodeFilter(twoLevels))).toBeNull(); // le constructeur s'arrête à un niveau de sous-groupes
+  });
+
+  it("lignes incomplètes et groupes vides retirés avant l'envoi", () => {
+    const draft: FilterGroup = {
+      op: "and",
+      items: [emptyCondition("name"), { op: "or", items: [emptyCondition("status")] }, { field: "sanctioned", cmp: "is", value: false }],
+    };
+    expect(pruneFilter(draft)).toEqual({ op: "and", items: [{ field: "sanctioned", cmp: "is", value: false }] });
+    expect(pruneFilter({ op: "and", items: [emptyCondition("age")] })).toBeNull();
+  });
+
+  it("recherche simple ajoutée par un ET, dans les limites de la base", () => {
+    const combined = combineFilters({ search: "+229 01 97", status: "verified", role: null, sex: null }, nested)!;
+    expect(isValidFilter(combined)).toBe(true);
+    expect(combined).toEqual({
+      op: "and",
+      items: [
+        {
+          op: "or",
+          items: [
+            { field: "name", cmp: "contains", value: "+229 01 97" },
+            { field: "member_number", cmp: "contains", value: "+229 01 97" },
+            { field: "phone", cmp: "contains", value: "2290197" },
+          ],
+        },
+        { field: "status", cmp: "in", value: ["verified"] },
+        ...nested.items,
+      ],
+    });
+    // Constructeur plein (un niveau de sous-groupes, 14 conditions) + recherche + filtres rapides
+    const full: FilterGroup = { op: "or", items: [{ op: "and", items: Array.from({ length: 14 }, () => ({ field: "city", cmp: "contains", value: "Cotonou" })) }] };
+    expect(isBuilderFilter(full)).toBe(true);
+    expect(isValidFilter(combineFilters({ search: "12345", status: "verified", role: "member", sex: "male" }, full))).toBe(true);
+    expect(combineFilters({ search: "", status: null, role: null, sex: null }, null)).toBeNull();
+  });
+
+  it("tri : 3 colonnes au plus, sans doublon ; colonnes affichées, par défaut sinon", () => {
+    expect(parseSort("age.desc,name.asc,age.asc,sex.asc,matches.desc,status.asc")).toEqual([
+      { field: "age", dir: "desc" },
+      { field: "name", dir: "asc" },
+      { field: "matches", dir: "desc" },
+    ]);
+    expect(formatSort(parseSort("age.desc,name.asc"))).toBe("age.desc,name.asc");
+    expect(parseSort(undefined)).toEqual([]);
+    expect(parseColumns("phone,status,inconnu")).toEqual(["status", "phone"]);
+    expect(parseColumns("inconnu")).toEqual(["status", "role", "activity", "joined"]);
+  });
+
+  it("raccourcis de dates à l'heure de Cotonou", () => {
+    const lateEvening = new Date("2026-10-19T23:30:00Z"); // déjà le 20 à Cotonou
+    expect(dateRange("today", lateEvening)).toEqual(["2026-10-20", "2026-10-20"]);
+    expect(dateRange("week", lateEvening)).toEqual(["2026-10-14", "2026-10-20"]);
+    expect(dateRange("month", lateEvening)).toEqual(["2026-10-01", "2026-10-20"]);
+  });
+});
+
+describe("Export des membres (11.3, décisions du 19 octobre 2026)", () => {
+  const row = {
+    user_id: "u1",
+    member_number: "W-0001",
+    phone: "+22901970000001",
+    role: "member",
+    first_name: "Ayaba",
+    last_name: "Fictif, \"dit\" A",
+    sex: "female",
+    birth_date: "1990-03-01",
+    city: "=HYPERLINK(\"x\")",
+    status: "verified",
+    created_at: "2026-10-19T10:00:00Z",
+    evenings_attended: 4,
+    matches: 0,
+    total: 1,
+  } as const;
+  const labels = {
+    header: (c: string) => c.toUpperCase(),
+    status: (s: string) => `état ${s}`,
+    role: (r: string) => `rôle ${r}`,
+    sex: (s: string) => `sexe ${s}`,
+    date: (iso: string) => iso.slice(0, 10),
+    age: () => 36,
+  };
+
+  it("colonnes : identité, puis celles de la liste ; téléphone pour la super administration seulement", () => {
+    expect(exportColumns(["status", "phone", "activity"], false)).toEqual(["member_number", "first_name", "last_name", "status", "evenings_attended", "matches"]);
+    expect(exportColumns(["phone"], true)).toEqual(["member_number", "first_name", "last_name", "phone"]);
+  });
+
+  it("CSV : guillemets échappés, formules neutralisées, BOM et fins de ligne CRLF", () => {
+    const table = exportTable([row], ["first_name", "last_name", "city", "phone", "status", "matches"], labels);
+    const csv = toCsv(table);
+    expect(csv.startsWith("\uFEFFFIRST_NAME,LAST_NAME,CITY,PHONE,STATUS,MATCHES\r\n")).toBe(true);
+    expect(csv).toContain('Ayaba,"Fictif, ""dit"" A","\'=HYPERLINK(""x"")",\'+22901970000001,état verified,0\r\n');
+    expect(csvCell(null)).toBe("");
+    expect(csvCell("-1")).toBe("'-1");
+    expect(exportFileName("xlsx", "2026-10-19")).toBe("membres-2026-10-19.xlsx");
+  });
+
+  it("Excel : fichier lisible, en-tête puis lignes, nombres conservés", async () => {
+    const table = exportTable([row], ["member_number", "first_name", "age", "matches"], labels);
+    const buffer = await toXlsx(table, "Membres");
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.load(buffer);
+    const sheet = workbook.getWorksheet("Membres")!;
+    expect(sheet.getRow(1).values).toEqual([undefined, "MEMBER_NUMBER", "FIRST_NAME", "AGE", "MATCHES"]);
+    expect(sheet.getRow(2).values).toEqual([undefined, "W-0001", "Ayaba", 36, 0]);
+    expect(sheet.getRow(1).font?.bold).toBe(true);
+  }, 30_000);
+});
+
+describe("Actions groupées (11.3, décisions du 19 octobre 2026)", () => {
+  const id = "0b0f6a52-6f0c-4f4e-9d9a-5c2a9a3f2e11";
+
+  it("cible : membres cochés (200 au plus, identifiants valables, sans doublon) ou résultat du filtre", () => {
+    expect(targetArgs({ kind: "selected", ids: [id, id] })).toEqual({ p_targets: [id], p_filter: null });
+    expect(targetArgs({ kind: "selected", ids: [] })).toBeNull();
+    expect(targetArgs({ kind: "selected", ids: ["pas-un-uuid"] })).toBeNull();
+    const many = Array.from({ length: 201 }, (_, i) => `0b0f6a52-6f0c-4f4e-9d9a-${String(i).padStart(12, "0")}`);
+    expect(targetArgs({ kind: "selected", ids: many })).toBeNull();
+    expect(targetArgs({ kind: "filter", filter: everyone })).toEqual({ p_targets: null, p_filter: { op: "and", items: [] } });
+    expect(targetArgs({ kind: "filter", filter: { field: "inconnu" } as unknown as FilterGroup })).toBeNull();
+  });
+
+  it("message complet dans les trois langues, 500 caractères au plus chacun", () => {
+    const message = { fr: "Bonjour", en: "Hello", yo: "Ẹ n lẹ́" };
+    expect(checkMessage(message)).toBeNull();
+    expect(checkMessage({ ...message, yo: "  " })).toBe("invalid_message");
+    expect(checkMessage({ ...message, en: "x".repeat(501) })).toBe("invalid_message");
+  });
+});
+
+describe("Recherche globale (11.1)", () => {
+  const hit = (kind: SearchHit["kind"], detail: string | null = null, title: string | null = "x"): SearchHit => ({ kind, id: "id1", title, detail, at: null });
+
+  it("chaque résultat ouvre sa page ; un paiement ouvre la liste filtrée sur sa référence", () => {
+    expect(searchHref(hit("member"))).toBe("/admin/membres/id1");
+    expect(searchHref(hit("verification"))).toBe("/admin/verifications/id1");
+    expect(searchHref(hit("evening"))).toBe("/admin/soirees/id1");
+    expect(searchHref(hit("venue"))).toBe("/admin/lieux");
+    expect(searchHref(hit("payment", null, "sim_42"))).toEqual({ pathname: "/admin/paiements", query: { q: "sim_42" } });
+    expect(searchHref(hit("payment", null, null))).toBe("/admin/paiements");
+  });
+
+  it("regroupés dans l'ordre des modules, types inconnus ignorés ; états traduits seulement s'ils sont connus", () => {
+    const groups = groupHits([hit("payment"), hit("member"), { ...hit("member"), kind: "autre" as SearchHit["kind"] }, hit("evening")]);
+    expect(groups.map((g) => [g.kind, g.hits.length])).toEqual([
+      ["member", 1],
+      ["evening", 1],
+      ["payment", 1],
+    ]);
+    expect(hitStatusKey(hit("verification", "to_correct"))).toBe("verifications.status.to_correct");
+    expect(hitStatusKey(hit("evening", "inconnu"))).toBeNull();
+    expect(hitStatusKey(hit("member", "W-0001"))).toBeNull();
+  });
+
+  it("raccourci : Ctrl+K ou Cmd+K partout ; « / » seulement hors d'un champ", () => {
+    const key = (k: string, mods: Partial<{ ctrlKey: boolean; metaKey: boolean; altKey: boolean }> = {}) => ({ key: k, ctrlKey: false, metaKey: false, altKey: false, ...mods });
+    expect(isSearchShortcut(key("k", { ctrlKey: true }), true)).toBe(true);
+    expect(isSearchShortcut(key("K", { metaKey: true }), false)).toBe(true);
+    expect(isSearchShortcut(key("/"), false)).toBe(true);
+    expect(isSearchShortcut(key("/"), true)).toBe(false);
+    expect(isSearchShortcut(key("k"), false)).toBe(false);
+    expect(isSearchShortcut(key("k", { ctrlKey: true, altKey: true }), false)).toBe(false);
   });
 });
 
