@@ -26,4 +26,28 @@ describe("Configuration de l'API", () => {
     expect(() => validateEnv({ ...keys, NODE_ENV: "production" })).toThrow(/KKIAPAY_SANDBOX/);
     expect(() => validateEnv({ ...keys, KKIAPAY_SANDBOX: "oui" })).toThrow(/KKIAPAY_SANDBOX/);
   });
+
+  it("production (20 octobre 2026) : hook e-mail exigé, hook SMS facultatif, adresse publique du site", () => {
+    const base = {
+      NODE_ENV: "production",
+      SUPABASE_URL: "https://p.supabase.co",
+      SUPABASE_ANON_KEY: "a",
+      SUPABASE_SERVICE_ROLE_KEY: "s",
+      SEND_EMAIL_HOOK_SECRET: "v1,whsec_x",
+      SMS_PROVIDER: "brevo",
+      EMAIL_PROVIDER: "brevo",
+      BREVO_API_KEY: "k",
+      BREVO_SMS_SENDER: "Wanyiyi",
+      BREVO_SENDER_EMAIL: "contact@wanyiyi.example",
+      PAYMENT_PROVIDER: "kkiapay",
+      KKIAPAY_PUBLIC_KEY: "pk",
+      KKIAPAY_PRIVATE_KEY: "pk2",
+      KKIAPAY_SECRET: "sk",
+      KKIAPAY_SANDBOX: "false",
+      WEB_ORIGIN: "https://wanyiyi.example",
+    };
+    expect(validateEnv(base).SEND_SMS_HOOK_SECRET).toBeUndefined();
+    expect(() => validateEnv({ ...base, SEND_EMAIL_HOOK_SECRET: "" })).toThrow(/SEND_EMAIL_HOOK_SECRET/);
+    expect(() => validateEnv({ ...base, WEB_ORIGIN: "http://localhost:3000" })).toThrow(/WEB_ORIGIN/);
+  });
 });

@@ -4,6 +4,7 @@ import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { channelsFrom, isLocale, type Settings } from "./settings";
 import { EmailForm } from "./EmailForm";
+import { PhoneForm } from "./PhoneForm";
 import { SettingsForm } from "./SettingsForm";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -12,10 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /** Paramètres enregistrés du membre, lus avec son jeton (RLS). */
-async function loadSettings(userId: string): Promise<Settings> {
+async function loadSettings(userId: string): Promise<Settings & { phone: string | null }> {
   const supabase = await createSupabaseServer();
   const [user, prefs] = await Promise.all([
-    supabase?.from("users").select("locale, dark_mode").eq("id", userId).maybeSingle(),
+    supabase?.from("users").select("locale, dark_mode, phone").eq("id", userId).maybeSingle(),
     supabase?.from("notification_preferences").select("channel, enabled"),
   ]);
   const locale: unknown = user?.data?.locale;
@@ -23,6 +24,7 @@ async function loadSettings(userId: string): Promise<Settings> {
     locale: isLocale(locale) ? locale : "fr",
     darkMode: Boolean(user?.data?.dark_mode),
     channels: channelsFrom((prefs?.data ?? []) as { channel: string; enabled: boolean }[]),
+    phone: (user?.data?.phone as string | null | undefined) ?? null,
   };
 }
 
@@ -36,8 +38,9 @@ async function loadEmail() {
 }
 
 /**
- * Paramètres (section 6.2-9) : langue, mode sombre, canaux de notification, adresse e-mail
- * facultative (19 octobre 2026). ?email=echec : l'adresse donnée à l'inscription n'a pas été acceptée.
+ * Paramètres (section 6.2-9) : langue, mode sombre, canaux de notification, adresse e-mail du compte
+ * et téléphone facultatif (20 octobre 2026). ?email=confirme : retour du lien de changement d'adresse
+ * (confirmé seulement si aucune adresse n'attend plus de confirmation).
  * Confidentialité, téléchargement des données et suppression du compte attendent
  * les règles demandées (PHASE2.txt, questions 15 à 17).
  */
@@ -46,7 +49,7 @@ export default async function SettingsPage({ searchParams }: Props) {
   const member = await getSessionMember();
   if (!member) return null;
   const [settings, email] = await Promise.all([loadSettings(member.id), loadEmail()]);
-  const failedAtSignup = (await searchParams).email === "echec";
+  const confirmed = (await searchParams).email === "confirme" && !email.pending;
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -58,7 +61,8 @@ export default async function SettingsPage({ searchParams }: Props) {
         <h1 className="mt-6 text-4xl">{t("settings.title")}</h1>
       </header>
       <SettingsForm initial={settings} />
-      <EmailForm current={email.current} pending={email.pending} failedAtSignup={failedAtSignup} />
+      <EmailForm current={email.current} pending={email.pending} confirmed={confirmed} />
+      <PhoneForm current={settings.phone} />
     </div>
   );
 }

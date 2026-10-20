@@ -6,8 +6,7 @@ import { checkIdentity, type Identity } from "./registration";
 
 /**
  * Dernière étape de l'inscription : consentement et identité, avec le jeton du membre tout juste
- * connecté par son code SMS. app.complete_registration contrôle à nouveau chaque règle.
- * L'adresse e-mail facultative est enregistrée ensuite par le navigateur (lien de confirmation).
+ * connecté par le lien de confirmation de son adresse. app.complete_registration contrôle à nouveau chaque règle.
  */
 export async function completeRegistration(identity: Identity): Promise<ApiResult<void>> {
   const invalid = checkIdentity(identity, new Date());

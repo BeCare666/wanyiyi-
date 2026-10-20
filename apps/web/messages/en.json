@@ -77,7 +77,7 @@
     "steps": [
       {
         "title": "Registration",
-        "text": "You create your account with your phone number, then describe yourself sincerely."
+        "text": "You create your account with your e-mail address, then describe yourself sincerely."
       },
       {
         "title": "Verification",
@@ -358,7 +358,7 @@
       {
         "title": "Data collected",
         "paragraphs": [
-          "Your phone number, your identity, your identity document, your marital status declaration, your profile answers, your photos, your bookings, your votes and your messages.",
+          "Your e-mail address, your phone number if you give it, your identity, your identity document, your marital status declaration, your profile answers, your photos, your bookings, your votes and your messages.",
           "We never ask for your skin tone, your ethnicity, your exact address or the name of your employer."
         ]
       },
@@ -443,25 +443,28 @@
   "Register": {
     "eyebrow": "Become a member",
     "title": "Your registration, in five steps.",
-    "intro": "Registration is done from your phone. Each step is explained, and our team is available at any time.",
+    "intro": "Registration is done with your e-mail address. Each step is explained, and our team is available at any time.",
     "steps": [
-      "Your phone number and the code received by text message",
+      "Your e-mail address, confirmed by a link",
       "Your identity document",
       "Your interview appointment",
       "Your sworn statement",
       "Payment of the registration fee by Mobile Money"
     ],
-    "phoneTitle": "Your phone number",
-    "phone": "Phone number",
-    "phoneHelp": "International format: the + sign, the country code, then the number. You will receive a code by SMS.",
-    "send": "Get the code",
+    "accountTitle": "Your account",
+    "email": "E-mail address",
+    "emailHelp": "A confirmation link will be sent to this address.",
+    "password": "Password",
+    "passwordHelp": "At least 8 characters.",
+    "passwordConfirm": "Confirm the password",
+    "create": "Create my account",
     "already": "Already a member? <signin>Sign in</signin>",
-    "codeTitle": "The code received by SMS",
-    "sentTo": "Code sent to {phone}.",
-    "code": "Code received by SMS",
-    "verify": "Confirm the code",
-    "resend": "Send the code again",
-    "changeNumber": "Change number",
+    "inboxTitle": "Confirm your address",
+    "inboxText": "A confirmation link has just been sent to {email}. Open it to continue your registration. Please also check your spam folder.",
+    "inboxExisting": "Already have an account with this address? <signin>Sign in</signin>.",
+    "resend": "Send the link again",
+    "resent": "A new link has just been sent.",
+    "changeEmail": "Change address",
     "identityTitle": "Who are you?",
     "identityIntro": "This information will be compared with your identity document during verification.",
     "firstName": "First name",
@@ -476,13 +479,9 @@
     "city": "City",
     "cityHelp": "Your city only, never your address. Optional.",
     "identityHelp": "You must be at least 18 years old. Sex and date of birth are checked against your identity document and cannot be changed afterwards.",
-    "email": "E-mail address (optional)",
-    "emailHelp": "A confirmation link will be sent to you. Without an address, you receive our messages by SMS and in your space.",
     "consent": "I have read and accept the <rules>rules</rules> and the <privacy>privacy policy</privacy>.",
-    "submit": "Create my account",
+    "submit": "Complete my registration",
     "errors": {
-      "invalidPhone": "Check the number: it must start with + and the country code.",
-      "invalidCode": "This code is incorrect or has expired.",
       "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
       "unavailable": "Registration is not open yet. Please try again later.",
       "invalid_name": "Enter your first and last name (60 characters at most each).",
@@ -490,9 +489,12 @@
       "invalid_birth_date": "Enter a valid date of birth.",
       "too_young": "Registration is reserved for people aged 18 or over.",
       "invalid_city": "The city name is too long.",
-      "invalid_email": "Check the e-mail address, or leave the field empty.",
+      "invalid_email": "Check the e-mail address.",
       "consent_required": "To create your account, accept the rules and the privacy policy.",
-      "forbidden": "Your session has expired. Start again from the phone number.",
+      "forbidden": "Your session has expired. Sign in to resume your registration.",
+      "weak_password": "The password must have at least 8 characters.",
+      "password_mismatch": "The two passwords do not match.",
+      "email_exists": "An account already exists with this address. Please sign in.",
       "generic": "Something went wrong. Please try again in a moment."
     }
   },
@@ -667,22 +669,36 @@
       "channels": {
         "in_app": "In the app",
         "whatsapp": "WhatsApp",
-        "sms": "SMS",
         "email": "E-mail"
       },
       "saved": "Saved.",
       "error": "Saving failed. Please try again in a moment.",
       "email": {
         "title": "E-mail address",
-        "help": "Optional. It is used to write to you if you chose it among your notification channels.",
+        "help": "It is used to sign in, and to write to you if you chose it among your notification channels. A change is confirmed by a link sent to the new address.",
         "current": "Confirmed address: {email}",
         "pending": "Awaiting confirmation: {email}. Open the link received by e-mail.",
         "label": "New address",
-        "save": "Save the address",
+        "save": "Change address",
         "states": {
           "sent": "A confirmation link has just been sent to this address.",
           "invalid": "Check the e-mail address.",
-          "failed": "The address could not be saved. Check it, or try again later."
+          "failed": "The address could not be saved. Check it, or try again later.",
+          "confirmed": "Your new address is confirmed."
+        }
+      },
+      "phone": {
+        "title": "Phone number",
+        "help": "Optional. It is not verified: please check it carefully. It is never shown to other members, unless you choose to share it after a match.",
+        "label": "Number (international format)",
+        "save": "Save the number",
+        "remove": "Remove the number",
+        "states": {
+          "saved": "Number saved.",
+          "removed": "Number removed.",
+          "invalid_phone": "Check the number: it must start with + and the country code.",
+          "phone_taken": "This number is already used by another account.",
+          "failed": "The number could not be saved. Please try again later."
         }
       }
     },
@@ -782,20 +798,19 @@
   },
   "SignIn": {
     "title": "Sign in",
-    "intro": "Receive a code by text message on your account's phone number.",
-    "phone": "Phone number",
-    "phoneHelp": "International format: the + sign, the country code, then the number.",
-    "send": "Send me the code",
-    "sentTo": "Code sent to {phone}.",
-    "code": "Code received by text message",
-    "verify": "Sign in",
-    "changeNumber": "Change number",
-    "resend": "Send the code again",
+    "intro": "Sign in with the e-mail address and password of your account.",
+    "email": "E-mail address",
+    "password": "Password",
+    "submit": "Sign in",
+    "forgot": "Forgot your password?",
+    "noAccount": "Not a member yet?",
     "noAccountCta": "Become a member",
+    "resendConfirmation": "Send the confirmation link again",
+    "resent": "A new confirmation link has just been sent.",
     "errors": {
-      "invalidPhone": "Please check the number: it must start with + and the country code.",
-      "noAccount": "No account is linked to this number.",
-      "invalidCode": "This code is incorrect or has expired.",
+      "invalidCredentials": "Incorrect e-mail address or password.",
+      "notConfirmed": "Your address is not confirmed yet. Open the link received by e-mail.",
+      "invalidLink": "This link is no longer valid: it has already been used or has expired. Sign in, or ask for a new link.",
       "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
       "unavailable": "Sign in is not open yet.",
       "generic": "Something went wrong. Please try again in a moment."
@@ -1453,7 +1468,7 @@
         "notify": "Send a notification",
         "invite": "Invite to an evening",
         "message": "Message",
-        "messageHelp": "Write it in all three languages: each member receives the one in their language, in their space, and by SMS and e-mail if they chose these channels. 500 characters at most.",
+        "messageHelp": "Write it in all three languages: each member receives the one in their language, in their space, and by e-mail if they chose this channel. 500 characters at most.",
         "languages": {
           "fr": "French",
           "en": "English",
@@ -1539,6 +1554,29 @@
         "venue": "Venues",
         "payment": "Payments"
       }
+    }
+  },
+  "Password": {
+    "forgotTitle": "Forgotten password",
+    "forgotIntro": "Enter the e-mail address of your account: we will send you a link to choose a new password.",
+    "email": "E-mail address",
+    "send": "Send me the link",
+    "sent": "If an account exists with this address, a link has just been sent to it. Please also check your spam folder.",
+    "back": "Back to sign in",
+    "newTitle": "New password",
+    "newIntro": "Choose the new password of your account.",
+    "password": "New password",
+    "passwordHelp": "At least 8 characters.",
+    "passwordConfirm": "Confirm the password",
+    "save": "Save the password",
+    "errors": {
+      "invalid_email": "Check the e-mail address.",
+      "weak_password": "The password must have at least 8 characters.",
+      "password_mismatch": "The two passwords do not match.",
+      "same_password": "Choose a password different from the previous one.",
+      "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
+      "unavailable": "This service is not open yet.",
+      "generic": "Something went wrong. Please try again in a moment."
     }
   }
 }

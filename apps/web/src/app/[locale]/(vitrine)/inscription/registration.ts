@@ -1,12 +1,32 @@
 import { isEmail } from "../../(membre)/espace/parametres/settings";
 
 /**
- * Identité déclarée à l'inscription (section 6.2-2), mêmes règles que app.complete_registration :
- * 18 ans révolus au jour de Cotonou, sans âge maximum (décision du 19 octobre 2026) ;
- * adresse e-mail facultative (décision du 19 octobre 2026).
+ * Inscription (section 6.2-2) : compte par e-mail et mot de passe (décision du 20 octobre 2026),
+ * puis identité, mêmes règles que app.complete_registration : 18 ans révolus au jour de Cotonou,
+ * sans âge maximum (décision du 19 octobre 2026).
  */
 
 export const MINIMUM_AGE = 18;
+
+/** Longueur minimale du mot de passe, à régler aussi dans Supabase (Authentication, Providers, Email). */
+export const MINIMUM_PASSWORD_LENGTH = 8;
+
+export type Account = { email: string; password: string; passwordConfirm: string };
+export type PasswordError = "weak_password" | "password_mismatch";
+export type AccountError = "invalid_email" | PasswordError;
+
+/** Mot de passe accepté : 8 caractères au moins, 72 octets au plus (limite de Supabase Auth). */
+export function checkPassword(password: string, confirm: string): PasswordError | null {
+  if ([...password].length < MINIMUM_PASSWORD_LENGTH || new TextEncoder().encode(password).length > 72) return "weak_password";
+  if (password !== confirm) return "password_mismatch";
+  return null;
+}
+
+/** Première erreur de saisie du compte, ou null. */
+export function checkAccount(account: Account): AccountError | null {
+  if (!isEmail(account.email.trim())) return "invalid_email";
+  return checkPassword(account.password, account.passwordConfirm);
+}
 
 export type Identity = {
   firstName: string;
@@ -14,7 +34,6 @@ export type Identity = {
   sex: "female" | "male" | "";
   birthDate: string;
   city: string;
-  email: string;
   consent: boolean;
 };
 
@@ -24,7 +43,6 @@ export type IdentityError =
   | "invalid_birth_date"
   | "too_young"
   | "invalid_city"
-  | "invalid_email"
   | "consent_required";
 
 /** Jour de Cotonou (UTC+1, sans heure d'été) au format AAAA-MM-JJ. */
@@ -62,8 +80,6 @@ export function checkIdentity(identity: Identity, now: Date): IdentityError | nu
   if (!isRealDate(identity.birthDate) || identity.birthDate < "1900-01-01" || identity.birthDate > cotonouDay(now)) return "invalid_birth_date";
   if (ageOnCotonouDay(identity.birthDate, now) < MINIMUM_AGE) return "too_young";
   if (identity.city.trim().length > 80) return "invalid_city";
-  const email = identity.email.trim();
-  if (email !== "" && !isEmail(email)) return "invalid_email";
   if (!identity.consent) return "consent_required";
   return null;
 }

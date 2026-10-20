@@ -38,3 +38,18 @@ export async function saveChannel(channel: string, enabled: boolean): Promise<bo
     .upsert({ user_id: session.id, channel, enabled }, { onConflict: "user_id,channel" });
   return !error;
 }
+
+export type PhoneResult = "saved" | "removed" | "invalid_phone" | "phone_taken" | "failed";
+
+/**
+ * Téléphone facultatif (décision du 20 octobre 2026), non vérifié : app.set_phone contrôle le format
+ * et l'unicité, et journalise. Valeur vide : numéro retiré.
+ */
+export async function savePhone(phone: string): Promise<PhoneResult> {
+  const session = await memberId();
+  if (!session || typeof phone !== "string") return "failed";
+  const { error } = await session.supabase.rpc("set_phone", { p_phone: phone });
+  if (!error) return phone.trim() ? "saved" : "removed";
+  if (error.message === "invalid_phone" || error.message === "phone_taken") return error.message;
+  return "failed";
+}

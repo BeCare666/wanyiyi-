@@ -21,10 +21,11 @@ export function otpSms(locale: Locale, code: string): string {
 }
 
 /** Types d'e-mails d'authentification pris en charge (Send Email Hook de Supabase). */
-export const SUPPORTED_EMAIL_ACTIONS = ["signup", "email_change", "email", "reauthentication"] as const;
+export const SUPPORTED_EMAIL_ACTIONS = ["signup", "recovery", "email_change", "email", "reauthentication"] as const;
 export type EmailAction = (typeof SUPPORTED_EMAIL_ACTIONS)[number];
 
-type EmailText = { subject: string; intro: string; button: string; codeLine: string; ignore: string };
+/** codeLine : seulement pour les e-mails à code (connexion, réauthentification) ; les autres se confirment par le lien. */
+type EmailText = { subject: string; intro: string; button: string; codeLine?: string; ignore: string };
 
 const EMAIL_TEXTS: Record<Locale, Record<EmailAction, EmailText>> = {
   fr: {
@@ -32,14 +33,18 @@ const EMAIL_TEXTS: Record<Locale, Record<EmailAction, EmailText>> = {
       subject: "Confirmez votre adresse e-mail",
       intro: "Merci de votre inscription chez Wanyiyi. Pour confirmer votre adresse e-mail, utilisez le bouton ci-dessous.",
       button: "Confirmer mon adresse",
-      codeLine: "Ou saisissez ce code dans l'application :",
       ignore: "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.",
+    },
+    recovery: {
+      subject: "Choisissez un nouveau mot de passe",
+      intro: "Vous avez demandé à changer le mot de passe de votre compte Wanyiyi. Utilisez le bouton ci-dessous pour en choisir un nouveau. Ce lien ne sert qu'une fois.",
+      button: "Choisir un mot de passe",
+      ignore: "Si vous n'êtes pas à l'origine de cette demande, ignorez ce message : votre mot de passe reste inchangé.",
     },
     email_change: {
       subject: "Confirmez votre nouvelle adresse e-mail",
       intro: "Vous avez demandé à changer l'adresse e-mail de votre compte Wanyiyi. Confirmez-la avec le bouton ci-dessous.",
       button: "Confirmer la nouvelle adresse",
-      codeLine: "Ou saisissez ce code dans l'application :",
       ignore: "Si vous n'êtes pas à l'origine de cette demande, contactez notre équipe.",
     },
     email: {
@@ -62,14 +67,18 @@ const EMAIL_TEXTS: Record<Locale, Record<EmailAction, EmailText>> = {
       subject: "Confirm your email address",
       intro: "Thank you for joining Wanyiyi. To confirm your email address, please use the button below.",
       button: "Confirm my address",
-      codeLine: "Or enter this code in the app:",
       ignore: "If you did not make this request, you can ignore this message.",
+    },
+    recovery: {
+      subject: "Choose a new password",
+      intro: "You asked to change the password of your Wanyiyi account. Please use the button below to choose a new one. This link works only once.",
+      button: "Choose a password",
+      ignore: "If you did not make this request, you can ignore this message: your password stays the same.",
     },
     email_change: {
       subject: "Confirm your new email address",
       intro: "You asked to change the email address of your Wanyiyi account. Please confirm it with the button below.",
       button: "Confirm the new address",
-      codeLine: "Or enter this code in the app:",
       ignore: "If you did not make this request, please contact our team.",
     },
     email: {
@@ -92,14 +101,18 @@ const EMAIL_TEXTS: Record<Locale, Record<EmailAction, EmailText>> = {
       subject: "Ẹ jẹ́rìí sí àdírẹ́sì ímeèlì yín",
       intro: "A dúpẹ́ pé ẹ forúkọ sílẹ̀ ní Wanyiyi. Láti jẹ́rìí sí àdírẹ́sì ímeèlì yín, ẹ tẹ bọ́tìnnì ìsàlẹ̀ yìí.",
       button: "Jẹ́rìí sí àdírẹ́sì mi",
-      codeLine: "Tàbí kí ẹ tẹ kóòdù yìí sínú áàpù náà:",
       ignore: "Bí kì í bá ṣe ẹ̀yin ni ẹ béèrè, ẹ fojú fo ìfiránṣẹ́ yìí.",
+    },
+    recovery: {
+      subject: "Ẹ yan ọ̀rọ̀ aṣínà tuntun",
+      intro: "Ẹ béèrè láti yí ọ̀rọ̀ aṣínà àkáǹtì Wanyiyi yín padà. Ẹ tẹ bọ́tìnnì ìsàlẹ̀ yìí láti yan òmíràn. Ẹ̀ẹ̀kan ṣoṣo ni ìjápọ̀ yìí wúlò.",
+      button: "Yan ọ̀rọ̀ aṣínà",
+      ignore: "Bí kì í bá ṣe ẹ̀yin ni ẹ béèrè, ẹ fojú fo ìfiránṣẹ́ yìí: ọ̀rọ̀ aṣínà yín kò yí padà.",
     },
     email_change: {
       subject: "Ẹ jẹ́rìí sí àdírẹ́sì ímeèlì tuntun yín",
       intro: "Ẹ béèrè láti yí àdírẹ́sì ímeèlì àkáǹtì Wanyiyi yín padà. Ẹ jẹ́rìí sí i pẹ̀lú bọ́tìnnì ìsàlẹ̀ yìí.",
       button: "Jẹ́rìí sí àdírẹ́sì tuntun",
-      codeLine: "Tàbí kí ẹ tẹ kóòdù yìí sínú áàpù náà:",
       ignore: "Bí kì í bá ṣe ẹ̀yin ni ẹ béèrè, ẹ kàn sí ẹgbẹ́ wa.",
     },
     email: {
@@ -166,18 +179,26 @@ export function authEmail(locale: Locale, action: EmailAction, link: string, cod
     title: t.subject,
     paragraphs: [t.intro],
     button: { label: t.button, href: link },
-    extraHtml: `<tr><td style="padding:28px 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#47423b;">${escapeHtml(t.codeLine)} <strong style="font-size:18px;letter-spacing:4px;color:#0e0d10;">${escapeHtml(code)}</strong></td></tr>`,
+    extraHtml: t.codeLine
+      ? `<tr><td style="padding:28px 36px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#47423b;">${escapeHtml(t.codeLine)} <strong style="font-size:18px;letter-spacing:4px;color:#0e0d10;">${escapeHtml(code)}</strong></td></tr>`
+      : undefined,
     footer: t.ignore,
   });
-  const text = `${t.subject}\n\n${t.intro}\n\n${link}\n\n${t.codeLine} ${code}\n\n${t.ignore}`;
+  const text = `${t.subject}\n\n${t.intro}\n\n${link}\n\n${t.codeLine ? `${t.codeLine} ${code}\n\n` : ""}${t.ignore}`;
   return { subject: t.subject, html, text };
 }
 
-/** Lien de confirmation documenté par Supabase pour le Send Email Hook. */
-export function confirmationLink(supabaseUrl: string, tokenHash: string, action: string, redirectTo: string): string {
-  const url = new URL("/auth/v1/verify", supabaseUrl);
-  url.searchParams.set("token", tokenHash);
+/**
+ * Lien de l'e-mail : page /confirmation du site, dans la langue du membre, qui vérifie le jeton
+ * côté serveur (verifyOtp avec token_hash, méthode documentée par Supabase pour le rendu serveur).
+ * Il fonctionne aussi ouvert sur un autre appareil que celui de l'inscription.
+ * Réauthentification : code seul, le lien ouvre simplement le site.
+ */
+export function confirmationLink(webOrigin: string, locale: Locale, tokenHash: string, action: EmailAction): string {
+  const base = webOrigin.replace(/\/+$/, "") + (locale === "fr" ? "" : `/${locale}`);
+  if (action === "reauthentication") return `${base}/`;
+  const url = new URL(`${base}/confirmation`);
+  url.searchParams.set("token_hash", tokenHash);
   url.searchParams.set("type", action);
-  url.searchParams.set("redirect_to", redirectTo);
   return url.toString();
 }

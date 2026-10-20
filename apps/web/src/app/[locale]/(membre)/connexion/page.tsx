@@ -11,11 +11,15 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("title"), robots: { index: false } };
 }
 
-type Props = { searchParams: Promise<{ suite?: string | string[] }> };
+type Props = { searchParams: Promise<{ suite?: string | string[]; lien?: string | string[] }> };
 
-/** Connexion d'un membre existant (code OTP par SMS), puis retour à la page demandée. */
+/**
+ * Connexion d'un membre existant (e-mail et mot de passe), puis retour à la page demandée.
+ * ?lien=invalide : lien d'e-mail déjà utilisé ou expiré (page /confirmation).
+ */
 export default async function SignInPage({ searchParams }: Props) {
-  const next = safeNextPath((await searchParams).suite);
+  const query = await searchParams;
+  const next = safeNextPath(query.suite);
   if (await getSessionMember()) return redirect({ href: next, locale: await getLocale() });
   const t = await getTranslations("SignIn");
 
@@ -28,7 +32,7 @@ export default async function SignInPage({ searchParams }: Props) {
           {t("title")}
         </p>
         <h1 className="mt-6 text-3xl">{t("intro")}</h1>
-        <SignInForm next={next} />
+        <SignInForm next={next} invalidLink={query.lien === "invalide"} />
       </main>
     </>
   );

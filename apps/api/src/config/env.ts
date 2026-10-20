@@ -23,7 +23,8 @@ export const envSchema = z.object({
   SEND_SMS_HOOK_SECRET: optional,
   SEND_EMAIL_HOOK_SECRET: optional,
 
-  SMS_PROVIDER: z.enum(["simulated", "brevo"]).default("simulated"),
+  // Canal SMS coupé le 20 octobre 2026 (question 26) : « disabled » par défaut, aucun SMS envoyé
+  SMS_PROVIDER: z.enum(["disabled", "simulated", "brevo"]).default("disabled"),
   EMAIL_PROVIDER: z.enum(["simulated", "brevo"]).default("simulated"),
   // KkiaPay retenu le 20 octobre 2026 (question 7)
   PAYMENT_PROVIDER: z.enum(["simulated", "kkiapay"]).default("simulated"),
@@ -64,8 +65,13 @@ export function validateEnv(raw: Record<string, unknown>): Env {
     if (env.SMS_PROVIDER === "simulated") problems.push("SMS_PROVIDER ne peut pas être « simulated » en production");
     if (env.EMAIL_PROVIDER === "simulated") problems.push("EMAIL_PROVIDER ne peut pas être « simulated » en production");
     if (env.PAYMENT_PROVIDER === "simulated") problems.push("PAYMENT_PROVIDER ne peut pas être « simulated » en production");
-    for (const key of ["SUPABASE_URL", "SUPABASE_ANON_KEY", "SUPABASE_SERVICE_ROLE_KEY", "SEND_SMS_HOOK_SECRET", "SEND_EMAIL_HOOK_SECRET"] as const) {
+    // Le hook SMS n'est plus requis : inscription et connexion par e-mail (20 octobre 2026)
+    for (const key of ["SUPABASE_URL", "SUPABASE_ANON_KEY", "SUPABASE_SERVICE_ROLE_KEY", "SEND_EMAIL_HOOK_SECRET"] as const) {
       if (!env[key]) problems.push(`${key} est requise en production`);
+    }
+    // Les liens des e-mails (confirmation, mot de passe oublié) pointent vers WEB_ORIGIN
+    if (/^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(env.WEB_ORIGIN)) {
+      problems.push("WEB_ORIGIN doit être l'adresse publique du site en production");
     }
   }
   if (env.SMS_PROVIDER === "brevo" && (!env.BREVO_API_KEY || !env.BREVO_SMS_SENDER)) {

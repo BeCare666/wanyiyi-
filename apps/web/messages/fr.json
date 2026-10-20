@@ -77,7 +77,7 @@
     "steps": [
       {
         "title": "Inscription",
-        "text": "Vous créez votre compte avec votre numéro de téléphone, puis vous vous décrivez avec sincérité."
+        "text": "Vous créez votre compte avec votre adresse e-mail, puis vous vous décrivez avec sincérité."
       },
       {
         "title": "Vérification",
@@ -358,7 +358,7 @@
       {
         "title": "Données collectées",
         "paragraphs": [
-          "Votre numéro de téléphone, votre identité, votre pièce d'identité, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations, vos votes et vos messages.",
+          "Votre adresse e-mail, votre numéro de téléphone si vous le donnez, votre identité, votre pièce d'identité, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations, vos votes et vos messages.",
           "Nous ne demandons jamais votre teint de peau, votre ethnie, votre adresse exacte ni le nom de votre employeur."
         ]
       },
@@ -443,25 +443,28 @@
   "Register": {
     "eyebrow": "Devenir membre",
     "title": "Votre inscription, en cinq étapes.",
-    "intro": "L'inscription se fait depuis votre téléphone. Chaque étape est expliquée, et notre équipe reste joignable à tout moment.",
+    "intro": "L'inscription se fait avec votre adresse e-mail. Chaque étape est expliquée, et notre équipe reste joignable à tout moment.",
     "steps": [
-      "Votre numéro de téléphone et le code reçu par SMS",
+      "Votre adresse e-mail, confirmée par un lien",
       "Votre pièce d'identité",
       "Votre rendez-vous pour l'entretien",
       "Votre déclaration sur l'honneur",
       "Le paiement des frais d'inscription par Mobile Money"
     ],
-    "phoneTitle": "Votre numéro de téléphone",
-    "phone": "Numéro de téléphone",
-    "phoneHelp": "Format international : le signe +, l'indicatif du pays, puis le numéro. Vous recevrez un code par SMS.",
-    "send": "Recevoir le code",
+    "accountTitle": "Votre compte",
+    "email": "Adresse e-mail",
+    "emailHelp": "Un lien de confirmation vous sera envoyé à cette adresse.",
+    "password": "Mot de passe",
+    "passwordHelp": "8 caractères au moins.",
+    "passwordConfirm": "Confirmez le mot de passe",
+    "create": "Créer mon compte",
     "already": "Déjà membre ? <signin>Se connecter</signin>",
-    "codeTitle": "Le code reçu par SMS",
-    "sentTo": "Code envoyé au {phone}.",
-    "code": "Code reçu par SMS",
-    "verify": "Valider le code",
-    "resend": "Renvoyer le code",
-    "changeNumber": "Changer de numéro",
+    "inboxTitle": "Confirmez votre adresse",
+    "inboxText": "Un lien de confirmation vient d'être envoyé à {email}. Ouvrez-le pour poursuivre votre inscription. Pensez à regarder dans les courriers indésirables.",
+    "inboxExisting": "Vous avez déjà un compte avec cette adresse ? <signin>Connectez-vous</signin>.",
+    "resend": "Renvoyer le lien",
+    "resent": "Un nouveau lien vient d'être envoyé.",
+    "changeEmail": "Changer d'adresse",
     "identityTitle": "Qui êtes-vous ?",
     "identityIntro": "Ces informations seront comparées à votre pièce d'identité lors de la vérification.",
     "firstName": "Prénom",
@@ -476,13 +479,9 @@
     "city": "Ville",
     "cityHelp": "La ville seulement, jamais votre adresse. Facultatif.",
     "identityHelp": "Il faut avoir 18 ans révolus. Le sexe et la date de naissance sont vérifiés sur votre pièce d'identité et ne se modifient plus ensuite.",
-    "email": "Adresse e-mail (facultative)",
-    "emailHelp": "Un lien de confirmation vous sera envoyé. Sans adresse, vous recevez nos messages par SMS et dans votre espace.",
     "consent": "J'ai lu et j'accepte le <rules>règlement</rules> et la <privacy>politique de confidentialité</privacy>.",
-    "submit": "Créer mon compte",
+    "submit": "Valider mon inscription",
     "errors": {
-      "invalidPhone": "Vérifiez le numéro : il doit commencer par + et l'indicatif du pays.",
-      "invalidCode": "Ce code est incorrect ou a expiré.",
       "tooManyRequests": "Trop de tentatives. Patientez quelques minutes avant de réessayer.",
       "unavailable": "L'inscription n'est pas encore ouverte. Réessayez plus tard.",
       "invalid_name": "Indiquez votre prénom et votre nom (60 caractères au plus chacun).",
@@ -490,9 +489,12 @@
       "invalid_birth_date": "Indiquez une date de naissance valable.",
       "too_young": "L'inscription est réservée aux personnes de 18 ans révolus.",
       "invalid_city": "Le nom de la ville est trop long.",
-      "invalid_email": "Vérifiez l'adresse e-mail, ou laissez le champ vide.",
+      "invalid_email": "Vérifiez l'adresse e-mail.",
       "consent_required": "Pour créer votre compte, acceptez le règlement et la politique de confidentialité.",
-      "forbidden": "Votre session a expiré. Recommencez depuis le numéro de téléphone.",
+      "forbidden": "Votre session a expiré. Connectez-vous pour reprendre votre inscription.",
+      "weak_password": "Le mot de passe doit compter 8 caractères au moins.",
+      "password_mismatch": "Les deux mots de passe ne correspondent pas.",
+      "email_exists": "Un compte existe déjà avec cette adresse. Connectez-vous.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
     }
   },
@@ -667,22 +669,36 @@
       "channels": {
         "in_app": "Dans l'application",
         "whatsapp": "WhatsApp",
-        "sms": "SMS",
         "email": "E-mail"
       },
       "saved": "Enregistré.",
       "error": "L'enregistrement a échoué. Réessayez dans un instant.",
       "email": {
         "title": "Adresse e-mail",
-        "help": "Facultative. Elle sert à vous écrire si vous l'avez choisi dans vos canaux de notification.",
+        "help": "Elle sert à vous connecter, et à vous écrire si vous l'avez choisie dans vos canaux de notification. Un changement est confirmé par un lien envoyé à la nouvelle adresse.",
         "current": "Adresse confirmée : {email}",
         "pending": "En attente de confirmation : {email}. Ouvrez le lien reçu par e-mail.",
         "label": "Nouvelle adresse",
-        "save": "Enregistrer l'adresse",
+        "save": "Changer d'adresse",
         "states": {
           "sent": "Un lien de confirmation vient d'être envoyé à cette adresse.",
           "invalid": "Vérifiez l'adresse e-mail.",
-          "failed": "L'adresse n'a pas pu être enregistrée. Vérifiez-la, ou réessayez plus tard."
+          "failed": "L'adresse n'a pas pu être enregistrée. Vérifiez-la, ou réessayez plus tard.",
+          "confirmed": "Votre nouvelle adresse est confirmée."
+        }
+      },
+      "phone": {
+        "title": "Numéro de téléphone",
+        "help": "Facultatif. Il n'est pas vérifié : vérifiez-le avec soin. Il n'est jamais montré aux autres membres, sauf si vous choisissez de le partager après un match.",
+        "label": "Numéro (format international)",
+        "save": "Enregistrer le numéro",
+        "remove": "Retirer le numéro",
+        "states": {
+          "saved": "Numéro enregistré.",
+          "removed": "Numéro retiré.",
+          "invalid_phone": "Vérifiez le numéro : il doit commencer par + et l'indicatif du pays.",
+          "phone_taken": "Ce numéro est déjà utilisé par un autre compte.",
+          "failed": "Le numéro n'a pas pu être enregistré. Réessayez plus tard."
         }
       }
     },
@@ -782,20 +798,19 @@
   },
   "SignIn": {
     "title": "Connexion",
-    "intro": "Recevez un code par SMS sur le numéro de votre compte.",
-    "phone": "Numéro de téléphone",
-    "phoneHelp": "Format international : le signe +, l'indicatif du pays, puis le numéro.",
-    "send": "Recevoir le code",
-    "sentTo": "Code envoyé au {phone}.",
-    "code": "Code reçu par SMS",
-    "verify": "Se connecter",
-    "changeNumber": "Changer de numéro",
-    "resend": "Renvoyer le code",
+    "intro": "Connectez-vous avec l'adresse e-mail et le mot de passe de votre compte.",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "forgot": "Mot de passe oublié ?",
+    "noAccount": "Pas encore membre ?",
     "noAccountCta": "Devenir membre",
+    "resendConfirmation": "Renvoyer le lien de confirmation",
+    "resent": "Un nouveau lien de confirmation vient d'être envoyé.",
     "errors": {
-      "invalidPhone": "Vérifiez le numéro : il doit commencer par + et l'indicatif du pays.",
-      "noAccount": "Aucun compte n'est associé à ce numéro.",
-      "invalidCode": "Ce code est incorrect ou a expiré.",
+      "invalidCredentials": "Adresse e-mail ou mot de passe incorrect.",
+      "notConfirmed": "Votre adresse n'est pas encore confirmée. Ouvrez le lien reçu par e-mail.",
+      "invalidLink": "Ce lien n'est plus valable : il a déjà servi ou il a expiré. Connectez-vous, ou demandez un nouveau lien.",
       "tooManyRequests": "Trop de tentatives. Patientez quelques minutes avant de réessayer.",
       "unavailable": "La connexion n'est pas encore ouverte.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
@@ -1453,7 +1468,7 @@
         "notify": "Envoyer une notification",
         "invite": "Inviter à une soirée",
         "message": "Message",
-        "messageHelp": "Écrivez-le dans les trois langues : chaque membre reçoit celui de sa langue, dans son espace, et par SMS et e-mail s'il a choisi ces canaux. 500 caractères au plus.",
+        "messageHelp": "Écrivez-le dans les trois langues : chaque membre reçoit celui de sa langue, dans son espace, et par e-mail s'il a choisi ce canal. 500 caractères au plus.",
         "languages": {
           "fr": "Français",
           "en": "Anglais",
@@ -1539,6 +1554,29 @@
         "venue": "Lieux",
         "payment": "Paiements"
       }
+    }
+  },
+  "Password": {
+    "forgotTitle": "Mot de passe oublié",
+    "forgotIntro": "Indiquez l'adresse e-mail de votre compte : nous vous enverrons un lien pour choisir un nouveau mot de passe.",
+    "email": "Adresse e-mail",
+    "send": "Recevoir le lien",
+    "sent": "Si un compte existe avec cette adresse, un lien vient de lui être envoyé. Pensez à regarder dans les courriers indésirables.",
+    "back": "Retour à la connexion",
+    "newTitle": "Nouveau mot de passe",
+    "newIntro": "Choisissez le nouveau mot de passe de votre compte.",
+    "password": "Nouveau mot de passe",
+    "passwordHelp": "8 caractères au moins.",
+    "passwordConfirm": "Confirmez le mot de passe",
+    "save": "Enregistrer le mot de passe",
+    "errors": {
+      "invalid_email": "Vérifiez l'adresse e-mail.",
+      "weak_password": "Le mot de passe doit compter 8 caractères au moins.",
+      "password_mismatch": "Les deux mots de passe ne correspondent pas.",
+      "same_password": "Choisissez un mot de passe différent de l'ancien.",
+      "tooManyRequests": "Trop de tentatives. Patientez quelques minutes avant de réessayer.",
+      "unavailable": "Ce service n'est pas encore ouvert.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
     }
   }
 }

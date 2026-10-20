@@ -32,6 +32,13 @@ export function maskEmail(email: string): string {
   return `${user.slice(0, 1)}***@${domain}`;
 }
 
+/** Canal SMS coupé (20 octobre 2026) : tout envoi est refusé, rien ne part. */
+export class DisabledSmsSender implements SmsSender {
+  async send(): Promise<void> {
+    throw new Error("sms_disabled");
+  }
+}
+
 export class SimulatedSmsSender implements SmsSender {
   private readonly logger = new Logger("SMS simulé");
   readonly sent: Array<{ to: string; text: string; tag: string }> = [];

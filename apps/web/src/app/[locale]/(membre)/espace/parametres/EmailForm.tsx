@@ -7,14 +7,14 @@ import { createSupabaseBrowser } from "@/lib/supabase/browser";
 import { isEmail } from "./settings";
 
 /**
- * Adresse e-mail du membre (décision du 19 octobre 2026) : facultative, confirmée par un lien
- * que Supabase Auth envoie (hook de l'API, via Brevo). Tant que le lien n'est pas ouvert,
- * l'ancienne adresse reste en place et la nouvelle est affichée « en attente ».
+ * Adresse e-mail du compte (identifiant de connexion depuis le 20 octobre 2026). Un changement est
+ * confirmé par un lien que Supabase Auth envoie (hook de l'API, via Brevo). Tant que le lien n'est pas
+ * ouvert, l'ancienne adresse reste en place et la nouvelle est affichée « en attente ».
  */
-export function EmailForm({ current, pending: pendingEmail, failedAtSignup }: { current: string | null; pending: string | null; failedAtSignup: boolean }) {
+export function EmailForm({ current, pending: pendingEmail, confirmed }: { current: string | null; pending: string | null; confirmed: boolean }) {
   const t = useTranslations("Member.settings.email");
-  const [email, setEmail] = useState(pendingEmail ?? current ?? "");
-  const [state, setState] = useState<"idle" | "sent" | "invalid" | "failed">(failedAtSignup ? "failed" : "idle");
+  const [email, setEmail] = useState(pendingEmail ?? "");
+  const [state, setState] = useState<"idle" | "sent" | "invalid" | "failed" | "confirmed">(confirmed ? "confirmed" : "idle");
   const [busy, setBusy] = useState(false);
 
   async function submit(e: FormEvent) {
@@ -54,7 +54,7 @@ export function EmailForm({ current, pending: pendingEmail, failedAtSignup }: { 
           />
         </label>
         {state !== "idle" && (
-          <p role={state === "sent" ? "status" : "alert"} className="mt-4 border-l border-accent pl-5 text-sm">
+          <p role={state === "sent" || state === "confirmed" ? "status" : "alert"} className="mt-4 border-l border-accent pl-5 text-sm">
             {t(`states.${state}`)}
           </p>
         )}

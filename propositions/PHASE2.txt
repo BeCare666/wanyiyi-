@@ -124,6 +124,25 @@ Décisions du 14 octobre 2026
     L'inscription ne fonctionne réellement qu'une fois le projet Supabase
     configuré (question 1) et l'API en ligne pour l'envoi des SMS par Brevo
     (questions 13 et 14) ; sans cela, la page affiche « pas encore ouverte ».
+  Décision du 20 octobre 2026 (remplace le téléphone et le code SMS, pour
+    éviter les frais d'envoi) : inscription et connexion par adresse e-mail et
+    mot de passe ; e-mails envoyés par notre API (Send Email Hook de Supabase,
+    via Brevo) ; téléphone facultatif, ajouté dans les paramètres, non vérifié.
+  Fait le 20 octobre 2026 : /inscription en trois étapes (e-mail et mot de
+    passe de 8 caractères au moins, lien de confirmation, identité et
+    consentement) ; /connexion par e-mail et mot de passe (lien de confirmation
+    renvoyable) ; /mot-de-passe-oublie et /nouveau-mot-de-passe ; page
+    /confirmation qui vérifie le lien côté serveur (token_hash) et fonctionne
+    sur un autre appareil. L'API construit les liens vers WEB_ORIGIN, dans la
+    langue du membre, et envoie aussi l'e-mail « mot de passe oublié » ; les
+    e-mails à lien n'affichent plus de code inutilisable. Paramètres : rubrique
+    téléphone (app.set_phone : format international, un numéro par compte,
+    journalisé). Langue de l'inscription reprise sur le compte. En production,
+    SEND_SMS_HOOK_SECRET n'est plus exigée ; WEB_ORIGIN doit être l'adresse
+    publique du site. Migration 20261020000100_inscription_email.sql.
+    Réglages Supabase à faire : fournisseur Email activé avec « Confirm
+    email », fournisseur Phone désactivé, longueur minimale du mot de passe 8,
+    Send Email Hook vers https://<api>/api/hooks/auth/email.
   Reste : entretien et frais d'inscription (questions 2 et 5), profil ; dans les paramètres :
     confidentialité, téléchargement des données, suppression du compte
     (questions 15 à 17).
@@ -361,3 +380,17 @@ QUESTIONS (je n'invente pas les réponses)
      signature calculée : pouvez-vous le demander au support KkiaPay
      (support@kkiapay.me) ? Sans webhook, le paiement est validé par la page
      de paiement, après vérification auprès de KkiaPay.
+ 26. SMS en production (suite à la décision du 20 octobre 2026) : les SMS ne
+     servent plus à la connexion, seulement aux notifications des membres qui
+     ont donné un numéro et choisi ce canal. L'API refuse aujourd'hui de
+     démarrer en production sans vrai expéditeur SMS. Gardez-vous les SMS de
+     notification par Brevo (frais par message, question 14 à régler), ou
+     faut-il désactiver le canal SMS en production ?
+     RÉPONSE (20 octobre 2026) : canal SMS coupé. Fait : SMS_PROVIDER=disabled
+     par défaut (accepté en production, tout envoi refusé), aucun envoi SMS créé
+     pour les notifications (migration 20261020000200_canal_sms_coupe.sql,
+     SMS encore en file abandonnés), canal SMS retiré des Paramètres.
+ 27. Partage des numéros après un match (note, section 6.2) : le numéro
+     partagé est désormais déclaré par le membre, sans vérification. Est-ce
+     acceptable, ou faut-il une vérification (par exemple par l'équipe lors
+     de l'entretien) avant de pouvoir le partager ?

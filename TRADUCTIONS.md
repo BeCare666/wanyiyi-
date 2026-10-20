@@ -86,6 +86,8 @@ Toutes les chaînes yoruba sont à valider. Les choix de vocabulaire ci-dessous 
 | Inscription (`Register`) et adresse e-mail (`Member.settings.email`), ajoutées le 19 octobre 2026 | environ 50 chaînes | Texte du consentement à relire avec attention |
 | SMS et e-mails des actions groupées (`apps/api/src/notifications/team-messages.ts`) | 6 phrases | Envoyées telles quelles aux membres : à relire avec attention |
 | Page de paiement KkiaPay (`Payment`, ajoutée le 20 octobre 2026) | environ 30 chaînes | Messages d'argent : à relire avec attention |
+| Inscription et connexion par e-mail (`Register`, `SignIn`, `Password`, `Member.settings.phone`), e-mail « mot de passe oublié » (`apps/api/src/notifications/messages.ts`), ajoutés le 20 octobre 2026 | environ 90 chaînes | À relire en entier |
+| Mot de passe | Ọ̀rọ̀ aṣínà | Terme courant sur les sites en yoruba ? |
 
 ## Règles de rédaction appliquées à toutes les langues
 

@@ -5,7 +5,8 @@ import { createEvent, createMember } from "./fixtures";
 
 /**
  * Actions groupées de la liste des membres (section 11.3, décisions du 19 octobre 2026) :
- * notification en trois langues, invitation à une soirée ; file d'envoi SMS et e-mail.
+ * notification en trois langues, invitation à une soirée ; file d'envoi par e-mail
+ * (canal SMS coupé le 20 octobre 2026).
  */
 
 let db: PGlite;
@@ -23,10 +24,10 @@ beforeAll(async () => {
   people.ayaba = await createMember(db, { firstName: "Ayaba", sex: "female" });
   people.comlan = await createMember(db, { firstName: "Comlan", sex: "male" });
   people.houefa = await createMember(db, { firstName: "Houéfa", sex: "female", status: "pending_verification" });
-  // Ayaba : e-mail confirmé, SMS coupé ; Comlan : aucun e-mail confirmé
+  // Ayaba : e-mail confirmé ; Comlan : aucun e-mail confirmé et canal e-mail coupé par lui
   await db.query("update auth.users set email = 'ayaba@example.com', email_confirmed_at = now() where id = $1", [people.ayaba]);
   await db.query("update auth.users set email = 'comlan@example.com' where id = $1", [people.comlan]);
-  await db.query("insert into app.notification_preferences (user_id, channel, enabled) values ($1, 'sms', false)", [people.ayaba]);
+  await db.query("insert into app.notification_preferences (user_id, channel, enabled) values ($1, 'email', false)", [people.comlan]);
   event = await createEvent(db, { startsInHours: 72 });
 }, 120_000);
 
@@ -52,7 +53,7 @@ describe("Actions groupées (11.3)", () => {
     expect(seen).toBe(0);
   });
 
-  it("notification en trois langues aux membres cochés ; SMS et e-mail selon les canaux de chacun ; journalisée", async () => {
+  it("notification en trois langues aux membres cochés ; e-mail selon les canaux de chacun, jamais de SMS ; journalisée", async () => {
     const result = await asUser(db, admin, async (tx) => {
       const [{ count }] = (await tx.query<{ count: number }>("select app.admin_notify_members($1, null, $2) as count", [[people.ayaba, people.comlan], JSON.stringify(body)])).rows as [{ count: number }];
       await tx.exec("reset role");
@@ -65,8 +66,8 @@ describe("Actions groupées (11.3)", () => {
       };
     });
     expect(result.count).toBe(2);
-    expect(result.ayaba).toEqual([{ kind: "team.message", channel: "email" }]); // SMS coupé par Ayaba
-    expect(result.comlan.map((r) => r.channel)).toEqual(["email", "sms"]); // l'adresse non confirmée est écartée à l'envoi
+    expect(result.ayaba).toEqual([{ kind: "team.message", channel: "email" }]); // aucun SMS (canal coupé)
+    expect(result.comlan).toEqual([{ kind: "team.message", channel: null }]); // dans son espace seulement : canal e-mail coupé par Comlan
     expect(result.payload).toEqual({ body });
     expect(result.audited).toBe(1);
   });
@@ -123,23 +124,25 @@ describe("Actions groupées (11.3)", () => {
     }
   });
 
-  it("file d'envoi (API) : langue, téléphone, e-mail confirmé seulement ; envoyé, retenté, abandonné après 5 échecs", async () => {
+  it("file d'envoi (API) : langue, e-mail confirmé seulement, jamais de SMS ; envoyé, retenté, abandonné après 5 échecs", async () => {
     const result = await asService(db, async (tx) => {
-      await tx.query("select app.notify_with_deliveries($1, 'team.message', $2)", [people.comlan, JSON.stringify({ body })]);
+      // Houéfa : aucune adresse e-mail ; Ayaba : adresse confirmée
+      await tx.query("select app.notify_with_deliveries($1, 'team.message', $2)", [people.houefa, JSON.stringify({ body })]);
+      await tx.query("select app.notify_with_deliveries($1, 'team.message', $2)", [people.ayaba, JSON.stringify({ body })]);
       const pending = (
-        await tx.query<{ delivery_id: string; channel: string; locale: string; phone: string | null; email: string | null }>(
-          "select delivery_id, channel, locale, phone, email from app.pending_deliveries() order by channel::text",
+        await tx.query<{ delivery_id: string; channel: string; locale: string; email: string | null }>(
+          "select delivery_id, channel, locale, email from app.pending_deliveries() order by email nulls first",
         )
       ).rows;
-      const [email, sms] = pending as [(typeof pending)[0], (typeof pending)[0]];
-      await tx.query("select app.mark_delivery($1, true)", [sms.delivery_id]);
-      await tx.query("select app.mark_delivery($1, false, 'aucune adresse confirmée', true)", [email.delivery_id]);
-      const after = (await tx.query("select status, attempts from app.notification_deliveries order by channel::text")).rows;
+      const [none, confirmed] = pending as [(typeof pending)[0], (typeof pending)[0]];
+      await tx.query("select app.mark_delivery($1, false, 'aucune adresse confirmée', true)", [none.delivery_id]);
+      await tx.query("select app.mark_delivery($1, true)", [confirmed.delivery_id]);
+      const after = (await tx.query("select status, attempts from app.notification_deliveries where id = any($1) order by status", [[none.delivery_id, confirmed.delivery_id]])).rows;
       return { pending, after };
     });
     expect(result.pending).toEqual([
       expect.objectContaining({ channel: "email", locale: "fr", email: null }),
-      expect.objectContaining({ channel: "sms", locale: "fr", phone: expect.stringMatching(/^\+229/) }),
+      expect.objectContaining({ channel: "email", locale: "fr", email: "ayaba@example.com" }),
     ]);
     expect(result.after).toEqual([
       { status: "failed", attempts: 1 },

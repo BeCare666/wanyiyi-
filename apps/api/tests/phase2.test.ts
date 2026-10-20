@@ -8,7 +8,7 @@ import { MemberGuard } from "../src/auth/member.guard";
 import { type Env, validateEnv } from "../src/config/env";
 import { AuthHooksService } from "../src/hooks/auth-hooks.service";
 import { authEmail, confirmationLink, otpSms, SUPPORTED_EMAIL_ACTIONS } from "../src/notifications/messages";
-import { BrevoEmailSender, BrevoSmsSender, maskPhone, SimulatedEmailSender, SimulatedSmsSender } from "../src/notifications/senders";
+import { BrevoEmailSender, BrevoSmsSender, DisabledSmsSender, maskPhone, SimulatedEmailSender, SimulatedSmsSender } from "../src/notifications/senders";
 import { withMyBooking } from "../src/events/bookings";
 import { DeliveriesService } from "../src/notifications/deliveries.service";
 import { deliveryContent, siteUrl } from "../src/notifications/team-messages";
@@ -27,8 +27,16 @@ function configOf(values: Partial<Env>): ConfigService<Env, true> {
 
 describe("Configuration (phase 2)", () => {
   it("interdit les adaptateurs simulés et l'absence des clés Supabase en production", () => {
-    expect(() => validateEnv({ NODE_ENV: "production" })).toThrow(/SMS_PROVIDER.*EMAIL_PROVIDER.*PAYMENT_PROVIDER/);
-    expect(() => validateEnv({ NODE_ENV: "production" })).toThrow(/SEND_SMS_HOOK_SECRET/);
+    expect(() => validateEnv({ NODE_ENV: "production" })).toThrow(/EMAIL_PROVIDER.*PAYMENT_PROVIDER/);
+    expect(() => validateEnv({ NODE_ENV: "production", SMS_PROVIDER: "simulated" })).toThrow(/SMS_PROVIDER/);
+    // Canal SMS coupé (20 octobre 2026) : « disabled » par défaut, accepté en production
+    expect(validateEnv({}).SMS_PROVIDER).toBe("disabled");
+    expect(() => validateEnv({ NODE_ENV: "production" })).not.toThrow(/SMS_PROVIDER/);
+    expect(() => validateEnv({ NODE_ENV: "production" })).toThrow(/SEND_EMAIL_HOOK_SECRET/);
+  });
+
+  it("canal SMS coupé : aucun envoi", async () => {
+    await expect(new DisabledSmsSender().send()).rejects.toThrow(/sms_disabled/);
   });
 
   it("exige la clé et l'expéditeur Brevo, et limite l'expéditeur SMS à 11 caractères", () => {
@@ -58,17 +66,20 @@ describe("Textes des codes et e-mails", () => {
         expect(mail.subject.length).toBeGreaterThan(0);
         expect(mail.html).toContain("&lt;x&gt;");
         expect(mail.html).not.toContain("<x>");
-        expect(mail.html).toContain("123456");
+        // Code affiché seulement pour les e-mails à code ; les autres se confirment par le lien
+        expect(mail.html.includes("123456")).toBe(action === "email" || action === "reauthentication");
         expect(`${mail.subject} ${mail.text}`).not.toMatch(/[—–]|--/);
         expect(mail.html.toLowerCase()).not.toContain("c8a97e");
       }
     }
   });
 
-  it("le lien de confirmation suit le format documenté par Supabase", () => {
-    const link = new URL(confirmationLink(SUPABASE_URL, "hash123", "signup", "https://wanyiyi.bj/bienvenue"));
-    expect(link.origin + link.pathname).toBe(`${SUPABASE_URL}/auth/v1/verify`);
-    expect(Object.fromEntries(link.searchParams)).toEqual({ token: "hash123", type: "signup", redirect_to: "https://wanyiyi.bj/bienvenue" });
+  it("le lien mène à la page /confirmation du site, dans la langue du membre (vérification token_hash)", () => {
+    const link = new URL(confirmationLink("https://wanyiyi.bj/", "fr", "hash123", "signup"));
+    expect(link.origin + link.pathname).toBe("https://wanyiyi.bj/confirmation");
+    expect(Object.fromEntries(link.searchParams)).toEqual({ token_hash: "hash123", type: "signup" });
+    expect(new URL(confirmationLink("https://wanyiyi.bj", "en", "h", "recovery")).pathname).toBe("/en/confirmation");
+    expect(confirmationLink("https://wanyiyi.bj", "yo", "h", "reauthentication")).toBe("https://wanyiyi.bj/yo/");
   });
 });
 
@@ -138,7 +149,9 @@ describe("Auth Hooks Supabase (signature)", () => {
     await service.sendEmail(ok.body, ok.headers);
     expect(email.sent).toHaveLength(1);
     expect(email.sent[0]!.to).toBe("afiwa@exemple.bj");
-    expect(email.sent[0]!.text).toContain(confirmationLink(SUPABASE_URL, "th", "signup", "https://wanyiyi.bj/ok"));
+    // Lien vers WEB_ORIGIN de la configuration, jamais vers redirect_to reçu dans la requête
+    expect(email.sent[0]!.text).toContain(confirmationLink("http://localhost:3000", "fr", "th", "signup"));
+    expect(email.sent[0]!.text).not.toContain("wanyiyi.bj/ok");
 
     const ko = signed({ user: { id: "u1", email: "afiwa@exemple.bj" }, email_data: { ...data, email_action_type: "invite" } });
     await expect(service.sendEmail(ko.body, ko.headers)).rejects.toThrow(/unsupported_email_action/);

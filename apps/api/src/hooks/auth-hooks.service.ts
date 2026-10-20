@@ -14,9 +14,11 @@ import { EMAIL_SENDER, type EmailSender, maskPhone, SMS_SENDER, type SmsSender }
 
 /**
  * « Auth Hooks » de Supabase (documentation officielle) :
- * - Send SMS Hook : Supabase confie l'envoi du code OTP à l'API, qui passe par Brevo ;
- * - Send Email Hook : e-mails d'authentification (confirmation de l'adresse) envoyés par Brevo,
- *   dans la langue du membre.
+ * - Send Email Hook : e-mails d'authentification envoyés par Brevo, dans la langue du membre
+ *   (confirmation de l'inscription, mot de passe oublié, changement d'adresse). Inscription et
+ *   connexion par e-mail et mot de passe depuis le 20 octobre 2026 ;
+ * - Send SMS Hook : code OTP par SMS. Plus utilisé depuis le 20 octobre 2026 (la connexion par
+ *   téléphone est désactivée dans Supabase), gardé pour une réactivation éventuelle.
  * Les requêtes sont signées (bibliothèque standardwebhooks, secret au format v1,whsec_...).
  */
 
@@ -71,8 +73,8 @@ export class AuthHooksService {
       // Refus explicite : aucun e-mail d'authentification n'est ignoré en silence
       throw new BadRequestException(`unsupported_email_action:${data.email_action_type}`);
     }
-    const supabaseUrl = this.config.get("SUPABASE_URL", { infer: true });
-    if (!supabaseUrl) throw new UnauthorizedException("supabase_not_configured");
+    // Lien vers le site configuré, jamais vers une adresse reçue dans la requête
+    const webOrigin = this.config.get("WEB_ORIGIN", { infer: true });
     const locale = toLocale(user.user_metadata?.locale);
 
     // Changement d'adresse : la documentation inverse les noms des jetons (compatibilité ascendante).
@@ -89,7 +91,7 @@ export class AuthHooksService {
     }
 
     for (const s of sends) {
-      const link = confirmationLink(supabaseUrl, s.hash, action, data.redirect_to || data.site_url);
+      const link = confirmationLink(webOrigin, locale, s.hash, action);
       const message = authEmail(locale, action, link, s.token);
       await this.email.send({ to: s.to, subject: message.subject, html: message.html, text: message.text, tag: `auth-${action}` });
     }

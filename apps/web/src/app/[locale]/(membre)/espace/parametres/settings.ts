@@ -1,7 +1,10 @@
 import { routing } from "../../../../../i18n/routing";
 
-/** Canaux proposés au membre (section 6.2-9) : WhatsApp, SMS, dans l'application ; e-mail ajouté le 19 octobre 2026. */
-export const notificationChannels = ["in_app", "whatsapp", "sms", "email"] as const;
+/**
+ * Canaux proposés au membre (section 6.2-9) : WhatsApp, dans l'application ; e-mail ajouté le 19 octobre 2026.
+ * SMS retiré le 20 octobre 2026 (canal coupé, question 26).
+ */
+export const notificationChannels = ["in_app", "whatsapp", "email"] as const;
 export type NotificationChannel = (typeof notificationChannels)[number];
 
 export type Settings = {
@@ -20,7 +23,7 @@ export function isChannel(value: unknown): value is NotificationChannel {
 
 /** Canaux du membre : un canal sans ligne en base est actif (valeur par défaut de la table). */
 export function channelsFrom(rows: { channel: string; enabled: boolean }[]): Settings["channels"] {
-  const channels = { in_app: true, whatsapp: true, sms: true, email: true };
+  const channels = { in_app: true, whatsapp: true, email: true };
   for (const row of rows) if (isChannel(row.channel)) channels[row.channel] = row.enabled;
   return channels;
 }

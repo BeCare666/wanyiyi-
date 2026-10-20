@@ -17,6 +17,7 @@ create table auth.users (
   phone text unique,
   email text,
   email_confirmed_at timestamptz,
+  raw_user_meta_data jsonb,
   created_at timestamptz not null default now()
 );
 

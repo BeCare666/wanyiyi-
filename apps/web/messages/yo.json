@@ -77,7 +77,7 @@
     "steps": [
       {
         "title": "Ìforúkọsílẹ̀",
-        "text": "Ẹ ó ṣí àkọọ́lẹ̀ yín pẹ̀lú nọ́mbà fóònù yín, lẹ́yìn náà ẹ ó ṣàpèjúwe ara yín pẹ̀lú òtítọ́."
+        "text": "Ẹ ó ṣí àkọọ́lẹ̀ yín pẹ̀lú àdírẹ́sì e-mail yín, lẹ́yìn náà ẹ ó ṣàpèjúwe ara yín pẹ̀lú òtítọ́."
       },
       {
         "title": "Àyẹ̀wò",
@@ -358,7 +358,7 @@
       {
         "title": "Dátà tí a ń gbà",
         "paragraphs": [
-          "Nọ́mbà fóònù yín, ìdánimọ̀ yín, ìwé ìdánimọ̀ yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà, ìdìbò yín àti ìfiránṣẹ́ yín.",
+          "Àdírẹ́sì e-mail yín, nọ́mbà fóònù yín bí ẹ bá fi fún wa, ìdánimọ̀ yín, ìwé ìdánimọ̀ yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà, ìdìbò yín àti ìfiránṣẹ́ yín.",
           "A kì í béèrè àwọ̀ ara yín, ẹ̀yà yín, àdírẹ́sì yín gan-an tàbí orúkọ ẹni tí ẹ ń bá ṣiṣẹ́."
         ]
       },
@@ -443,25 +443,28 @@
   "Register": {
     "eyebrow": "Di ọmọ ẹgbẹ́",
     "title": "Ìforúkọsílẹ̀ yín, ní ìgbésẹ̀ márùn-ún.",
-    "intro": "Ẹ ó forúkọsílẹ̀ láti orí fóònù yín. A ṣàlàyé ìgbésẹ̀ kọ̀ọ̀kan, ẹgbẹ́ wa sì wà fún yín nígbàkígbà.",
+    "intro": "Ẹ ó forúkọsílẹ̀ pẹ̀lú àdírẹ́sì e-mail yín. A ṣàlàyé ìgbésẹ̀ kọ̀ọ̀kan, ẹgbẹ́ wa sì wà fún yín nígbàkígbà.",
     "steps": [
-      "Nọ́mbà fóònù yín àti kóòdù tí ẹ gbà nípasẹ̀ SMS",
+      "Àdírẹ́sì e-mail yín, tí a fìdí rẹ̀ múlẹ̀ pẹ̀lú ìjápọ̀ kan",
       "Ìwé ìdánimọ̀ yín",
       "Àkókò ìjíròrò yín",
       "Ìbúra yín",
       "Sísan owó ìforúkọsílẹ̀ nípasẹ̀ Mobile Money"
     ],
-    "phoneTitle": "Nọ́ńbà fóònù yín",
-    "phone": "Nọ́ńbà fóònù",
-    "phoneHelp": "Ọ̀nà àgbáyé: àmì +, kóòdù orílẹ̀-èdè, lẹ́yìn náà nọ́ńbà náà. Ẹ ó gba kóòdù kan nípasẹ̀ SMS.",
-    "send": "Gba kóòdù náà",
+    "accountTitle": "Àkọọ́lẹ̀ yín",
+    "email": "Àdírẹ́sì e-mail",
+    "emailHelp": "A ó fi ìjápọ̀ ìfìdímúlẹ̀ ránṣẹ́ sí àdírẹ́sì yìí.",
+    "password": "Ọ̀rọ̀ aṣínà",
+    "passwordHelp": "Ó kéré tán, lẹ́tà 8.",
+    "passwordConfirm": "Ẹ tún ọ̀rọ̀ aṣínà náà kọ",
+    "create": "Ṣẹ̀dá àkọọ́lẹ̀ mi",
     "already": "Ẹ ti jẹ́ ọmọ ẹgbẹ́ tẹ́lẹ̀? <signin>Wọlé</signin>",
-    "codeTitle": "Kóòdù tí ẹ gbà nípasẹ̀ SMS",
-    "sentTo": "A ti fi kóòdù ránṣẹ́ sí {phone}.",
-    "code": "Kóòdù tí ẹ gbà nípasẹ̀ SMS",
-    "verify": "Fìdí kóòdù náà múlẹ̀",
-    "resend": "Tún kóòdù náà ránṣẹ́",
-    "changeNumber": "Yí nọ́ńbà padà",
+    "inboxTitle": "Ẹ fìdí àdírẹ́sì yín múlẹ̀",
+    "inboxText": "A ṣẹ̀ṣẹ̀ fi ìjápọ̀ ìfìdímúlẹ̀ ránṣẹ́ sí {email}. Ẹ ṣí i láti tẹ̀síwájú nínú ìforúkọsílẹ̀ yín. Ẹ wo inú àpótí àwọn e-mail àìfẹ́ pẹ̀lú.",
+    "inboxExisting": "Ẹ ti ní àkọọ́lẹ̀ pẹ̀lú àdírẹ́sì yìí? <signin>Wọlé</signin>.",
+    "resend": "Tún ìjápọ̀ náà fi ránṣẹ́",
+    "resent": "A ṣẹ̀ṣẹ̀ fi ìjápọ̀ tuntun ránṣẹ́.",
+    "changeEmail": "Yí àdírẹ́sì padà",
     "identityTitle": "Ta ni yín?",
     "identityIntro": "A ó fi àwọn ìsọfúnni yìí wé ìwé ìdánimọ̀ yín nígbà àyẹ̀wò.",
     "firstName": "Orúkọ",
@@ -476,13 +479,9 @@
     "city": "Ìlú",
     "cityHelp": "Ìlú nìkan, kì í ṣe àdírẹ́sì yín. Kò pọndandan.",
     "identityHelp": "Ẹ gbọ́dọ̀ ti pé ọmọ ọdún méjìdínlógún. A ó yẹ akọ tàbí abo àti ọjọ́ ìbí wò lórí ìwé ìdánimọ̀ yín, a kò sì lè yí wọn padà lẹ́yìn náà.",
-    "email": "Àdírẹ́sì e-mail (kò pọndandan)",
-    "emailHelp": "A ó fi ìjápọ̀ ìfìdímúlẹ̀ ránṣẹ́ sí yín. Láìsí àdírẹ́sì, ẹ ó máa gba àwọn ìránṣẹ́ wa nípasẹ̀ SMS àti nínú àyè yín.",
     "consent": "Mo ti ka, mo sì gba <rules>òfin</rules> àti <privacy>ìlànà ìpamọ́</privacy>.",
-    "submit": "Ṣẹ̀dá àkọọ́lẹ̀ mi",
+    "submit": "Parí ìforúkọsílẹ̀ mi",
     "errors": {
-      "invalidPhone": "Ẹ yẹ nọ́ńbà náà wò: ó gbọ́dọ̀ bẹ̀rẹ̀ pẹ̀lú + àti kóòdù orílẹ̀-èdè.",
-      "invalidCode": "Kóòdù yìí kò tọ́ tàbí ó ti pẹ́ jù.",
       "tooManyRequests": "Ìgbìyànjú ti pọ̀ jù. Ẹ dúró fún ìṣẹ́jú díẹ̀ kí ẹ tó tún gbìyànjú.",
       "unavailable": "Ìforúkọsílẹ̀ kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
       "invalid_name": "Ẹ kọ orúkọ àti orúkọ ìdílé yín (lẹ́tà 60 ló pọ̀ jù fún ọ̀kọ̀ọ̀kan).",
@@ -490,9 +489,12 @@
       "invalid_birth_date": "Ẹ kọ ọjọ́ ìbí tó tọ́.",
       "too_young": "Ìforúkọsílẹ̀ wà fún àwọn tó ti pé ọmọ ọdún méjìdínlógún nìkan.",
       "invalid_city": "Orúkọ ìlú náà ti gùn jù.",
-      "invalid_email": "Ẹ yẹ àdírẹ́sì e-mail náà wò, tàbí kí ẹ fi àyè náà sílẹ̀ ní òfo.",
+      "invalid_email": "Ẹ yẹ àdírẹ́sì e-mail náà wò.",
       "consent_required": "Láti ṣẹ̀dá àkọọ́lẹ̀ yín, ẹ gba òfin àti ìlànà ìpamọ́.",
-      "forbidden": "Àkókò ìwọlé yín ti parí. Ẹ tún bẹ̀rẹ̀ láti nọ́ńbà fóònù.",
+      "forbidden": "Àkókò ìwọlé yín ti parí. Ẹ wọlé láti tẹ̀síwájú nínú ìforúkọsílẹ̀ yín.",
+      "weak_password": "Ọ̀rọ̀ aṣínà gbọ́dọ̀ ní lẹ́tà 8 ó kéré tán.",
+      "password_mismatch": "Àwọn ọ̀rọ̀ aṣínà méjèèjì kò bára mu.",
+      "email_exists": "Àkọọ́lẹ̀ kan ti wà pẹ̀lú àdírẹ́sì yìí. Ẹ wọlé.",
       "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
     }
   },
@@ -667,22 +669,36 @@
       "channels": {
         "in_app": "Nínú ohun èlò",
         "whatsapp": "WhatsApp",
-        "sms": "SMS",
         "email": "E-mail"
       },
       "saved": "A ti fi pamọ́.",
       "error": "Ìfipamọ́ kò ṣeé ṣe. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
       "email": {
         "title": "Àdírẹ́sì e-mail",
-        "help": "Kò pọndandan. A ó máa lò ó láti kọ̀wé sí yín bí ẹ bá yàn án láàrin àwọn ọ̀nà ìfitónilétí yín.",
+        "help": "A ń lò ó fún wíwọlé, àti láti kọ̀wé sí yín bí ẹ bá yàn án láàrin àwọn ọ̀nà ìfitónilétí yín. Ìjápọ̀ tí a fi ránṣẹ́ sí àdírẹ́sì tuntun ni yóò fìdí ìyípadà múlẹ̀.",
         "current": "Àdírẹ́sì tí a ti fìdí rẹ̀ múlẹ̀: {email}",
         "pending": "Ó ń dúró de ìfìdímúlẹ̀: {email}. Ẹ ṣí ìjápọ̀ tí ẹ gbà nínú e-mail.",
         "label": "Àdírẹ́sì tuntun",
-        "save": "Fi àdírẹ́sì náà pamọ́",
+        "save": "Yí àdírẹ́sì padà",
         "states": {
           "sent": "A ṣẹ̀ṣẹ̀ fi ìjápọ̀ ìfìdímúlẹ̀ ránṣẹ́ sí àdírẹ́sì yìí.",
           "invalid": "Ẹ yẹ àdírẹ́sì e-mail náà wò.",
-          "failed": "A kò lè fi àdírẹ́sì náà pamọ́. Ẹ yẹ ẹ́ wò, tàbí kí ẹ gbìyànjú lẹ́yìn náà."
+          "failed": "A kò lè fi àdírẹ́sì náà pamọ́. Ẹ yẹ ẹ́ wò, tàbí kí ẹ gbìyànjú lẹ́yìn náà.",
+          "confirmed": "A ti fìdí àdírẹ́sì tuntun yín múlẹ̀."
+        }
+      },
+      "phone": {
+        "title": "Nọ́mbà fóònù",
+        "help": "Kò pọndandan. A kò ṣàyẹ̀wò rẹ̀: ẹ yẹ ẹ́ wò dáadáa. A kì í fi hàn àwọn ọmọ ẹgbẹ́ mìíràn, àyàfi bí ẹ bá yàn láti pín in lẹ́yìn ìfohùnṣọ̀kan.",
+        "label": "Nọ́mbà (ọ̀nà àgbáyé)",
+        "save": "Fi nọ́mbà náà pamọ́",
+        "remove": "Yọ nọ́mbà náà kúrò",
+        "states": {
+          "saved": "A ti fi nọ́mbà náà pamọ́.",
+          "removed": "A ti yọ nọ́mbà náà kúrò.",
+          "invalid_phone": "Ẹ yẹ nọ́mbà náà wò: ó gbọ́dọ̀ bẹ̀rẹ̀ pẹ̀lú + àti kóòdù orílẹ̀-èdè.",
+          "phone_taken": "Àkọọ́lẹ̀ míì ti ń lo nọ́mbà yìí.",
+          "failed": "A kò lè fi nọ́mbà náà pamọ́. Ẹ gbìyànjú lẹ́yìn náà."
         }
       }
     },
@@ -782,20 +798,19 @@
   },
   "SignIn": {
     "title": "Wọlé",
-    "intro": "Ẹ gba kóòdù nípasẹ̀ SMS lórí nọ́mbà àkọọ́lẹ̀ yín.",
-    "phone": "Nọ́mbà fóònù",
-    "phoneHelp": "Ọ̀nà àgbáyé: àmì +, kóòdù orílẹ̀-èdè, lẹ́yìn náà nọ́mbà náà.",
-    "send": "Fi kóòdù ránṣẹ́ sí mi",
-    "sentTo": "A ti fi kóòdù ránṣẹ́ sí {phone}.",
-    "code": "Kóòdù tí ẹ gbà nípasẹ̀ SMS",
-    "verify": "Wọlé",
-    "changeNumber": "Yí nọ́mbà padà",
-    "resend": "Tún kóòdù fi ránṣẹ́",
+    "intro": "Ẹ wọlé pẹ̀lú àdírẹ́sì e-mail àti ọ̀rọ̀ aṣínà àkọọ́lẹ̀ yín.",
+    "email": "Àdírẹ́sì e-mail",
+    "password": "Ọ̀rọ̀ aṣínà",
+    "submit": "Wọlé",
+    "forgot": "Ẹ gbàgbé ọ̀rọ̀ aṣínà?",
+    "noAccount": "Ẹ kò tíì jẹ́ ọmọ ẹgbẹ́?",
     "noAccountCta": "Di ọmọ ẹgbẹ́",
+    "resendConfirmation": "Tún ìjápọ̀ ìfìdímúlẹ̀ fi ránṣẹ́",
+    "resent": "A ṣẹ̀ṣẹ̀ fi ìjápọ̀ ìfìdímúlẹ̀ tuntun ránṣẹ́.",
     "errors": {
-      "invalidPhone": "Ẹ ṣàyẹ̀wò nọ́mbà náà: ó gbọ́dọ̀ bẹ̀rẹ̀ pẹ̀lú + àti kóòdù orílẹ̀-èdè.",
-      "noAccount": "Kò sí àkọọ́lẹ̀ kankan tí ó so mọ́ nọ́mbà yìí.",
-      "invalidCode": "Kóòdù yìí kò tọ̀nà tàbí àkókò rẹ̀ ti kọjá.",
+      "invalidCredentials": "Àdírẹ́sì e-mail tàbí ọ̀rọ̀ aṣínà kò tọ̀nà.",
+      "notConfirmed": "A kò tíì fìdí àdírẹ́sì yín múlẹ̀. Ẹ ṣí ìjápọ̀ tí ẹ gbà nínú e-mail.",
+      "invalidLink": "Ìjápọ̀ yìí kò wúlò mọ́: a ti lò ó tàbí àkókò rẹ̀ ti kọjá. Ẹ wọlé, tàbí kí ẹ béèrè ìjápọ̀ tuntun.",
       "tooManyRequests": "Ẹ ti gbìyànjú jù. Ẹ dúró ìṣẹ́jú díẹ̀ kí ẹ tó tún gbìyànjú.",
       "unavailable": "Wíwọlé kò tíì ṣí.",
       "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
@@ -1453,7 +1468,7 @@
         "notify": "Fi ìfitónilétí ránṣẹ́",
         "invite": "Pè sí ìpàdé alẹ́",
         "message": "Ìránṣẹ́",
-        "messageHelp": "Ẹ kọ ọ́ ní èdè mẹ́tẹ̀ẹ̀ta: ọmọ ẹgbẹ́ kọ̀ọ̀kan yóò gba ti èdè rẹ̀, nínú àyè rẹ̀, àti nípasẹ̀ SMS àti e-mail bí ó bá yan àwọn ọ̀nà wọ̀nyí. Lẹ́tà 500 ló pọ̀ jù.",
+        "messageHelp": "Ẹ kọ ọ́ ní èdè mẹ́tẹ̀ẹ̀ta: ọmọ ẹgbẹ́ kọ̀ọ̀kan yóò gba ti èdè rẹ̀, nínú àyè rẹ̀, àti nípasẹ̀ e-mail bí ó bá yan ọ̀nà yìí. Lẹ́tà 500 ló pọ̀ jù.",
         "languages": {
           "fr": "Faransé",
           "en": "Gẹ̀ẹ́sì",
@@ -1539,6 +1554,29 @@
         "venue": "Ibi ìpàdé",
         "payment": "Ìsanwó"
       }
+    }
+  },
+  "Password": {
+    "forgotTitle": "Ọ̀rọ̀ aṣínà tí a gbàgbé",
+    "forgotIntro": "Ẹ kọ àdírẹ́sì e-mail àkọọ́lẹ̀ yín: a ó fi ìjápọ̀ kan ránṣẹ́ sí yín láti yan ọ̀rọ̀ aṣínà tuntun.",
+    "email": "Àdírẹ́sì e-mail",
+    "send": "Fi ìjápọ̀ náà ránṣẹ́ sí mi",
+    "sent": "Bí àkọọ́lẹ̀ kan bá wà pẹ̀lú àdírẹ́sì yìí, a ṣẹ̀ṣẹ̀ fi ìjápọ̀ kan ránṣẹ́ sí i. Ẹ wo inú àpótí àwọn e-mail àìfẹ́ pẹ̀lú.",
+    "back": "Padà sí ojú-ìwé ìwọlé",
+    "newTitle": "Ọ̀rọ̀ aṣínà tuntun",
+    "newIntro": "Ẹ yan ọ̀rọ̀ aṣínà tuntun fún àkọọ́lẹ̀ yín.",
+    "password": "Ọ̀rọ̀ aṣínà tuntun",
+    "passwordHelp": "Ó kéré tán, lẹ́tà 8.",
+    "passwordConfirm": "Ẹ tún ọ̀rọ̀ aṣínà náà kọ",
+    "save": "Fi ọ̀rọ̀ aṣínà náà pamọ́",
+    "errors": {
+      "invalid_email": "Ẹ yẹ àdírẹ́sì e-mail náà wò.",
+      "weak_password": "Ọ̀rọ̀ aṣínà gbọ́dọ̀ ní lẹ́tà 8 ó kéré tán.",
+      "password_mismatch": "Àwọn ọ̀rọ̀ aṣínà méjèèjì kò bára mu.",
+      "same_password": "Ẹ yan ọ̀rọ̀ aṣínà tí ó yàtọ̀ sí ti àtẹ̀yìnwá.",
+      "tooManyRequests": "Ẹ ti gbìyànjú jù. Ẹ dúró ìṣẹ́jú díẹ̀ kí ẹ tó tún gbìyànjú.",
+      "unavailable": "Iṣẹ́ yìí kò tíì ṣí.",
+      "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
     }
   }
 }

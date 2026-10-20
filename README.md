@@ -39,7 +39,8 @@ et `apps/web/.env.example` en `apps/web/.env.local`.
   La clé service role est réservée aux tâches système, chaque usage est journalisé.
 - **Cloudinary** : photos de la vitrine uniquement. Photos des membres et pièces d'identité :
   Supabase Storage privé, URL signées de 5 minutes, filigrane généré par l'API.
-- **Brevo** : e-mails, SMS (codes OTP via le Send SMS Hook de Supabase), WhatsApp.
+- **Brevo** : e-mails (confirmation d'inscription et mot de passe oublié via le Send Email Hook de Supabase,
+  notifications), SMS de notification, WhatsApp. Inscription et connexion par e-mail et mot de passe (20 octobre 2026).
 - **Polices** : EB Garamond (titres) et Montserrat (texte), hébergées dans le projet. Jost a été écartée car elle
   n'affiche pas ẹ, ọ, ṣ (vérification de la table des caractères des fichiers de police).
   Cormorant Garamond a été écartée car ses accents sont mal placés au rendu (ô, ù, é), vérifié dans Chromium.

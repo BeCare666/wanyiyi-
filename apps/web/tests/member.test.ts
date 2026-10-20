@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
 import { canRetryVerification, type CheckoutInfo, transactionIdOf, widgetOptions } from "../src/app/[locale]/(membre)/paiement/[id]/checkout";
-import { ageOnCotonouDay, checkIdentity, type Identity, latestBirthDate } from "../src/app/[locale]/(vitrine)/inscription/registration";
+import { ageOnCotonouDay, checkAccount, checkIdentity, checkPassword, type Identity, latestBirthDate } from "../src/app/[locale]/(vitrine)/inscription/registration";
+import { authErrorKey } from "../src/lib/auth-errors";
 import {
   type Evening,
   eveningActions,
@@ -194,11 +195,11 @@ describe("Notifications", () => {
 
 describe("Paramètres (6.2-9)", () => {
   it("un canal sans ligne en base reste actif ; e-mail proposé (19 octobre 2026) ; canaux inconnus ignorés", () => {
-    expect(channelsFrom([])).toEqual({ in_app: true, whatsapp: true, sms: true, email: true });
+    // SMS retiré le 20 octobre 2026 : une préférence « sms » encore en base est ignorée
+    expect(channelsFrom([])).toEqual({ in_app: true, whatsapp: true, email: true });
     expect(channelsFrom([{ channel: "sms", enabled: false }, { channel: "email", enabled: false }, { channel: "pigeon", enabled: false }])).toEqual({
       in_app: true,
       whatsapp: true,
-      sms: false,
       email: false,
     });
   });
@@ -304,7 +305,6 @@ describe("Inscription (6.2-2, décisions du 19 octobre 2026)", () => {
     sex: "female",
     birthDate: "1995-04-12",
     city: "Cotonou",
-    email: "",
     consent: true,
   };
 
@@ -318,15 +318,37 @@ describe("Inscription (6.2-2, décisions du 19 octobre 2026)", () => {
     expect(latestBirthDate(new Date("2028-02-29T12:00:00Z"))).toBe("2010-02-28");
   });
 
-  it("nom, sexe, date réelle, ville, e-mail facultatif, consentement", () => {
+  it("nom, sexe, date réelle, ville, consentement", () => {
     expect(checkIdentity({ ...identity, firstName: "  " }, now)).toBe("invalid_name");
     expect(checkIdentity({ ...identity, sex: "" }, now)).toBe("invalid_sex");
     expect(checkIdentity({ ...identity, birthDate: "1995-02-30" }, now)).toBe("invalid_birth_date");
     expect(checkIdentity({ ...identity, birthDate: "2027-01-01" }, now)).toBe("invalid_birth_date");
     expect(checkIdentity({ ...identity, city: "x".repeat(81) }, now)).toBe("invalid_city");
-    expect(checkIdentity({ ...identity, email: "ayaba@example.com" }, now)).toBeNull();
-    expect(checkIdentity({ ...identity, email: "pas-une-adresse" }, now)).toBe("invalid_email");
     expect(checkIdentity({ ...identity, consent: false }, now)).toBe("consent_required");
+  });
+});
+
+describe("Compte par e-mail et mot de passe (décision du 20 octobre 2026)", () => {
+  const account = { email: " ayaba@example.com ", password: "motdepasse", passwordConfirm: "motdepasse" };
+
+  it("adresse valable, 8 caractères au moins, 72 octets au plus, confirmation identique", () => {
+    expect(checkAccount(account)).toBeNull();
+    expect(checkAccount({ ...account, email: "pas-une-adresse" })).toBe("invalid_email");
+    expect(checkAccount({ ...account, password: "court", passwordConfirm: "court" })).toBe("weak_password");
+    expect(checkPassword("é".repeat(37), "é".repeat(37))).toBe("weak_password"); // 74 octets
+    expect(checkPassword("motdepasse", "motdepassf")).toBe("password_mismatch");
+  });
+
+  it("erreurs de Supabase Auth traduites en messages", () => {
+    expect(authErrorKey({ code: "invalid_credentials", status: 400 })).toBe("invalidCredentials");
+    expect(authErrorKey({ code: "email_not_confirmed", status: 400 })).toBe("notConfirmed");
+    expect(authErrorKey({ code: "over_email_send_rate_limit", status: 429 })).toBe("tooManyRequests");
+    expect(authErrorKey({ status: 429 })).toBe("tooManyRequests");
+    expect(authErrorKey({ code: "weak_password", status: 422 })).toBe("weak_password");
+    expect(authErrorKey({ code: "email_address_invalid", status: 400 })).toBe("invalid_email");
+    expect(authErrorKey({ code: "same_password", status: 422 })).toBe("same_password");
+    expect(authErrorKey({ code: "email_exists", status: 422 })).toBe("email_exists");
+    expect(authErrorKey({ code: "inconnu", status: 500 })).toBe("generic");
   });
 });
 

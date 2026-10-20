@@ -13,6 +13,7 @@ import { AuthHooksService } from "./hooks/auth-hooks.service";
 import {
   BrevoEmailSender,
   BrevoSmsSender,
+  DisabledSmsSender,
   EMAIL_SENDER,
   SimulatedEmailSender,
   SimulatedSmsSender,
@@ -47,10 +48,11 @@ import { AdminVerificationsController } from "./verifications/admin-verification
     {
       provide: SMS_SENDER,
       inject: [ConfigService],
-      useFactory: (config: ConfigService<Env, true>) =>
-        config.get("SMS_PROVIDER", { infer: true }) === "brevo"
-          ? new BrevoSmsSender(config.get("BREVO_API_KEY", { infer: true })!, config.get("BREVO_SMS_SENDER", { infer: true })!)
-          : new SimulatedSmsSender(),
+      useFactory: (config: ConfigService<Env, true>) => {
+        const provider = config.get("SMS_PROVIDER", { infer: true });
+        if (provider === "brevo") return new BrevoSmsSender(config.get("BREVO_API_KEY", { infer: true })!, config.get("BREVO_SMS_SENDER", { infer: true })!);
+        return provider === "simulated" ? new SimulatedSmsSender() : new DisabledSmsSender();
+      },
     },
     {
       provide: EMAIL_SENDER,

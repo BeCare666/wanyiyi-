@@ -23,7 +23,7 @@ export default async function RegisterPage() {
   const t = await getTranslations("Register");
   const steps = t.raw("steps") as string[];
   const member = await getSessionMember();
-  let initialStep: "phone" | "identity" = "phone";
+  let initialStep: "account" | "identity" = "account";
   if (member) {
     const supabase = await createSupabaseServer();
     const { data } = (await supabase?.from("member_profiles").select("user_id").eq("user_id", member.id).maybeSingle()) ?? { data: null };
