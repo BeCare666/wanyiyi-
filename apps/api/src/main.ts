@@ -27,7 +27,8 @@ async function bootstrap() {
   }
 
   const port = config.get("PORT", { infer: true });
-  await app.listen(port);
+  // Toutes les interfaces : exigé par Render (et sans effet en local)
+  await app.listen(port, "0.0.0.0");
   new Logger("Bootstrap").log(`API Wanyiyi prête sur le port ${port}`);
 }
 
