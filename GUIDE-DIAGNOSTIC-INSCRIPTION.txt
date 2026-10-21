@@ -4,6 +4,48 @@ DIAGNOSTIC : ERREUR 422 À L'INSCRIPTION
 Erreur relevée dans le navigateur :
    POST https://...supabase.co/auth/v1/signup 422 (Unprocessable Content)
 
+=====================================================================
+RÉSULTAT (21 octobre 2026, après lecture de erreur-render.txt)
+=====================================================================
+Réponse de Supabase :
+   "code": "unexpected_failure",
+   "message": "Unexpected status code returned from hook: 500"
+
+Ce que cela veut dire : Supabase a bien joint l'API sur Render et la
+signature était bonne (sinon l'API répond 401, pas 500). L'API a échoué
+au moment d'envoyer l'e-mail par Brevo.
+
+Contrôle fait depuis ce poste avec la clé Brevo de apps/api/.env (lecture
+seule, aucun e-mail envoyé) : Brevo refuse TOUTE requête avec
+   "unrecognised IP address" (code unauthorized)
+La restriction d'adresses IP de Brevo est toujours active : Brevo refuse
+donc aussi les envois depuis Render.
+
+CORRECTION (dans Brevo, rien à changer dans le code) :
+1. Ouvrir https://app.brevo.com/security/authorised_ips
+   (ou : menu du compte en haut à droite > « Security » / « Sécurité » >
+   « Authorised IPs » / « Adresses IP autorisées »).
+2. Désactiver le blocage des adresses IP inconnues (bouton du type
+   « Deactivate blocking » / « Désactiver le blocage »), confirmer.
+   Les adresses IP de Render changent : les ajouter une par une ne
+   fonctionnerait pas durablement.
+3. Prévenir Claude : je relance le contrôle en lecture seule (compte et
+   expéditeurs) pour confirmer que Brevo accepte la clé et que l'adresse
+   d'expédition est validée.
+4. Ensuite seulement, refaire l'inscription sur le site (ouvrir
+   /api/health de l'API juste avant pour la réveiller).
+
+À SAVOIR sur l'adresse d'expédition : BREVO_SENDER_EMAIL est une adresse
+Gmail. Brevo l'accepte si elle est validée, mais les messageries
+(Gmail, Outlook) classent souvent en courrier indésirable, voire
+refusent, les e-mails envoyés « au nom de » Gmail par un autre service.
+Une adresse sur un domaine à vous, authentifié dans Brevo, évite ce
+problème (question 14 de PHASE2.txt, à décider de votre côté).
+
+
+=====================================================================
+DÉTAIL DU DIAGNOSTIC
+=====================================================================
 Ce que j'ai déjà vérifié (lecture seule) :
    - inscriptions ouvertes, connexion par e-mail activée, confirmation
      par e-mail exigée : OK ;
