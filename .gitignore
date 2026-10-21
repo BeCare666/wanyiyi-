@@ -13,3 +13,4 @@ test-results/
 
 # Fichier généré à coller dans Supabase (à partir de supabase/migrations)
 supabase/a-executer-dans-supabase.sql
+erreur-render.txt

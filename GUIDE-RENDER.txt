@@ -1,0 +1,111 @@
+GUIDE : METTRE L'API WANYIYI EN LIGNE SUR RENDER
+(mis à jour le 21 octobre 2026)
+
+Ne collez JAMAIS de clé dans la conversation ni dans un fichier du projet :
+seulement dans les variables d'environnement de Render.
+
+
+=====================================================================
+L'ERREUR DU 21 OCTOBRE (erreur-render.txt)
+=====================================================================
+   Cannot find module '@wanyiyi/domain'
+
+Cause : Render construit seulement le dossier apps/api (« Root Directory »
+= apps/api) avec la commande « npm install; npm run build ». Les paquets
+communs du projet (packages/shared et packages/domain) ne sont donc jamais
+construits, et l'API ne les trouve pas. Le code n'est pas en cause : il faut
+corriger les réglages du service (étape 1).
+
+
+=====================================================================
+ÉTAPE 1 : RÉGLAGES DU SERVICE (onglet « Settings »)
+=====================================================================
+1. Section « Build & Deploy » :
+
+   Root Directory : laisser VIDE (effacer apps/api, cliquer « Save »)
+
+   Build Command :
+npm ci --include=dev && npm run build:packages && npm run build -w @wanyiyi/api
+
+   Start Command :
+npm run start -w @wanyiyi/api
+
+2. Section « Health Check » (si proposée) :
+
+   Health Check Path :
+/api/health
+
+Pourquoi --include=dev : avec NODE_ENV=production, npm n'installerait pas
+TypeScript, nécessaire à la construction.
+
+
+=====================================================================
+ÉTAPE 2 : VARIABLES D'ENVIRONNEMENT (onglet « Environment »)
+=====================================================================
+Ajouter chaque nom ci-dessous (« Add Environment Variable »), la valeur à
+droite. Les valeurs secrètes se recopient depuis apps/api/.env.
+
+   NODE_VERSION              22
+   NODE_ENV                  production
+   WEB_ORIGIN                adresse publique du site (ex. https://wanyiyi.vercel.app)
+   SUPABASE_URL              (apps/api/.env)
+   SUPABASE_ANON_KEY         (apps/api/.env)
+   SUPABASE_SERVICE_ROLE_KEY (apps/api/.env)
+   SEND_EMAIL_HOOK_SECRET    (créé à l'étape 10 du GUIDE-SUPABASE.txt)
+   SMS_PROVIDER              disabled
+   EMAIL_PROVIDER            brevo
+   BREVO_API_KEY             (apps/api/.env)
+   BREVO_SENDER_EMAIL        (apps/api/.env)
+   BREVO_SENDER_NAME         Wanyiyi
+   CLOUDINARY_CLOUD_NAME     (apps/api/.env)
+   CLOUDINARY_API_KEY        (apps/api/.env)
+   CLOUDINARY_API_SECRET     (apps/api/.env)
+   PAYMENT_PROVIDER          kkiapay
+   KKIAPAY_PUBLIC_KEY        clé KkiaPay RÉELLE
+   KKIAPAY_PRIVATE_KEY       clé KkiaPay RÉELLE
+   KKIAPAY_SECRET            clé KkiaPay RÉELLE
+   KKIAPAY_SANDBOX           false
+
+Ne PAS ajouter PORT : Render le fournit lui-même.
+Ne PAS ajouter SUPABASE_DB_PASSWORD : l'API ne s'en sert pas.
+
+
+=====================================================================
+ÉTAPE 3 : CE QUI BLOQUERA ENCORE LE DÉMARRAGE (À DÉCIDER)
+=====================================================================
+En production (NODE_ENV=production), l'API refuse de démarrer et affiche
+« Configuration invalide : ... » si :
+
+   a. SEND_EMAIL_HOOK_SECRET est vide.
+      Ordre à suivre : déployer une première fois pour connaître l'adresse
+      https://....onrender.com, créer le hook Supabase (étape 10 du
+      GUIDE-SUPABASE.txt) avec cette adresse, copier le secret dans
+      Render, puis « Manual Deploy » > « Deploy latest commit ».
+
+   b. Les clés KkiaPay sont celles du bac à sable (KKIAPAY_SANDBOX=true
+      est interdit en production, comme PAYMENT_PROVIDER=simulated).
+      Il faut des clés KkiaPay réelles (compte KkiaPay validé).
+      En attendant, deux possibilités, à me dire avant tout réglage :
+        - attendre les clés réelles ;
+        - déployer provisoirement avec NODE_ENV=development (les clés de
+          bac à sable sont alors acceptées, aucun vrai paiement ; mais la
+          documentation de l'API /api/docs devient publique).
+
+   c. WEB_ORIGIN est vide ou vaut une adresse localhost.
+
+   d. BREVO_API_KEY ou BREVO_SENDER_EMAIL est vide.
+
+Autre point : la clé Brevo est limitée à certaines adresses IP. Les
+e-mails partiront de Render : il faudra lever cette restriction dans Brevo
+(« Security » > « Authorised IPs ») sinon les envois seront refusés.
+
+
+=====================================================================
+ÉTAPE 4 : VÉRIFIER
+=====================================================================
+1. Onglet « Logs » : la dernière ligne doit indiquer que l'API écoute.
+2. Ouvrir dans le navigateur :
+      https://ADRESSE-DE-L-API.onrender.com/api/health
+   Résultat attendu : une réponse contenant "ok".
+3. En cas d'erreur : copier les lignes rouges dans erreur-render.txt à la
+   racine du projet (sans aucune clé) et me prévenir.
