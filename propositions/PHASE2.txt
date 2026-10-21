@@ -394,3 +394,5 @@ QUESTIONS (je n'invente pas les réponses)
      partagé est désormais déclaré par le membre, sans vérification. Est-ce
      acceptable, ou faut-il une vérification (par exemple par l'équipe lors
      de l'entretien) avant de pouvoir le partager ?
+     RÉPONSE (21 octobre 2026) : acceptable, le numéro déclaré par le membre
+     peut être partagé après un match sans vérification.
