@@ -18,6 +18,39 @@ corriger les réglages du service (étape 1).
 
 
 =====================================================================
+L'ERREUR SUIVANTE (21 octobre, 11 h 13) : WEB_ORIGIN: Invalid URL
+=====================================================================
+   Configuration invalide : WEB_ORIGIN: Invalid URL
+
+La construction a réussi ; c'est le démarrage qui échoue. La variable
+WEB_ORIGIN existe dans Render mais sa valeur n'est pas une adresse
+complète. Causes possibles :
+   - valeur vide ;
+   - https:// oublié (ex. wanyiyi.vercel.app au lieu de
+     https://wanyiyi.vercel.app) ;
+   - un espace avant ou après, ou des guillemets autour ;
+   - un texte d'exemple recopié tel quel.
+
+Correction :
+1. Trouver l'adresse publique du site :
+   Vercel > projet du site > « Domains » (ou l'adresse affichée sous
+   « Production Deployment »), par exemple https://wanyiyi.vercel.app
+2. Render > service de l'API > onglet « Environment » > WEB_ORIGIN >
+   crayon. Valeur : l'adresse du point 1, exactement sous cette forme :
+
+https://wanyiyi.vercel.app
+
+   (avec VOTRE adresse : commence par https://, pas de barre / à la fin,
+   pas d'espace, pas de guillemets, pas de localhost)
+3. « Save Changes » > « Save and deploy ».
+
+Après cette correction, l'API vérifie les autres variables. Si elle
+s'arrête encore sur « Configuration invalide : ... », la liste complète
+des problèmes s'affiche sur la même ligne (voir l'étape 3 ci-dessous) :
+recopier cette ligne dans erreur-render.txt.
+
+
+=====================================================================
 ÉTAPE 1 : RÉGLAGES DU SERVICE (onglet « Settings »)
 =====================================================================
 1. Section « Build & Deploy » :
