@@ -1,0 +1,73 @@
+DIAGNOSTIC : ERREUR 422 À L'INSCRIPTION
+(21 octobre 2026)
+
+Erreur relevée dans le navigateur :
+   POST https://...supabase.co/auth/v1/signup 422 (Unprocessable Content)
+
+Ce que j'ai déjà vérifié (lecture seule) :
+   - inscriptions ouvertes, connexion par e-mail activée, confirmation
+     par e-mail exigée : OK ;
+   - aucun compte n'existe encore dans Supabase : l'adresse n'est donc
+     pas « déjà utilisée ». Quand l'envoi de l'e-mail échoue, Supabase
+     annule la création du compte : cela concorde avec une erreur du
+     côté de l'envoi (hook, API Render ou Brevo), sans le prouver.
+
+La ligne « 422 » ne dit pas POURQUOI Supabase refuse. Le motif exact est
+dans la réponse de Supabase. Il me faut les 4 éléments ci-dessous, à
+copier dans erreur-render.txt (pas dans un guide) puis me prévenir.
+Aucun de ces éléments ne contient de clé ; si une ligne en contient une
+(longue suite commençant par eyJ ou v1,whsec_), la retirer.
+
+
+=====================================================================
+1. LE MESSAGE AFFICHÉ SUR LA PAGE D'INSCRIPTION
+=====================================================================
+Le texte en rouge (ou encadré) sous le formulaire, mot pour mot.
+
+
+=====================================================================
+2. LA RÉPONSE DE SUPABASE (le plus important)
+=====================================================================
+1. Sur la page d'inscription, appuyer sur F12 (outils du navigateur).
+2. Onglet « Network » (« Réseau »).
+3. Refaire l'inscription (même adresse, mot de passe d'au moins
+   8 caractères).
+4. Dans la liste, cliquer sur la ligne « signup » (en rouge).
+5. À droite, onglet « Response » (« Réponse »).
+6. Copier tout le texte, de la forme :
+      {"code":422,"error_code":"...","msg":"..."}
+
+
+=====================================================================
+3. LE JOURNAL DE L'API SUR RENDER AU MÊME MOMENT
+=====================================================================
+Render > service de l'API > onglet « Logs » : copier les lignes
+apparues à l'heure de l'essai (surtout celles contenant « Auth Hooks »,
+« ERROR », « invalid_signature », « hook_secret_missing » ou « Brevo »).
+Si aucune ligne n'est apparue au moment de l'essai, l'écrire aussi :
+cela veut dire que Supabase n'a pas joint l'API.
+
+
+=====================================================================
+4. LE JOURNAL D'AUTHENTIFICATION DE SUPABASE
+=====================================================================
+Supabase > projet wanyiyi > menu « Logs » (ou « Logs & Analytics ») >
+« Auth ». Copier les lignes rouges de l'heure de l'essai (cliquer sur
+une ligne pour voir son détail, copier le champ « msg » ou « error »).
+Ne pas copier les adresses IP ni les jetons.
+
+
+=====================================================================
+À CONTRÔLER EN ATTENDANT (sans rien modifier d'autre)
+=====================================================================
+   a. Supabase > Authentication > Auth Hooks : le « Send Email hook »
+      est activé et son URL se termine par /api/hooks/auth/email
+      (https://, pas de barre / ni d'espace à la fin).
+   b. Render > Environment : SEND_EMAIL_HOOK_SECRET contient exactement
+      le secret du hook (commence par v1,whsec_, sans espace) ;
+      EMAIL_PROVIDER = brevo.
+   c. Brevo : la restriction d'adresses IP est levée et l'adresse
+      d'expédition (BREVO_SENDER_EMAIL) est validée.
+   d. L'API répond : https://NOM-DU-SERVICE.onrender.com/api/health
+      affiche "status":"ok" (en plan gratuit, l'ouvrir juste avant
+      l'essai pour la réveiller : Supabase n'attend que 5 secondes).
