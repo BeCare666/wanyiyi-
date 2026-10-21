@@ -1,0 +1,191 @@
+GUIDE : CRÉER ET RÉGLER LE PROJET SUPABASE DE WANYIYI
+(mis à jour le 21 octobre 2026)
+
+Les libellés du tableau de bord Supabase peuvent légèrement différer.
+Si un bouton ou un menu est introuvable, décrivez ce que vous voyez à l'écran.
+
+Ne collez JAMAIS de clé ni de mot de passe dans la conversation ni dans un
+fichier .env.example : seulement dans apps/api/.env, apps/web/.env.local,
+Render et Vercel.
+
+
+=====================================================================
+ÉTAPE 1 : COMPTE
+=====================================================================
+1. Ouvrir https://supabase.com, cliquer sur « Start your project ».
+2. Se connecter avec GitHub (compte BeCare666) ou avec une adresse e-mail.
+
+
+=====================================================================
+ÉTAPE 2 : ORGANISATION
+=====================================================================
+1. Name : Wanyiyi
+2. Type : Personal
+3. Plan : Free
+4. Cliquer sur « Create organization ».
+
+À savoir : en plan gratuit, un projet sans activité pendant 7 jours est mis
+en pause ; on le relance depuis le tableau de bord.
+
+
+=====================================================================
+ÉTAPE 3 : PROJET
+=====================================================================
+1. Cliquer sur « New project ».
+2. Name : wanyiyi
+3. Database Password : cliquer sur « Generate a password », puis le ranger
+   dans un gestionnaire de mots de passe (jamais dans le projet).
+4. Region : la plus proche du Bénin, probablement « Paris (eu-west-3) » ou
+   « London ». Si une région en Afrique est proposée, le signaler avant de
+   valider.
+5. Cliquer sur « Create new project », attendre quelques minutes.
+
+
+=====================================================================
+ÉTAPE 4 : CLÉS DE SIGNATURE (vérification des membres par l'API)
+=====================================================================
+1. Menu « Project Settings » > « JWT Keys ».
+2. Regarder la clé marquée « Current » :
+   - « ECC (P-256) » ou « RSA » : c'est bon, passer au point 4.
+   - « Legacy HS256 (shared secret) » : passer au point 3.
+3. Créer une nouvelle clé « ECC (P-256) » en attente (« standby »), puis
+   cliquer sur « Rotate » pour qu'elle devienne la clé actuelle.
+4. Contrôle : ouvrir dans le navigateur l'adresse suivante, en remplaçant
+   IDENTIFIANT par l'identifiant du projet (les lettres de l'adresse
+   https://IDENTIFIANT.supabase.co) :
+
+   https://IDENTIFIANT.supabase.co/auth/v1/.well-known/jwks.json
+
+   La page doit contenir "keys": [ { ... } ] avec au moins une clé.
+   Si elle affiche "keys": [] (liste vide), le réglage n'est pas bon.
+
+
+=====================================================================
+ÉTAPE 5 : CRÉER LA BASE (UN SEUL FICHIER À EXÉCUTER)
+=====================================================================
+Tout est réuni dans un seul fichier du projet :
+
+   supabase/a-executer-dans-supabase.sql
+
+1. Dans Supabase : menu « SQL Editor » > « New query ».
+2. Ouvrir le fichier supabase/a-executer-dans-supabase.sql dans votre
+   éditeur (VS Code), tout sélectionner (Ctrl+A), copier (Ctrl+C).
+3. Coller dans l'éditeur SQL de Supabase (Ctrl+V).
+4. Cliquer sur « Run » (ou Ctrl+Entrée).
+   Si Supabase demande une confirmation (« destructive operation » ou
+   similaire), confirmer : le fichier crée des tables, il ne supprime rien
+   de vos données (le projet est neuf).
+5. Résultat attendu, en bas : une ligne
+      migrations appliquées : 20
+
+EN CAS D'ERREUR :
+   - Ne relancez pas le fichier.
+   - Écrivez le message d'erreur dans la conversation (ou dans un fichier
+     erreur-supabase.txt à la racine du projet) : je prépare un fichier de
+     reprise. Les migrations d'avant l'erreur restent appliquées, celle en
+     erreur est annulée, les suivantes ne sont pas exécutées.
+
+VÉRIFICATION :
+   - Menu « Table Editor », choisir le schéma « app » en haut à gauche :
+     les tables users, member_profiles, events, etc. apparaissent.
+   - Menu « Storage » : le compartiment « id-documents » existe.
+
+
+=====================================================================
+ÉTAPE 6 : RENDRE LE SCHÉMA « app » ACCESSIBLE (APRÈS L'ÉTAPE 5)
+=====================================================================
+Le schéma « app » n'apparaît dans la liste qu'une fois créé par l'étape 5 :
+c'est pour cela qu'il était impossible de l'ajouter avant.
+
+1. Menu « Project Settings » > « Data API ».
+2. Champ « Exposed schemas » : garder « public » et ajouter « app ».
+3. Cliquer sur « Save ».
+
+
+=====================================================================
+ÉTAPE 7 : CONNEXION PAR E-MAIL
+=====================================================================
+1. Menu « Authentication » > « Sign In / Providers ».
+2. « Allow new users to sign up » : activé.
+3. Ouvrir « Email » :
+   - Enable Email provider : activé
+   - Confirm email : activé
+   - Minimum password length : 8
+   Cliquer sur « Save ».
+4. Ouvrir « Phone » : désactivé.
+
+
+=====================================================================
+ÉTAPE 8 : ADRESSE DU SITE
+=====================================================================
+1. Menu « Authentication » > « URL Configuration ».
+2. Site URL : l'adresse publique du site sur Vercel
+   (par exemple https://wanyiyi.vercel.app).
+3. Cliquer sur « Save ».
+
+
+=====================================================================
+ÉTAPE 9 : LES CLÉS DU PROJET
+=====================================================================
+Menu « Project Settings » > « API Keys » (l'adresse du projet est aussi
+dans « Data API » ou le bouton « Connect »).
+
+Trois valeurs :
+   - adresse du projet : https://IDENTIFIANT.supabase.co
+   - clé publique : « anon » (ou « publishable »)
+   - clé secrète : « service_role » (ou « secret »), tous les droits
+
+Où les mettre :
+
+   apps/api/.env (sur ce poste) et Render :
+      SUPABASE_URL=adresse du projet
+      SUPABASE_ANON_KEY=clé publique
+      SUPABASE_SERVICE_ROLE_KEY=clé secrète
+
+   apps/web/.env.local (sur ce poste) et Vercel :
+      NEXT_PUBLIC_SUPABASE_URL=adresse du projet
+      NEXT_PUBLIC_SUPABASE_ANON_KEY=clé publique
+
+La clé secrète ne va JAMAIS dans le site ni dans Vercel.
+Une fois les fichiers remplis, prévenez-moi : je vérifie que les clés
+fonctionnent sans les afficher.
+
+
+=====================================================================
+ÉTAPE 10 : ENVOI DES E-MAILS (SEULEMENT QUAND L'API EST EN LIGNE SUR RENDER)
+=====================================================================
+Avant cette étape, ne testez pas l'inscription : Supabase enverrait ses
+propres e-mails (en anglais, quelques-uns par heure, avec un lien que le
+site ne sait pas traiter).
+
+1. Menu « Authentication » > « Auth Hooks » > « Add hook » >
+   « Send Email hook ».
+2. Type : HTTPS
+3. URL : https://ADRESSE-DE-L-API.onrender.com/api/hooks/auth/email
+4. Secret : cliquer sur « Generate secret », copier la valeur
+   (elle commence par v1,whsec_) dans la variable SEND_EMAIL_HOOK_SECRET
+   de Render.
+5. Cliquer sur « Create ».
+
+
+=====================================================================
+ÉTAPE 11 : DEVENIR SUPER ADMINISTRATRICE (APRÈS VOTRE INSCRIPTION)
+=====================================================================
+1. S'inscrire sur le site avec son adresse e-mail et confirmer le lien reçu.
+2. Dans « SQL Editor » > « New query », coller la requête ci-dessous en
+   remplaçant l'adresse par la vôtre, puis « Run » :
+
+update app.users set role = 'super_admin'
+where id = (select id from auth.users where email = 'votre-adresse@exemple.com');
+
+3. Résultat attendu : 1 row affected (une ligne modifiée).
+   Les rôles des autres membres se donnent ensuite depuis l'administration
+   du site.
+
+
+=====================================================================
+ORDRE CONSEILLÉ
+=====================================================================
+   Supabase étapes 1 à 9  >  API sur Render  >  Supabase étape 10
+   >  site sur Vercel (redéployer après avoir ajouté les variables)
+   >  Brevo : lever la restriction d'adresses IP  >  étape 11
