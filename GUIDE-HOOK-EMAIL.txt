@@ -1,0 +1,153 @@
+GUIDE : BRANCHER L'ENVOI DES E-MAILS (SEND EMAIL HOOK)
+(mis à jour le 21 octobre 2026)
+
+À quoi ça sert : quand quelqu'un s'inscrit, oublie son mot de passe ou
+change d'adresse, Supabase n'envoie plus l'e-mail lui-même. Il appelle
+notre API sur Render, qui envoie l'e-mail par Brevo, dans la langue du
+membre. Le « secret » est un mot de passe partagé entre Supabase et
+l'API : il prouve à l'API que l'appel vient bien de Supabase.
+
+Ne collez JAMAIS le secret dans la conversation ni dans un fichier du
+projet : seulement dans Render (et dans apps/api/.env si vous le voulez
+sur ce poste).
+
+
+=====================================================================
+ÉTAPE 1 : TROUVER L'ADRESSE DE L'API SUR RENDER
+=====================================================================
+1. Ouvrir https://dashboard.render.com et cliquer sur le service de l'API.
+2. En haut de la page, sous le nom du service, une adresse est affichée,
+   de la forme :
+
+      https://NOM-DU-SERVICE.onrender.com
+
+   (NOM-DU-SERVICE est le nom choisi à la création, parfois suivi de
+   quelques lettres, par exemple https://wanyiyi-api-x7k2.onrender.com)
+3. Contrôle : ouvrir dans le navigateur cette adresse suivie de
+   /api/health, par exemple :
+
+      https://NOM-DU-SERVICE.onrender.com/api/health
+
+   La page doit afficher "status":"ok".
+   Si la page met longtemps à répondre (jusqu'à une minute), le service
+   gratuit était en veille : voir l'avertissement de l'étape 6.
+
+
+=====================================================================
+ÉTAPE 2 : CONSTRUIRE L'ADRESSE DU HOOK
+=====================================================================
+Prendre l'adresse de l'étape 1 et ajouter à la fin :
+
+   /api/hooks/auth/email
+
+Exemple complet (à adapter avec VOTRE adresse) :
+
+   https://NOM-DU-SERVICE.onrender.com/api/hooks/auth/email
+
+Attention :
+   - commence par https:// (pas http://) ;
+   - pas de barre / à la fin ;
+   - tout en minuscules, sans espace.
+
+L'adresse ne s'ouvre pas dans un navigateur (elle répond seulement aux
+appels de Supabase) : c'est normal, ne pas s'inquiéter d'une erreur 404.
+
+
+=====================================================================
+ÉTAPE 3 : CRÉER LE HOOK DANS SUPABASE
+=====================================================================
+1. Ouvrir https://supabase.com/dashboard et cliquer sur le projet wanyiyi.
+2. Menu de gauche : « Authentication ».
+3. Dans le sous-menu : « Auth Hooks » (parfois « Hooks »).
+4. Cliquer sur « Add hook » (ou « Add a new hook »).
+5. Choisir « Send Email hook ».
+6. Une fenêtre s'ouvre :
+   a. « Enable Send Email hook » : activé.
+   b. « Hook type » : choisir « HTTPS » (pas « Postgres »).
+   c. « URL » : coller l'adresse de l'étape 2.
+   d. « Secret » : cliquer sur « Generate secret ».
+      Une valeur apparaît, elle commence par v1,whsec_
+      La copier EN ENTIER (de v1 jusqu'au dernier caractère) et la
+      garder sous la main pour l'étape 4 (bloc-notes temporaire, à
+      effacer ensuite).
+7. Cliquer sur « Create hook » (ou « Create »).
+
+Si Supabase refuse l'adresse : vérifier qu'elle commence par https://.
+
+
+=====================================================================
+ÉTAPE 4 : DONNER LE SECRET À L'API (RENDER)
+=====================================================================
+1. Retourner sur Render, service de l'API, onglet « Environment ».
+2. Si la variable SEND_EMAIL_HOOK_SECRET existe déjà : cliquer sur le
+   crayon pour la modifier. Sinon : « Add Environment Variable ».
+      Key   : SEND_EMAIL_HOOK_SECRET
+      Value : le secret copié à l'étape 3 (v1,whsec_...), sans espace
+              avant ni après.
+3. Vérifier au passage ces variables (même onglet) :
+      EMAIL_PROVIDER      brevo
+      BREVO_API_KEY       remplie
+      BREVO_SENDER_EMAIL  remplie
+      WEB_ORIGIN          adresse publique du site (pas localhost)
+   Sans EMAIL_PROVIDER=brevo, aucun e-mail ne part réellement.
+4. Cliquer sur « Save Changes ».
+5. Choisir « Save and deploy » si proposé ; sinon menu « Manual Deploy »
+   > « Deploy latest commit ».
+6. Attendre « Live » (en vert) puis effacer le secret du bloc-notes.
+
+
+=====================================================================
+ÉTAPE 5 : BREVO (SINON LES E-MAILS SONT REFUSÉS)
+=====================================================================
+La clé Brevo n'accepte que certaines adresses IP, et Render n'en fait pas
+partie.
+1. Ouvrir https://app.brevo.com
+2. En haut à droite, menu du compte > « Security » (ou « Sécurité ») >
+   « Authorised IPs » (« Adresses IP autorisées »).
+3. Désactiver la restriction (« Deactivate blocking » ou équivalent).
+   Les adresses IP de Render changent : on ne peut pas les ajouter une
+   par une.
+4. Vérifier aussi dans Brevo, « Senders, Domains & Dedicated IPs » >
+   « Senders », que l'adresse mise dans BREVO_SENDER_EMAIL est validée.
+
+
+=====================================================================
+ÉTAPE 6 : AVERTISSEMENT SUR LE PLAN GRATUIT DE RENDER
+=====================================================================
+Supabase attend la réponse de l'API 5 secondes au maximum.
+En plan gratuit, Render met le service en veille après 15 minutes sans
+visite ; le réveil prend jusqu'à une minute. Pendant ce temps,
+l'inscription échoue avec un message d'erreur d'envoi d'e-mail, puis
+réussit si la personne réessaie une fois le service réveillé.
+Pour un site ouvert au public, un plan payant de Render (« Starter »)
+évite ce problème : à décider de votre côté.
+
+
+=====================================================================
+ÉTAPE 7 : TESTER
+=====================================================================
+1. Ouvrir dans le navigateur
+      https://NOM-DU-SERVICE.onrender.com/api/health
+   pour réveiller l'API (attendre "status":"ok").
+2. Sur le site, page « Inscription » : créer un compte avec VOTRE adresse
+   e-mail et un mot de passe d'au moins 8 caractères.
+3. Résultat attendu : un e-mail Wanyiyi, en français, avec un lien de
+   confirmation. Regarder aussi dans les courriers indésirables (spam).
+4. Cliquer sur le lien : le site s'ouvre sur la suite de l'inscription.
+5. Ensuite seulement : étape 11 du GUIDE-SUPABASE.txt (devenir super
+   administratrice).
+
+
+=====================================================================
+EN CAS DE PROBLÈME
+=====================================================================
+Copier dans erreur-render.txt (sans aucune clé ni secret) :
+   - le message affiché par le site ;
+   - les lignes de l'onglet « Logs » de Render au moment de l'essai ;
+   - dans Supabase, menu « Logs » > « Auth », les lignes rouges récentes.
+Puis me prévenir.
+
+Repères pour les messages dans les journaux Render :
+   hook_secret_missing   SEND_EMAIL_HOOK_SECRET absente de Render
+   invalid_signature     secret mal copié (incomplet ou avec un espace) :
+                         recommencer l'étape 4 avec la valeur de Supabase
