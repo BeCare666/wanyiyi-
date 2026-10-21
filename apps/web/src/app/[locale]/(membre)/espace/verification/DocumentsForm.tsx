@@ -7,6 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
 import { submitDocuments } from "./actions";
+import { SelfieCamera } from "./SelfieCamera";
 import {
   BUCKET,
   type DocumentKind,
@@ -20,7 +21,7 @@ import {
 } from "./verification";
 
 /**
- * Pièce d'identité (une seule) et selfie, visage seul.
+ * Pièce d'identité (une seule) et selfie, visage seul, pris en direct avec la caméra.
  * Les fichiers partent directement du navigateur vers le compartiment privé, avec le jeton
  * du membre : la politique de stockage n'autorise que le dépôt dans son propre dossier.
  * La base enregistre ensuite le dossier (app.submit_id_documents).
@@ -111,14 +112,23 @@ export function DocumentsForm({ userId }: { userId: string }) {
         <div className="mt-8 grid gap-6">
           {requiredSlots(kind).map((slot) => {
             const label = slot === "front" && kind === "passport" ? t("slots.photo_page") : t(`slots.${slot}`);
+            if (slot === "selfie") {
+              // Pris en direct avec la caméra, jamais choisi parmi des fichiers (21 octobre 2026)
+              return (
+                <div key={`${kind}-${slot}`}>
+                  <span className="text-sm font-medium">{label}</span>
+                  <span className="mt-1 block text-xs text-fg-muted">{t("selfieHelp")}</span>
+                  <SelfieCamera onCapture={(file) => choose(slot, file)} />
+                </div>
+              );
+            }
             return (
               <label key={`${kind}-${slot}`} className="block">
                 <span className="text-sm font-medium">{label}</span>
-                <span className="mt-1 block text-xs text-fg-muted">{t(slot === "selfie" ? "selfieHelp" : "fileHelp")}</span>
+                <span className="mt-1 block text-xs text-fg-muted">{t("fileHelp")}</span>
                 <input
                   type="file"
-                  accept={slot === "selfie" ? "image/jpeg,image/png,image/webp" : "image/jpeg,image/png,image/webp,application/pdf"}
-                  {...(slot === "selfie" ? { capture: "user" as const } : {})}
+                  accept="image/jpeg,image/png,image/webp,application/pdf"
                   onChange={(e) => choose(slot, e.target.files?.[0])}
                   className="mt-3 block w-full text-sm file:mr-4 file:min-h-10 file:rounded-sm file:border file:border-fg file:bg-transparent file:px-4 file:text-fg"
                 />

@@ -33,7 +33,7 @@ export const envSchema = z.object({
   // Expéditeur des SMS : 11 lettres ou chiffres au maximum (contrainte Brevo)
   BREVO_SMS_SENDER: optional.pipe(z.string().regex(/^[A-Za-z0-9]{1,11}$/, "11 lettres ou chiffres au maximum").optional()),
   BREVO_SENDER_EMAIL: optional.pipe(z.string().email().optional()),
-  BREVO_SENDER_NAME: z.string().default("Wanyiyi"),
+  BREVO_SENDER_NAME: z.string().default("Ifedele"),
 
   CLOUDINARY_CLOUD_NAME: optional,
   CLOUDINARY_API_KEY: optional,

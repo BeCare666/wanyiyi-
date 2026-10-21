@@ -1,0 +1,80 @@
+GUIDE : COMPTE D'ADMINISTRATION ET MEMBRES DE DÉMONSTRATION
+(21 octobre 2026)
+
+
+=====================================================================
+PARTIE 1 : VOTRE COMPTE D'ADMINISTRATION (ifedele03@gmail.com)
+=====================================================================
+Pour votre sécurité, Claude ne crée pas de compte avec votre mot de
+passe : vous créez le compte vous-même, Claude (ou vous) le passe ensuite
+super administrateur.
+
+Conseil : le mot de passe a été écrit dans la conversation avec Claude.
+Choisissez-en plutôt un autre, connu de vous seul (au moins 8
+caractères), au moment de l'inscription ou ensuite par « Mot de passe
+oublié ».
+
+1. Ouvrir le site (adresse Vercel) dans une fenêtre de navigation privée.
+   Réveiller l'API juste avant :
+      https://NOM-DU-SERVICE.onrender.com/api/health
+2. Cliquer sur « Devenir membre ».
+3. Adresse e-mail : ifedele03@gmail.com
+   Mot de passe : le vôtre.
+4. Ouvrir la boîte ifedele03@gmail.com, cliquer sur le lien de
+   confirmation (regarder aussi dans les courriers indésirables).
+5. Le site ouvre la suite de l'inscription : remplir l'identité
+   (prénom, nom, sexe, date de naissance, ville), accepter le règlement.
+6. Passer le compte super administrateur, au choix :
+   a) me prévenir : je le fais avec la clé de service (action journalisée) ;
+   b) ou vous-même : Supabase > SQL Editor > New query, coller puis Run :
+
+update app.users set role = 'super_admin'
+where id = (select id from auth.users where email = 'ifedele03@gmail.com');
+
+      Résultat attendu : 1 row affected (une ligne modifiée).
+7. Se déconnecter puis se reconnecter sur le site : le lien vers
+   l'administration apparaît.
+
+
+=====================================================================
+PARTIE 2 : 10 FEMMES ET 10 HOMMES DE DÉMONSTRATION
+=====================================================================
+Ce que fait le fichier :
+   - 20 profils fictifs béninois (prénoms, noms, villes du Bénin, âges
+     de 29 à 40 ans), statut « vérifié », prêts pour les soirées ;
+   - AUCUN mot de passe : personne ne peut se connecter à ces comptes ;
+   - adresses fictives demo-f01 ... demo-f10 (femmes) et demo-h01 ...
+     demo-h10 (hommes), en @demo.ifedele.invalid : aucun e-mail ne peut
+     leur parvenir ;
+   - chaque création est inscrite dans le journal d'audit.
+
+Attention : ce sont de faux membres dans la vraie base. Les retirer
+avant l'ouverture au public (point 3 ci-dessous), et ne pas les inviter
+à de vraies soirées.
+
+1. Supabase > projet wanyiyi > « SQL Editor » > « New query ».
+2. Ouvrir dans VS Code le fichier :
+      supabase/demo/membres-demo.sql
+   Tout sélectionner (Ctrl+A), copier (Ctrl+C), coller dans Supabase
+   (Ctrl+V), cliquer sur « Run ».
+   Si Supabase demande une confirmation, confirmer.
+3. Résultat attendu, en bas :
+      female   10
+      male     10
+   Si le message « Membres de démonstration déjà présents » s'affiche :
+   ils existent déjà, rien n'a été ajouté.
+
+POUR LES SUPPRIMER (tous d'un coup, aucun vrai compte touché) :
+   même méthode avec le fichier supabase/demo/supprimer-membres-demo.sql
+   Résultat attendu : membres_demo_restants = 0
+
+
+=====================================================================
+PARTIE 3 : NOUVEAU NOM « ifedele » SUR RENDER
+=====================================================================
+Le nom de l'expéditeur des e-mails vient de la variable Render
+BREVO_SENDER_NAME. Si elle vaut encore Wanyiyi :
+   Render > service de l'API > « Environment » > BREVO_SENDER_NAME >
+   crayon > Ifedele > « Save Changes » > « Save and deploy ».
+Le reste du nouveau nom (site, e-mails, application) arrive avec le
+prochain déploiement automatique de Vercel et de Render.

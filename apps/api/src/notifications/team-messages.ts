@@ -19,28 +19,28 @@ type Texts = {
 
 const TEXTS: Record<Locale, Texts> = {
   fr: {
-    messageSubject: "Un message de l'équipe Wanyiyi",
+    messageSubject: "Un message de l'équipe Ifedele",
     openSpace: "Ouvrir mon espace",
-    invitationSubject: "Une invitation à une soirée Wanyiyi",
-    invitationLine: (date) => `Wanyiyi vous invite à la soirée du ${date}. Réservez votre place depuis votre espace, s'il en reste.`,
+    invitationSubject: "Une invitation à une soirée Ifedele",
+    invitationLine: (date) => `Ifedele vous invite à la soirée du ${date}. Réservez votre place depuis votre espace, s'il en reste.`,
     book: "Voir la soirée",
-    footer: "Vous recevez ce message parce que ce canal est activé dans vos paramètres Wanyiyi.",
+    footer: "Vous recevez ce message parce que ce canal est activé dans vos paramètres Ifedele.",
   },
   en: {
-    messageSubject: "A message from the Wanyiyi team",
+    messageSubject: "A message from the Ifedele team",
     openSpace: "Open my space",
-    invitationSubject: "An invitation to a Wanyiyi evening",
-    invitationLine: (date) => `Wanyiyi invites you to the evening of ${date}. Book your seat from your space, while seats remain.`,
+    invitationSubject: "An invitation to a Ifedele evening",
+    invitationLine: (date) => `Ifedele invites you to the evening of ${date}. Book your seat from your space, while seats remain.`,
     book: "See the evening",
-    footer: "You receive this message because this channel is enabled in your Wanyiyi settings.",
+    footer: "You receive this message because this channel is enabled in your Ifedele settings.",
   },
   yo: {
-    messageSubject: "Ìránṣẹ́ láti ọ̀dọ̀ ẹgbẹ́ Wanyiyi",
+    messageSubject: "Ìránṣẹ́ láti ọ̀dọ̀ ẹgbẹ́ Ifedele",
     openSpace: "Ṣí àyè mi",
-    invitationSubject: "Ìpè sí ìpàdé alẹ́ Wanyiyi",
-    invitationLine: (date) => `Wanyiyi pè yín sí ìpàdé alẹ́ ọjọ́ ${date}. Ẹ gba àyè yín láti inú àyè yín, bí àyè bá ṣì wà.`,
+    invitationSubject: "Ìpè sí ìpàdé alẹ́ Ifedele",
+    invitationLine: (date) => `Ifedele pè yín sí ìpàdé alẹ́ ọjọ́ ${date}. Ẹ gba àyè yín láti inú àyè yín, bí àyè bá ṣì wà.`,
     book: "Wo ìpàdé náà",
-    footer: "Ẹ ń gba ìránṣẹ́ yìí nítorí pé ọ̀nà yìí wà ní títàn nínú àwọn ètò Wanyiyi yín.",
+    footer: "Ẹ ń gba ìránṣẹ́ yìí nítorí pé ọ̀nà yìí wà ní títàn nínú àwọn ètò Ifedele yín.",
   },
 };
 
@@ -76,7 +76,7 @@ export function deliveryContent(kind: string, payload: unknown, localeValue: unk
     if (!body) return null;
     const link = siteUrl(webOrigin, locale, "/espace/notifications");
     return {
-      sms: `Wanyiyi : ${body}`,
+      sms: `Ifedele : ${body}`,
       email: {
         subject: t.messageSubject,
         html: emailLayout({ locale, title: t.messageSubject, paragraphs: [body], button: { label: t.openSpace, href: link }, footer: t.footer }),

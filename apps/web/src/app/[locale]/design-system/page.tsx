@@ -61,7 +61,7 @@ export default async function DesignSystemPage() {
       <Container>
         <header className="pb-14">
           <p className="eyebrow">Référence interne</p>
-          <h1 className="mt-6 text-4xl">Système de design Wanyiyi</h1>
+          <h1 className="mt-6 text-4xl">Système de design Ifedele</h1>
           <p className="mt-6 max-w-measure text-fg-muted">
             Toutes les valeurs proviennent des jetons de <code>src/app/globals.css</code>. Aucun composant ne
             contient de couleur codée en dur.

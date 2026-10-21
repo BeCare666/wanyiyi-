@@ -1,8 +1,8 @@
 {
   "Meta": {
-    "title": "Wanyiyi · Ìpàdé fún ìgbéyàwó ní Cotonou",
-    "description": "Ìpàdé ojúkojú pẹ̀lú àwọn ènìyàn tí a ti ṣàyẹ̀wò, fún àwọn tó ṣetán láti ṣe ìgbéyàwó. Wanyiyi wà pẹ̀lú yín láti ìpàdé àkọ́kọ́ títí dé ìgbéyàwó.",
-    "siteName": "Wanyiyi"
+    "title": "Ifedele · Ìpàdé fún ìgbéyàwó ní Cotonou",
+    "description": "Ìpàdé ojúkojú pẹ̀lú àwọn ènìyàn tí a ti ṣàyẹ̀wò, fún àwọn tó ṣetán láti ṣe ìgbéyàwó. Ifedele wà pẹ̀lú yín láti ìpàdé àkọ́kọ́ títí dé ìgbéyàwó.",
+    "siteName": "Ifedele"
   },
   "Common": {
     "becomeMember": "Di ọmọ ẹgbẹ́",
@@ -13,7 +13,7 @@
     "closeMenu": "Pa àtòjọ dé",
     "backHome": "Padà sí ojú-ìwé àkọ́kọ́",
     "toComplete": "À ń parí rẹ̀",
-    "logoAlt": "Wanyiyi, ojú-ìwé àkọ́kọ́",
+    "logoAlt": "Ifedele, ojú-ìwé àkọ́kọ́",
     "photoCredit": "Fọ́tò láti ọwọ́ {name}"
   },
   "Nav": {
@@ -135,7 +135,7 @@
   "Safety": {
     "eyebrow": "Ààbò yín",
     "title": "Ẹ̀yin ni ẹ ń darí, ní gbogbo ìgbà.",
-    "intro": "A ṣe Wanyiyi kí gbogbo ènìyàn lè ní ìgbẹ́kẹ̀lé. Pàápàá jùlọ àwọn obìnrin, tí wọ́n ti sábà béèrè rẹ̀ lọ́wọ́ wa.",
+    "intro": "A ṣe Ifedele kí gbogbo ènìyàn lè ní ìgbẹ́kẹ̀lé. Pàápàá jùlọ àwọn obìnrin, tí wọ́n ti sábà béèrè rẹ̀ lọ́wọ́ wa.",
     "items": [
       {
         "title": "A ṣàyẹ̀wò gbogbo ọmọ ẹgbẹ́",
@@ -262,7 +262,7 @@
     "rules": "Òfin àwọn ọmọ ẹgbẹ́",
     "privacy": "Ìlànà àṣírí",
     "legal": "Ìkéde òfin",
-    "rights": "© {year} Wanyiyi. Gbogbo ẹ̀tọ́ wà ní ìpamọ́.",
+    "rights": "© {year} Ifedele. Gbogbo ẹ̀tọ́ wà ní ìpamọ́.",
     "phone": "Fóònù",
     "email": "Í-meèlì",
     "whatsapp": "WhatsApp",
@@ -273,10 +273,10 @@
     "title": "Ilé ìpàdé, kì í ṣe áàpù.",
     "sections": [
       {
-        "title": "Ìdí tí Wanyiyi fi wà",
+        "title": "Ìdí tí Ifedele fi wà",
         "paragraphs": [
           "Ọ̀pọ̀ obìnrin àti ọkùnrin ní Cotonou fẹ́ dá ìdílé sílẹ̀, ṣùgbọ́n wọn kò mọ ibi tí wọ́n ti lè pàdé ẹni tó ṣe pàtàkì mọ́. Àwọn áàpù ń kó fọ́tò àti ìjíròrò tí kò ní ìtumọ̀ jọ. Ìpàdé nípasẹ̀ ọ̀rẹ́ kì í tó nígbà gbogbo.",
-          "Wanyiyi ń fún yín ní ọ̀nà mìíràn: àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò, ìpàdé ojúkojú àti ìtọ́sọ́nà ènìyàn, títí dé ìgbéyàwó."
+          "Ifedele ń fún yín ní ọ̀nà mìíràn: àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò, ìpàdé ojúkojú àti ìtọ́sọ́nà ènìyàn, títí dé ìgbéyàwó."
         ]
       },
       {
@@ -304,7 +304,7 @@
         "title": "1. Òtítọ́",
         "paragraphs": [
           "Ẹ ó kéde ipò ìgbéyàwó yín gan-an, ẹ ó sì ṣàpèjúwe ara yín pẹ̀lú òtítọ́. Ìkéde èké yóò yọrí sí ìyọkúrò.",
-          "Ẹ ń wá ìbáṣepọ̀ tó máa pẹ́. Wanyiyi kì í ṣe ibi fún ìfẹ́ onígbà díẹ̀."
+          "Ẹ ń wá ìbáṣepọ̀ tó máa pẹ́. Ifedele kì í ṣe ibi fún ìfẹ́ onígbà díẹ̀."
         ]
       },
       {
@@ -528,12 +528,12 @@
         "match_announced": "Ẹ ní ìfohùnṣọ̀kan tuntun.",
         "evening_updated": "A ti ṣàtúnṣe ìpàdé kan tí ẹ forúkọ sílẹ̀ fún.",
         "evening_cancelled": "A ti fagilé ìpàdé kan tí ẹ forúkọ sílẹ̀ fún. Bí ẹ bá ti sanwó, a ó dá gbogbo rẹ̀ padà fún yín.",
-        "team_message": "Ìránṣẹ́ láti ọ̀dọ̀ ẹgbẹ́ Wanyiyi",
+        "team_message": "Ìránṣẹ́ láti ọ̀dọ̀ ẹgbẹ́ Ifedele",
         "evening_invitation": "Ìpè sí ìpàdé alẹ́ kan ń dúró dè yín. Ẹ gba àyè bí ó bá ṣì wà.",
         "other": "Ìfitónilétí tuntun.",
         "member_suspended": "A ti dá àkọọ́lẹ̀ yín dúró.",
         "member_reactivated": "Àkọọ́lẹ̀ yín ti padà ṣiṣẹ́.",
-        "member_excluded": "A ti yọ àkọọ́lẹ̀ yín kúrò nínú Wanyiyi."
+        "member_excluded": "A ti yọ àkọọ́lẹ̀ yín kúrò nínú Ifedele."
       }
     },
     "dashboard": {
@@ -632,7 +632,7 @@
       },
       "errors": {
         "not_validated": "A gbọ́dọ̀ fọwọ́ sí àpèjúwe yín kí ẹ tó lè gba àyè.",
-        "couple_exclusivity": "Ìpàdé alẹ́ kò ṣí sílẹ̀ fún yín nígbà tí ẹ wà nínú ìbáṣepọ̀ lórí Wanyiyi.",
+        "couple_exclusivity": "Ìpàdé alẹ́ kò ṣí sílẹ̀ fún yín nígbà tí ẹ wà nínú ìbáṣepọ̀ lórí Ifedele.",
         "blocked_until": "Gbígba àyè ti dí fún yín fún ìgbà díẹ̀.",
         "theme_age": "Ìpàdé alẹ́ àkànṣe yìí wà fún ọjọ́ orí mìíràn.",
         "theme_religion": "Ìpàdé alẹ́ àkànṣe yìí wà fún ẹ̀sìn mìíràn.",
@@ -665,7 +665,7 @@
       "display": "Ìrísí",
       "darkMode": "Ìrísí òkùnkùn",
       "notifications": "Ìfitónilétí",
-      "notificationsHelp": "Ẹ yan bí Wanyiyi ṣe máa sọ fún yín.",
+      "notificationsHelp": "Ẹ yan bí Ifedele ṣe máa sọ fún yín.",
       "channels": {
         "in_app": "Nínú ohun èlò",
         "whatsapp": "WhatsApp",
@@ -705,7 +705,7 @@
     "verification": {
       "eyebrow": "Àyẹ̀wò",
       "title": "Àyẹ̀wò mi",
-      "intro": "A ń ṣe àyẹ̀wò gbogbo ọmọ ẹgbẹ́ Wanyiyi. Àwọn ìwé yín jẹ́ àṣírí: ẹgbẹ́ àyẹ̀wò nìkan ló lè wò wọ́n, a sì ń kọ gbogbo ìgbà tí wọ́n bá wò wọ́n sílẹ̀.",
+      "intro": "A ń ṣe àyẹ̀wò gbogbo ọmọ ẹgbẹ́ Ifedele. Àwọn ìwé yín jẹ́ àṣírí: ẹgbẹ́ àyẹ̀wò nìkan ló lè wò wọ́n, a sì ń kọ gbogbo ìgbà tí wọ́n bá wò wọ́n sílẹ̀.",
       "tracking": {
         "title": "Ìtẹ̀síwájú ìwé yín",
         "note": "Ọ̀rọ̀ láti ọ̀dọ̀ ẹgbẹ́:",
@@ -740,7 +740,7 @@
         "withChildren": "Mo ní ọmọ",
         "withoutChildren": "Mi ò ní ọmọ",
         "textTitle": "Ọ̀rọ̀ ìbúra",
-        "text": "Mo búra pé òtítọ́ ni gbogbo ìsọfúnni tó wà lókè yìí, ó sì pé. Mi ò sí nínú ìgbéyàwó kankan, ti ìjọba, ti ẹ̀sìn tàbí ti ìbílẹ̀, àfi tí mo bá ti sọ ọ́ nínú « Òmíràn ». Mo ṣèlérí láti sọ fún Wanyiyi bí ipò mi bá yípadà. Mo mọ̀ pé ìbúra èké lè mú kí a yọ mí kúrò nínú Wanyiyi.",
+        "text": "Mo búra pé òtítọ́ ni gbogbo ìsọfúnni tó wà lókè yìí, ó sì pé. Mi ò sí nínú ìgbéyàwó kankan, ti ìjọba, ti ẹ̀sìn tàbí ti ìbílẹ̀, àfi tí mo bá ti sọ ọ́ nínú « Òmíràn ». Mo ṣèlérí láti sọ fún Ifedele bí ipò mi bá yípadà. Mo mọ̀ pé ìbúra èké lè mú kí a yọ mí kúrò nínú Ifedele.",
         "certify": "Mo jẹ́rìí pé òtítọ́ ni ìbúra yìí.",
         "submit": "Fọwọ́ sí ìbúra",
         "signedOn": "A fọwọ́ sí i ní {date}",
@@ -754,7 +754,7 @@
       },
       "documents": {
         "title": "Káàdì ìdánimọ̀ àti fọ́tò ojú",
-        "intro": "Ìwé kan ṣoṣo tó. Ẹ fi fọ́tò ojú yín kún un, kí ojú yín hàn dáadáa, kí ẹgbẹ́ lè fi wé fọ́tò inú ìwé náà.",
+        "intro": "Ìwé kan ṣoṣo tó. Lẹ́yìn náà, ẹ ya fọ́tò ara yín (selfie) lójú ẹsẹ̀, kí ojú yín hàn dáadáa, kí ẹgbẹ́ wa lè fi wé fọ́tò inú ìwé náà.",
         "kindLabel": "Ìwé ìdánimọ̀ mi",
         "kinds": {
           "id_card": "Káàdì ìdánimọ̀",
@@ -768,7 +768,20 @@
           "selfie": "Fọ́tò ojú"
         },
         "fileHelp": "Fọ́tò tàbí PDF, tí ó ṣeé kà, tí ó sì pé.",
-        "selfieHelp": "Ojú yín nìkan, láti iwájú, láìsí gíláàsì oòrùn tàbí fìlà.",
+        "selfieHelp": "Ẹ yà á lójú ẹsẹ̀ pẹ̀lú kámẹ́rà ẹ̀rọ yín: ojú yín nìkan, láti iwájú, láìsí gíláàsì oòrùn tàbí fìlà.",
+        "camera": {
+          "open": "Ṣí kámẹ́rà",
+          "capture": "Ya fọ́tò",
+          "cancel": "Fagilé",
+          "retake": "Tún fọ́tò ya",
+          "live": "Ohun tí kámẹ́rà ń rí",
+          "taken": "Fọ́tò ara yín",
+          "errors": {
+            "noCamera": "Kò sí kámẹ́rà kankan. Lójú ẹsẹ̀ ni a ń ya fọ́tò ara ẹni: ẹ ṣí ojú-ìwé yìí lórí fóònù yín.",
+            "denied": "A kò gbà fún kámẹ́rà. Ẹ gbà á láyè nínú aṣàwákiri yín, kí ẹ sì gbìyànjú lẹ́ẹ̀kan sí i.",
+            "failed": "Kámẹ́rà kò lè bẹ̀rẹ̀. Ẹ pa àwọn ohun èlò mìíràn tí ń lò ó, kí ẹ sì gbìyànjú lẹ́ẹ̀kan sí i."
+          }
+        },
         "submit": "Fi àwọn ìwé mi ránṣẹ́",
         "sending": "A ń fi ránṣẹ́",
         "sentOn": "A fi ránṣẹ́ ní {date}",
@@ -778,7 +791,7 @@
         "errors": {
           "kind": "Ẹ yan ìwé ìdánimọ̀ yín.",
           "missing": "Ẹ fi gbogbo fáìlì tí a béèrè kún un.",
-          "type": "A kò gba irú fáìlì yìí. Fọ́tò ojú gbọ́dọ̀ jẹ́ fọ́tò (JPEG, PNG tàbí WebP); ìwé ìdánimọ̀ lè jẹ́ PDF pẹ̀lú.",
+          "type": "A kò gba irú fáìlì yìí. Ìwé náà gbọ́dọ̀ jẹ́ fọ́tò (JPEG, PNG tàbí WebP) tàbí PDF.",
           "size": "Fáìlì yìí ju {size} Mo lọ."
         }
       },
@@ -830,7 +843,7 @@
     "yes": "Mo fẹ́ tún ẹni yìí rí",
     "no": "Rárá",
     "feedback": "Èrò yín (kò pọn dandan)",
-    "feedbackHelp": "Ẹgbẹ́ Wanyiyi nìkan ló lè rí i, ẹni náà kò ní rí i láé.",
+    "feedbackHelp": "Ẹgbẹ́ Ifedele nìkan ló lè rí i, ẹni náà kò ní rí i láé.",
     "criteria": {
       "respect": "Ọ̀wọ̀",
       "punctuality": "Àsìkò",
@@ -870,7 +883,7 @@
     "intro": "Ìsanwó máa ṣí nínú fèrèsé ààbò KkiaPay: Mobile Money (MTN, Moov) tàbí káàdì báńkì.",
     "sandbox": "Ìpò àdánwò: a kò ní gba owó kankan.",
     "purposes": {
-      "evening_booking": "Àyè fún ìpàdé alẹ́ Wanyiyi",
+      "evening_booking": "Àyè fún ìpàdé alẹ́ Ifedele",
       "registration_fee": "Owó ìforúkọsílẹ̀"
     },
     "pay": "Sanwó pẹ̀lú KkiaPay",
@@ -1011,7 +1024,7 @@
         "noteLabel": "Ọ̀rọ̀ sí ọmọ ẹgbẹ́ (dandan)",
         "noteOptional": "Ọ̀rọ̀ sí ọmọ ẹgbẹ́ (kò pọn dandan)",
         "noteHelp": "Ọmọ ẹgbẹ́ náà yóò ka ọ̀rọ̀ yìí lórí ojú-ìwé àyẹ̀wò rẹ̀.",
-        "confirmReject": "Kíkọ̀ ọ́ yóò yọ ọmọ ẹgbẹ́ náà kúrò nínú Wanyiyi. Ṣé ẹ fọwọ́ sí i?",
+        "confirmReject": "Kíkọ̀ ọ́ yóò yọ ọmọ ẹgbẹ́ náà kúrò nínú Ifedele. Ṣé ẹ fọwọ́ sí i?",
         "confirmRejectButton": "Fìdí kíkọ̀ múlẹ̀",
         "submit": "Fi ìpinnu pamọ́",
         "errors": {

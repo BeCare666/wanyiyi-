@@ -131,7 +131,7 @@ Pour un site ouvert au public, un plan payant de Render (« Starter »)
    pour réveiller l'API (attendre "status":"ok").
 2. Sur le site, page « Inscription » : créer un compte avec VOTRE adresse
    e-mail et un mot de passe d'au moins 8 caractères.
-3. Résultat attendu : un e-mail Wanyiyi, en français, avec un lien de
+3. Résultat attendu : un e-mail Ifedele, en français, avec un lien de
    confirmation. Regarder aussi dans les courriers indésirables (spam).
 4. Cliquer sur le lien : le site s'ouvre sur la suite de l'inscription.
 5. Ensuite seulement : étape 11 du GUIDE-SUPABASE.txt (devenir super

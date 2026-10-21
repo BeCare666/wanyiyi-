@@ -19,7 +19,7 @@ Render et Vercel.
 =====================================================================
 ÉTAPE 2 : ORGANISATION
 =====================================================================
-1. Name : Wanyiyi
+1. Name : Ifedele
 2. Type : Personal
 3. Plan : Free
 4. Cliquer sur « Create organization ».

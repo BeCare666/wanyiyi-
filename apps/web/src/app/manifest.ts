@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 /** Manifeste de l'application installable (PWA). La langue source est le français. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Wanyiyi · Rencontres sérieuses à Cotonou",
-    short_name: "Wanyiyi",
+    name: "Ifedele · Rencontres sérieuses à Cotonou",
+    short_name: "Ifedele",
     description: "Des rencontres vérifiées, en face à face, accompagnées jusqu'à l'union.",
     lang: "fr",
     start_url: "/",

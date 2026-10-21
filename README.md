@@ -1,4 +1,4 @@
-# Wanyiyi
+# Ifedele
 
 Maison de rencontres sérieuses à Cotonou : membres vérifiés, rencontres en face à face,
 accompagnement jusqu'à l'union.

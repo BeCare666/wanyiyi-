@@ -21,7 +21,7 @@ async function bootstrap() {
   if (config.get("NODE_ENV", { infer: true }) !== "production") {
     const document = SwaggerModule.createDocument(
       app,
-      new DocumentBuilder().setTitle("API Wanyiyi").setVersion("phase 2").addBearerAuth().build(),
+      new DocumentBuilder().setTitle("API Ifedele").setVersion("phase 2").addBearerAuth().build(),
     );
     SwaggerModule.setup("api/docs", app, document);
   }
@@ -29,7 +29,7 @@ async function bootstrap() {
   const port = config.get("PORT", { infer: true });
   // Toutes les interfaces : exigé par Render (et sans effet en local)
   await app.listen(port, "0.0.0.0");
-  new Logger("Bootstrap").log(`API Wanyiyi prête sur le port ${port}`);
+  new Logger("Bootstrap").log(`API Ifedele prête sur le port ${port}`);
 }
 
 void bootstrap();

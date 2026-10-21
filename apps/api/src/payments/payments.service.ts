@@ -91,7 +91,7 @@ export class PaymentsService {
     );
     if (!payment) throw new ConflictException("payment_not_created");
     unwrap(await system.from("event_registrations").update({ payment_id: payment.id }).eq("id", registration.id));
-    const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: event.price_xof, description: "Soirée Wanyiyi" });
+    const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: event.price_xof, description: "Soirée Ifedele" });
     if (checkout.providerTransactionId) {
       unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
     }

@@ -396,3 +396,21 @@ QUESTIONS (je n'invente pas les réponses)
      de l'entretien) avant de pouvoir le partager ?
      RÉPONSE (21 octobre 2026) : acceptable, le numéro déclaré par le membre
      peut être partagé après un match sans vérification.
+ 28. Nouveau nom, selfie en direct et membres de démonstration (21 octobre
+     2026, demande de l'utilisateur).
+     RÉPONSES (21 octobre 2026) :
+     a) La plateforme s'appelle désormais « ifedele » (écrit en minuscules
+        dans le logo). Renommage partout où le nom est visible (site en
+        3 langues, e-mails, application installée, icônes, guides) ; les
+        noms internes du code (@wanyiyi/...) restent inchangés.
+     b) Nouveau logo « ultra luxueux » remplaçant l'existant (toujours sans
+        couleur or) : propositions dans propositions/logo/ifedele/, choix de
+        l'utilisateur avant intégration.
+     c) Selfie : caméra uniquement, pris en direct dans la page (caméra
+        frontale) ; sans caméra, message invitant à utiliser un téléphone ;
+        aucun dépôt de fichier.
+     d) 10 femmes et 10 hommes de démonstration : profils fictifs béninois,
+        statut « vérifié », sans mot de passe (aucune connexion possible),
+        adresses e-mail fictives, supprimables d'une seule commande.
+     e) Compte d'administration de l'utilisateur : créé par l'utilisateur
+        lui-même par l'inscription du site, puis passé super administrateur.

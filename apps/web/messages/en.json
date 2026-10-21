@@ -1,8 +1,8 @@
 {
   "Meta": {
-    "title": "Wanyiyi · Serious introductions in Cotonou",
-    "description": "Verified, face-to-face introductions for people ready to commit. Wanyiyi stays with you from the first evening to your union.",
-    "siteName": "Wanyiyi"
+    "title": "Ifedele · Serious introductions in Cotonou",
+    "description": "Verified, face-to-face introductions for people ready to commit. Ifedele stays with you from the first evening to your union.",
+    "siteName": "Ifedele"
   },
   "Common": {
     "becomeMember": "Become a member",
@@ -13,7 +13,7 @@
     "closeMenu": "Close menu",
     "backHome": "Back to home",
     "toComplete": "To be completed",
-    "logoAlt": "Wanyiyi, home",
+    "logoAlt": "Ifedele, home",
     "photoCredit": "Photograph by {name}"
   },
   "Nav": {
@@ -135,7 +135,7 @@
   "Safety": {
     "eyebrow": "Your safety",
     "title": "You stay in control, at every moment.",
-    "intro": "We designed Wanyiyi so that everyone feels confident. Women in particular, who have often asked us for it.",
+    "intro": "We designed Ifedele so that everyone feels confident. Women in particular, who have often asked us for it.",
     "items": [
       {
         "title": "Every member is verified",
@@ -262,7 +262,7 @@
     "rules": "Member rules",
     "privacy": "Privacy policy",
     "legal": "Legal notice",
-    "rights": "© {year} Wanyiyi. All rights reserved.",
+    "rights": "© {year} Ifedele. All rights reserved.",
     "phone": "Phone",
     "email": "Email",
     "whatsapp": "WhatsApp",
@@ -273,10 +273,10 @@
     "title": "An introduction house, not an app.",
     "sections": [
       {
-        "title": "Why Wanyiyi",
+        "title": "Why Ifedele",
         "paragraphs": [
           "Many women and men in Cotonou wish to start a family, yet no longer know where to meet a serious partner. Apps multiply photos and conversations that lead nowhere. Introductions through friends are not always enough.",
-          "Wanyiyi offers another way: verified members, face-to-face meetings and human guidance, all the way to your union."
+          "Ifedele offers another way: verified members, face-to-face meetings and human guidance, all the way to your union."
         ]
       },
       {
@@ -304,7 +304,7 @@
         "title": "1. Sincerity",
         "paragraphs": [
           "You declare your true marital status and describe yourself honestly. Any false statement leads to exclusion.",
-          "You are looking for a lasting relationship. Wanyiyi is not a place for casual affairs."
+          "You are looking for a lasting relationship. Ifedele is not a place for casual affairs."
         ]
       },
       {
@@ -528,12 +528,12 @@
         "match_announced": "You have a new match.",
         "evening_updated": "An evening you registered for has been changed.",
         "evening_cancelled": "An evening you registered for is cancelled. If you paid, you are refunded in full.",
-        "team_message": "Message from the Wanyiyi team",
+        "team_message": "Message from the Ifedele team",
         "evening_invitation": "An invitation to an evening is waiting for you. Book while seats remain.",
         "other": "New notification.",
         "member_suspended": "Your account is suspended.",
         "member_reactivated": "Your account is active again.",
-        "member_excluded": "Your account has been excluded from Wanyiyi."
+        "member_excluded": "Your account has been excluded from Ifedele."
       }
     },
     "dashboard": {
@@ -632,7 +632,7 @@
       },
       "errors": {
         "not_validated": "Your profile must be approved before you can book an evening.",
-        "couple_exclusivity": "Evenings are not open to you while you are in a relationship on Wanyiyi.",
+        "couple_exclusivity": "Evenings are not open to you while you are in a relationship on Ifedele.",
         "blocked_until": "Bookings are temporarily closed to you.",
         "theme_age": "This themed evening is reserved for another age group.",
         "theme_religion": "This themed evening is reserved for another faith.",
@@ -665,7 +665,7 @@
       "display": "Display",
       "darkMode": "Dark mode",
       "notifications": "Notifications",
-      "notificationsHelp": "Choose how Wanyiyi lets you know.",
+      "notificationsHelp": "Choose how Ifedele lets you know.",
       "channels": {
         "in_app": "In the app",
         "whatsapp": "WhatsApp",
@@ -705,7 +705,7 @@
     "verification": {
       "eyebrow": "Verification",
       "title": "My verification",
-      "intro": "Every Wanyiyi member is verified. Your documents stay private: only the verification team can view them, and every view is recorded.",
+      "intro": "Every Ifedele member is verified. Your documents stay private: only the verification team can view them, and every view is recorded.",
       "tracking": {
         "title": "Your file",
         "note": "Message from the team:",
@@ -740,7 +740,7 @@
         "withChildren": "With child(ren)",
         "withoutChildren": "Without children",
         "textTitle": "Statement",
-        "text": "I solemnly declare that the information above is accurate and complete. I am not bound by any marriage, whether civil, religious or customary, unless I have stated it under \"Other\". I undertake to inform Wanyiyi of any change in my situation. I understand that a false statement may lead to my exclusion from Wanyiyi.",
+        "text": "I solemnly declare that the information above is accurate and complete. I am not bound by any marriage, whether civil, religious or customary, unless I have stated it under \"Other\". I undertake to inform Ifedele of any change in my situation. I understand that a false statement may lead to my exclusion from Ifedele.",
         "certify": "I certify that this statement is accurate.",
         "submit": "Sign the statement",
         "signedOn": "Signed on {date}",
@@ -754,7 +754,7 @@
       },
       "documents": {
         "title": "ID document and selfie",
-        "intro": "One document is enough. Add a selfie with your face clearly visible, so the team can compare it with the photo on the document.",
+        "intro": "One document is enough. Then take a live selfie, with your face clearly visible, so the team can compare it with the photo on the document.",
         "kindLabel": "My ID document",
         "kinds": {
           "id_card": "Identity card",
@@ -768,7 +768,20 @@
           "selfie": "Selfie"
         },
         "fileHelp": "Photo or PDF, readable and complete.",
-        "selfieHelp": "Your face only, from the front, without sunglasses or a hat.",
+        "selfieHelp": "Taken live with your device's camera: your face only, from the front, without sunglasses or a hat.",
+        "camera": {
+          "open": "Open the camera",
+          "capture": "Take the photo",
+          "cancel": "Cancel",
+          "retake": "Retake the photo",
+          "live": "Camera preview",
+          "taken": "Your selfie",
+          "errors": {
+            "noCamera": "No camera is available. The selfie is taken live: please open this page on your phone.",
+            "denied": "Camera access was denied. Please allow it in your browser, then try again.",
+            "failed": "The camera could not start. Close other apps using it, then try again."
+          }
+        },
         "submit": "Send my documents",
         "sending": "Sending",
         "sentOn": "Sent on {date}",
@@ -778,7 +791,7 @@
         "errors": {
           "kind": "Choose your ID document.",
           "missing": "Add all the requested files.",
-          "type": "This file type is not accepted. The selfie must be a photo (JPEG, PNG or WebP); the document can also be a PDF.",
+          "type": "This file type is not accepted. The document must be a photo (JPEG, PNG or WebP) or a PDF.",
           "size": "This file is larger than {size} MB."
         }
       },
@@ -830,7 +843,7 @@
     "yes": "I would like to meet this person again",
     "no": "No",
     "feedback": "Optional feedback",
-    "feedbackHelp": "Seen only by the Wanyiyi team, never by the person.",
+    "feedbackHelp": "Seen only by the Ifedele team, never by the person.",
     "criteria": {
       "respect": "Respect",
       "punctuality": "Punctuality",
@@ -870,7 +883,7 @@
     "intro": "Payment opens in KkiaPay's secure window: Mobile Money (MTN, Moov) or bank card.",
     "sandbox": "Test mode: no money is charged.",
     "purposes": {
-      "evening_booking": "Seat for a Wanyiyi evening",
+      "evening_booking": "Seat for a Ifedele evening",
       "registration_fee": "Registration fee"
     },
     "pay": "Pay with KkiaPay",
@@ -1011,7 +1024,7 @@
         "noteLabel": "Message to the member (required)",
         "noteOptional": "Message to the member (optional)",
         "noteHelp": "The member reads this message on their verification page.",
-        "confirmReject": "Declining excludes the member from Wanyiyi. Do you confirm?",
+        "confirmReject": "Declining excludes the member from Ifedele. Do you confirm?",
         "confirmRejectButton": "Confirm the refusal",
         "submit": "Save the decision",
         "errors": {

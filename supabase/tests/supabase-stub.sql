@@ -18,7 +18,18 @@ create table auth.users (
   email text,
   email_confirmed_at timestamptz,
   raw_user_meta_data jsonb,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  -- Colonnes de Supabase remplies par supabase/demo/membres-demo.sql
+  instance_id uuid,
+  aud varchar(255),
+  role varchar(255),
+  encrypted_password varchar(255),
+  raw_app_meta_data jsonb,
+  updated_at timestamptz,
+  confirmation_token varchar(255),
+  recovery_token varchar(255),
+  email_change_token_new varchar(255),
+  email_change varchar(255)
 );
 
 -- Mêmes définitions que Supabase : l'identité vient des « claims » du jeton JWT

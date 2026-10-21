@@ -76,6 +76,6 @@ export function Logo({ variant = "horizontal", size = "md", className, emblemOnl
 /** Mot-symbole : EB Garamond italique, graisse 500 pour rester lisible à petite taille. */
 function Wordmark({ className }: { className?: string }) {
   return (
-    <span className={cn("font-serif font-medium italic leading-none tracking-[0.01em]", className)}>wanyiyi</span>
+    <span className={cn("font-serif font-medium italic leading-none tracking-[0.01em]", className)}>ifedele</span>
   );
 }

@@ -37,7 +37,7 @@ describe("Configuration de l'API", () => {
       SMS_PROVIDER: "brevo",
       EMAIL_PROVIDER: "brevo",
       BREVO_API_KEY: "k",
-      BREVO_SMS_SENDER: "Wanyiyi",
+      BREVO_SMS_SENDER: "Ifedele",
       BREVO_SENDER_EMAIL: "contact@wanyiyi.example",
       PAYMENT_PROVIDER: "kkiapay",
       KKIAPAY_PUBLIC_KEY: "pk",

@@ -41,8 +41,8 @@ describe("Configuration (phase 2)", () => {
 
   it("exige la clé et l'expéditeur Brevo, et limite l'expéditeur SMS à 11 caractères", () => {
     expect(() => validateEnv({ SMS_PROVIDER: "brevo" })).toThrow(/BREVO_SMS_SENDER/);
-    expect(() => validateEnv({ SMS_PROVIDER: "brevo", BREVO_API_KEY: "k", BREVO_SMS_SENDER: "WanyiyiCotonou" })).toThrow(/11/);
-    expect(validateEnv({ SMS_PROVIDER: "brevo", BREVO_API_KEY: "k", BREVO_SMS_SENDER: "Wanyiyi" }).SMS_PROVIDER).toBe("brevo");
+    expect(() => validateEnv({ SMS_PROVIDER: "brevo", BREVO_API_KEY: "k", BREVO_SMS_SENDER: "IfedeleCotonou" })).toThrow(/11/);
+    expect(validateEnv({ SMS_PROVIDER: "brevo", BREVO_API_KEY: "k", BREVO_SMS_SENDER: "Ifedele" }).SMS_PROVIDER).toBe("brevo");
   });
 
   it("refuse KkiaPay tant que les clés manquent", () => {
@@ -86,12 +86,12 @@ describe("Textes des codes et e-mails", () => {
 describe("Envoi par Brevo (appel simulé)", () => {
   it("SMS : POST /v3/transactionalSMS/send avec la clé, l'expéditeur et le texte en Unicode", async () => {
     const fetchMock = vi.fn(async () => new Response(JSON.stringify({ messageId: 1 }), { status: 201 }));
-    await new BrevoSmsSender("cle-test", "Wanyiyi", fetchMock as unknown as typeof fetch).send("+2290197000001", "Votre code : 1", "otp");
+    await new BrevoSmsSender("cle-test", "Ifedele", fetchMock as unknown as typeof fetch).send("+2290197000001", "Votre code : 1", "otp");
     const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(url).toBe("https://api.brevo.com/v3/transactionalSMS/send");
     expect((init.headers as Record<string, string>)["api-key"]).toBe("cle-test");
     expect(JSON.parse(init.body as string)).toEqual({
-      sender: "Wanyiyi",
+      sender: "Ifedele",
       recipient: "2290197000001",
       content: "Votre code : 1",
       type: "transactional",
@@ -102,7 +102,7 @@ describe("Envoi par Brevo (appel simulé)", () => {
 
   it("e-mail : POST /v3/smtp/email ; une erreur Brevo remonte avec son statut", async () => {
     const fetchMock = vi.fn(async () => new Response("bad", { status: 400 }));
-    const sender = new BrevoEmailSender("cle-test", "bonjour@exemple.bj", "Wanyiyi", fetchMock as unknown as typeof fetch);
+    const sender = new BrevoEmailSender("cle-test", "bonjour@exemple.bj", "Ifedele", fetchMock as unknown as typeof fetch);
     await expect(sender.send({ to: "a@b.bj", subject: "s", html: "<p>h</p>", text: "t", tag: "auth-signup" })).rejects.toMatchObject({ status: 400 });
     expect((fetchMock.mock.calls[0] as unknown as [string])[0]).toBe("https://api.brevo.com/v3/smtp/email");
   });
@@ -305,12 +305,12 @@ describe("Envois des actions groupées (19 octobre 2026)", () => {
 
   it("message de l'équipe dans la langue du membre ; lien vers son espace, préfixe de langue hors français", () => {
     const fr = deliveryContent("team.message", { body }, "fr", "https://wanyiyi.example/")!;
-    expect(fr.sms).toBe("Wanyiyi : La soirée de vendredi est maintenue.");
+    expect(fr.sms).toBe("Ifedele : La soirée de vendredi est maintenue.");
     expect(fr.email.text).toContain("https://wanyiyi.example/espace/notifications");
     const yo = deliveryContent("team.message", { body }, "yo", "https://wanyiyi.example")!;
     expect(yo.sms).toContain("Ìpàdé ọjọ́ Ẹtì");
     expect(yo.email.html).toContain('href="https://wanyiyi.example/yo/espace/notifications"');
-    expect(deliveryContent("team.message", { body: { fr: "Seulement en français" } }, "en", "https://w.example")!.sms).toBe("Wanyiyi : Seulement en français");
+    expect(deliveryContent("team.message", { body: { fr: "Seulement en français" } }, "en", "https://w.example")!.sms).toBe("Ifedele : Seulement en français");
   });
 
   it("le texte de l'équipe est échappé dans l'e-mail", () => {
@@ -347,7 +347,7 @@ describe("Envois des actions groupées (19 octobre 2026)", () => {
     const email = { send: vi.fn(async () => Promise.reject(new Error("Brevo 503"))) };
     const service = new DeliveriesService(supabase, configOf({ WEB_ORIGIN: "https://w.example" }), sms, email);
     expect(await service.dispatch()).toEqual({ sent: 1, failed: 1, skipped: 1 });
-    expect(sms.sent).toEqual([{ to: "+22901970000001", text: "Wanyiyi : Friday's evening is going ahead.", tag: "team.message" }]);
+    expect(sms.sent).toEqual([{ to: "+22901970000001", text: "Ifedele : Friday's evening is going ahead.", tag: "team.message" }]);
     expect(email.send).toHaveBeenCalledWith(expect.objectContaining({ to: "ayaba@example.com", tag: "evening.invitation" }));
     expect(calls.slice(1)).toEqual([
       ["mark_delivery", { p_delivery: "d1", p_ok: true }],

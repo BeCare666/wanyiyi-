@@ -89,7 +89,7 @@ droite. Les valeurs secrètes se recopient depuis apps/api/.env.
    EMAIL_PROVIDER            brevo
    BREVO_API_KEY             (apps/api/.env)
    BREVO_SENDER_EMAIL        (apps/api/.env)
-   BREVO_SENDER_NAME         Wanyiyi
+   BREVO_SENDER_NAME         Ifedele
    CLOUDINARY_CLOUD_NAME     (apps/api/.env)
    CLOUDINARY_API_KEY        (apps/api/.env)
    CLOUDINARY_API_SECRET     (apps/api/.env)
