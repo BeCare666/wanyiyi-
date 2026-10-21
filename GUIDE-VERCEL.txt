@@ -1,0 +1,85 @@
+GUIDE : RÉGLER LE SITE WANYIYI SUR VERCEL
+(mis à jour le 21 octobre 2026)
+
+
+=====================================================================
+LE PROBLÈME : « L'inscription n'est pas encore ouverte »
+=====================================================================
+Ce message s'affiche quand le site ne connaît pas l'adresse et la clé
+publique de Supabase (variables NEXT_PUBLIC_SUPABASE_URL et
+NEXT_PUBLIC_SUPABASE_ANON_KEY).
+
+Vérifié le 21 octobre sur ce poste : avec ces deux variables (fichier
+apps/web/.env.local), la page d'inscription affiche bien le formulaire
+(adresse e-mail, mot de passe) et pas ce message. Le code est donc bon :
+il manque les variables sur Vercel, ou le site n'a pas été reconstruit
+après leur ajout.
+
+IMPORTANT : les variables qui commencent par NEXT_PUBLIC_ sont inscrites
+dans le site AU MOMENT DE LA CONSTRUCTION. Les ajouter ne suffit pas : il
+faut ensuite redéployer (étape 2).
+
+
+=====================================================================
+ÉTAPE 1 : VARIABLES D'ENVIRONNEMENT
+=====================================================================
+1. Ouvrir https://vercel.com, cliquer sur le projet du site.
+2. Onglet « Settings » > « Environment Variables ».
+3. Pour chaque ligne ci-dessous : « Key » = le nom, « Value » = la
+   valeur, cocher les environnements « Production » ET « Preview », puis
+   « Save ». Si la variable existe déjà, la modifier (menu « ... » >
+   « Edit ») et vérifier sa valeur.
+
+   NEXT_PUBLIC_SUPABASE_URL       même valeur que dans apps/web/.env.local
+                                  (https://IDENTIFIANT.supabase.co)
+   NEXT_PUBLIC_SUPABASE_ANON_KEY  même valeur que dans apps/web/.env.local
+                                  (clé publique « anon », commence par eyJ)
+   NEXT_PUBLIC_API_URL            adresse de l'API Render suivie de /api
+                                  ex. https://NOM-DU-SERVICE.onrender.com/api
+   NEXT_PUBLIC_SITE_URL           adresse publique du site
+                                  ex. https://wanyiyi.vercel.app
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME  même valeur que dans apps/web/.env.local
+   SHOW_DEMO_DATA                 false
+
+Attention pour chaque valeur :
+   - pas d'espace avant ni après, pas de guillemets ;
+   - les noms s'écrivent exactement ainsi (majuscules, tirets bas) ;
+   - pas de barre / à la fin des adresses.
+
+JAMAIS sur Vercel : la clé « service_role » de Supabase, ni aucune clé
+Brevo, Cloudinary (secret) ou KkiaPay. Elles restent sur Render.
+
+
+=====================================================================
+ÉTAPE 2 : REDÉPLOYER (OBLIGATOIRE)
+=====================================================================
+1. Onglet « Deployments ».
+2. Sur le déploiement le plus récent (en haut) : menu « ... » >
+   « Redeploy ».
+3. Si une case « Use existing Build Cache » est proposée : la DÉCOCHER.
+4. Confirmer « Redeploy », attendre « Ready » (en vert).
+
+
+=====================================================================
+ÉTAPE 3 : SUPABASE CONNAÎT L'ADRESSE DU SITE
+=====================================================================
+1. Supabase > projet wanyiyi > « Authentication » > « URL Configuration ».
+2. « Site URL » : l'adresse publique du site (la même que
+   NEXT_PUBLIC_SITE_URL), puis « Save ».
+
+
+=====================================================================
+ÉTAPE 4 : VÉRIFIER
+=====================================================================
+1. Ouvrir le site dans une fenêtre de navigation privée (pour éviter
+   l'ancienne version gardée en mémoire), cliquer sur « Devenir membre ».
+2. Résultat attendu : un formulaire avec « adresse e-mail » et « mot de
+   passe », et plus le message « pas encore ouverte ».
+3. Ensuite : suivre l'étape 7 du GUIDE-HOOK-EMAIL.txt (test de
+   l'inscription et de l'e-mail).
+
+Si le message reste affiché : dans Vercel, onglet « Deployments »,
+ouvrir le dernier déploiement > « Building » (journal de construction),
+copier les lignes d'erreur dans erreur-render.txt (sans aucune clé) et
+me prévenir. Indiquer aussi la liste des NOMS de variables présentes
+dans Vercel (sans leurs valeurs).
