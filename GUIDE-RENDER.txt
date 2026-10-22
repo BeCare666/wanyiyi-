@@ -93,11 +93,15 @@ droite. Les valeurs secrètes se recopient depuis apps/api/.env.
    CLOUDINARY_CLOUD_NAME     (apps/api/.env)
    CLOUDINARY_API_KEY        (apps/api/.env)
    CLOUDINARY_API_SECRET     (apps/api/.env)
-   PAYMENT_PROVIDER          kkiapay
-   KKIAPAY_PUBLIC_KEY        clé KkiaPay RÉELLE
-   KKIAPAY_PRIVATE_KEY       clé KkiaPay RÉELLE
-   KKIAPAY_SECRET            clé KkiaPay RÉELLE
-   KKIAPAY_SANDBOX           false
+   PAYMENT_PROVIDER          feexpay
+   FEEXPAY_API_KEY           clé privée FeexPay RÉELLE (menu Développeurs)
+   FEEXPAY_SHOP_ID           identifiant de la boutique FeexPay (champ « shop »)
+   FEEXPAY_SANDBOX           false
+
+   (FeexPay remplace KkiaPay depuis le 22 octobre 2026 : supprimer les
+   anciennes variables KKIAPAY_... si elles existent.)
+   Webhook, tableau de bord FeexPay > Webhook :
+   https://<adresse-render>/api/payments/feexpay/webhook
 
 Ne PAS ajouter PORT : Render le fournit lui-même.
 Ne PAS ajouter SUPABASE_DB_PASSWORD : l'API ne s'en sert pas.
@@ -115,9 +119,10 @@ En production (NODE_ENV=production), l'API refuse de démarrer et affiche
       GUIDE-SUPABASE.txt) avec cette adresse, copier le secret dans
       Render, puis « Manual Deploy » > « Deploy latest commit ».
 
-   b. Les clés KkiaPay sont celles du bac à sable (KKIAPAY_SANDBOX=true
+   b. Les clés FeexPay sont celles du bac à sable (FEEXPAY_SANDBOX=true
       est interdit en production, comme PAYMENT_PROVIDER=simulated).
-      Il faut des clés KkiaPay réelles (compte KkiaPay validé).
+      Il faut des clés FeexPay réelles (compte FeexPay validé ; le paiement
+      par carte exige aussi le dossier KYB carte validé chez FeexPay).
       En attendant, deux possibilités, à me dire avant tout réglage :
         - attendre les clés réelles ;
         - déployer provisoirement avec NODE_ENV=development (les clés de

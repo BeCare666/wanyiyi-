@@ -122,12 +122,10 @@ describe("Écritures directes interdites aux membres", () => {
 });
 
 describe("Vérification et pièces d'identité (10.1)", () => {
-  it("le membre dépose sa pièce mais ne peut jamais la relire", async () => {
+  it("le membre dépose son selfie mais ne peut jamais le relire", async () => {
     const readBack = await asUser(db, nadege, async (tx) => {
-      for (const file of ["recto.jpg", "verso.jpg", "selfie.jpg"]) {
-        await tx.query("insert into storage.objects (bucket_id, name) values ('id-documents', $1)", [`${nadege}/${file}`]);
-      }
-      await tx.query("select app.submit_id_documents('id_card', $1, $2, $3)", [`${nadege}/recto.jpg`, `${nadege}/verso.jpg`, `${nadege}/selfie.jpg`]);
+      await tx.query("insert into storage.objects (bucket_id, name) values ('id-documents', $1)", [`${nadege}/selfie.jpg`]);
+      await tx.query("select app.submit_selfie($1)", [`${nadege}/selfie.jpg`]);
       return {
         documents: await rows(tx.query("select * from app.id_documents")),
         files: await rows(tx.query("select * from storage.objects")),

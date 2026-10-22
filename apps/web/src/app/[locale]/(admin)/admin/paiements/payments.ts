@@ -83,7 +83,7 @@ export function refundState(row: Pick<PaymentRow, "status" | "refund_requested_a
 }
 
 /** Clé de traduction du prestataire (Admin.payments.providers), « other » s'il est inconnu. */
-const providers = ["simulated", "fedapay", "kkiapay"] as const;
+const providers = ["simulated", "fedapay", "kkiapay", "feexpay"] as const;
 export function providerKey(provider: string): (typeof providers)[number] | "other" {
   return oneOf(providers, provider) ?? "other";
 }

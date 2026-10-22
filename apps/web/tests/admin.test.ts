@@ -13,6 +13,7 @@ import {
 import {
   canCheckIn,
   checkDraft,
+  DEFAULT_PRICE_XOF,
   draftDefaults,
   type EventStatus,
   filterEvents,
@@ -162,6 +163,7 @@ describe("Soirées de l'administration (11.2-5)", () => {
     expect(checkDraft({ ...ok, priceXof: -1 }, now)).toBe("invalid_price");
     expect(checkDraft({ ...ok, priceXof: 5000 }, now)).toBeNull();
     expect(draftDefaults).toEqual({ capacityWomen: 10, capacityMen: 10, roundMinutes: 7, changeoverMinutes: 1 });
+    expect(DEFAULT_PRICE_XOF).toBe(10_000);
   });
 
   it("inscriptions regroupées : places occupées, liste d'attente, puis le reste", () => {
@@ -418,6 +420,7 @@ describe("Paiements (11.2-9)", () => {
     expect(refundState({ status: "refunded", refund_requested_at: "2026-10-19T10:00:00Z" })).toBe("refunded");
     expect(refundState({ status: "succeeded", refund_requested_at: null })).toBeNull();
     expect(providerKey("simulated")).toBe("simulated");
+    expect(providerKey("feexpay")).toBe("feexpay");
     expect(providerKey("autre")).toBe("other");
   });
 });

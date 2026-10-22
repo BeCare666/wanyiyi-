@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { DeclarationForm } from "./DeclarationForm";
-import { DocumentsForm } from "./DocumentsForm";
+import { SelfieForm } from "./SelfieForm";
 import { canSubmit, type MyVerification } from "./verification";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -37,8 +37,8 @@ function Submitted({ summary, replaceLabel, open, children }: { summary: ReactNo
 }
 
 /**
- * Vérification (section 6.2-2) : déclaration sur l'honneur, pièce d'identité et selfie,
- * suivi de l'état. L'entretien et les frais d'inscription attendent les questions 2 et 5
+ * Vérification (section 6.2-2) : déclaration sur l'honneur et selfie (plus de pièce d'identité,
+ * question 29 du 22 octobre 2026), suivi de l'état. L'entretien et les frais d'inscription attendent les questions 2 et 5
  * (PHASE2.txt). Les fichiers déposés ne sont jamais relus par le membre (10.1).
  */
 export default async function VerificationPage() {
@@ -129,25 +129,22 @@ export default async function VerificationPage() {
             <p className="mt-3 text-sm text-fg-muted">{t("documents.intro")}</p>
           </div>
           <div className="md:col-span-8">
-            {v?.document_kind && v.documents_at ? (
+            {v?.has_selfie && v.documents_at ? (
               <Submitted
                 open={toCorrect}
                 replaceLabel={t("documents.replace")}
                 summary={
                   <div>
                     <p className="font-medium">{t("documents.sentOn", { date: dateOf(v.documents_at) })}</p>
-                    <p className="mt-2 text-fg-muted">
-                      {t(`documents.kinds.${v.document_kind}`)}
-                      {v.has_selfie ? ` · ${t("documents.selfieSent")}` : ""}
-                    </p>
+                    <p className="mt-2 text-fg-muted">{t("documents.selfieSent")}</p>
                     <p className="mt-2 text-sm text-fg-muted">{t("documents.private")}</p>
                   </div>
                 }
               >
-                {open ? <DocumentsForm userId={member.id} /> : undefined}
+                {open ? <SelfieForm userId={member.id} /> : undefined}
               </Submitted>
             ) : open ? (
-              <DocumentsForm userId={member.id} />
+              <SelfieForm userId={member.id} />
             ) : null}
           </div>
         </section>

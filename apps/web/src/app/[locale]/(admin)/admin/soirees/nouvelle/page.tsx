@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getStaffMember } from "@/lib/staff";
-import { draftDefaults } from "../evenings";
+import { DEFAULT_PRICE_XOF, draftDefaults } from "../evenings";
 import { EventForm } from "../EventForm";
 import { loadEventOptions } from "../options";
 
@@ -32,7 +32,7 @@ export default async function NewEveningPage() {
       <div className="mt-10 border-t border-line pt-10">
         <EventForm
           eventId={null}
-          initial={{ venueId: null, themeId: null, startsAt: "", priceXof: null, ...draftDefaults }}
+          initial={{ venueId: null, themeId: null, startsAt: "", priceXof: DEFAULT_PRICE_XOF, ...draftDefaults }}
           venues={venues}
           themes={themes}
         />

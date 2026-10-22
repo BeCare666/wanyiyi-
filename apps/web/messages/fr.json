@@ -59,7 +59,7 @@
     "items": [
       {
         "title": "Des membres vérifiés",
-        "text": "Chaque membre présente une pièce d'identité, passe un entretien avec notre équipe et déclare sa situation matrimoniale. Personne n'entre sans cette vérification."
+        "text": "Chaque membre prend un selfie en direct et déclare sur l'honneur sa situation matrimoniale. Notre équipe vérifie chaque dossier : personne n'entre sans cette vérification."
       },
       {
         "title": "Des rencontres en vrai",
@@ -81,7 +81,7 @@
       },
       {
         "title": "Vérification",
-        "text": "Pièce d'identité, entretien avec l'équipe et déclaration sur l'honneur. Votre profil est relu avant d'être publié."
+        "text": "Selfie pris en direct et déclaration sur l'honneur. Votre profil est relu avant d'être publié."
       },
       {
         "title": "Soirée",
@@ -139,7 +139,7 @@
     "items": [
       {
         "title": "Tous les membres sont vérifiés",
-        "text": "Pièce d'identité, entretien et déclaration de situation matrimoniale. Les documents sont conservés dans un espace privé, consultable par la seule équipe de vérification."
+        "text": "Selfie pris en direct et déclaration de situation matrimoniale. Le selfie est conservé dans un espace privé, consultable par la seule équipe de vérification."
       },
       {
         "title": "Aucune photo publique",
@@ -226,7 +226,7 @@
       },
       {
         "q": "Comment se passe la vérification ?",
-        "a": "Vous envoyez une pièce d'identité, vous passez un entretien avec un membre de notre équipe et vous signez une déclaration sur l'honneur concernant votre situation matrimoniale. Votre profil est validé à l'issue de ces trois étapes."
+        "a": "Vous prenez un selfie en direct et vous signez une déclaration sur l'honneur concernant votre situation matrimoniale. Notre équipe vérifie votre dossier, puis valide votre profil."
       },
       {
         "q": "Que se passe-t-il si personne ne me plaît lors d'une soirée ?",
@@ -242,7 +242,7 @@
       },
       {
         "q": "Comment paie-t-on ?",
-        "a": "Par Mobile Money, MTN ou Moov. Les frais d'inscription et les réservations de soirée se règlent directement depuis votre espace."
+        "a": "Par Mobile Money (MTN, Moov, Celtiis) ou par carte bancaire (Visa, Mastercard). L'inscription est gratuite ; chaque soirée se règle directement depuis votre espace."
       },
       {
         "q": "Puis-je quitter la plateforme à tout moment ?",
@@ -358,7 +358,7 @@
       {
         "title": "Données collectées",
         "paragraphs": [
-          "Votre adresse e-mail, votre numéro de téléphone si vous le donnez, votre identité, votre pièce d'identité, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations, vos votes et vos messages.",
+          "Votre adresse e-mail, votre numéro de téléphone si vous le donnez, votre identité, votre selfie de vérification, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations, vos votes et vos messages.",
           "Nous ne demandons jamais votre teint de peau, votre ethnie, votre adresse exacte ni le nom de votre employeur."
         ]
       },
@@ -371,7 +371,7 @@
       {
         "title": "Qui y a accès",
         "paragraphs": [
-          "Votre pièce d'identité est consultable uniquement par l'équipe de vérification, et chaque consultation est enregistrée.",
+          "Votre selfie de vérification est consultable uniquement par l'équipe de vérification, et chaque consultation est enregistrée.",
           "Vos photos ne sont visibles qu'après un accord mutuel. Le conseiller ne lit votre conversation de couple qu'avec l'accord de vous deux.",
           "Vos revenus, si vous les indiquez, ne sont jamais visibles par les autres membres."
         ]
@@ -446,10 +446,8 @@
     "intro": "L'inscription se fait avec votre adresse e-mail. Chaque étape est expliquée, et notre équipe reste joignable à tout moment.",
     "steps": [
       "Votre adresse e-mail, confirmée par un lien",
-      "Votre pièce d'identité",
-      "Votre rendez-vous pour l'entretien",
-      "Votre déclaration sur l'honneur",
-      "Le paiement des frais d'inscription par Mobile Money"
+      "Votre selfie, pris en direct",
+      "Votre déclaration sur l'honneur"
     ],
     "accountTitle": "Votre compte",
     "email": "Adresse e-mail",
@@ -466,7 +464,7 @@
     "resent": "Un nouveau lien vient d'être envoyé.",
     "changeEmail": "Changer d'adresse",
     "identityTitle": "Qui êtes-vous ?",
-    "identityIntro": "Ces informations seront comparées à votre pièce d'identité lors de la vérification.",
+    "identityIntro": "Ces informations seront comparées à votre selfie lors de la vérification.",
     "firstName": "Prénom",
     "lastName": "Nom",
     "lastNameHelp": "Jamais visible des autres membres.",
@@ -478,7 +476,7 @@
     "birthDate": "Date de naissance",
     "city": "Ville",
     "cityHelp": "La ville seulement, jamais votre adresse. Facultatif.",
-    "identityHelp": "Il faut avoir 18 ans révolus. Le sexe et la date de naissance sont vérifiés sur votre pièce d'identité et ne se modifient plus ensuite.",
+    "identityHelp": "Il faut avoir 18 ans révolus. Le sexe et la date de naissance ne se modifient plus ensuite.",
     "consent": "J'ai lu et j'accepte le <rules>règlement</rules> et la <privacy>politique de confidentialité</privacy>.",
     "submit": "Valider mon inscription",
     "errors": {
@@ -717,7 +715,7 @@
           "rejected": "Dossier refusé"
         },
         "help": {
-          "not_started": "Signez la déclaration sur l'honneur, puis envoyez votre pièce d'identité et un selfie.",
+          "not_started": "Signez la déclaration sur l'honneur, puis prenez un selfie en direct.",
           "pending": "L'équipe examine votre dossier. Vous pouvez encore remplacer un élément si besoin.",
           "to_correct": "Corrigez les éléments indiqués par l'équipe, puis envoyez-les de nouveau.",
           "approved": "Votre dossier est validé. Vous pouvez réserver vos soirées.",
@@ -726,7 +724,7 @@
       },
       "declaration": {
         "title": "Déclaration sur l'honneur",
-        "intro": "Votre situation est vérifiée lors de l'entretien.",
+        "intro": "Votre déclaration est examinée par notre équipe avec votre selfie.",
         "statusLabel": "Ma situation",
         "statuses": {
           "single": "Célibataire",
@@ -735,7 +733,7 @@
           "other": "Autre"
         },
         "otherLabel": "Précisez votre situation",
-        "otherHelp": "{count, plural, =0 {Aucun caractère restant} one {# caractère restant} other {# caractères restants}}. L'équipe en parlera avec vous lors de l'entretien.",
+        "otherHelp": "{count, plural, =0 {Aucun caractère restant} one {# caractère restant} other {# caractères restants}}. Ces précisions sont lues par l'équipe de vérification.",
         "childrenLabel": "Enfants",
         "withChildren": "Avec enfant(s)",
         "withoutChildren": "Sans enfant",
@@ -753,21 +751,16 @@
         }
       },
       "documents": {
-        "title": "Pièce d'identité et selfie",
-        "intro": "Une seule pièce suffit. Prenez ensuite un selfie en direct, visage bien visible, pour que l'équipe le compare à la photo de la pièce.",
-        "kindLabel": "Ma pièce d'identité",
+        "title": "Selfie",
+        "intro": "Prenez un selfie en direct, visage bien visible. L'équipe le regarde avant de valider votre profil.",
         "kinds": {
           "id_card": "Carte d'identité",
           "driving_licence": "Permis de conduire",
           "passport": "Passeport"
         },
         "slots": {
-          "front": "Recto",
-          "back": "Verso",
-          "photo_page": "Page avec la photo",
           "selfie": "Selfie"
         },
-        "fileHelp": "Photo ou PDF, lisible et en entier.",
         "selfieHelp": "Pris en direct avec la caméra de votre appareil : votre visage seul, de face, sans lunettes de soleil ni chapeau.",
         "camera": {
           "open": "Ouvrir la caméra",
@@ -782,28 +775,25 @@
             "failed": "La caméra n'a pas pu démarrer. Fermez les autres applications qui l'utilisent, puis réessayez."
           }
         },
-        "submit": "Envoyer mes documents",
+        "submit": "Envoyer mon selfie",
         "sending": "Envoi en cours",
-        "sentOn": "Envoyés le {date}",
+        "sentOn": "Envoyé le {date}",
         "selfieSent": "selfie envoyé",
-        "private": "Pour votre sécurité, les fichiers envoyés ne s'affichent plus, même pour vous.",
-        "replace": "Remplacer mes documents",
+        "private": "Pour votre sécurité, le selfie envoyé ne s'affiche plus, même pour vous.",
+        "replace": "Remplacer mon selfie",
         "errors": {
-          "kind": "Choisissez votre pièce d'identité.",
-          "missing": "Ajoutez tous les fichiers demandés.",
-          "type": "Ce type de fichier n'est pas accepté. La pièce doit être une photo (JPEG, PNG ou WebP) ou un PDF.",
-          "size": "Ce fichier dépasse {size} Mo."
+          "missing": "Prenez votre selfie.",
+          "type": "Cette photo n'est pas acceptée (JPEG, PNG ou WebP). Reprenez-la.",
+          "size": "La photo dépasse {size} Mo. Reprenez-la."
         }
       },
       "errors": {
-        "invalid_document_kind": "Cette pièce d'identité n'est pas acceptée.",
-        "document_missing": "Il manque un fichier : le recto, le verso ou le selfie.",
-        "duplicate_file": "Le même fichier a été choisi deux fois.",
-        "file_not_found": "Un fichier n'a pas été reçu. Envoyez-le de nouveau.",
+        "document_missing": "Le selfie manque.",
+        "file_not_found": "Le selfie n'a pas été reçu. Envoyez-le de nouveau.",
         "invalid_declaration": "La déclaration est incomplète.",
         "outdated_declaration": "Le texte de la déclaration a changé. Rechargez la page.",
         "verification_closed": "Votre dossier est déjà traité.",
-        "upload_failed": "L'envoi d'un fichier a échoué. Vérifiez votre connexion et réessayez.",
+        "upload_failed": "L'envoi du selfie a échoué. Vérifiez votre connexion et réessayez.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
@@ -880,15 +870,26 @@
   "Payment": {
     "eyebrow": "Paiement",
     "title": "Régler votre place",
-    "intro": "Le paiement s'ouvre dans la fenêtre sécurisée de KkiaPay : Mobile Money (MTN, Moov) ou carte bancaire.",
+    "intro": "Paiement sécurisé par FeexPay : Mobile Money (MTN, Moov, Celtiis) ou carte bancaire.",
     "sandbox": "Mode test : aucun argent n'est débité.",
+    "method": "Moyen de paiement",
+    "methods": {
+      "mtn": "MTN Mobile Money",
+      "moov": "Moov Money",
+      "celtiis": "Celtiis Cash",
+      "card": "Carte bancaire (Visa, Mastercard)"
+    },
+    "phone": "Numéro Mobile Money",
+    "phoneHelp": "Numéro béninois à 10 chiffres commençant par 01. La demande de paiement arrive sur ce téléphone.",
     "purposes": {
       "evening_booking": "Place pour une soirée Ifedele",
       "registration_fee": "Frais d'inscription"
     },
-    "pay": "Payer avec KkiaPay",
-    "loading": "Chargement du paiement…",
-    "verifying": "Vérification du paiement auprès de KkiaPay…",
+    "pay": "Recevoir la demande de paiement",
+    "payCard": "Continuer vers le paiement par carte",
+    "sending": "Envoi en cours",
+    "waiting": "Validez la demande de paiement sur votre téléphone (ou terminez le paiement par carte). Cette page vérifie le paiement automatiquement.",
+    "verifying": "Vérification du paiement auprès de FeexPay…",
     "retry": "Vérifier à nouveau",
     "done": "Paiement reçu et vérifié. Merci.",
     "back": "Retour à mes soirées",
@@ -899,14 +900,35 @@
       "cancelled": "Ce paiement a été annulé.",
       "unavailable": "Le paiement en ligne n'est pas disponible pour le moment."
     },
+    "card": {
+      "intro": "Vous allez saisir votre carte sur la page sécurisée de FeexPay, qui demande les coordonnées du titulaire. Des frais de carte peuvent s'ajouter.",
+      "fields": {
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Adresse e-mail (reçu de paiement)",
+        "phoneNumber": "Téléphone (01 et 8 chiffres)",
+        "city": "Ville",
+        "zip": "Code postal"
+      },
+      "errors": {
+        "firstName": "Indiquez le prénom du titulaire de la carte.",
+        "lastName": "Indiquez le nom du titulaire de la carte.",
+        "email": "Indiquez une adresse e-mail valide.",
+        "phoneNumber": "Indiquez un numéro béninois à 10 chiffres commençant par 01.",
+        "city": "Indiquez votre ville.",
+        "zip": "Indiquez un code postal."
+      }
+    },
     "errors": {
       "failed": "Le paiement n'a pas abouti. Vous pouvez réessayer.",
-      "transaction_not_successful": "KkiaPay n'a pas confirmé ce paiement. Vous pouvez réessayer.",
       "amount_mismatch": "Le montant payé ne correspond pas. Contactez notre équipe avant de réessayer.",
       "payment_mismatch": "Ce paiement ne correspond pas à votre réservation. Contactez notre équipe.",
-      "transaction_not_found": "KkiaPay ne retrouve pas encore ce paiement. Ne payez pas une seconde fois : vérifiez de nouveau dans un instant, ou donnez la référence {ref} à notre équipe.",
       "transaction_already_used": "Ce paiement a déjà servi pour une autre réservation. Contactez notre équipe.",
-      "kkiapay_unavailable": "KkiaPay ne répond pas pour le moment. Ne payez pas une seconde fois : vérifiez de nouveau dans un instant, ou donnez la référence {ref} à notre équipe.",
+      "invalid_phone": "Indiquez un numéro béninois à 10 chiffres commençant par 01.",
+      "invalid_card_holder": "Complétez les coordonnées du titulaire de la carte.",
+      "payment_refused": "FeexPay a refusé la demande. Vérifiez le numéro et le réseau, puis réessayez.",
+      "payment_in_progress": "Une demande de paiement attend encore votre validation. Ne payez pas une seconde fois : validez-la ou attendez son expiration.",
+      "feexpay_unavailable": "FeexPay ne répond pas pour le moment. Ne payez pas une seconde fois : réessayez dans un instant.",
       "invalid_status": "Ce paiement n'est plus en attente.",
       "not_found": "Ce paiement est introuvable.",
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
@@ -939,7 +961,7 @@
       "payments": "Paiements"
     },
     "navHelp": {
-      "verifications": "Dossiers en attente, pièces, décisions",
+      "verifications": "Dossiers en attente, selfies, décisions",
       "evenings": "Création, inscriptions, pointage, déroulé, résultats",
       "venues": "Lieux des soirées et adresses",
       "members": "Liste, fiches, historique, sanctions",
@@ -949,7 +971,7 @@
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard."
     },
     "verifications": {
-      "intro": "Les dossiers en attente ou à corriger, les plus anciens d'abord. Chaque ouverture d'une pièce est enregistrée dans le journal.",
+      "intro": "Les dossiers en attente ou à corriger, les plus anciens d'abord. Chaque ouverture d'un selfie est enregistrée dans le journal.",
       "filters": {
         "label": "Filtrer les dossiers",
         "all": "Tous",
@@ -991,10 +1013,10 @@
         "age": "{age} ans",
         "city": "Ville",
         "missing": "Le membre n'a pas encore créé son profil.",
-        "compare": "Comparez ces informations et le selfie avec la pièce d'identité."
+        "compare": "Comparez ces informations avec le selfie."
       },
       "documents": {
-        "title": "Pièce et selfie",
+        "title": "Selfie",
         "none": "Aucun document déposé.",
         "parts": {
           "front": "recto",
@@ -1020,7 +1042,7 @@
           "to_correct": "Demander une correction",
           "rejected": "Refuser"
         },
-        "notReady": "Validation possible quand la pièce, le selfie et la déclaration sont déposés.",
+        "notReady": "Validation possible quand le selfie et la déclaration sont déposés.",
         "noteLabel": "Message au membre (obligatoire)",
         "noteOptional": "Message au membre (facultatif)",
         "noteHelp": "Le membre lit ce message sur sa page de vérification.",
@@ -1029,7 +1051,7 @@
         "submit": "Enregistrer la décision",
         "errors": {
           "choose": "Choisissez une décision.",
-          "dossier_incomplete": "Le dossier est incomplet : pièce, selfie ou déclaration manquant.",
+          "dossier_incomplete": "Le dossier est incomplet : selfie ou déclaration manquant.",
           "profile_missing": "Le membre n'a pas encore créé son profil.",
           "note_required": "Écrivez au membre ce qu'il doit corriger.",
           "verification_closed": "Ce dossier est déjà traité.",
@@ -1513,7 +1535,7 @@
       }
     },
     "payments": {
-      "intro": "Toutes les transactions, les plus récentes d'abord. Les remboursements sont lancés par l'annulation d'une soirée. Le rapprochement avec le prestataire viendra avec son intégration.",
+      "intro": "Toutes les transactions, les plus récentes d'abord. L'annulation d'une soirée marque ses paiements « à rembourser » : remboursez-les dans le tableau de bord FeexPay, puis marquez-les remboursés ici.",
       "search": "Prénom, nom, numéro de membre ou référence",
       "refund": "Remboursement",
       "empty": "Aucun paiement dans cette liste.",
@@ -1540,14 +1562,26 @@
         "contribution": "Contribution"
       },
       "refunds": {
-        "requested": "Remboursement demandé",
+        "requested": "À rembourser",
         "refunded": "Remboursé"
       },
       "providers": {
         "simulated": "Paiement de démonstration",
         "fedapay": "FedaPay",
         "kkiapay": "KkiaPay",
+        "feexpay": "FeexPay",
         "other": "Autre prestataire"
+      },
+      "markRefunded": {
+        "button": "Marquer remboursé",
+        "confirm": "Remboursé dans le tableau de bord FeexPay ? Cette action ne s'annule pas.",
+        "confirmButton": "Confirmer le remboursement",
+        "errors": {
+          "not_refundable": "Ce paiement n'est plus à rembourser.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
       }
     },
     "search": {

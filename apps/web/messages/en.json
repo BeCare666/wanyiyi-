@@ -59,7 +59,7 @@
     "items": [
       {
         "title": "Verified members",
-        "text": "Every member shows an identity document, meets our team for an interview and declares their marital status. Nobody joins without this verification."
+        "text": "Every member takes a live selfie and makes a sworn statement of their marital status. Our team checks every file: nobody joins without this verification."
       },
       {
         "title": "Real-life meetings",
@@ -81,7 +81,7 @@
       },
       {
         "title": "Verification",
-        "text": "Identity document, interview with our team and a sworn statement. Your profile is reviewed before it is published."
+        "text": "A live selfie and a sworn statement. Your profile is reviewed before it is published."
       },
       {
         "title": "Evening",
@@ -139,7 +139,7 @@
     "items": [
       {
         "title": "Every member is verified",
-        "text": "Identity document, interview and declaration of marital status. Documents are kept in a private space, accessible only to the verification team."
+        "text": "A live selfie and a declaration of marital status. The selfie is kept in a private space, accessible only to the verification team."
       },
       {
         "title": "No public photos",
@@ -226,7 +226,7 @@
       },
       {
         "q": "How does verification work?",
-        "a": "You send an identity document, you have an interview with a member of our team and you sign a sworn statement about your marital status. Your profile is approved once these three steps are complete."
+        "a": "You take a live selfie and sign a sworn statement about your marital status. Our team checks your file, then approves your profile."
       },
       {
         "q": "What if nobody appeals to me at an evening?",
@@ -242,7 +242,7 @@
       },
       {
         "q": "How do I pay?",
-        "a": "By Mobile Money, MTN or Moov. Registration fees and evening bookings are paid directly from your member space."
+        "a": "By Mobile Money (MTN, Moov, Celtiis) or by bank card (Visa, Mastercard). Registration is free; each evening is paid directly from your member space."
       },
       {
         "q": "Can I leave the platform at any time?",
@@ -358,7 +358,7 @@
       {
         "title": "Data collected",
         "paragraphs": [
-          "Your e-mail address, your phone number if you give it, your identity, your identity document, your marital status declaration, your profile answers, your photos, your bookings, your votes and your messages.",
+          "Your e-mail address, your phone number if you give it, your identity, your verification selfie, your marital status declaration, your profile answers, your photos, your bookings, your votes and your messages.",
           "We never ask for your skin tone, your ethnicity, your exact address or the name of your employer."
         ]
       },
@@ -371,7 +371,7 @@
       {
         "title": "Who can access it",
         "paragraphs": [
-          "Your identity document is accessible only to the verification team, and every access is recorded.",
+          "Your verification selfie is accessible only to the verification team, and every access is recorded.",
           "Your photos are visible only after a mutual agreement. The counsellor reads your couple conversation only with the consent of you both.",
           "Your income, if you choose to share it, is never visible to other members."
         ]
@@ -446,10 +446,8 @@
     "intro": "Registration is done with your e-mail address. Each step is explained, and our team is available at any time.",
     "steps": [
       "Your e-mail address, confirmed by a link",
-      "Your identity document",
-      "Your interview appointment",
-      "Your sworn statement",
-      "Payment of the registration fee by Mobile Money"
+      "Your selfie, taken live",
+      "Your sworn statement"
     ],
     "accountTitle": "Your account",
     "email": "E-mail address",
@@ -466,7 +464,7 @@
     "resent": "A new link has just been sent.",
     "changeEmail": "Change address",
     "identityTitle": "Who are you?",
-    "identityIntro": "This information will be compared with your identity document during verification.",
+    "identityIntro": "This information will be compared with your selfie during verification.",
     "firstName": "First name",
     "lastName": "Last name",
     "lastNameHelp": "Never visible to other members.",
@@ -478,7 +476,7 @@
     "birthDate": "Date of birth",
     "city": "City",
     "cityHelp": "Your city only, never your address. Optional.",
-    "identityHelp": "You must be at least 18 years old. Sex and date of birth are checked against your identity document and cannot be changed afterwards.",
+    "identityHelp": "You must be at least 18 years old. Sex and date of birth cannot be changed afterwards.",
     "consent": "I have read and accept the <rules>rules</rules> and the <privacy>privacy policy</privacy>.",
     "submit": "Complete my registration",
     "errors": {
@@ -717,7 +715,7 @@
           "rejected": "File declined"
         },
         "help": {
-          "not_started": "Sign the sworn statement, then send your ID document and a selfie.",
+          "not_started": "Sign the sworn statement, then take a live selfie.",
           "pending": "The team is reviewing your file. You can still replace an item if needed.",
           "to_correct": "Correct the items the team pointed out, then send them again.",
           "approved": "Your file is approved. You can book your evenings.",
@@ -726,7 +724,7 @@
       },
       "declaration": {
         "title": "Sworn statement",
-        "intro": "Your situation is checked during the interview.",
+        "intro": "Your statement is reviewed by our team together with your selfie.",
         "statusLabel": "My situation",
         "statuses": {
           "single": "Single",
@@ -735,7 +733,7 @@
           "other": "Other"
         },
         "otherLabel": "Describe your situation",
-        "otherHelp": "{count, plural, =0 {No characters left} one {# character left} other {# characters left}}. The team will discuss it with you during the interview.",
+        "otherHelp": "{count, plural, =0 {No characters left} one {# character left} other {# characters left}}. These details are read by the verification team.",
         "childrenLabel": "Children",
         "withChildren": "With child(ren)",
         "withoutChildren": "Without children",
@@ -753,21 +751,16 @@
         }
       },
       "documents": {
-        "title": "ID document and selfie",
-        "intro": "One document is enough. Then take a live selfie, with your face clearly visible, so the team can compare it with the photo on the document.",
-        "kindLabel": "My ID document",
+        "title": "Selfie",
+        "intro": "Take a live selfie, with your face clearly visible. The team looks at it before approving your profile.",
         "kinds": {
           "id_card": "Identity card",
           "driving_licence": "Driving licence",
           "passport": "Passport"
         },
         "slots": {
-          "front": "Front",
-          "back": "Back",
-          "photo_page": "Photo page",
           "selfie": "Selfie"
         },
-        "fileHelp": "Photo or PDF, readable and complete.",
         "selfieHelp": "Taken live with your device's camera: your face only, from the front, without sunglasses or a hat.",
         "camera": {
           "open": "Open the camera",
@@ -782,28 +775,25 @@
             "failed": "The camera could not start. Close other apps using it, then try again."
           }
         },
-        "submit": "Send my documents",
+        "submit": "Send my selfie",
         "sending": "Sending",
         "sentOn": "Sent on {date}",
         "selfieSent": "selfie sent",
-        "private": "For your safety, files you have sent are no longer shown, even to you.",
-        "replace": "Replace my documents",
+        "private": "For your safety, the selfie you sent is no longer shown, even to you.",
+        "replace": "Replace my selfie",
         "errors": {
-          "kind": "Choose your ID document.",
-          "missing": "Add all the requested files.",
-          "type": "This file type is not accepted. The document must be a photo (JPEG, PNG or WebP) or a PDF.",
-          "size": "This file is larger than {size} MB."
+          "missing": "Take your selfie.",
+          "type": "This photo is not accepted (JPEG, PNG or WebP). Please retake it.",
+          "size": "The photo is larger than {size} MB. Please retake it."
         }
       },
       "errors": {
-        "invalid_document_kind": "This ID document is not accepted.",
-        "document_missing": "A file is missing: the front, the back or the selfie.",
-        "duplicate_file": "The same file was chosen twice.",
-        "file_not_found": "A file was not received. Please send it again.",
+        "document_missing": "The selfie is missing.",
+        "file_not_found": "The selfie was not received. Please send it again.",
         "invalid_declaration": "The statement is incomplete.",
         "outdated_declaration": "The statement text has changed. Please reload the page.",
         "verification_closed": "Your file has already been processed.",
-        "upload_failed": "A file could not be sent. Check your connection and try again.",
+        "upload_failed": "The selfie could not be sent. Check your connection and try again.",
         "unavailable": "This service is not available yet. Please try again later.",
         "generic": "Something went wrong. Please try again in a moment."
       }
@@ -880,15 +870,26 @@
   "Payment": {
     "eyebrow": "Payment",
     "title": "Pay for your seat",
-    "intro": "Payment opens in KkiaPay's secure window: Mobile Money (MTN, Moov) or bank card.",
+    "intro": "Secure payment by FeexPay: Mobile Money (MTN, Moov, Celtiis) or bank card.",
     "sandbox": "Test mode: no money is charged.",
+    "method": "Payment method",
+    "methods": {
+      "mtn": "MTN Mobile Money",
+      "moov": "Moov Money",
+      "celtiis": "Celtiis Cash",
+      "card": "Bank card (Visa, Mastercard)"
+    },
+    "phone": "Mobile Money number",
+    "phoneHelp": "10-digit Benin number starting with 01. The payment request is sent to this phone.",
     "purposes": {
       "evening_booking": "Seat for a Ifedele evening",
       "registration_fee": "Registration fee"
     },
-    "pay": "Pay with KkiaPay",
-    "loading": "Loading payment…",
-    "verifying": "Checking the payment with KkiaPay…",
+    "pay": "Receive the payment request",
+    "payCard": "Continue to card payment",
+    "sending": "Sending",
+    "waiting": "Approve the payment request on your phone (or finish the card payment). This page checks the payment automatically.",
+    "verifying": "Checking the payment with FeexPay…",
     "retry": "Check again",
     "done": "Payment received and verified. Thank you.",
     "back": "Back to my evenings",
@@ -899,14 +900,35 @@
       "cancelled": "This payment has been cancelled.",
       "unavailable": "Online payment is not available at the moment."
     },
+    "card": {
+      "intro": "You will enter your card on FeexPay's secure page, which asks for the cardholder's details. Card fees may apply.",
+      "fields": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email address (payment receipt)",
+        "phoneNumber": "Phone (01 and 8 digits)",
+        "city": "City",
+        "zip": "Postal code"
+      },
+      "errors": {
+        "firstName": "Enter the cardholder's first name.",
+        "lastName": "Enter the cardholder's last name.",
+        "email": "Enter a valid email address.",
+        "phoneNumber": "Enter a 10-digit Benin number starting with 01.",
+        "city": "Enter your city.",
+        "zip": "Enter a postal code."
+      }
+    },
     "errors": {
       "failed": "The payment did not go through. You can try again.",
-      "transaction_not_successful": "KkiaPay did not confirm this payment. You can try again.",
       "amount_mismatch": "The amount paid does not match. Contact our team before trying again.",
       "payment_mismatch": "This payment does not match your booking. Contact our team.",
-      "transaction_not_found": "KkiaPay cannot find this payment yet. Do not pay a second time: check again in a moment, or give reference {ref} to our team.",
       "transaction_already_used": "This payment has already been used for another booking. Contact our team.",
-      "kkiapay_unavailable": "KkiaPay is not responding at the moment. Do not pay a second time: check again in a moment, or give reference {ref} to our team.",
+      "invalid_phone": "Enter a 10-digit Benin number starting with 01.",
+      "invalid_card_holder": "Complete the cardholder's details.",
+      "payment_refused": "FeexPay refused the request. Check the number and the network, then try again.",
+      "payment_in_progress": "A payment request is still waiting for your approval. Do not pay a second time: approve it or wait for it to expire.",
+      "feexpay_unavailable": "FeexPay is not responding at the moment. Do not pay a second time: try again in a moment.",
       "invalid_status": "This payment is no longer pending.",
       "not_found": "This payment cannot be found.",
       "unavailable": "This service is not available yet. Please try again later.",
@@ -939,7 +961,7 @@
       "payments": "Payments"
     },
     "navHelp": {
-      "verifications": "Pending files, documents, decisions",
+      "verifications": "Pending files, selfies, decisions",
       "evenings": "Creation, bookings, check-in, running order, results",
       "venues": "Evening venues and addresses",
       "members": "List, profiles, history, sanctions",
@@ -949,7 +971,7 @@
       "unavailable": "This service is not available yet. Please try again later."
     },
     "verifications": {
-      "intro": "Files awaiting review or correction, oldest first. Every time a document is opened, it is recorded in the log.",
+      "intro": "Files awaiting review or correction, oldest first. Every time a selfie is opened, it is recorded in the log.",
       "filters": {
         "label": "Filter files",
         "all": "All",
@@ -991,10 +1013,10 @@
         "age": "{age} years old",
         "city": "City",
         "missing": "The member has not created a profile yet.",
-        "compare": "Compare this information and the selfie with the ID document."
+        "compare": "Compare this information with the selfie."
       },
       "documents": {
-        "title": "Document and selfie",
+        "title": "Selfie",
         "none": "No document uploaded.",
         "parts": {
           "front": "front",
@@ -1020,7 +1042,7 @@
           "to_correct": "Request a correction",
           "rejected": "Decline"
         },
-        "notReady": "Approval is possible once the document, the selfie and the statement are uploaded.",
+        "notReady": "Approval is possible once the selfie and the statement are uploaded.",
         "noteLabel": "Message to the member (required)",
         "noteOptional": "Message to the member (optional)",
         "noteHelp": "The member reads this message on their verification page.",
@@ -1029,7 +1051,7 @@
         "submit": "Save the decision",
         "errors": {
           "choose": "Choose a decision.",
-          "dossier_incomplete": "The file is incomplete: document, selfie or statement missing.",
+          "dossier_incomplete": "The file is incomplete: selfie or statement missing.",
           "profile_missing": "The member has not created a profile yet.",
           "note_required": "Tell the member what needs correcting.",
           "verification_closed": "This file has already been processed.",
@@ -1513,7 +1535,7 @@
       }
     },
     "payments": {
-      "intro": "All transactions, most recent first. Refunds are triggered by cancelling an evening. Reconciliation with the provider will come with its integration.",
+      "intro": "All transactions, most recent first. Cancelling an evening marks its payments \"to refund\": refund them in the FeexPay dashboard, then mark them refunded here.",
       "search": "First name, last name, member number or reference",
       "refund": "Refund",
       "empty": "No payments in this list.",
@@ -1540,14 +1562,26 @@
         "contribution": "Contribution"
       },
       "refunds": {
-        "requested": "Refund requested",
+        "requested": "To refund",
         "refunded": "Refunded"
       },
       "providers": {
         "simulated": "Demo payment",
         "fedapay": "FedaPay",
         "kkiapay": "KkiaPay",
+        "feexpay": "FeexPay",
         "other": "Other provider"
+      },
+      "markRefunded": {
+        "button": "Mark as refunded",
+        "confirm": "Refunded in the FeexPay dashboard? This cannot be undone.",
+        "confirmButton": "Confirm the refund",
+        "errors": {
+          "not_refundable": "This payment no longer needs a refund.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
       }
     },
     "search": {

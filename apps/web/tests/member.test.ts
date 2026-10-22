@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
-import { canRetryVerification, type CheckoutInfo, transactionIdOf, widgetOptions } from "../src/app/[locale]/(membre)/paiement/[id]/checkout";
+import { cardError, type CheckoutInfo, isBeninPhone, isMethod, methodsOf } from "../src/app/[locale]/(membre)/paiement/[id]/checkout";
 import { ageOnCotonouDay, checkAccount, checkIdentity, checkPassword, type Identity, latestBirthDate } from "../src/app/[locale]/(vitrine)/inscription/registration";
 import { authErrorKey } from "../src/lib/auth-errors";
 import {
@@ -18,11 +18,10 @@ import { notificationHref, notificationKey, teamMessage } from "../src/component
 import { channelsFrom, isChannel, isEmail, isLocale } from "../src/app/[locale]/(membre)/espace/parametres/settings";
 import {
   canSubmit,
-  fileError,
   MAX_FILE_BYTES,
   type MyVerification,
   parseDeclaration,
-  requiredSlots,
+  selfieError,
   storagePath,
 } from "../src/app/[locale]/(membre)/espace/verification/verification";
 import { safeNextPath, signInHref } from "../src/lib/next-path";
@@ -221,23 +220,17 @@ describe("Paramètres (6.2-9)", () => {
 });
 
 describe("Vérification (6.2-2)", () => {
-  it("carte et permis : recto, verso et selfie ; passeport : page photo et selfie", () => {
-    expect(requiredSlots("id_card")).toEqual(["front", "back", "selfie"]);
-    expect(requiredSlots("driving_licence")).toEqual(["front", "back", "selfie"]);
-    expect(requiredSlots("passport")).toEqual(["front", "selfie"]);
-  });
-
-  it("fichiers : photo ou PDF pour la pièce, photo seulement pour le selfie, 10 Mo au maximum", () => {
-    expect(fileError("front", { type: "application/pdf", size: 1000 })).toBeNull();
-    expect(fileError("selfie", { type: "application/pdf", size: 1000 })).toBe("type");
-    expect(fileError("selfie", { type: "image/jpeg", size: 1000 })).toBeNull();
-    expect(fileError("back", { type: "image/gif", size: 1000 })).toBe("type");
-    expect(fileError("front", { type: "image/png", size: MAX_FILE_BYTES + 1 })).toBe("size");
+  it("selfie : une photo seulement (plus de pièce d'identité), 10 Mo au maximum", () => {
+    expect(selfieError({ type: "image/jpeg", size: 1000 })).toBeNull();
+    expect(selfieError({ type: "image/webp", size: 1000 })).toBeNull();
+    expect(selfieError({ type: "application/pdf", size: 1000 })).toBe("type");
+    expect(selfieError({ type: "image/gif", size: 1000 })).toBe("type");
+    expect(selfieError({ type: "image/png", size: MAX_FILE_BYTES + 1 })).toBe("size");
   });
 
   it("chemin dans le dossier du membre, sans le nom d'origine du fichier", () => {
     expect(storagePath("u1", "image/jpeg", "abc")).toBe("u1/abc.jpg");
-    expect(storagePath("u1", "application/pdf", "abc")).toBe("u1/abc.pdf");
+    expect(storagePath("u1", "image/png", "abc")).toBe("u1/abc.png");
   });
 
   it("déclaration : situation prévue, « autre » précisé, enfants indiqués, case cochée", () => {
@@ -364,37 +357,38 @@ describe("Messages de l'équipe (actions groupées, 19 octobre 2026)", () => {
   });
 });
 
-describe("Paiement KkiaPay (question 7 réglée le 20 octobre 2026)", () => {
+describe("Paiement FeexPay (question 29 réglée le 22 octobre 2026)", () => {
   const info: CheckoutInfo = {
     paymentId: "p1",
     purpose: "evening_booking",
-    amountXof: 5000,
+    amountXof: 10000,
     status: "pending",
-    provider: "kkiapay",
-    widget: { publicKey: "pk_test", sandbox: true },
+    provider: "feexpay",
+    feexpay: { sandbox: true, networks: ["mtn", "moov", "celtiis"], awaiting: false },
   };
 
-  it("widget ouvert avec le montant exact, la clé publique, le mode test et l'identifiant du paiement", () => {
-    expect(widgetOptions(info)).toEqual({ amount: 5000, key: "pk_test", sandbox: true, partnerId: "p1" });
+  it("moyens proposés : MTN, Moov, Celtiis et la carte ; rien à payer sinon", () => {
+    expect(methodsOf(info)).toEqual(["mtn", "moov", "celtiis", "card"]);
+    expect(methodsOf({ ...info, status: "succeeded" })).toBeNull();
+    expect(methodsOf({ ...info, provider: "simulated" })).toBeNull();
+    expect(methodsOf({ ...info, feexpay: null })).toBeNull();
+    expect(isMethod("card")).toBe(true);
+    expect(isMethod("orange")).toBe(false);
   });
 
-  it("rien à payer : paiement réglé, autre prestataire ou widget non configuré", () => {
-    expect(widgetOptions({ ...info, status: "succeeded" })).toBeNull();
-    expect(widgetOptions({ ...info, provider: "simulated" })).toBeNull();
-    expect(widgetOptions({ ...info, widget: null })).toBeNull();
+  it("numéro béninois à 10 chiffres commençant par 01, indicatif 229 facultatif", () => {
+    expect(isBeninPhone("01 97 00 00 00")).toBe(true);
+    expect(isBeninPhone("+229 0197000000")).toBe(true);
+    expect(isBeninPhone("97000000")).toBe(false);
+    expect(isBeninPhone("0297000000")).toBe(false);
   });
 
-  it("référence de transaction lue dans la réponse du widget, valeurs douteuses écartées", () => {
-    expect(transactionIdOf({ transactionId: "3iH6wjHJ3" })).toBe("3iH6wjHJ3");
-    expect(transactionIdOf({ transactionId: "<script>" })).toBeNull();
-    expect(transactionIdOf({ id: "3iH6wjHJ3" })).toBeNull();
-    expect(transactionIdOf(null)).toBeNull();
-  });
-
-  it("KkiaPay injoignable ou transaction pas encore visible : nouvelle vérification, jamais un second paiement", () => {
-    expect(canRetryVerification("kkiapay_unavailable")).toBe(true);
-    expect(canRetryVerification("transaction_not_found")).toBe(true);
-    expect(canRetryVerification("amount_mismatch")).toBe(false);
-    expect(canRetryVerification("failed")).toBe(false);
+  it("carte : coordonnées du titulaire exigées par FeexPay, toutes remplies", () => {
+    const holder = { firstName: "Afiwa", lastName: "Houngbo", email: "afiwa@example.com", phoneNumber: "0197000000", city: "Cotonou", zip: "00229" };
+    expect(cardError(holder)).toBeNull();
+    expect(cardError({ ...holder, lastName: " " })).toBe("lastName");
+    expect(cardError({ ...holder, email: "afiwa" })).toBe("email");
+    expect(cardError({ ...holder, phoneNumber: "97000000" })).toBe("phoneNumber");
+    expect(cardError({ ...holder, zip: "" })).toBe("zip");
   });
 });

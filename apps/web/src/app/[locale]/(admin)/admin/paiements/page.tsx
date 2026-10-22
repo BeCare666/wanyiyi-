@@ -19,6 +19,7 @@ import {
   refundFilters,
   refundState,
 } from "./payments";
+import { RefundButton } from "./RefundButton";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Admin.nav");
@@ -28,9 +29,9 @@ export async function generateMetadata(): Promise<Metadata> {
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 /**
- * Paiements (section 11.2-9), en lecture : transactions, soirée concernée, remboursements.
- * Filtres reflétés dans l'adresse, pagination côté serveur. Permission payments.read.
- * Le rapprochement attend le choix du prestataire (question 7).
+ * Paiements (section 11.2-9) : transactions, soirée concernée, remboursements.
+ * Filtres reflétés dans l'adresse, pagination côté serveur. Permission payments.read ;
+ * « Marquer remboursé » (remboursement manuel FeexPay, 22 octobre 2026) : payments.refund.
  */
 export default async function AdminPaymentsPage({ searchParams }: Props) {
   const staff = await getStaffMember();
@@ -46,6 +47,7 @@ export default async function AdminPaymentsPage({ searchParams }: Props) {
   const selectClass = cn(fieldClass, "mt-1 text-base");
   const canOpenMember = staff.permissions.includes("members.manage");
   const canOpenEvening = staff.permissions.includes("events.manage");
+  const canRefund = staff.permissions.includes("payments.refund");
   const amount = (xof: number) => format.number(xof, { style: "currency", currency: "XOF", maximumFractionDigits: 0 });
   const day = (iso: string) => format.dateTime(new Date(iso), { day: "numeric", month: "short", year: "numeric" });
 
@@ -157,6 +159,7 @@ export default async function AdminPaymentsPage({ searchParams }: Props) {
                     <td className="md:py-4 md:pr-4">
                       {t(`payments.status.${row.status}`)}
                       {refund === "requested" && <span className="block text-fg-muted">{t("payments.refunds.requested")}</span>}
+                      {refund === "requested" && canRefund && <RefundButton paymentId={row.payment_id} />}
                       <span className="block text-xs text-fg-muted">
                         {[t(`payments.providers.${providerKey(row.provider)}`), row.provider_transaction_id]
                           .filter(Boolean)

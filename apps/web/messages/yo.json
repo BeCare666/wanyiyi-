@@ -59,7 +59,7 @@
     "items": [
       {
         "title": "Àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò",
-        "text": "Ọmọ ẹgbẹ́ kọ̀ọ̀kan ń fi ìwé ìdánimọ̀ hàn, ó ń bá ẹgbẹ́ wa sọ̀rọ̀, ó sì ń kéde ipò ìgbéyàwó rẹ̀. Kò sí ẹni tó ń wọlé láìsí àyẹ̀wò yìí."
+        "text": "Ọmọ ẹgbẹ́ kọ̀ọ̀kan ń ya fọ́tò ojú rẹ̀ lójú ẹsẹ̀, ó sì ń búra nípa ipò ìgbéyàwó rẹ̀. Ẹgbẹ́ wa ń yẹ ìwé kọ̀ọ̀kan wò: kò sí ẹni tó ń wọlé láìsí àyẹ̀wò yìí."
       },
       {
         "title": "Ìpàdé ojúkojú",
@@ -81,7 +81,7 @@
       },
       {
         "title": "Àyẹ̀wò",
-        "text": "Ìwé ìdánimọ̀, ìjíròrò pẹ̀lú ẹgbẹ́ wa àti ìbúra. A ó ka àpèjúwe yín kí a tó gbé e jáde."
+        "text": "Fọ́tò ojú tí a yà lójú ẹsẹ̀ àti ìbúra. A ó ka àpèjúwe yín kí a tó gbé e jáde."
       },
       {
         "title": "Ìpàdé alẹ́",
@@ -139,7 +139,7 @@
     "items": [
       {
         "title": "A ṣàyẹ̀wò gbogbo ọmọ ẹgbẹ́",
-        "text": "Ìwé ìdánimọ̀, ìjíròrò àti ìkéde ipò ìgbéyàwó. A ń pa àwọn ìwé mọ́ ní ààyè àṣírí, tí ẹgbẹ́ àyẹ̀wò nìkan lè wò."
+        "text": "Fọ́tò ojú tí a yà lójú ẹsẹ̀ àti ìkéde ipò ìgbéyàwó. A ń pa fọ́tò ojú náà mọ́ ní ààyè àṣírí, tí ẹgbẹ́ àyẹ̀wò nìkan lè wò."
       },
       {
         "title": "Kò sí fọ́tò ní gbangba",
@@ -226,7 +226,7 @@
       },
       {
         "q": "Báwo ni àyẹ̀wò ṣe ń lọ?",
-        "a": "Ẹ ó fi ìwé ìdánimọ̀ ránṣẹ́, ẹ ó bá ọ̀kan nínú ẹgbẹ́ wa sọ̀rọ̀, ẹ ó sì fọwọ́ sí ìbúra nípa ipò ìgbéyàwó yín. A ó fọwọ́ sí àpèjúwe yín lẹ́yìn ìgbésẹ̀ mẹ́ta wọ̀nyí."
+        "a": "Ẹ ó ya fọ́tò ojú yín lójú ẹsẹ̀, ẹ ó sì fọwọ́ sí ìbúra nípa ipò ìgbéyàwó yín. Ẹgbẹ́ wa yóò yẹ ìwé yín wò, lẹ́yìn náà wọn yóò fọwọ́ sí àpèjúwe yín."
       },
       {
         "q": "Kí ló máa ṣẹlẹ̀ tí kò bá sí ẹni tó wù mí níbi ìpàdé alẹ́?",
@@ -242,7 +242,7 @@
       },
       {
         "q": "Báwo ni a ṣe ń sanwó?",
-        "a": "Nípasẹ̀ Mobile Money, MTN tàbí Moov. Ẹ ń san owó ìforúkọsílẹ̀ àti owó ìpàdé alẹ́ láti inú ààyè yín."
+        "a": "Nípasẹ̀ Mobile Money (MTN, Moov, Celtiis) tàbí káàdì báńkì (Visa, Mastercard). Ìforúkọsílẹ̀ jẹ́ ọ̀fẹ́; ẹ ń san owó ìpàdé alẹ́ kọ̀ọ̀kan láti inú ààyè yín."
       },
       {
         "q": "Ṣé mo lè kúrò nígbàkígbà?",
@@ -358,7 +358,7 @@
       {
         "title": "Dátà tí a ń gbà",
         "paragraphs": [
-          "Àdírẹ́sì e-mail yín, nọ́mbà fóònù yín bí ẹ bá fi fún wa, ìdánimọ̀ yín, ìwé ìdánimọ̀ yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà, ìdìbò yín àti ìfiránṣẹ́ yín.",
+          "Àdírẹ́sì e-mail yín, nọ́mbà fóònù yín bí ẹ bá fi fún wa, ìdánimọ̀ yín, fọ́tò ojú àyẹ̀wò yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà, ìdìbò yín àti ìfiránṣẹ́ yín.",
           "A kì í béèrè àwọ̀ ara yín, ẹ̀yà yín, àdírẹ́sì yín gan-an tàbí orúkọ ẹni tí ẹ ń bá ṣiṣẹ́."
         ]
       },
@@ -371,7 +371,7 @@
       {
         "title": "Ta ló lè rí wọn",
         "paragraphs": [
-          "Ẹgbẹ́ àyẹ̀wò nìkan ló lè rí ìwé ìdánimọ̀ yín, a sì ń kọ gbogbo ìgbà tí wọ́n bá wò ó sílẹ̀.",
+          "Ẹgbẹ́ àyẹ̀wò nìkan ló lè rí fọ́tò ojú àyẹ̀wò yín, a sì ń kọ gbogbo ìgbà tí wọ́n bá wò ó sílẹ̀.",
           "Kìkì lẹ́yìn ìfohùnṣọ̀kan ni fọ́tò yín máa ń hàn. Olùdámọ̀ràn kì í ka ìjíròrò yín láìsí ìfọwọ́sí ẹ̀yin méjèèjì.",
           "Owó oṣù yín, bí ẹ bá sọ ọ́, kì í hàn sí àwọn ọmọ ẹgbẹ́ mìíràn rárá."
         ]
@@ -446,10 +446,8 @@
     "intro": "Ẹ ó forúkọsílẹ̀ pẹ̀lú àdírẹ́sì e-mail yín. A ṣàlàyé ìgbésẹ̀ kọ̀ọ̀kan, ẹgbẹ́ wa sì wà fún yín nígbàkígbà.",
     "steps": [
       "Àdírẹ́sì e-mail yín, tí a fìdí rẹ̀ múlẹ̀ pẹ̀lú ìjápọ̀ kan",
-      "Ìwé ìdánimọ̀ yín",
-      "Àkókò ìjíròrò yín",
-      "Ìbúra yín",
-      "Sísan owó ìforúkọsílẹ̀ nípasẹ̀ Mobile Money"
+      "Fọ́tò ojú yín, tí a yà lójú ẹsẹ̀",
+      "Ìbúra yín"
     ],
     "accountTitle": "Àkọọ́lẹ̀ yín",
     "email": "Àdírẹ́sì e-mail",
@@ -466,7 +464,7 @@
     "resent": "A ṣẹ̀ṣẹ̀ fi ìjápọ̀ tuntun ránṣẹ́.",
     "changeEmail": "Yí àdírẹ́sì padà",
     "identityTitle": "Ta ni yín?",
-    "identityIntro": "A ó fi àwọn ìsọfúnni yìí wé ìwé ìdánimọ̀ yín nígbà àyẹ̀wò.",
+    "identityIntro": "A ó fi àwọn ìsọfúnni yìí wé fọ́tò ojú yín nígbà àyẹ̀wò.",
     "firstName": "Orúkọ",
     "lastName": "Orúkọ ìdílé",
     "lastNameHelp": "Àwọn ọmọ ẹgbẹ́ mìíràn kò ní rí i láé.",
@@ -478,7 +476,7 @@
     "birthDate": "Ọjọ́ ìbí",
     "city": "Ìlú",
     "cityHelp": "Ìlú nìkan, kì í ṣe àdírẹ́sì yín. Kò pọndandan.",
-    "identityHelp": "Ẹ gbọ́dọ̀ ti pé ọmọ ọdún méjìdínlógún. A ó yẹ akọ tàbí abo àti ọjọ́ ìbí wò lórí ìwé ìdánimọ̀ yín, a kò sì lè yí wọn padà lẹ́yìn náà.",
+    "identityHelp": "Ẹ gbọ́dọ̀ ti pé ọmọ ọdún méjìdínlógún. A kò lè yí akọ tàbí abo àti ọjọ́ ìbí padà lẹ́yìn náà.",
     "consent": "Mo ti ka, mo sì gba <rules>òfin</rules> àti <privacy>ìlànà ìpamọ́</privacy>.",
     "submit": "Parí ìforúkọsílẹ̀ mi",
     "errors": {
@@ -717,7 +715,7 @@
           "rejected": "A kò gba ìwé yín"
         },
         "help": {
-          "not_started": "Ẹ fọwọ́ sí ìbúra, lẹ́yìn náà ẹ fi káàdì ìdánimọ̀ yín àti fọ́tò ojú yín ránṣẹ́.",
+          "not_started": "Ẹ fọwọ́ sí ìbúra, lẹ́yìn náà ẹ ya fọ́tò ojú yín lójú ẹsẹ̀.",
           "pending": "Ẹgbẹ́ ń wo ìwé yín. Ẹ ṣì lè pààrọ̀ nǹkan kan tí ó bá pọn dandan.",
           "to_correct": "Ẹ tún àwọn nǹkan tí ẹgbẹ́ tọ́ka sí ṣe, kí ẹ sì tún fi wọ́n ránṣẹ́.",
           "approved": "A ti fọwọ́ sí ìwé yín. Ẹ lè gba àyè ìpàdé alẹ́.",
@@ -726,7 +724,7 @@
       },
       "declaration": {
         "title": "Ìbúra",
-        "intro": "A ó ṣàyẹ̀wò ipò yín nígbà ìfọ̀rọ̀wánilẹ́nuwò.",
+        "intro": "Ẹgbẹ́ wa yóò yẹ ìbúra yín wò pẹ̀lú fọ́tò ojú yín.",
         "statusLabel": "Ipò mi",
         "statuses": {
           "single": "Àpọ́n",
@@ -735,7 +733,7 @@
           "other": "Òmíràn"
         },
         "otherLabel": "Ẹ ṣàlàyé ipò yín",
-        "otherHelp": "{count, plural, =0 {Kò sí lẹ́tà tó kù} other {Lẹ́tà # ló kù}}. Ẹgbẹ́ yóò bá yín sọ̀rọ̀ nípa rẹ̀ nígbà ìfọ̀rọ̀wánilẹ́nuwò.",
+        "otherHelp": "{count, plural, =0 {Kò sí lẹ́tà tó kù} other {Lẹ́tà # ló kù}}. Ẹgbẹ́ àyẹ̀wò ni yóò ka àlàyé wọ̀nyí.",
         "childrenLabel": "Ọmọ",
         "withChildren": "Mo ní ọmọ",
         "withoutChildren": "Mi ò ní ọmọ",
@@ -753,21 +751,16 @@
         }
       },
       "documents": {
-        "title": "Káàdì ìdánimọ̀ àti fọ́tò ojú",
-        "intro": "Ìwé kan ṣoṣo tó. Lẹ́yìn náà, ẹ ya fọ́tò ara yín (selfie) lójú ẹsẹ̀, kí ojú yín hàn dáadáa, kí ẹgbẹ́ wa lè fi wé fọ́tò inú ìwé náà.",
-        "kindLabel": "Ìwé ìdánimọ̀ mi",
+        "title": "Fọ́tò ojú",
+        "intro": "Ẹ ya fọ́tò ara yín (selfie) lójú ẹsẹ̀, kí ojú yín hàn dáadáa. Ẹgbẹ́ wa yóò wò ó kí wọ́n tó fọwọ́ sí profaili yín.",
         "kinds": {
           "id_card": "Káàdì ìdánimọ̀",
           "driving_licence": "Ìwé àṣẹ ìwakọ̀",
           "passport": "Ìwé ìrìnnà"
         },
         "slots": {
-          "front": "Iwájú",
-          "back": "Ẹ̀yìn",
-          "photo_page": "Ojú-ìwé tí fọ́tò wà",
           "selfie": "Fọ́tò ojú"
         },
-        "fileHelp": "Fọ́tò tàbí PDF, tí ó ṣeé kà, tí ó sì pé.",
         "selfieHelp": "Ẹ yà á lójú ẹsẹ̀ pẹ̀lú kámẹ́rà ẹ̀rọ yín: ojú yín nìkan, láti iwájú, láìsí gíláàsì oòrùn tàbí fìlà.",
         "camera": {
           "open": "Ṣí kámẹ́rà",
@@ -782,28 +775,25 @@
             "failed": "Kámẹ́rà kò lè bẹ̀rẹ̀. Ẹ pa àwọn ohun èlò mìíràn tí ń lò ó, kí ẹ sì gbìyànjú lẹ́ẹ̀kan sí i."
           }
         },
-        "submit": "Fi àwọn ìwé mi ránṣẹ́",
+        "submit": "Fi fọ́tò ojú mi ránṣẹ́",
         "sending": "A ń fi ránṣẹ́",
         "sentOn": "A fi ránṣẹ́ ní {date}",
         "selfieSent": "a ti fi fọ́tò ojú ránṣẹ́",
-        "private": "Fún ààbò yín, àwọn fáìlì tí ẹ ti fi ránṣẹ́ kò ní hàn mọ́, kódà fún yín.",
-        "replace": "Pààrọ̀ àwọn ìwé mi",
+        "private": "Fún ààbò yín, fọ́tò ojú tí ẹ ti fi ránṣẹ́ kò ní hàn mọ́, kódà fún yín.",
+        "replace": "Pààrọ̀ fọ́tò ojú mi",
         "errors": {
-          "kind": "Ẹ yan ìwé ìdánimọ̀ yín.",
-          "missing": "Ẹ fi gbogbo fáìlì tí a béèrè kún un.",
-          "type": "A kò gba irú fáìlì yìí. Ìwé náà gbọ́dọ̀ jẹ́ fọ́tò (JPEG, PNG tàbí WebP) tàbí PDF.",
-          "size": "Fáìlì yìí ju {size} Mo lọ."
+          "missing": "Ẹ ya fọ́tò ojú yín.",
+          "type": "A kò gba fọ́tò yìí (JPEG, PNG tàbí WebP). Ẹ tún un ya.",
+          "size": "Fọ́tò yìí ju {size} Mo lọ. Ẹ tún un ya."
         }
       },
       "errors": {
-        "invalid_document_kind": "A kò gba ìwé ìdánimọ̀ yìí.",
-        "document_missing": "Fáìlì kan kù: iwájú, ẹ̀yìn tàbí fọ́tò ojú.",
-        "duplicate_file": "Ẹ yan fáìlì kan náà lẹ́ẹ̀mejì.",
-        "file_not_found": "A kò rí fáìlì kan gbà. Ẹ tún fi ránṣẹ́.",
+        "document_missing": "Fọ́tò ojú kù.",
+        "file_not_found": "A kò rí fọ́tò ojú gbà. Ẹ tún fi ránṣẹ́.",
         "invalid_declaration": "Ìbúra náà kò pé.",
         "outdated_declaration": "Ọ̀rọ̀ ìbúra ti yípadà. Ẹ tún ojú-ìwé náà ṣí.",
         "verification_closed": "A ti ṣe ìwé yín tán.",
-        "upload_failed": "Fífi fáìlì kan ránṣẹ́ kò ṣeé ṣe. Ẹ ṣàyẹ̀wò ìsopọ̀ yín kí ẹ sì gbìyànjú lẹ́ẹ̀kan sí i.",
+        "upload_failed": "Fífi fọ́tò ojú ránṣẹ́ kò ṣeé ṣe. Ẹ ṣàyẹ̀wò ìsopọ̀ yín kí ẹ sì gbìyànjú lẹ́ẹ̀kan sí i.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
       }
@@ -880,15 +870,26 @@
   "Payment": {
     "eyebrow": "Ìsanwó",
     "title": "Ẹ san owó àyè yín",
-    "intro": "Ìsanwó máa ṣí nínú fèrèsé ààbò KkiaPay: Mobile Money (MTN, Moov) tàbí káàdì báńkì.",
+    "intro": "Ìsanwó tó ní ààbò láti ọwọ́ FeexPay: Mobile Money (MTN, Moov, Celtiis) tàbí káàdì báńkì.",
     "sandbox": "Ìpò àdánwò: a kò ní gba owó kankan.",
+    "method": "Ọ̀nà ìsanwó",
+    "methods": {
+      "mtn": "MTN Mobile Money",
+      "moov": "Moov Money",
+      "celtiis": "Celtiis Cash",
+      "card": "Káàdì báńkì (Visa, Mastercard)"
+    },
+    "phone": "Nọ́ńbà Mobile Money",
+    "phoneHelp": "Nọ́ńbà Benin oní-nọ́ńbà 10 tó bẹ̀rẹ̀ pẹ̀lú 01. Ìbéèrè ìsanwó yóò dé sórí fóònù yìí.",
     "purposes": {
       "evening_booking": "Àyè fún ìpàdé alẹ́ Ifedele",
       "registration_fee": "Owó ìforúkọsílẹ̀"
     },
-    "pay": "Sanwó pẹ̀lú KkiaPay",
-    "loading": "Ìsanwó ń ṣí…",
-    "verifying": "À ń yẹ ìsanwó náà wò lọ́dọ̀ KkiaPay…",
+    "pay": "Gba ìbéèrè ìsanwó",
+    "payCard": "Tẹ̀síwájú sí ìsanwó pẹ̀lú káàdì",
+    "sending": "A ń fi ránṣẹ́",
+    "waiting": "Ẹ fọwọ́ sí ìbéèrè ìsanwó lórí fóònù yín (tàbí kí ẹ parí ìsanwó pẹ̀lú káàdì). Ojú-ìwé yìí yóò yẹ ìsanwó náà wò fúnra rẹ̀.",
+    "verifying": "À ń yẹ ìsanwó náà wò lọ́dọ̀ FeexPay…",
     "retry": "Tún yẹ̀ ẹ́ wò",
     "done": "A ti gba ìsanwó náà, a sì ti yẹ̀ ẹ́ wò. Ẹ ṣé.",
     "back": "Padà sí àwọn ìpàdé mi",
@@ -899,14 +900,35 @@
       "cancelled": "A ti fagilé ìsanwó yìí.",
       "unavailable": "Ìsanwó orí ayélujára kò sí ní báyìí."
     },
+    "card": {
+      "intro": "Ẹ ó kọ káàdì yín sí ojú-ìwé ààbò FeexPay, tí yóò béèrè ìsọfúnni ẹni tó ni káàdì. Owó káàdì lè wà lórí rẹ̀.",
+      "fields": {
+        "firstName": "Orúkọ àkọ́kọ́",
+        "lastName": "Orúkọ ìdílé",
+        "email": "Àdírẹ́sì e-mail (ìwé ẹ̀rí ìsanwó)",
+        "phoneNumber": "Fóònù (01 àti nọ́ńbà 8)",
+        "city": "Ìlú",
+        "zip": "Kóòdù ìfìwéránṣẹ́"
+      },
+      "errors": {
+        "firstName": "Ẹ kọ orúkọ àkọ́kọ́ ẹni tó ni káàdì.",
+        "lastName": "Ẹ kọ orúkọ ìdílé ẹni tó ni káàdì.",
+        "email": "Ẹ kọ àdírẹ́sì e-mail tó tọ́.",
+        "phoneNumber": "Ẹ kọ nọ́ńbà Benin oní-nọ́ńbà 10 tó bẹ̀rẹ̀ pẹ̀lú 01.",
+        "city": "Ẹ kọ ìlú yín.",
+        "zip": "Ẹ kọ kóòdù ìfìwéránṣẹ́."
+      }
+    },
     "errors": {
       "failed": "Ìsanwó náà kò yọrí. Ẹ lè gbìyànjú lẹ́ẹ̀kan sí i.",
-      "transaction_not_successful": "KkiaPay kò fìdí ìsanwó yìí múlẹ̀. Ẹ lè gbìyànjú lẹ́ẹ̀kan sí i.",
       "amount_mismatch": "Iye owó tí ẹ san kò bá a mu. Ẹ kàn sí ẹgbẹ́ wa kí ẹ tó tún gbìyànjú.",
       "payment_mismatch": "Ìsanwó yìí kò bá àyè tí ẹ gbà mu. Ẹ kàn sí ẹgbẹ́ wa.",
-      "transaction_not_found": "KkiaPay kò tíì rí ìsanwó yìí. Ẹ má ṣe sanwó lẹ́ẹ̀kejì: ẹ tún yẹ̀ ẹ́ wò láìpẹ́, tàbí kí ẹ fún ẹgbẹ́ wa ní ìtọ́kasí {ref}.",
       "transaction_already_used": "A ti lo ìsanwó yìí fún àyè mìíràn. Ẹ kàn sí ẹgbẹ́ wa.",
-      "kkiapay_unavailable": "KkiaPay kò dáhùn ní báyìí. Ẹ má ṣe sanwó lẹ́ẹ̀kejì: ẹ tún yẹ̀ ẹ́ wò láìpẹ́, tàbí kí ẹ fún ẹgbẹ́ wa ní ìtọ́kasí {ref}.",
+      "invalid_phone": "Ẹ kọ nọ́ńbà Benin oní-nọ́ńbà 10 tó bẹ̀rẹ̀ pẹ̀lú 01.",
+      "invalid_card_holder": "Ẹ parí ìsọfúnni ẹni tó ni káàdì.",
+      "payment_refused": "FeexPay kọ ìbéèrè náà. Ẹ ṣàyẹ̀wò nọ́ńbà àti nẹ́tíwọ́ọ̀kì, kí ẹ sì tún gbìyànjú.",
+      "payment_in_progress": "Ìbéèrè ìsanwó kan ṣì ń dúró de ìfọwọ́sí yín. Ẹ má ṣe sanwó lẹ́ẹ̀kejì: ẹ fọwọ́ sí i tàbí kí ẹ dúró kí ó parí.",
+      "feexpay_unavailable": "FeexPay kò dáhùn ní báyìí. Ẹ má ṣe sanwó lẹ́ẹ̀kejì: ẹ tún gbìyànjú láìpẹ́.",
       "invalid_status": "Ìsanwó yìí kò dúró mọ́.",
       "not_found": "A kò rí ìsanwó yìí.",
       "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
@@ -939,7 +961,7 @@
       "payments": "Ìsanwó"
     },
     "navHelp": {
-      "verifications": "Àwọn ìwé tó ń dúró, àwọn káàdì, àwọn ìpinnu",
+      "verifications": "Àwọn ìwé tó ń dúró, àwọn fọ́tò ojú, àwọn ìpinnu",
       "evenings": "Ìṣẹ̀dá, ìforúkọsílẹ̀, ìkọsílẹ̀ wíwá, ìtòlẹ́sẹẹsẹ, àbájáde",
       "venues": "Ibi ìpàdé alẹ́ àti àdírẹ́sì wọn",
       "members": "Àkójọ, àpèjúwe, ìtàn, ìjìyà",
@@ -949,7 +971,7 @@
       "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà."
     },
     "verifications": {
-      "intro": "Àwọn ìwé tó ń dúró de àyẹ̀wò tàbí àtúnṣe, àwọn tó pẹ́ jùlọ ló kọ́kọ́ wà. A ń kọ gbogbo ìgbà tí a bá ṣí káàdì kan sílẹ̀.",
+      "intro": "Àwọn ìwé tó ń dúró de àyẹ̀wò tàbí àtúnṣe, àwọn tó pẹ́ jùlọ ló kọ́kọ́ wà. A ń kọ gbogbo ìgbà tí a bá ṣí fọ́tò ojú kan sílẹ̀.",
       "filters": {
         "label": "Ṣẹ́ àwọn ìwé",
         "all": "Gbogbo wọn",
@@ -991,10 +1013,10 @@
         "age": "Ọmọ ọdún {age}",
         "city": "Ìlú",
         "missing": "Ọmọ ẹgbẹ́ náà kò tíì ṣe àpèjúwe rẹ̀.",
-        "compare": "Ẹ fi ìsọfúnni yìí àti fọ́tò ojú wé káàdì ìdánimọ̀."
+        "compare": "Ẹ fi ìsọfúnni yìí wé fọ́tò ojú."
       },
       "documents": {
-        "title": "Káàdì àti fọ́tò ojú",
+        "title": "Fọ́tò ojú",
         "none": "Kò sí ìwé kankan tí a fi ránṣẹ́.",
         "parts": {
           "front": "iwájú",
@@ -1020,7 +1042,7 @@
           "to_correct": "Béèrè àtúnṣe",
           "rejected": "Kọ̀ ọ́"
         },
-        "notReady": "Ẹ lè fọwọ́ sí i nígbà tí káàdì, fọ́tò ojú àti ìbúra bá ti dé.",
+        "notReady": "Ẹ lè fọwọ́ sí i nígbà tí fọ́tò ojú àti ìbúra bá ti dé.",
         "noteLabel": "Ọ̀rọ̀ sí ọmọ ẹgbẹ́ (dandan)",
         "noteOptional": "Ọ̀rọ̀ sí ọmọ ẹgbẹ́ (kò pọn dandan)",
         "noteHelp": "Ọmọ ẹgbẹ́ náà yóò ka ọ̀rọ̀ yìí lórí ojú-ìwé àyẹ̀wò rẹ̀.",
@@ -1029,7 +1051,7 @@
         "submit": "Fi ìpinnu pamọ́",
         "errors": {
           "choose": "Ẹ yan ìpinnu kan.",
-          "dossier_incomplete": "Ìwé náà kò pé: káàdì, fọ́tò ojú tàbí ìbúra kù.",
+          "dossier_incomplete": "Ìwé náà kò pé: fọ́tò ojú tàbí ìbúra kù.",
           "profile_missing": "Ọmọ ẹgbẹ́ náà kò tíì ṣe àpèjúwe rẹ̀.",
           "note_required": "Ẹ kọ ohun tí ọmọ ẹgbẹ́ náà gbọ́dọ̀ tún ṣe sí i.",
           "verification_closed": "A ti ṣe ìwé yìí tán.",
@@ -1513,7 +1535,7 @@
       }
     },
     "payments": {
-      "intro": "Gbogbo ìdúnàádúrà, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. Ìfagilé ìpàdé ló ń mú kí a dá owó padà. Ìbáramu pẹ̀lú olùpèsè yóò dé pẹ̀lú ìsopọ̀ rẹ̀.",
+      "intro": "Gbogbo ìdúnàádúrà, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. Ìfagilé ìpàdé máa ń sàmì sí àwọn ìsanwó rẹ̀ pé « a gbọ́dọ̀ dá a padà »: ẹ dá owó náà padà nínú pátákó FeexPay, lẹ́yìn náà ẹ sàmì sí i níbí pé a ti dá a padà.",
       "search": "Orúkọ, orúkọ ìdílé, nọ́ńbà ọmọ ẹgbẹ́ tàbí ìtọ́kasí",
       "refund": "Ìdápadà owó",
       "empty": "Kò sí ìsanwó kankan nínú àkójọ yìí.",
@@ -1540,14 +1562,26 @@
         "contribution": "Ìdáwó"
       },
       "refunds": {
-        "requested": "A ti béèrè ìdápadà owó",
+        "requested": "A gbọ́dọ̀ dá a padà",
         "refunded": "A ti dá a padà"
       },
       "providers": {
         "simulated": "Ìsanwó àpẹẹrẹ",
         "fedapay": "FedaPay",
         "kkiapay": "KkiaPay",
+        "feexpay": "FeexPay",
         "other": "Olùpèsè mìíràn"
+      },
+      "markRefunded": {
+        "button": "Sàmì sí i pé a ti dá a padà",
+        "confirm": "Ṣé ẹ ti dá a padà nínú pátákó FeexPay? A kò lè yí ìgbésẹ̀ yìí padà.",
+        "confirmButton": "Fìdí ìdápadà owó múlẹ̀",
+        "errors": {
+          "not_refundable": "Kò sí ìdápadà owó fún ìsanwó yìí mọ́.",
+          "forbidden": "Ipa yín kò fàyè gba ìgbésẹ̀ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        }
       }
     },
     "search": {

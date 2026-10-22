@@ -47,7 +47,7 @@ Attention pour chaque valeur :
    - pas de barre / à la fin des adresses.
 
 JAMAIS sur Vercel : la clé « service_role » de Supabase, ni aucune clé
-Brevo, Cloudinary (secret) ou KkiaPay. Elles restent sur Render.
+Brevo, Cloudinary (secret) ou FeexPay. Elles restent sur Render.
 
 
 =====================================================================

@@ -138,6 +138,9 @@ export type EventDraft = {
 /** Valeurs par défaut de la note (9.2) : 10 × 10, tours de 7 minutes, 1 minute de changement. */
 export const draftDefaults = { capacityWomen: 10, capacityMen: 10, roundMinutes: 7, changeoverMinutes: 1 } as const;
 
+/** Tarif proposé à la création d'une soirée : 10 000 FCFA, sans frais d'inscription (question 29, 22 octobre 2026). */
+export const DEFAULT_PRICE_XOF = 10_000;
+
 export type DraftError = "starts_at" | "starts_in_past" | "invalid_capacity" | "invalid_duration" | "invalid_price";
 
 /** Contrôle côté site, identique à celui de app.save_event (la base reste juge). */

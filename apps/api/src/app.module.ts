@@ -20,9 +20,9 @@ import {
   SMS_SENDER,
 } from "./notifications/senders";
 import { DeliveriesService } from "./notifications/deliveries.service";
-import { PaymentsController } from "./payments/payments.controller";
-import { KkiapayClient } from "./payments/kkiapay";
-import { KkiapayPaymentProvider, PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./payments/payments.service";
+import { FeexpayWebhookController, PaymentsController } from "./payments/payments.controller";
+import { FeexpayClient } from "./payments/feexpay";
+import { FeexpayPaymentProvider, PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./payments/payments.service";
 import { ProfileController } from "./profile/profile.controller";
 import { JobsService } from "./scheduler/jobs.service";
 import { SupabaseService } from "./supabase/supabase.service";
@@ -30,13 +30,13 @@ import { AdminVerificationsController } from "./verifications/admin-verification
 
 /**
  * Module racine. Phase 2 : authentification (hooks SMS et e-mail via Brevo), profil,
- * soirées, vote QR, matchs, paiements (KkiaPay ou adaptateur simulé), tâches planifiées,
+ * soirées, vote QR, matchs, paiements (FeexPay ou adaptateur simulé), tâches planifiées,
  * vérifications côté équipe (liens signés vers les pièces).
  * Les adaptateurs (SMS, e-mail, paiement) sont choisis par la configuration.
  */
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true, cache: true, validate: validateEnv }), ScheduleModule.forRoot()],
-  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, PaymentsController, ProfileController],
+  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, FeexpayWebhookController, PaymentsController, ProfileController],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: RequestLoggingInterceptor },
     SupabaseService,
@@ -71,15 +71,11 @@ import { AdminVerificationsController } from "./verifications/admin-verification
       inject: [ConfigService],
       useFactory: (config: ConfigService<Env, true>) => {
         const webOrigin = config.get("WEB_ORIGIN", { infer: true });
-        if (config.get("PAYMENT_PROVIDER", { infer: true }) === "kkiapay") {
-          // KkiaPay retenu le 20 octobre 2026 (question 7) ; clés contrôlées par validateEnv
-          const keys = {
-            publicKey: config.get("KKIAPAY_PUBLIC_KEY", { infer: true })!,
-            privateKey: config.get("KKIAPAY_PRIVATE_KEY", { infer: true })!,
-            secret: config.get("KKIAPAY_SECRET", { infer: true })!,
-          };
-          const sandbox = config.get("KKIAPAY_SANDBOX", { infer: true });
-          return new KkiapayPaymentProvider(new KkiapayClient(keys, sandbox), keys.publicKey, sandbox, webOrigin);
+        if (config.get("PAYMENT_PROVIDER", { infer: true }) === "feexpay") {
+          // FeexPay retenu le 22 octobre 2026 (question 29) ; clés contrôlées par validateEnv
+          const keys = { apiKey: config.get("FEEXPAY_API_KEY", { infer: true })!, shop: config.get("FEEXPAY_SHOP_ID", { infer: true })! };
+          const sandbox = config.get("FEEXPAY_SANDBOX", { infer: true });
+          return new FeexpayPaymentProvider(new FeexpayClient(keys, sandbox), sandbox, webOrigin);
         }
         return new SimulatedPaymentProvider(webOrigin);
       },

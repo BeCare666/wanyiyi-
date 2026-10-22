@@ -8,8 +8,8 @@ import { redirect } from "@/i18n/navigation";
 import { memberApi } from "@/lib/api";
 import { signInHref } from "@/lib/next-path";
 import { getSessionMember } from "@/lib/session";
-import { type CheckoutInfo, widgetOptions } from "./checkout";
-import { KkiapayCheckout } from "./KkiapayCheckout";
+import { type CheckoutInfo, methodsOf } from "./checkout";
+import { FeexpayCheckout } from "./FeexpayCheckout";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Payment");
@@ -21,8 +21,9 @@ type Props = { params: Promise<{ id: string }> };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
- * Page de paiement KkiaPay (question 7 réglée le 20 octobre 2026), ouverte par l'API après la
- * réservation d'une soirée : montant, puis widget officiel. Paiement d'un autre membre : introuvable.
+ * Page de paiement FeexPay (question 29 réglée le 22 octobre 2026), ouverte par l'API après la
+ * réservation d'une soirée : montant, puis choix du réseau Mobile Money ou de la carte. Aussi page de
+ * retour de la carte (vérification automatique). Paiement d'un autre membre : introuvable.
  */
 export default async function PaymentPage({ params }: Props) {
   const { id } = await params;
@@ -34,7 +35,7 @@ export default async function PaymentPage({ params }: Props) {
   const result = await memberApi<CheckoutInfo>(`/payments/${id}`);
   if (!result.ok && result.error === "not_found") notFound();
   const info = result.ok ? result.data : null;
-  const options = info ? widgetOptions(info) : null;
+  const methods = info ? methodsOf(info) : null;
 
   return (
     <div data-theme={member.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
@@ -55,11 +56,11 @@ export default async function PaymentPage({ params }: Props) {
               {format.number(info.amountXof, { style: "currency", currency: "XOF", maximumFractionDigits: 0 })}
             </p>
             <p className="mt-3 text-fg-muted">{t(`purposes.${info.purpose === "registration_fee" ? "registration_fee" : "evening_booking"}`)}</p>
-            {options ? (
+            {methods && info.feexpay ? (
               <>
                 <p className="mt-6 text-fg-muted">{t("intro")}</p>
-                {options.sandbox && <p className="mt-3 text-sm text-fg-muted">{t("sandbox")}</p>}
-                <KkiapayCheckout paymentId={info.paymentId} options={options} />
+                {info.feexpay.sandbox && <p className="mt-3 text-sm text-fg-muted">{t("sandbox")}</p>}
+                <FeexpayCheckout paymentId={info.paymentId} methods={methods} awaiting={info.feexpay.awaiting} />
               </>
             ) : (
               <>

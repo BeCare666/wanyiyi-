@@ -26,8 +26,8 @@ export const envSchema = z.object({
   // Canal SMS coupé le 20 octobre 2026 (question 26) : « disabled » par défaut, aucun SMS envoyé
   SMS_PROVIDER: z.enum(["disabled", "simulated", "brevo"]).default("disabled"),
   EMAIL_PROVIDER: z.enum(["simulated", "brevo"]).default("simulated"),
-  // KkiaPay retenu le 20 octobre 2026 (question 7)
-  PAYMENT_PROVIDER: z.enum(["simulated", "kkiapay"]).default("simulated"),
+  // FeexPay retenu le 22 octobre 2026 (question 29, à la place de KkiaPay)
+  PAYMENT_PROVIDER: z.enum(["simulated", "feexpay"]).default("simulated"),
 
   BREVO_API_KEY: optional,
   // Expéditeur des SMS : 11 lettres ou chiffres au maximum (contrainte Brevo)
@@ -39,11 +39,11 @@ export const envSchema = z.object({
   CLOUDINARY_API_KEY: optional,
   CLOUDINARY_API_SECRET: optional,
 
-  // KkiaPay : clés du tableau de bord (Développeurs > Clés API) ; bac à sable tant que KKIAPAY_SANDBOX=true
-  KKIAPAY_PUBLIC_KEY: optional,
-  KKIAPAY_PRIVATE_KEY: optional,
-  KKIAPAY_SECRET: optional,
-  KKIAPAY_SANDBOX: z
+  // FeexPay : clé privée (Bearer) et identifiant public de la boutique (menu Développeurs) ;
+  // bac à sable (sandbox-api.feexpay.me, clés test_key_...) tant que FEEXPAY_SANDBOX=true
+  FEEXPAY_API_KEY: optional,
+  FEEXPAY_SHOP_ID: optional,
+  FEEXPAY_SANDBOX: z
     .enum(["true", "false"])
     .default("true")
     .transform((v) => v === "true"),
@@ -80,11 +80,11 @@ export function validateEnv(raw: Record<string, unknown>): Env {
   if (env.EMAIL_PROVIDER === "brevo" && (!env.BREVO_API_KEY || !env.BREVO_SENDER_EMAIL)) {
     problems.push("BREVO_API_KEY et BREVO_SENDER_EMAIL sont requises avec EMAIL_PROVIDER=brevo");
   }
-  if (env.PAYMENT_PROVIDER === "kkiapay" && (!env.KKIAPAY_PUBLIC_KEY || !env.KKIAPAY_PRIVATE_KEY || !env.KKIAPAY_SECRET)) {
-    problems.push("KKIAPAY_PUBLIC_KEY, KKIAPAY_PRIVATE_KEY et KKIAPAY_SECRET sont requises avec PAYMENT_PROVIDER=kkiapay");
+  if (env.PAYMENT_PROVIDER === "feexpay" && (!env.FEEXPAY_API_KEY || !env.FEEXPAY_SHOP_ID)) {
+    problems.push("FEEXPAY_API_KEY et FEEXPAY_SHOP_ID sont requises avec PAYMENT_PROVIDER=feexpay");
   }
-  if (env.NODE_ENV === "production" && env.PAYMENT_PROVIDER === "kkiapay" && env.KKIAPAY_SANDBOX) {
-    problems.push("KKIAPAY_SANDBOX doit valoir false en production");
+  if (env.NODE_ENV === "production" && env.PAYMENT_PROVIDER === "feexpay" && env.FEEXPAY_SANDBOX) {
+    problems.push("FEEXPAY_SANDBOX doit valoir false en production");
   }
   if (problems.length) throw new Error(`Configuration invalide : ${problems.join("; ")}`);
   return env;

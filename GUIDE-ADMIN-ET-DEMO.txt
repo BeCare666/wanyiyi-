@@ -37,20 +37,22 @@ where id = (select id from auth.users where email = 'ifedele03@gmail.com');
 
 
 =====================================================================
-PARTIE 2 : 10 FEMMES ET 10 HOMMES DE DÉMONSTRATION
+PARTIE 2 : 12 FEMMES ET 12 HOMMES DE DÉMONSTRATION, ET UNE SOIRÉE
 =====================================================================
-Ce que fait le fichier :
-   - 20 profils fictifs béninois (prénoms, noms, villes du Bénin, âges
+Ce que fait le fichier membres-demo.sql :
+   - 24 profils fictifs béninois (prénoms, noms, villes du Bénin, âges
      de 29 à 40 ans), statut « vérifié », prêts pour les soirées ;
    - AUCUN mot de passe : personne ne peut se connecter à ces comptes ;
-   - adresses fictives demo-f01 ... demo-f10 (femmes) et demo-h01 ...
-     demo-h10 (hommes), en @demo.ifedele.invalid : aucun e-mail ne peut
+   - adresses fictives demo-f01 ... demo-f12 (femmes) et demo-h01 ...
+     demo-h12 (hommes), en @demo.ifedele.invalid : aucun e-mail ne peut
      leur parvenir ;
    - chaque création est inscrite dans le journal d'audit.
+   - Si les 20 premiers existent déjà (version du 21 octobre), il
+     n'ajoute que les 4 nouveaux (demo-f11, demo-f12, demo-h11, demo-h12).
 
 Attention : ce sont de faux membres dans la vraie base. Les retirer
-avant l'ouverture au public (point 3 ci-dessous), et ne pas les inviter
-à de vraies soirées.
+avant l'ouverture au public (point « POUR LES SUPPRIMER » ci-dessous),
+et ne pas les inviter à de vraies soirées.
 
 1. Supabase > projet wanyiyi > « SQL Editor » > « New query ».
 2. Ouvrir dans VS Code le fichier :
@@ -59,12 +61,27 @@ avant l'ouverture au public (point 3 ci-dessous), et ne pas les inviter
    (Ctrl+V), cliquer sur « Run ».
    Si Supabase demande une confirmation, confirmer.
 3. Résultat attendu, en bas :
-      female   10
-      male     10
+      female   12
+      male     12
    Si le message « Membres de démonstration déjà présents » s'affiche :
-   ils existent déjà, rien n'a été ajouté.
+   les 24 existent déjà, rien n'a été ajouté.
 
-POUR LES SUPPRIMER (tous d'un coup, aucun vrai compte touché) :
+LA SOIRÉE DE DÉMONSTRATION (fichier supabase/demo/soiree-demo.sql) :
+   Une soirée 10 × 10 jouée de bout en bout avec ces 24 membres :
+   réservation (2 femmes et 2 hommes en liste d'attente), deux
+   annulations, paiement de démonstration (aucun argent), confirmation,
+   pointage, 10 tours, 200 votes, matchs. Lieu « Lieu de démonstration
+   (fictif) », prix 10 000 FCFA. Les actions de l'équipe sont faites au
+   nom du premier compte super administrateur (il doit exister : étape 11
+   du GUIDE-SUPABASE.txt). Les matchs sont annoncés le lendemain à 8 h
+   par l'API, comme pour une vraie soirée.
+   Même méthode que ci-dessus, APRÈS membres-demo.sql. Résultat attendu,
+   en bas : status finished, presents 20, en_attente 2, votes 200, et le
+   nombre de matchs. La soirée apparaît ensuite dans l'administration
+   (Soirées, Paiements).
+
+POUR LES SUPPRIMER (tous d'un coup, membres ET soirée de démonstration,
+aucun vrai compte ni aucune vraie soirée touchés) :
    même méthode avec le fichier supabase/demo/supprimer-membres-demo.sql
    Résultat attendu : membres_demo_restants = 0
 

@@ -45,8 +45,8 @@ describe("Configuration (phase 2)", () => {
     expect(validateEnv({ SMS_PROVIDER: "brevo", BREVO_API_KEY: "k", BREVO_SMS_SENDER: "Ifedele" }).SMS_PROVIDER).toBe("brevo");
   });
 
-  it("refuse KkiaPay tant que les clés manquent", () => {
-    expect(() => validateEnv({ PAYMENT_PROVIDER: "kkiapay" })).toThrow(/KKIAPAY_PUBLIC_KEY/);
+  it("refuse FeexPay tant que les clés manquent", () => {
+    expect(() => validateEnv({ PAYMENT_PROVIDER: "feexpay" })).toThrow(/FEEXPAY_API_KEY/);
   });
 });
 
@@ -270,15 +270,15 @@ describe("Remboursement des soirées annulées (19 octobre 2026)", () => {
     return { service: new PaymentsService(supabase, configOf({}), provider), calls, provider };
   }
 
-  it("montant intégral par l'adaptateur, puis marqué dans la base ; l'autre prestataire attend son adaptateur", async () => {
+  it("montant intégral par l'adaptateur, puis marqué dans la base ; FeexPay : remboursement manuel (22 octobre 2026)", async () => {
     const { service, calls, provider } = setup(
       [
         { payment_id: "p1", amount_xof: 5000, provider: "simulated", provider_transaction_id: "sim_p1" },
-        { payment_id: "p2", amount_xof: 5000, provider: "fedapay", provider_transaction_id: "fp_2" },
+        { payment_id: "p2", amount_xof: 10000, provider: "feexpay", provider_transaction_id: "ref-2" },
       ],
       async () => {},
     );
-    expect(await service.refundPending()).toEqual({ refunded: 1, failed: 1 });
+    expect(await service.refundPending()).toEqual({ refunded: 1, failed: 0, manual: 1 });
     expect(provider.refund).toHaveBeenCalledWith({ paymentId: "p1", providerTransactionId: "sim_p1", amountXof: 5000 });
     expect(calls).toEqual([
       ["pending_refunds", undefined],
@@ -290,7 +290,7 @@ describe("Remboursement des soirées annulées (19 octobre 2026)", () => {
     const { service, calls } = setup([{ payment_id: "p1", amount_xof: 5000, provider: "simulated", provider_transaction_id: null }], async () => {
       throw new Error("prestataire injoignable");
     });
-    expect(await service.refundPending()).toEqual({ refunded: 0, failed: 1 });
+    expect(await service.refundPending()).toEqual({ refunded: 0, failed: 1, manual: 0 });
     expect(calls.map(([fn]) => fn)).toEqual(["pending_refunds"]);
   });
 

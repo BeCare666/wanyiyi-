@@ -2,7 +2,7 @@
 
 import type { ApiResult } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { DECLARATION_VERSION, type DeclarationInput, type DocumentKind, documentKinds, parseDeclaration } from "./verification";
+import { DECLARATION_VERSION, type DeclarationInput, parseDeclaration } from "./verification";
 
 /** Erreur de la base : le code métier levé par la fonction SQL est le message. */
 function failed(error: { message?: string } | null): ApiResult<void> {
@@ -25,23 +25,12 @@ export async function signDeclaration(input: DeclarationInput): Promise<ApiResul
 }
 
 /**
- * Enregistre la pièce et le selfie déjà déposés dans le compartiment privé.
- * La base vérifie que chaque fichier existe et se trouve dans le dossier du membre.
+ * Enregistre le selfie déjà déposé dans le compartiment privé.
+ * La base vérifie que le fichier existe et se trouve dans le dossier du membre.
  */
-export async function submitDocuments(input: {
-  kind: DocumentKind;
-  front: string;
-  back: string | null;
-  selfie: string;
-}): Promise<ApiResult<void>> {
-  if (!documentKinds.includes(input.kind)) return { ok: false, error: "invalid_document_kind" };
+export async function submitSelfie(selfie: string): Promise<ApiResult<void>> {
   const supabase = await createSupabaseServer();
   if (!supabase) return { ok: false, error: "unavailable" };
-  const { error } = await supabase.rpc("submit_id_documents", {
-    p_kind: input.kind,
-    p_front: input.front,
-    p_back: input.kind === "passport" ? null : input.back,
-    p_selfie: input.selfie,
-  });
+  const { error } = await supabase.rpc("submit_selfie", { p_selfie: selfie });
   return error ? failed(error) : { ok: true, data: undefined };
 }

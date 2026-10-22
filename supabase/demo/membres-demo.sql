@@ -1,13 +1,16 @@
 -- =====================================================================
--- Membres de démonstration : 10 femmes et 10 hommes (décision du 21 octobre 2026,
--- question 28 d de PHASE2.txt).
+-- Membres de démonstration : 12 femmes et 12 hommes (décision du 21 octobre 2026,
+-- question 28 d de PHASE2.txt ; 4 de plus le 22 octobre, question 31, pour la liste
+-- d'attente de la soirée de démonstration soiree-demo.sql).
 --   - profils fictifs béninois, statut « vérifié », étape « soirées » ;
 --   - aucun mot de passe : personne ne peut se connecter à ces comptes ;
 --   - adresses e-mail fictives en @demo.ifedele.invalid (le domaine .invalid n'existe
 --     pas : aucun e-mail ne peut y être remis) ;
 --   - repérables par cette adresse et par "demo": true dans les métadonnées ;
 --   - supprimables d'un coup avec supabase/demo/supprimer-membres-demo.sql.
--- À exécuter une seule fois dans Supabase > SQL Editor (refusé si déjà présents).
+-- À exécuter dans Supabase > SQL Editor. Seuls les membres absents sont créés : après la
+-- première version (20 membres), une nouvelle exécution ajoute les 4 derniers.
+-- Refusé si les 24 sont déjà présents.
 -- =====================================================================
 
 begin;
@@ -17,7 +20,7 @@ declare
   r record;
   v_id uuid;
 begin
-  if exists (select 1 from auth.users where email like '%@demo.ifedele.invalid') then
+  if (select count(*) from auth.users where email like '%@demo.ifedele.invalid') >= 24 then
     raise exception 'Membres de démonstration déjà présents : exécuter d''abord supprimer-membres-demo.sql';
   end if;
 
@@ -33,6 +36,8 @@ begin
       ('demo-f08', 'Folake',    'Ogoundélé',   'female', date '1995-04-21', 'Parakou'),
       ('demo-f09', 'Mahouna',   'Gbaguidi',    'female', date '1992-08-03', 'Bohicon'),
       ('demo-f10', 'Nadège',    'Kpodékon',    'female', date '1988-10-27', 'Cotonou'),
+      ('demo-f11', 'Houéfa',    'Zinsou',      'female', date '1996-06-09', 'Abomey'),
+      ('demo-f12', 'Mariam',    'Bachabi',     'female', date '1991-02-24', 'Djougou'),
       ('demo-h01', 'Koffi',     'Hounsou',     'male',   date '1990-02-11', 'Cotonou'),
       ('demo-h02', 'Sèna',      'Akplogan',    'male',   date '1987-06-19', 'Abomey-Calavi'),
       ('demo-h03', 'Codjo',     'Sossou',      'male',   date '1992-10-05', 'Porto-Novo'),
@@ -42,8 +47,11 @@ begin
       ('demo-h07', 'Babatundé', 'Olatoundji',  'male',   date '1991-05-02', 'Porto-Novo'),
       ('demo-h08', 'Gildas',    'Avocè',       'male',   date '1994-07-23', 'Cotonou'),
       ('demo-h09', 'Ismaël',    'Sanni',       'male',   date '1988-11-30', 'Parakou'),
-      ('demo-h10', 'Hervé',     'Dégbé',       'male',   date '1995-01-17', 'Cotonou')
+      ('demo-h10', 'Hervé',     'Dégbé',       'male',   date '1995-01-17', 'Cotonou'),
+      ('demo-h11', 'Comlan',    'Adjovi',      'male',   date '1990-09-13', 'Lokossa'),
+      ('demo-h12', 'Yaovi',     'Houénou',     'male',   date '1987-04-06', 'Abomey-Calavi')
     ) as t(handle, first_name, last_name, sex, birth_date, city)
+    where not exists (select 1 from auth.users u where u.email = t.handle || '@demo.ifedele.invalid')
   loop
     v_id := gen_random_uuid();
     -- Compte Supabase Auth sans mot de passe. Les champs de jeton sont des chaînes vides,

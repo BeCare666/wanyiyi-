@@ -277,6 +277,17 @@ Décisions du 14 octobre 2026
     liste d'attente, déroulé complet : réservation, paiement simulé,
     confirmation, pointage, 10 tours, votes, matchs annoncés à 8 h.
   - Script et test de bout en bout.
+  FAIT le 22 octobre 2026 (test) : supabase/tests/simulation-soiree.test.ts.
+    12 femmes et 12 hommes fictifs ; l'équipe crée et publie la soirée
+    (10 000 FCFA, lieu fictif) ; 24 réservations (10 + 10 places, 2 + 2 en
+    liste d'attente) ; deux annulations, places données aux premiers en
+    attente, prévenus ; paiement simulé et confirmation des 20 ; pointage,
+    10 tables, 10 tours sans pause (chaque femme rencontre chaque homme) ;
+    200 votes par code QR ; fin de soirée, matchs sur double oui annoncés le
+    lendemain à 8 h (heure de Cotonou), invisibles avant, notifiés ensuite.
+    Tout passe par les fonctions de la base ; seul le passage du temps est
+    simulé (dates reculées). 8 étapes réussies.
+    Script sur la vraie base : supabase/demo/soiree-demo.sql (question 31).
 
 ======================================================================
 QUESTIONS (je n'invente pas les réponses)
@@ -414,3 +425,76 @@ QUESTIONS (je n'invente pas les réponses)
         adresses e-mail fictives, supprimables d'une seule commande.
      e) Compte d'administration de l'utilisateur : créé par l'utilisateur
         lui-même par l'inscription du site, puis passé super administrateur.
+
+ 29. Parcours, tarif, vérification et paiement (22 octobre 2026, demande de
+     l'utilisateur). Une proposition de catalogue de profils avec demande de
+     rencontre payante a été discutée, puis écartée par l'utilisateur.
+     RÉPONSES (22 octobre 2026) :
+     a) Parcours inchangé : réservation d'une soirée sans choisir la personne,
+        rotation, vote par code QR, match le lendemain à 8 h.
+     b) Tarif : 10 000 FCFA par soirée (pas de frais d'inscription). Le prix
+        est proposé par défaut à la création d'une soirée.
+     c) Vérification : plus de pièce d'identité. Le dossier se compose du
+        selfie pris en direct et de la déclaration sur l'honneur ; l'équipe
+        regarde le selfie et valide.
+     d) Paiement : FeexPay remplace KkiaPay. Paiement demandé par notre API
+        (la clé FeexPay ne va jamais dans le navigateur) : MTN Mobile Money,
+        Moov Money et Celtiis au Bénin, et carte Visa/Mastercard par la page
+        de paiement FeexPay. Clés de test mises par l'utilisateur dans
+        apps/api/.env.
+     e) Remboursement d'une soirée annulée : manuel. La plateforme marque le
+        paiement « à rembourser » ; l'équipe rembourse depuis le tableau de
+        bord FeexPay, puis le marque « remboursé » dans l'administration.
+     FAIT (22 octobre 2026) :
+     - c) selfie seul : migration 20261022000000_selfie_seul.sql (app.submit_selfie,
+        dossier complet = selfie + déclaration ; app.submit_id_documents supprimée,
+        les pièces déjà déposées restent visibles par l'équipe) ; page
+        /espace/verification (SelfieForm) et textes fr/en/yo.
+     - b) 10 000 FCFA proposés à la création d'une soirée (DEFAULT_PRICE_XOF).
+     - d) FeexPay : apps/api/src/payments/feexpay.ts (Mobile Money MTN, Moov,
+        Celtiis ; carte par la page FeexPay ; statut toujours relu), routes
+        POST /api/payments/:id/feexpay/mobile, /card, /refresh et webhook
+        POST /api/payments/feexpay/webhook ; page /paiement/<id> réécrite ;
+        variables FEEXPAY_API_KEY, FEEXPAY_SHOP_ID, FEEXPAY_SANDBOX ; KkiaPay retiré.
+        Une demande encore en attente bloque une seconde demande (pas de double
+        paiement) ; elle est vérifiée automatiquement depuis la page.
+     - e) remboursement manuel : migration 20261022000100_feexpay.sql
+        (app.admin_mark_refunded, permission payments.refund donnée à l'admin et
+        à la super admin, c'est-à-dire l'équipe qui voit déjà les paiements) ;
+        bouton « Marquer remboursé » dans /admin/paiements.
+     - Essai réel (22 octobre 2026, accord de l'utilisateur) : 100 FCFA par MTN,
+        boutique BeCare, réussi et accepté par le contrôle de la plateforme.
+
+ 30. Paiement par carte FeexPay : FeexPay exige, pour la carte, prénom, nom,
+     e-mail, téléphone, ville et CODE POSTAL du titulaire. La page les demande
+     au membre (le Bénin n'utilise guère de code postal ; l'exemple de FeexPay
+     donne « 00229 »). Faut-il garder le champ « code postal » demandé au
+     membre, ou envoyer une valeur fixe (laquelle) ? À vérifier aussi auprès de
+     FeexPay : le montant renvoyé par la route de statut pour une carte est-il
+     le prix de la soirée ou le montant frais compris ? (Si c'est le montant
+     frais compris, le paiement serait refusé pour « montant différent » ;
+     un essai en bac à sable le dira.)
+     RÉPONSE (22 octobre 2026) : garder le champ « code postal », saisi par le
+     membre. (Montant de la carte frais compris ou non : à constater au
+     premier paiement par carte.)
+     Textes de la vitrine (même jour) : « selfie pris en direct + déclaration
+     sur l'honneur », entretien retiré ; frais d'inscription retirés
+     (question 29 b) ; paiement MTN, Moov, Celtiis ou carte. Fait en fr/en/yo
+     (Promise, Journey, Safety, Faq, Privacy, Register, déclaration).
+
+ 31. Étape 6, script de démonstration sur la vraie base Supabase : la feuille
+     de route prévoit 24 profils (liste d'attente comprise), mais la décision
+     du 21 octobre (question 28 d) fixe 10 femmes et 10 hommes de
+     démonstration. Voulez-vous un script SQL qui joue une soirée complète
+     avec ces 20 membres (sans liste d'attente), ou avec 4 membres de
+     démonstration de plus (24) ? Ce script écrirait dans votre base
+     Supabase réelle (soirée, votes et matchs fictifs, supprimables avec les
+     membres de démonstration).
+     RÉPONSE (22 octobre 2026) : 4 membres de démonstration de plus (24).
+     FAIT : membres-demo.sql crée 12 femmes et 12 hommes (n'ajoute que les
+     absents si les 20 premiers existent) ; soiree-demo.sql joue la soirée
+     10 × 10 complète avec eux (actions de l'équipe au nom du premier super
+     administrateur, lieu « Lieu de démonstration (fictif) ») ;
+     supprimer-membres-demo.sql retire aussi la soirée et le lieu. Tests :
+     supabase/tests/membres-demo.test.ts (4). Mode d'emploi :
+     GUIDE-ADMIN-ET-DEMO.txt, partie 2.

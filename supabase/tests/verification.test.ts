@@ -4,9 +4,9 @@ import { asUser, createDb, failure } from "./db";
 import { createMember } from "./fixtures";
 
 /**
- * Dépôt du dossier de vérification (section 6.2-2, décisions du 17 octobre 2026) :
- * une pièce (carte ou permis recto et verso, passeport page photo), un selfie visage seul,
- * la déclaration sur l'honneur, et le passage « en attente de vérification ».
+ * Dépôt du dossier de vérification (section 6.2-2, décisions du 17 et du 22 octobre 2026) :
+ * un selfie visage seul et la déclaration sur l'honneur (plus de pièce d'identité, question 29),
+ * et le passage « en attente de vérification ».
  */
 
 let db: PGlite;
@@ -43,8 +43,7 @@ async function upload(tx: Transaction, userId: string, ...files: string[]) {
   return files.map((file) => `${userId}/${file}`);
 }
 
-const submit = (tx: Transaction, kind: string, front: string | null, back: string | null, selfie: string | null) =>
-  tx.query("select app.submit_id_documents($1::app.document_kind, $2, $3, $4)", [kind, front, back, selfie]);
+const submit = (tx: Transaction, selfie: string | null) => tx.query("select app.submit_selfie($1)", [selfie]);
 
 const sign = (tx: Transaction, status: string, children: boolean, other: string | null = null, version = "v1") =>
   tx.query("select app.sign_honor_declaration($1, $2, $3, $4)", [status, children, other, version]);
@@ -74,37 +73,23 @@ describe("Compartiment privé des pièces", () => {
   });
 });
 
-describe("Dépôt de la pièce et du selfie", () => {
-  it("carte et permis : recto et verso ; passeport : page photo seule ; selfie obligatoire ; une seule pièce", async () => {
+describe("Dépôt du selfie", () => {
+  it("selfie obligatoire et déjà déposé ; la pièce d'identité n'est plus acceptée", async () => {
     const member = await createMember(db, { firstName: "Houéfa", sex: "female", status: "registering" });
     const errors = await asUser(db, member, async (tx) => {
       const [front, back, selfie] = await upload(tx, member, "a.jpg", "b.jpg", "c.jpg");
-      const call = (kind: string, f: string | null, b: string | null, s: string | null) =>
-        attempt(tx, "select app.submit_id_documents($1::app.document_kind, $2, $3, $4)", [kind, f, b, s]);
       return {
-        cardWithoutBack: await call("id_card", front!, null, selfie!),
-        licenceWithoutBack: await call("driving_licence", front!, null, selfie!),
-        passportWithBack: await call("passport", front!, back!, selfie!),
-        noSelfie: await call("passport", front!, null, null),
-        otherKind: await call("other", front!, back!, selfie!),
-        selfieAsDocument: await call("selfie", front!, back!, selfie!),
-        sameFileTwice: await call("id_card", front!, front!, selfie!),
-        notUploaded: await call("passport", `${member}/absent.jpg`, null, selfie!),
-        passportOk: await call("passport", front!, null, selfie!),
-        cardOk: await call("id_card", front!, back!, selfie!),
+        noSelfie: await attempt(tx, "select app.submit_selfie(null)"),
+        notUploaded: await attempt(tx, "select app.submit_selfie($1)", [`${member}/absent.jpg`]),
+        idDocument: await attempt(tx, "select app.submit_id_documents('id_card', $1, $2, $3)", [front, back, selfie]),
+        ok: await attempt(tx, "select app.submit_selfie($1)", [selfie]),
       };
     });
     expect(errors).toEqual({
-      cardWithoutBack: expect.stringMatching(/document_missing/),
-      licenceWithoutBack: expect.stringMatching(/document_missing/),
-      passportWithBack: expect.stringMatching(/invalid_document_kind/),
       noSelfie: expect.stringMatching(/document_missing/),
-      otherKind: expect.stringMatching(/invalid_document_kind/),
-      selfieAsDocument: expect.stringMatching(/invalid_document_kind/),
-      sameFileTwice: expect.stringMatching(/duplicate_file/),
       notUploaded: expect.stringMatching(/file_not_found/),
-      passportOk: null,
-      cardOk: null,
+      idDocument: expect.stringMatching(/does not exist/),
+      ok: null,
     });
   });
 
@@ -113,11 +98,10 @@ describe("Dépôt de la pièce et du selfie", () => {
     const other = await createMember(db, { firstName: "Sèwanou", sex: "male", status: "registering" });
     const result = await asUser(db, member, async (tx) => {
       await actAs(tx, other);
-      const [foreign] = await upload(tx, other, "recto.jpg");
+      const [foreign] = await upload(tx, other, "selfie.jpg");
       await actAs(tx, member);
-      const [selfie] = await upload(tx, member, "selfie.jpg");
       return {
-        foreign: await attempt(tx, "select app.submit_id_documents('passport', $1, null, $2)", [foreign, selfie]),
+        foreign: await attempt(tx, "select app.submit_selfie($1)", [foreign]),
         verification: await attempt(tx, "insert into app.verifications (user_id) values ($1)", [member]),
         declaration: await attempt(
           tx,
@@ -131,12 +115,12 @@ describe("Dépôt de la pièce et du selfie", () => {
     expect(result.declaration).toMatch(/row-level security/);
   });
 
-  it("un nouveau dépôt remplace le précédent, qui reste dans l'historique", async () => {
+  it("un nouveau selfie remplace le précédent, qui reste dans l'historique", async () => {
     const member = await createMember(db, { firstName: "Gbènakpon", sex: "male", status: "registering" });
     const docs = await asUser(db, member, async (tx) => {
-      const [passport, selfie, front, back, selfie2] = await upload(tx, member, "p.jpg", "s.jpg", "r.jpg", "v.jpg", "s2.jpg");
-      await submit(tx, "passport", passport!, null, selfie!);
-      await submit(tx, "driving_licence", front!, back!, selfie2!);
+      const [selfie, selfie2] = await upload(tx, member, "s.jpg", "s2.jpg");
+      await submit(tx, selfie!);
+      await submit(tx, selfie2!);
       await tx.exec("reset role");
       return rows(
         tx.query<{ kind: string; part: string; current: boolean }>(
@@ -146,12 +130,8 @@ describe("Dépôt de la pièce et du selfie", () => {
         ),
       );
     });
-    expect(docs.filter((d) => d.current).map((d) => `${d.kind}:${d.part}`).sort()).toEqual([
-      "driving_licence:back",
-      "driving_licence:front",
-      "selfie:face",
-    ]);
-    expect(docs.filter((d) => !d.current).map((d) => `${d.kind}:${d.part}`).sort()).toEqual(["passport:photo_page", "selfie:face"]);
+    expect(docs.filter((d) => d.current).map((d) => `${d.kind}:${d.part}`)).toEqual(["selfie:face"]);
+    expect(docs.filter((d) => !d.current).map((d) => `${d.kind}:${d.part}`)).toEqual(["selfie:face"]);
   });
 });
 
@@ -197,8 +177,8 @@ describe("Suivi du dossier et état du membre", () => {
     const flow = await asUser(db, member, async (tx) => {
       const steps: Record<string, unknown> = {};
       steps.selfPromotion = await attempt(tx, "update app.member_profiles set status = 'pending_verification' where user_id = $1", [member]);
-      const [front, back, selfie] = await upload(tx, member, "r.jpg", "v.jpg", "s.jpg");
-      await submit(tx, "id_card", front!, back!, selfie!);
+      const [selfie] = await upload(tx, member, "s.jpg");
+      await submit(tx, selfie!);
       steps.afterDocuments = await profileStatus(tx, member);
       await sign(tx, "widowed", true);
       steps.afterDeclaration = await profileStatus(tx, member);
@@ -206,14 +186,14 @@ describe("Suivi du dossier et état du membre", () => {
 
       // L'équipe demande une correction
       await actAs(tx, admin);
-      await tx.query("select app.decide_verification(id, 'to_correct', 'Verso illisible.') from app.verifications where user_id = $1", [member]);
+      await tx.query("select app.decide_verification(id, 'to_correct', 'Selfie flou.') from app.verifications where user_id = $1", [member]);
       await actAs(tx, member);
       steps.afterCorrection = await profileStatus(tx, member);
       steps.note = (await rows(tx.query<{ correction_note: string }>("select correction_note from app.my_verification()")))[0]?.correction_note;
 
       // Le membre dépose de nouveau : retour en vérification, sans décision attribuée au membre
-      const [back2] = await upload(tx, member, "v2.jpg");
-      await submit(tx, "id_card", front!, back2!, selfie!);
+      const [selfie2] = await upload(tx, member, "s2.jpg");
+      await submit(tx, selfie2!);
       steps.afterResubmission = await profileStatus(tx, member);
       await tx.exec("reset role");
       steps.verification = (
@@ -236,12 +216,12 @@ describe("Suivi du dossier et état du membre", () => {
     expect(flow.selfPromotion).toMatch(/forbidden_column/);
     expect(flow.afterDocuments).toBe("registering");
     expect(flow.afterDeclaration).toBe("pending_verification");
-    expect(flow.tracking).toEqual({ status: "pending", document_kind: "id_card", has_selfie: true, declared_status: "widowed", has_children: true });
+    expect(flow.tracking).toEqual({ status: "pending", document_kind: null, has_selfie: true, declared_status: "widowed", has_children: true });
     expect(flow.afterCorrection).toBe("to_correct");
-    expect(flow.note).toBe("Verso illisible.");
+    expect(flow.note).toBe("Selfie flou.");
     expect(flow.afterResubmission).toBe("pending_verification");
     expect(flow.verification).toEqual({ status: "pending", decided_by: null, decided_at: null });
-    expect(flow.audit).toEqual(expect.arrayContaining(["honor.signed", "id_document.submitted", "verification.resubmitted"]));
+    expect(flow.audit).toEqual(expect.arrayContaining(["honor.signed", "selfie.submitted", "verification.resubmitted"]));
     expect(flow.afterApproval).toBe("verified");
     expect(flow.closed).toMatch(/verification_closed/);
   });
@@ -258,8 +238,8 @@ describe("Administration : file des vérifications et décision (11.2-3)", () =>
     const complete = await createMember(db, { firstName: "Afiwa", sex: "female", status: "registering" });
     const partial = await createMember(db, { firstName: "Koffi", sex: "male", status: "registering" });
     const result = await asUser(db, complete, async (tx) => {
-      const [front, back, selfie] = await upload(tx, complete, "r.jpg", "v.jpg", "s.jpg");
-      await submit(tx, "id_card", front!, back!, selfie!);
+      const [selfie] = await upload(tx, complete, "s.jpg");
+      await submit(tx, selfie!);
       await sign(tx, "single", false);
       await actAs(tx, partial);
       await sign(tx, "divorced", true);
@@ -279,18 +259,18 @@ describe("Administration : file des vérifications et décision (11.2-3)", () =>
     });
     expect(result.forbidden).toMatch(/forbidden/);
     expect(result.queue).toEqual([
-      { user_id: complete, first_name: "Afiwa", document_kind: "id_card", has_selfie: true, declared_status: "single", ready: true },
+      { user_id: complete, first_name: "Afiwa", document_kind: null, has_selfie: true, declared_status: "single", ready: true },
       { user_id: partial, first_name: "Koffi", document_kind: null, has_selfie: false, declared_status: "divorced", ready: false },
     ]);
-    expect(result.documents.map((d) => `${d.kind}:${d.part}`)).toEqual(["id_card:front", "id_card:back", "selfie:face"]);
+    expect(result.documents.map((d) => `${d.kind}:${d.part}`)).toEqual(["selfie:face"]);
     expect(result.documents.every((d) => !("storage_path" in d))).toBe(true);
   });
 
   it("décision : correction avec message obligatoire, refus, dossier clos ensuite ; validation impossible sans profil", async () => {
     const member = await createMember(db, { firstName: "Yélian", sex: "female", status: "registering" });
     const result = await asUser(db, member, async (tx) => {
-      const [front, selfie] = await upload(tx, member, "p.jpg", "s.jpg");
-      await submit(tx, "passport", front!, null, selfie!);
+      const [selfie] = await upload(tx, member, "s.jpg");
+      await submit(tx, selfie!);
       await sign(tx, "widowed", false);
       const [ver] = await rows(tx.query<{ id: string }>("select id from app.verifications where user_id = $1", [member]));
       const decide = (status: string, note: string | null) =>

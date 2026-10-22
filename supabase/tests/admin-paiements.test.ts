@@ -80,4 +80,33 @@ describe("Paiements de l'administration (11.2-9)", () => {
     const error = await asUser(db, admin, (tx) => failure(tx.query("select * from app.admin_payments(null, null, null, 'autre')")));
     expect(error).toMatch(/invalid_filter/);
   });
+
+  it("remboursement manuel FeexPay (22 octobre 2026) : marqué par l'équipe des paiements, une seule fois, journalisé", async () => {
+    const { rows } = await db.query<{ id: string }>(
+      `insert into app.payments (user_id, purpose, amount_xof, provider, provider_transaction_id, status, refund_requested_at)
+       values ($1, 'evening_booking', 10000, 'feexpay', 'ref-fx-1', 'succeeded', now()) returning id`,
+      [member],
+    );
+    const id = rows[0]!.id;
+    const mark = (user: string, payment: string) => asUser(db, user, (tx) => failure(tx.query("select app.admin_mark_refunded($1)", [payment])));
+    expect(await mark(moderator, id)).toMatch(/forbidden/);
+    expect(await mark(member, id)).toMatch(/forbidden/);
+    expect(await mark(admin, payments.soiree!)).toMatch(/not_refundable/);
+    // Chaque essai est annulé à la fin : marquage, relecture et second marquage dans la même transaction
+    const result = await asUser(db, admin, async (tx) => {
+      const first = await failure(tx.query("select app.admin_mark_refunded($1)", [id]));
+      const payment = (await tx.query<{ status: string; refunded_amount_xof: number }>("select status, refunded_amount_xof from app.payments where id = $1", [id])).rows[0];
+      await tx.exec("reset role");
+      const audit = (await tx.query<{ actor_id: string }>("select actor_id from app.audit_log where action = 'payment.refunded_manually' and target_id = $1", [id])).rows;
+      await tx.exec("set local role authenticated");
+      const second = await failure(tx.query("select app.admin_mark_refunded($1)", [id]));
+      return { first, payment, audit, second };
+    });
+    expect(result).toEqual({
+      first: null,
+      payment: { status: "refunded", refunded_amount_xof: 10000 },
+      audit: [{ actor_id: admin }],
+      second: expect.stringMatching(/not_refundable/),
+    });
+  });
 });

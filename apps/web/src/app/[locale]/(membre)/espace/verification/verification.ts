@@ -1,6 +1,7 @@
 /**
- * Dossier de vérification (section 6.2-2, décisions du 17 octobre 2026).
- * Les mêmes règles sont appliquées par la base (app.submit_id_documents,
+ * Dossier de vérification (section 6.2-2, décisions du 17 et du 22 octobre 2026) :
+ * selfie pris en direct et déclaration sur l'honneur, plus de pièce d'identité (question 29).
+ * Les mêmes règles sont appliquées par la base (app.submit_selfie,
  * app.sign_honor_declaration) : ce module ne sert qu'à guider le membre avant l'envoi.
  */
 
@@ -10,36 +11,26 @@ export const DECLARATION_VERSION = "v1";
 export const maritalStatuses = ["single", "divorced", "widowed", "other"] as const;
 export type MaritalStatus = (typeof maritalStatuses)[number];
 
-/** Une seule pièce : carte et permis recto et verso, passeport page photo. */
-export const documentKinds = ["id_card", "driving_licence", "passport"] as const;
-export type DocumentKind = (typeof documentKinds)[number];
+/** Pièces déposées avant le 22 octobre 2026 : encore lues dans le suivi, plus demandées. */
+export type DocumentKind = "id_card" | "driving_licence" | "passport";
 
 export const OTHER_DETAILS_MAX = 300;
 
-/** Compartiment privé des pièces (10.1) et limites du compartiment (migration 20261017000100). */
+/** Compartiment privé des pièces de vérification (10.1) et limites du compartiment (migration 20261017000100). */
 export const BUCKET = "id-documents";
 export const MAX_FILE_BYTES = 10 * 1024 * 1024;
-const documentTypes: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "application/pdf": "pdf" };
-const imageTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+const imageTypes: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
 
-export type FileSlot = "front" | "back" | "selfie";
-
-/** Fichiers demandés pour une pièce, selfie compris. */
-export function requiredSlots(kind: DocumentKind): FileSlot[] {
-  return kind === "passport" ? ["front", "selfie"] : ["front", "back", "selfie"];
-}
-
-/** Erreur d'un fichier choisi (clé de traduction), ou null s'il convient. Le selfie est une photo. */
-export function fileError(slot: FileSlot, file: { type: string; size: number }): "type" | "size" | null {
-  const allowed = slot === "selfie" ? imageTypes.has(file.type) : file.type in documentTypes;
-  if (!allowed) return "type";
+/** Erreur du selfie pris (clé de traduction), ou null s'il convient : une photo de 10 Mo au plus. */
+export function selfieError(file: { type: string; size: number }): "type" | "size" | null {
+  if (!(file.type in imageTypes)) return "type";
   if (file.size > MAX_FILE_BYTES) return "size";
   return null;
 }
 
 /** Chemin dans le compartiment : le dossier du membre, puis un nom aléatoire (jamais le nom d'origine). */
 export function storagePath(userId: string, type: string, randomId: string): string {
-  return `${userId}/${randomId}.${documentTypes[type] ?? "bin"}`;
+  return `${userId}/${randomId}.${imageTypes[type] ?? "bin"}`;
 }
 
 export type DeclarationInput = { status: string; hasChildren: boolean | null; otherDetails: string; certified: boolean };
@@ -78,9 +69,7 @@ export function canSubmit(verification: MyVerification | null): boolean {
 
 /** Codes d'erreur de la base qui ont un texte dédié. */
 export const knownVerificationErrors = new Set([
-  "invalid_document_kind",
   "document_missing",
-  "duplicate_file",
   "file_not_found",
   "invalid_declaration",
   "outdated_declaration",

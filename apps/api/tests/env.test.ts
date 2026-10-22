@@ -7,7 +7,7 @@ describe("Configuration de l'API", () => {
     expect(env.PORT).toBe(4000);
     expect(env.NODE_ENV).toBe("development");
     expect(env.PAYMENT_PROVIDER).toBe("simulated");
-    expect(env.KKIAPAY_SANDBOX).toBe(true);
+    expect(env.FEEXPAY_SANDBOX).toBe(true);
   });
 
   it("considère une valeur vide comme non renseignée", () => {
@@ -18,13 +18,14 @@ describe("Configuration de l'API", () => {
     expect(() => validateEnv({ SUPABASE_URL: "pas-une-url" })).toThrow(/SUPABASE_URL/);
   });
 
-  it("KkiaPay (20 octobre 2026) : trois clés exigées, bac à sable interdit en production", () => {
-    expect(() => validateEnv({ PAYMENT_PROVIDER: "kkiapay", KKIAPAY_PUBLIC_KEY: "pk" })).toThrow(/KKIAPAY_PRIVATE_KEY/);
-    const keys = { PAYMENT_PROVIDER: "kkiapay", KKIAPAY_PUBLIC_KEY: "pk", KKIAPAY_PRIVATE_KEY: "tpk", KKIAPAY_SECRET: "tsk" };
-    expect(validateEnv(keys).KKIAPAY_SANDBOX).toBe(true);
-    expect(validateEnv({ ...keys, KKIAPAY_SANDBOX: "false" }).KKIAPAY_SANDBOX).toBe(false);
-    expect(() => validateEnv({ ...keys, NODE_ENV: "production" })).toThrow(/KKIAPAY_SANDBOX/);
-    expect(() => validateEnv({ ...keys, KKIAPAY_SANDBOX: "oui" })).toThrow(/KKIAPAY_SANDBOX/);
+  it("FeexPay (22 octobre 2026) : clé et boutique exigées, bac à sable interdit en production", () => {
+    expect(() => validateEnv({ PAYMENT_PROVIDER: "feexpay", FEEXPAY_API_KEY: "test_key_x" })).toThrow(/FEEXPAY_SHOP_ID/);
+    const keys = { PAYMENT_PROVIDER: "feexpay", FEEXPAY_API_KEY: "test_key_x", FEEXPAY_SHOP_ID: "shop1" };
+    expect(validateEnv(keys).FEEXPAY_SANDBOX).toBe(true);
+    expect(validateEnv({ ...keys, FEEXPAY_SANDBOX: "false" }).FEEXPAY_SANDBOX).toBe(false);
+    expect(() => validateEnv({ ...keys, NODE_ENV: "production" })).toThrow(/FEEXPAY_SANDBOX/);
+    expect(() => validateEnv({ ...keys, FEEXPAY_SANDBOX: "oui" })).toThrow(/FEEXPAY_SANDBOX/);
+    expect(() => validateEnv({ PAYMENT_PROVIDER: "kkiapay" })).toThrow(/PAYMENT_PROVIDER/);
   });
 
   it("production (20 octobre 2026) : hook e-mail exigé, hook SMS facultatif, adresse publique du site", () => {
@@ -39,11 +40,10 @@ describe("Configuration de l'API", () => {
       BREVO_API_KEY: "k",
       BREVO_SMS_SENDER: "Ifedele",
       BREVO_SENDER_EMAIL: "contact@wanyiyi.example",
-      PAYMENT_PROVIDER: "kkiapay",
-      KKIAPAY_PUBLIC_KEY: "pk",
-      KKIAPAY_PRIVATE_KEY: "pk2",
-      KKIAPAY_SECRET: "sk",
-      KKIAPAY_SANDBOX: "false",
+      PAYMENT_PROVIDER: "feexpay",
+      FEEXPAY_API_KEY: "fp_live",
+      FEEXPAY_SHOP_ID: "shop1",
+      FEEXPAY_SANDBOX: "false",
       WEB_ORIGIN: "https://wanyiyi.example",
     };
     expect(validateEnv(base).SEND_SMS_HOOK_SECRET).toBeUndefined();

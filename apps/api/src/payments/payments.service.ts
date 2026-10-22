@@ -3,24 +3,27 @@ import { ConfigService } from "@nestjs/config";
 import type { Env } from "../config/env";
 import { toHttpError, unwrap } from "../supabase/db-errors";
 import { SupabaseService } from "../supabase/supabase.service";
-import { KkiapayClient, KkiapayError, type KkiapayTransaction, rejectTransaction } from "./kkiapay";
+import { beninPhone, type CardHolder, FEEXPAY_NETWORKS, FeexpayClient, FeexpayError, type FeexpayNetwork, type FeexpayTransaction, outcomeOf, rejectTransaction } from "./feexpay";
 
 /**
- * Paiements Mobile Money par adaptateur (section 2 de la note, PROPOSITIONS.txt point 2).
- * KkiaPay retenu le 20 octobre 2026 (question 7) ; l'adaptateur simulé sert au développement.
- * Aucun montant n'est inventé : sans tarif en base, le paiement est refusé.
+ * Paiements Mobile Money et carte par adaptateur (section 2 de la note, PROPOSITIONS.txt point 2).
+ * FeexPay retenu le 22 octobre 2026 (question 29, à la place de KkiaPay) ; l'adaptateur simulé
+ * sert au développement. Aucun montant n'est inventé : sans tarif en base, le paiement est refusé.
  */
 
 export const PAYMENT_PROVIDER = Symbol("PAYMENT_PROVIDER");
 
-/** Page de paiement du site ; la référence du prestataire n'existe parfois qu'après le paiement (KkiaPay). */
+/** Page de paiement du site ; la référence FeexPay n'existe qu'une fois le moyen de paiement choisi. */
 export type Checkout = { providerTransactionId: string | null; checkoutUrl: string };
 
 export interface PaymentProvider {
-  readonly name: "simulated" | "kkiapay";
+  readonly name: "simulated" | "feexpay";
   createCheckout(input: { paymentId: string; amountXof: number; description: string }): Promise<Checkout>;
-  /** Remboursement intégral d'un paiement reçu (annulation d'une soirée, décision du 19 octobre 2026). */
-  refund(input: { paymentId: string; providerTransactionId: string | null; amountXof: number }): Promise<void>;
+  /**
+   * Remboursement intégral automatique d'un paiement reçu (annulation d'une soirée). Absent quand
+   * le remboursement se fait à la main : FeexPay (décision du 22 octobre 2026).
+   */
+  refund?(input: { paymentId: string; providerTransactionId: string | null; amountXof: number }): Promise<void>;
 }
 
 export class SimulatedPaymentProvider implements PaymentProvider {
@@ -37,27 +40,31 @@ export class SimulatedPaymentProvider implements PaymentProvider {
 }
 
 /**
- * KkiaPay : le membre paie dans le widget officiel, ouvert par la page /paiement/<id> du site ;
- * la transaction est ensuite vérifiée par l'API auprès de KkiaPay (PaymentsService.confirmKkiapay).
+ * FeexPay : le membre choisit son réseau (MTN, Moov, Celtiis) ou la carte sur la page
+ * /paiement/<id> du site ; l'API demande le paiement à FeexPay, puis relit son statut
+ * (PaymentsService.payByMobile, payByCard, refreshFeexpay). Pas de remboursement automatique.
  */
-export class KkiapayPaymentProvider implements PaymentProvider {
-  readonly name = "kkiapay" as const;
+export class FeexpayPaymentProvider implements PaymentProvider {
+  readonly name = "feexpay" as const;
   constructor(
-    readonly client: KkiapayClient,
-    readonly publicKey: string,
+    readonly client: FeexpayClient,
     readonly sandbox: boolean,
-    private readonly webOrigin: string,
+    readonly webOrigin: string,
   ) {}
 
   async createCheckout({ paymentId }: { paymentId: string }): Promise<Checkout> {
-    return { providerTransactionId: null, checkoutUrl: `${this.webOrigin.replace(/\/+$/, "")}/paiement/${paymentId}` };
+    return { providerTransactionId: null, checkoutUrl: this.pageOf(paymentId) };
   }
 
-  async refund({ providerTransactionId }: { providerTransactionId: string | null }): Promise<void> {
-    if (!providerTransactionId) throw new Error("référence KkiaPay absente");
-    await this.client.refund(providerTransactionId);
+  pageOf(paymentId: string): string {
+    return `${this.webOrigin.replace(/\/+$/, "")}/paiement/${paymentId}`;
   }
 }
+
+/** Libellé envoyé à FeexPay : sans caractères spéciaux, 40 caractères au plus. */
+const FEEXPAY_DESCRIPTION = "Soiree ifedele";
+
+type FeexpayPayment = { id: string; user_id: string; amount_xof: number; status: string; provider: string; provider_transaction_id: string | null };
 
 @Injectable()
 export class PaymentsService {
@@ -114,81 +121,198 @@ export class PaymentsService {
     this.logger.log(`Paiement simulé ${paymentId} validé`);
   }
 
-  /** Paiement du membre, pour la page de paiement : montant, état et réglages publics du widget. */
+  /**
+   * Paiement du membre, pour la page de paiement : montant, état, moyens proposés et, pour
+   * FeexPay, demande en attente de validation (le membre la vérifie au lieu de payer deux fois).
+   */
   async checkoutInfo(memberId: string, paymentId: string) {
     const system = this.supabase.system(`lecture du paiement ${paymentId} par son membre`);
     const payment = unwrap(
-      await system.from("payments").select("id, user_id, purpose, amount_xof, status, provider").eq("id", paymentId).maybeSingle(),
+      await system.from("payments").select("id, user_id, purpose, amount_xof, status, provider, provider_transaction_id").eq("id", paymentId).maybeSingle(),
     );
     if (!payment || payment.user_id !== memberId) throw new NotFoundException("not_found");
-    const widget =
-      this.provider instanceof KkiapayPaymentProvider && payment.provider === "kkiapay"
-        ? { publicKey: this.provider.publicKey, sandbox: this.provider.sandbox }
+    const feexpay =
+      this.provider instanceof FeexpayPaymentProvider && payment.provider === "feexpay"
+        ? {
+            sandbox: this.provider.sandbox,
+            networks: Object.keys(FEEXPAY_NETWORKS) as FeexpayNetwork[],
+            awaiting: payment.status === "pending" && payment.provider_transaction_id !== null,
+          }
         : null;
-    return { paymentId: payment.id, purpose: payment.purpose, amountXof: payment.amount_xof, status: payment.status, provider: payment.provider, widget };
+    return { paymentId: payment.id, purpose: payment.purpose, amountXof: payment.amount_xof, status: payment.status, provider: payment.provider, feexpay };
   }
 
-  /**
-   * Fin du paiement dans le widget KkiaPay : la transaction est relue chez KkiaPay avec les clés
-   * privées (jamais sur la seule parole du navigateur), puis le paiement est marqué réussi s'il
-   * s'agit d'une transaction réussie, du montant exact, liée à ce paiement (partnerId).
-   * Une même transaction ne peut payer qu'un paiement (référence unique en base). Journalisé.
-   */
-  async confirmKkiapay(memberId: string, paymentId: string, transactionId: string) {
-    if (!(this.provider instanceof KkiapayPaymentProvider)) throw new ForbiddenException("kkiapay_disabled");
-    const system = this.supabase.system(`vérification KkiaPay du paiement ${paymentId}`);
+  private feexpay(): FeexpayPaymentProvider {
+    if (!(this.provider instanceof FeexpayPaymentProvider)) throw new ForbiddenException("feexpay_disabled");
+    return this.provider;
+  }
+
+  private async feexpayPayment(paymentId: string, reason: string): Promise<FeexpayPayment> {
+    const system = this.supabase.system(reason);
     const payment = unwrap(
       await system.from("payments").select("id, user_id, amount_xof, status, provider, provider_transaction_id").eq("id", paymentId).maybeSingle(),
-    );
-    if (!payment || payment.user_id !== memberId || payment.provider !== "kkiapay") throw new NotFoundException("not_found");
-    // Déjà confirmé par cette transaction (double envoi du navigateur) : rien à refaire
-    if (payment.status === "succeeded" && payment.provider_transaction_id === transactionId) return { status: "succeeded" as const };
-    if (payment.status !== "pending") throw new ConflictException("invalid_status");
+    ) as FeexpayPayment | null;
+    if (!payment || payment.provider !== "feexpay") throw new NotFoundException("not_found");
+    return payment;
+  }
 
-    let transaction: KkiapayTransaction;
+  /** Appel FeexPay : erreurs traduites pour le membre, détail dans le journal seulement. */
+  private async callFeexpay<T>(paymentId: string, call: () => Promise<T>): Promise<T> {
     try {
-      transaction = await this.provider.client.verify(transactionId);
+      return await call();
     } catch (error) {
-      this.logger.error(`Paiement ${paymentId} : vérification KkiaPay impossible (${(error as Error).message})`);
-      // 400 ou 404 : transaction inconnue de KkiaPay. Clé refusée (401, code 4003), panne ou délai
-      // dépassé : problème de configuration ou de prestataire, le membre vérifiera de nouveau
-      if (error instanceof KkiapayError && (error.status === 400 || error.status === 404)) throw new ConflictException("transaction_not_found");
-      throw new ServiceUnavailableException("kkiapay_unavailable");
+      this.logger.error(`Paiement ${paymentId} : appel FeexPay en échec (${(error as Error).message})`);
+      // 400 : demande refusée par FeexPay (numéro invalide, par exemple). Clé refusée (401),
+      // panne ou délai dépassé : problème de configuration ou de prestataire
+      if (error instanceof FeexpayError && error.status === 400) throw new ConflictException("payment_refused");
+      throw new ServiceUnavailableException("feexpay_unavailable");
     }
-    const rejected = rejectTransaction(transaction, { id: payment.id, amountXof: payment.amount_xof });
-    if (rejected) {
-      this.logger.warn(`Paiement ${paymentId} : transaction KkiaPay refusée (${rejected})`);
-      throw new ConflictException(rejected);
-    }
-    const { data: updated, error: updateError } = await system
-      .from("payments")
-      .update({ status: "succeeded", provider_transaction_id: transactionId })
-      .eq("id", paymentId)
-      .eq("status", "pending")
-      .select("id");
-    // Référence unique en base : une transaction déjà utilisée pour un autre paiement est refusée
-    if (updateError?.code === "23505") throw new ConflictException("transaction_already_used");
-    if (updateError) throw toHttpError(updateError);
-    if (!updated || updated.length === 0) throw new ConflictException("invalid_status");
-    unwrap(
-      await system.from("audit_log").insert({
-        actor_id: memberId,
-        action: "payment.succeeded",
-        target_table: "payments",
-        target_id: paymentId,
-        details: { provider: "kkiapay", source: transaction.source ?? null },
-      }),
-    );
-    this.logger.log(`Paiement ${paymentId} réglé par KkiaPay`);
-    return { status: "succeeded" as const };
   }
 
   /**
-   * Remboursements demandés par l'annulation d'une soirée (app.cancel_event) : montant intégral,
-   * par l'adaptateur du prestataire, puis marqués dans la base. Tâche système, journalisée ;
-   * relancée par la tâche planifiée si un remboursement échoue.
+   * Avant une nouvelle demande : la précédente est relue chez FeexPay. Réussie, elle règle le
+   * paiement ; encore en attente, elle bloque une seconde demande (pas de double paiement).
    */
-  async refundPending(): Promise<{ refunded: number; failed: number }> {
+  private async beforeNewAttempt(payment: FeexpayPayment): Promise<"succeeded" | null> {
+    if (payment.status === "succeeded") return "succeeded";
+    if (payment.status !== "pending") throw new ConflictException("invalid_status");
+    if (!payment.provider_transaction_id) return null;
+    const previous = await this.settle(payment);
+    if (previous.status === "pending") throw new ConflictException("payment_in_progress");
+    return previous.status === "succeeded" ? "succeeded" : null;
+  }
+
+  /** Référence FeexPay de la demande en cours, gardée sur le paiement (unique en base). */
+  private async keepReference(paymentId: string, reference: string) {
+    const system = this.supabase.system(`référence FeexPay du paiement ${paymentId}`);
+    const { error } = await system.from("payments").update({ provider_transaction_id: reference }).eq("id", paymentId).eq("status", "pending");
+    if (error?.code === "23505") throw new ConflictException("transaction_already_used");
+    if (error) throw toHttpError(error);
+  }
+
+  /** Paiement Mobile Money : la demande arrive sur le téléphone du membre, qui la valide. */
+  async payByMobile(memberId: string, paymentId: string, network: FeexpayNetwork, phone: string) {
+    const provider = this.feexpay();
+    const payment = await this.feexpayPayment(paymentId, `paiement Mobile Money ${paymentId}`);
+    if (payment.user_id !== memberId) throw new NotFoundException("not_found");
+    const phoneNumber = beninPhone(phone);
+    if (!phoneNumber) throw new ConflictException("invalid_phone");
+    if ((await this.beforeNewAttempt(payment)) === "succeeded") return { status: "succeeded" as const };
+
+    const transaction = await this.callFeexpay(paymentId, () =>
+      provider.client.requestMobile({ network, phoneNumber, amountXof: payment.amount_xof, description: FEEXPAY_DESCRIPTION, paymentId }),
+    );
+    await this.keepReference(paymentId, transaction.reference);
+    this.logger.log(`Paiement ${paymentId} : demande ${network} envoyée à FeexPay`);
+    // Statut final parfois immédiat (MTN, Moov) : toujours relu par la route de statut
+    if (outcomeOf(transaction.status) === "pending") return { status: "pending" as const };
+    return this.settle({ ...payment, provider_transaction_id: transaction.reference });
+  }
+
+  /** Paiement par carte : renvoie la page FeexPay où le membre saisit sa carte. */
+  async payByCard(memberId: string, paymentId: string, holder: CardHolder) {
+    const provider = this.feexpay();
+    const payment = await this.feexpayPayment(paymentId, `paiement par carte ${paymentId}`);
+    if (payment.user_id !== memberId) throw new NotFoundException("not_found");
+    const phoneNumber = beninPhone(holder.phoneNumber);
+    if (!phoneNumber) throw new ConflictException("invalid_phone");
+    if ((await this.beforeNewAttempt(payment)) === "succeeded") return { status: "succeeded" as const, paymentUrl: null };
+
+    const session = await this.callFeexpay(paymentId, () =>
+      provider.client.initCard({
+        holder: { ...holder, phoneNumber },
+        amountXof: payment.amount_xof,
+        description: FEEXPAY_DESCRIPTION,
+        paymentId,
+        returnUrl: provider.pageOf(paymentId),
+      }),
+    );
+    await this.keepReference(paymentId, session.reference);
+    this.logger.log(`Paiement ${paymentId} : page de paiement par carte ouverte chez FeexPay`);
+    return { status: "pending" as const, paymentUrl: session.paymentUrl };
+  }
+
+  /** Le membre vérifie sa demande en cours (retour de la page carte, validation sur le téléphone). */
+  async refreshFeexpay(memberId: string, paymentId: string) {
+    this.feexpay();
+    const payment = await this.feexpayPayment(paymentId, `vérification FeexPay du paiement ${paymentId}`);
+    if (payment.user_id !== memberId) throw new NotFoundException("not_found");
+    if (payment.status === "succeeded") return { status: "succeeded" as const };
+    if (payment.status !== "pending" || !payment.provider_transaction_id) throw new ConflictException("invalid_status");
+    return this.settle(payment);
+  }
+
+  /**
+   * Webhook FeexPay (non signé) : seule la référence est lue, puis le statut est relu chez FeexPay.
+   * Référence inconnue ou paiement déjà réglé : rien à faire.
+   */
+  async feexpayWebhook(reference: string) {
+    if (!(this.provider instanceof FeexpayPaymentProvider)) return;
+    const system = this.supabase.system(`webhook FeexPay ${reference}`);
+    const payment = unwrap(
+      await system
+        .from("payments")
+        .select("id, user_id, amount_xof, status, provider, provider_transaction_id")
+        .eq("provider", "feexpay")
+        .eq("provider_transaction_id", reference)
+        .maybeSingle(),
+    ) as FeexpayPayment | null;
+    if (!payment || payment.status !== "pending") return;
+    await this.settle(payment).catch((error: Error) => this.logger.error(`Webhook FeexPay ${reference} : ${error.message}`));
+  }
+
+  /**
+   * Statut de la demande en cours, relu chez FeexPay avec la clé de l'API. Réussie, du montant
+   * exact et liée à ce paiement : le paiement est marqué réussi et journalisé. Échouée : le
+   * paiement reste à régler, le membre peut refaire une demande.
+   */
+  private async settle(payment: FeexpayPayment): Promise<{ status: "succeeded" | "pending" | "failed"; reason?: string }> {
+    const provider = this.feexpay();
+    const reference = payment.provider_transaction_id!;
+    const transaction: FeexpayTransaction = await this.callFeexpay(payment.id, () => provider.client.status(reference));
+    const outcome = outcomeOf(transaction.status);
+    if (outcome === "pending") return { status: "pending" };
+    if (outcome === "failed") {
+      this.logger.warn(`Paiement ${payment.id} : demande FeexPay échouée (${transaction.reason ?? "sans motif"})`);
+      return { status: "failed", reason: transaction.reason ?? undefined };
+    }
+    const rejected = rejectTransaction(transaction, { id: payment.id, amountXof: payment.amount_xof, reference });
+    if (rejected) {
+      // Argent reçu mais non rattachable : à rapprocher à la main par l'équipe
+      this.logger.error(`Paiement ${payment.id} : transaction FeexPay ${reference} réussie mais refusée (${rejected})`);
+      throw new ConflictException(rejected);
+    }
+    const system = this.supabase.system(`paiement ${payment.id} réglé par FeexPay`);
+    const { data: updated, error } = await system
+      .from("payments")
+      .update({ status: "succeeded" })
+      .eq("id", payment.id)
+      .eq("status", "pending")
+      .eq("provider_transaction_id", reference)
+      .select("id");
+    if (error) throw toHttpError(error);
+    // Déjà réglé entre-temps (webhook et membre en même temps) : rien de plus
+    if (!updated || updated.length === 0) return { status: "succeeded" };
+    unwrap(
+      await system.from("audit_log").insert({
+        actor_id: payment.user_id,
+        action: "payment.succeeded",
+        target_table: "payments",
+        target_id: payment.id,
+        details: { provider: "feexpay", reference },
+      }),
+    );
+    this.logger.log(`Paiement ${payment.id} réglé par FeexPay`);
+    return { status: "succeeded" };
+  }
+
+  /**
+   * Remboursements demandés par l'annulation d'une soirée (app.cancel_event). Automatiques
+   * seulement quand l'adaptateur sait rembourser (démonstration) ; les paiements FeexPay restent
+   * « à rembourser » : l'équipe rembourse depuis le tableau de bord FeexPay, puis les marque
+   * remboursés dans l'administration (décision du 22 octobre 2026). Tâche système, journalisée.
+   */
+  async refundPending(): Promise<{ refunded: number; failed: number; manual: number }> {
     const db = this.supabase.system("remboursement des soirées annulées");
     const pending = unwrap(await db.rpc("pending_refunds")) as Array<{
       payment_id: string;
@@ -198,11 +322,10 @@ export class PaymentsService {
     }> | null;
     let refunded = 0;
     let failed = 0;
+    let manual = 0;
     for (const payment of pending ?? []) {
-      if (payment.provider !== this.provider.name) {
-        // Paiement d'un autre prestataire : il attend l'adaptateur correspondant
-        this.logger.warn(`Remboursement ${payment.payment_id} : prestataire ${payment.provider} indisponible`);
-        failed += 1;
+      if (payment.provider !== this.provider.name || !this.provider.refund) {
+        manual += 1;
         continue;
       }
       try {
@@ -215,6 +338,6 @@ export class PaymentsService {
       }
     }
     if (refunded) this.logger.log(`${refunded} remboursement(s) effectué(s)`);
-    return { refunded, failed };
+    return { refunded, failed, manual };
   }
 }
