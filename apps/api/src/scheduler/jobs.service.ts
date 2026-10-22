@@ -52,6 +52,16 @@ export class JobsService {
     }
   }
 
+  /** Places réservées non payées après 24 h : libérées pour la liste d'attente (question 12). */
+  @Cron("*/5 * * * *", { name: "release-unpaid", timeZone: "Africa/Porto-Novo" })
+  async releaseUnpaid() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("libération des places non payées (24 h)");
+    const { data: released, error } = await db.rpc("release_unpaid");
+    if (error) this.logger.error(`Places non payées : ${error.message}`);
+    else if (released) this.logger.log(`${released} place(s) non payée(s) libérée(s)`);
+  }
+
   @Cron("*/5 * * * *", { name: "compute-matches", timeZone: "Africa/Porto-Novo" })
   async computeMatches() {
     if (!this.ready()) return;

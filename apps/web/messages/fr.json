@@ -531,7 +531,8 @@
         "other": "Nouvelle notification.",
         "member_suspended": "Votre compte est suspendu.",
         "member_reactivated": "Votre compte est de nouveau actif.",
-        "member_excluded": "Votre compte est exclu de Ifedele."
+        "member_excluded": "Votre compte est exclu de Ifedele.",
+        "profile_text_rejected": "Un texte de votre profil a été refusé. Réécrivez-le : il sera relu de nouveau."
       }
     },
     "dashboard": {
@@ -608,9 +609,10 @@
         "bookedLate": "Place réservée. La date limite de confirmation est passée.",
         "confirmed": "Place confirmée",
         "checked_in": "Présence enregistrée",
-        "released": "Votre place a été libérée faute de confirmation.",
+        "released": "Votre place a été libérée faute de confirmation ou de paiement.",
         "waitlisted": "Sur liste d'attente, position {rank}",
-        "paid": "Paiement reçu"
+        "paid": "Paiement reçu",
+        "payBy": "À régler avant le {date}, sinon la place est libérée."
       },
       "actions": {
         "book": "Réserver ma place",
@@ -955,6 +957,7 @@
     },
     "nav": {
       "verifications": "Vérifications",
+      "moderation": "Modération",
       "evenings": "Soirées",
       "venues": "Lieux",
       "members": "Membres",
@@ -962,6 +965,7 @@
     },
     "navHelp": {
       "verifications": "Dossiers en attente, selfies, décisions",
+      "moderation": "Textes de profil à relire, approbations, refus motivés",
       "evenings": "Création, inscriptions, pointage, déroulé, résultats",
       "venues": "Lieux des soirées et adresses",
       "members": "Liste, fiches, historique, sanctions",
@@ -1059,6 +1063,31 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      }
+    },
+    "moderation": {
+      "intro": "Les textes de profil en attente, les plus anciens d'abord. Un texte n'est visible des autres membres qu'une fois approuvé. Un refus exige un motif, que le membre lit dans sa notification ; le texte reste masqué jusqu'à ce qu'il le réécrive.",
+      "empty": "Aucun texte à relire.",
+      "count": "{count, plural, one {# texte à relire} other {# textes à relire}}",
+      "fields": {
+        "who_i_am": "Qui je suis en quelques mots",
+        "what_matters": "Ce qui compte pour moi dans un couple",
+        "evening_topic": "Un sujet dont j'aimerais parler à la soirée"
+      },
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "reason": "Motif du refus (obligatoire)",
+      "reasonHelp": "Le membre lit ce motif dans sa notification.",
+      "confirmReject": "Refuser avec ce motif",
+      "cancel": "Annuler",
+      "errors": {
+        "note_required": "Écrivez le motif du refus.",
+        "note_too_long": "Le motif dépasse 1 000 caractères.",
+        "already_reviewed": "Ce texte a déjà été relu.",
+        "not_found": "Ce texte est introuvable : le membre l'a peut-être supprimé.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
     },
     "evenings": {

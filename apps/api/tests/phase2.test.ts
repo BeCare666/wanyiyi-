@@ -209,10 +209,10 @@ describe("Erreurs de la base vers HTTP", () => {
 
 describe("Soirées : situation du membre", () => {
   it("ajoute « mine » à la soirée concernée et null aux autres", () => {
-    const booking = { event_id: "b", status: "waitlisted" as const, waitlist_rank: 2, confirm_by: "2026-10-20T18:00:00Z", paid: false };
+    const booking = { event_id: "b", status: "waitlisted" as const, waitlist_rank: 2, confirm_by: "2026-10-20T18:00:00Z", paid: false, pay_by: null };
     expect(withMyBooking([{ id: "a" }, { id: "b" }], [booking])).toEqual([
       { id: "a", mine: null },
-      { id: "b", mine: { status: "waitlisted", waitlist_rank: 2, confirm_by: "2026-10-20T18:00:00Z", paid: false } },
+      { id: "b", mine: { status: "waitlisted", waitlist_rank: 2, confirm_by: "2026-10-20T18:00:00Z", paid: false, pay_by: null } },
     ]);
   });
 });

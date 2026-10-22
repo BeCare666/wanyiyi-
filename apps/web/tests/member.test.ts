@@ -123,6 +123,7 @@ describe("Soirées de l'espace membre (6.2-4)", () => {
     status: "booked",
     waitlist_rank: null,
     confirm_by: "2026-10-22T18:30:00Z",
+    pay_by: null,
     paid: false,
     ...over,
   });

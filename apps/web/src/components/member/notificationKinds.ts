@@ -14,6 +14,8 @@ const kinds = {
   // Actions groupées de l'équipe (19 octobre 2026) : message en trois langues, invitation à une soirée
   team_message: { href: null },
   evening_invitation: { href: { pathname: memberNav.evenings.href } },
+  // Texte de profil refusé par la modération (22 octobre 2026) : le motif est affiché
+  profile_text_rejected: { href: null },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

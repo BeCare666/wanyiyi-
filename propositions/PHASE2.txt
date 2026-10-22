@@ -308,6 +308,8 @@ QUESTIONS (je n'invente pas les réponses)
      liste des secteurs d'activité.
   5. Entretien de vérification : en personne, par appel vidéo, ou les deux ?
      Lieu et créneaux habituels ?
+     RÉPONSE (22 octobre 2026) : entretien abandonné. Validation sur selfie
+     et déclaration sur l'honneur seulement.
   6. Lieux partenaires des soirées : noms et adresses, ou lieux fictifs pour
      la démonstration ?
   7. Paiement : FedaPay ou KkiaPay en premier ? Avez-vous un compte
@@ -328,6 +330,13 @@ QUESTIONS (je n'invente pas les réponses)
      aussi valider les inscriptions ?
  12. Paiement d'une soirée : une place réservée mais pas encore payée
      est-elle bloquée ? Pendant combien de temps ?
+     RÉPONSE (22 octobre 2026) : la place est gardée 24 h ; sans paiement,
+     elle est libérée pour la liste d'attente.
+     FAIT : app.release_unpaid (migration 20261022000200_places_non_payees.sql,
+     paramètre evenings.unpaid_hold_hours = 24), tâche planifiée de l'API toutes
+     les 5 minutes ; le délai part de l'attribution de la place ; soirées à venir
+     avec tarif seulement ; place non libérée si un paiement est en cours chez le
+     prestataire. « Mes soirées » affiche « À régler avant le … » (pay_by).
  13. Node.js : la bibliothèque Supabase installée exige Node 22, le poste a
      Node 20. Pouvez-vous installer Node 22 LTS (nécessaire pour l'étape 3) ?
  14. Brevo : nom d'expéditeur des SMS (11 lettres ou chiffres, par exemple
@@ -368,6 +377,16 @@ QUESTIONS (je n'invente pas les réponses)
         attendant, ou seulement une fois approuvé ?
      Le filtre automatique des textes (numéros, liens, réseaux sociaux) existe
      déjà côté domaine ; ces règles concernent la relecture humaine.
+     RÉPONSE (22 octobre 2026) : a) motif écrit obligatoire ; b) le membre est
+     notifié avec le motif ; c) le texte refusé est masqué jusqu'à ce que le
+     membre le réécrive ; d) un texte en attente n'est visible des autres
+     qu'une fois approuvé.
+     FAIT (textes) : app.moderation_queue, app.review_profile_text (migration
+     20261022000300_moderation_textes.sql, colonne review_note), notification
+     profile.text_rejected avec le motif, page /admin/moderation (permission
+     profile_texts.review : modération, administration, super administration).
+     Les photos suivront les mêmes règles avec leur dépôt (pas encore de dépôt
+     de photo ni de page « Mon profil », questions 3 et 4).
  23. Export Excel des listes filtrées (11.3) : j'aimerais ajouter la bibliothèque
      libre « exceljs » (npm, licence MIT) pour produire un vrai fichier .xlsx.
      L'acceptez-vous ? L'export CSV, lui, se fait sans bibliothèque. Un export

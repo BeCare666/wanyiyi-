@@ -173,6 +173,13 @@ export default async function EveningsPage({ searchParams }: Props) {
                           </p>
                         )}
                         {mine?.paid && <p className="mt-1 text-sm text-fg-muted">{t("evenings.mine.paid")}</p>}
+                        {mine?.pay_by && (
+                          <p className="mt-1 text-sm text-fg-muted">
+                            {t("evenings.mine.payBy", {
+                              date: `${format.dateTime(new Date(mine.pay_by), "eventDay")}, ${format.dateTime(new Date(mine.pay_by), "eventTime")}`,
+                            })}
+                          </p>
+                        )}
                         <EveningActions
                           eventId={evening.id}
                           actions={profile.verified || mine ? eveningActions(evening, profile.sex, now) : []}

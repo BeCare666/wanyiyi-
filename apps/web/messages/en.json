@@ -531,7 +531,8 @@
         "other": "New notification.",
         "member_suspended": "Your account is suspended.",
         "member_reactivated": "Your account is active again.",
-        "member_excluded": "Your account has been excluded from Ifedele."
+        "member_excluded": "Your account has been excluded from Ifedele.",
+        "profile_text_rejected": "A text in your profile was rejected. Please rewrite it: it will be reviewed again."
       }
     },
     "dashboard": {
@@ -608,9 +609,10 @@
         "bookedLate": "Seat booked. The confirmation deadline has passed.",
         "confirmed": "Seat confirmed",
         "checked_in": "Attendance recorded",
-        "released": "Your seat was released because it was not confirmed.",
+        "released": "Your seat was released because it was not confirmed or paid.",
         "waitlisted": "On the waiting list, position {rank}",
-        "paid": "Payment received"
+        "paid": "Payment received",
+        "payBy": "To be paid before {date}, otherwise the seat is released."
       },
       "actions": {
         "book": "Book my seat",
@@ -955,6 +957,7 @@
     },
     "nav": {
       "verifications": "Verifications",
+      "moderation": "Moderation",
       "evenings": "Evenings",
       "venues": "Venues",
       "members": "Members",
@@ -962,6 +965,7 @@
     },
     "navHelp": {
       "verifications": "Pending files, selfies, decisions",
+      "moderation": "Profile texts to review, approvals, rejections with a reason",
       "evenings": "Creation, bookings, check-in, running order, results",
       "venues": "Evening venues and addresses",
       "members": "List, profiles, history, sanctions",
@@ -1059,6 +1063,31 @@
           "unavailable": "This service is not available yet. Please try again later.",
           "generic": "Something went wrong. Please try again in a moment."
         }
+      }
+    },
+    "moderation": {
+      "intro": "Profile texts awaiting review, oldest first. A text is visible to other members only once approved. A rejection requires a reason, which the member reads in their notification; the text stays hidden until they rewrite it.",
+      "empty": "No text to review.",
+      "count": "{count, plural, one {# text to review} other {# texts to review}}",
+      "fields": {
+        "who_i_am": "Who I am in a few words",
+        "what_matters": "What matters to me in a relationship",
+        "evening_topic": "A topic I would like to talk about at the evening"
+      },
+      "approve": "Approve",
+      "reject": "Reject",
+      "reason": "Reason for rejection (required)",
+      "reasonHelp": "The member reads this reason in their notification.",
+      "confirmReject": "Reject with this reason",
+      "cancel": "Cancel",
+      "errors": {
+        "note_required": "Write the reason for the rejection.",
+        "note_too_long": "The reason is longer than 1,000 characters.",
+        "already_reviewed": "This text has already been reviewed.",
+        "not_found": "This text cannot be found: the member may have deleted it.",
+        "forbidden": "Your role does not allow this action.",
+        "unavailable": "This service is not available yet. Please try again later.",
+        "generic": "Something went wrong. Please try again in a moment."
       }
     },
     "evenings": {

@@ -7,6 +7,8 @@ export type MyBooking = {
   waitlist_rank: number | null;
   confirm_by: string;
   paid: boolean;
+  /** Limite de paiement : sans paiement, la place est libérée (question 12, 24 h). */
+  pay_by: string | null;
 };
 
 /** Réponse de GET /events. Le lieu n'est connu qu'une fois la place confirmée (RLS). */

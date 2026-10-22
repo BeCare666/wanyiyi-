@@ -5,6 +5,8 @@ export type MyBooking = {
   waitlist_rank: number | null;
   confirm_by: string;
   paid: boolean;
+  /** Limite de paiement de la place (24 h après son attribution), null si rien à payer. */
+  pay_by: string | null;
 };
 
 /** Ajoute à chaque soirée la situation du membre (« mine »), ou null s'il n'y est pas inscrit. */

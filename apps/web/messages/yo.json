@@ -531,7 +531,8 @@
         "other": "Ìfitónilétí tuntun.",
         "member_suspended": "A ti dá àkọọ́lẹ̀ yín dúró.",
         "member_reactivated": "Àkọọ́lẹ̀ yín ti padà ṣiṣẹ́.",
-        "member_excluded": "A ti yọ àkọọ́lẹ̀ yín kúrò nínú Ifedele."
+        "member_excluded": "A ti yọ àkọọ́lẹ̀ yín kúrò nínú Ifedele.",
+        "profile_text_rejected": "A kọ ọ̀rọ̀ kan nínú àpèjúwe yín sílẹ̀. Ẹ tún un kọ: a ó tún un kà."
       }
     },
     "dashboard": {
@@ -608,9 +609,10 @@
         "bookedLate": "A ti gba àyè yín. Ọjọ́ ìfìdímúlẹ̀ ti kọjá.",
         "confirmed": "A ti fìdí àyè yín múlẹ̀",
         "checked_in": "A ti kọ wíwá yín sílẹ̀",
-        "released": "A ti fi àyè yín sílẹ̀ nítorí pé ẹ kò fìdí rẹ̀ múlẹ̀.",
+        "released": "A ti fi àyè yín sílẹ̀ nítorí pé ẹ kò fìdí rẹ̀ múlẹ̀ tàbí ẹ kò sanwó.",
         "waitlisted": "Ẹ wà lórí àkójọ ìdúró, ipò {rank}",
-        "paid": "A ti gba owó náà"
+        "paid": "A ti gba owó náà",
+        "payBy": "Ẹ sanwó kí {date} tó dé, bí bẹ́ẹ̀ kọ́ a ó fi àyè náà fún ẹlòmíràn."
       },
       "actions": {
         "book": "Gba àyè mi",
@@ -955,6 +957,7 @@
     },
     "nav": {
       "verifications": "Àyẹ̀wò",
+      "moderation": "Àbójútó ọ̀rọ̀",
       "evenings": "Ìpàdé alẹ́",
       "venues": "Àwọn ibi ìpàdé",
       "members": "Ọmọ ẹgbẹ́",
@@ -962,6 +965,7 @@
     },
     "navHelp": {
       "verifications": "Àwọn ìwé tó ń dúró, àwọn fọ́tò ojú, àwọn ìpinnu",
+      "moderation": "Àwọn ọ̀rọ̀ àpèjúwe láti kà, ìfọwọ́sí, ìkọ̀sílẹ̀ pẹ̀lú ìdí",
       "evenings": "Ìṣẹ̀dá, ìforúkọsílẹ̀, ìkọsílẹ̀ wíwá, ìtòlẹ́sẹẹsẹ, àbájáde",
       "venues": "Ibi ìpàdé alẹ́ àti àdírẹ́sì wọn",
       "members": "Àkójọ, àpèjúwe, ìtàn, ìjìyà",
@@ -1059,6 +1063,31 @@
           "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
         }
+      }
+    },
+    "moderation": {
+      "intro": "Àwọn ọ̀rọ̀ àpèjúwe tó ń dúró, àwọn tó pẹ́ jùlọ ló kọ́kọ́ wà. Àwọn ọmọ ẹgbẹ́ mìíràn kò ní rí ọ̀rọ̀ kan àfi tí a bá fọwọ́ sí i. Ìkọ̀sílẹ̀ gbọ́dọ̀ ní ìdí, tí ọmọ ẹgbẹ́ náà yóò kà nínú ìfitónilétí rẹ̀; ọ̀rọ̀ náà yóò wà ní ìpamọ́ títí yóò fi tún un kọ.",
+      "empty": "Kò sí ọ̀rọ̀ kankan láti kà.",
+      "count": "{count, plural, other {Ọ̀rọ̀ # láti kà}}",
+      "fields": {
+        "who_i_am": "Ẹni tí mo jẹ́ ní ọ̀rọ̀ díẹ̀",
+        "what_matters": "Ohun tó ṣe pàtàkì sí mi nínú ìbáṣepọ̀",
+        "evening_topic": "Ọ̀rọ̀ kan tí mo fẹ́ sọ nípa rẹ̀ níbi ìpàdé alẹ́"
+      },
+      "approve": "Fọwọ́ sí i",
+      "reject": "Kọ̀ ọ́",
+      "reason": "Ìdí ìkọ̀sílẹ̀ (dandan)",
+      "reasonHelp": "Ọmọ ẹgbẹ́ náà yóò ka ìdí yìí nínú ìfitónilétí rẹ̀.",
+      "confirmReject": "Kọ̀ ọ́ pẹ̀lú ìdí yìí",
+      "cancel": "Fagilé",
+      "errors": {
+        "note_required": "Ẹ kọ ìdí ìkọ̀sílẹ̀ náà.",
+        "note_too_long": "Ìdí náà ju lẹ́tà 1 000 lọ.",
+        "already_reviewed": "A ti ka ọ̀rọ̀ yìí tẹ́lẹ̀.",
+        "not_found": "A kò rí ọ̀rọ̀ yìí: ó lè jẹ́ pé ọmọ ẹgbẹ́ náà ti pa á rẹ́.",
+        "forbidden": "Ipa yín kò fàyè gba ìgbésẹ̀ yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
       }
     },
     "evenings": {

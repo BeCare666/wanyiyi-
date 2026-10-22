@@ -421,7 +421,7 @@ describe("Rotation, vote QR et matchs (9.2, 9.3)", () => {
 });
 
 describe("Mes soirées dans l'espace membre (6.2-4)", () => {
-  type Booking = { event_id: string; status: string; waitlist_rank: number | null; confirm_by: string; paid: boolean };
+  type Booking = { event_id: string; status: string; waitlist_rank: number | null; confirm_by: string; paid: boolean; pay_by: string | null };
   const mine = (user: string, events: string[]) =>
     asUser(db, user, (tx) =>
       rows(tx.query<Booking>("select * from app.my_bookings() where event_id = any($1::uuid[]) order by status", [events])),

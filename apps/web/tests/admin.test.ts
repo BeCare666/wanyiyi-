@@ -56,8 +56,9 @@ describe("Menu de l'administration (11.1)", () => {
     ]);
     expect(visibleAdminNav(["events.manage"]).map((g) => g.key)).toEqual(["evenings"]);
     expect(visibleAdminNav(["payments.read"]).map((g) => g.items.map((i) => i.href))).toEqual([["/admin/paiements"]]);
-    // Modération : pas de vérification (décision du 17 octobre 2026)
-    expect(visibleAdminNav(["profile_texts.review"])).toEqual([]);
+    // Modération : relecture des textes seulement, pas de vérification (décisions du 17 et du 22 octobre 2026)
+    expect(visibleAdminNav(["profile_texts.review"]).map((g) => g.items.map((i) => i.href))).toEqual([["/admin/moderation"]]);
+    expect(visibleAdminNav(["verifications.review", "profile_texts.review"]).map((g) => g.items.map((i) => i.key))).toEqual([["verifications", "moderation"]]);
   });
 
   it("entrée active sur sa page et ses fiches", () => {
