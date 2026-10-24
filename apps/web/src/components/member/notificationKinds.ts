@@ -16,6 +16,9 @@ const kinds = {
   evening_invitation: { href: { pathname: memberNav.evenings.href } },
   // Texte de profil refusé par la modération (22 octobre 2026) : le motif est affiché
   profile_text_rejected: { href: null },
+  // L'autre membre a demandé la suppression de son compte (24 octobre 2026) : découverte ou couple clôturé
+  discovery_partner_left: { href: null },
+  couple_partner_left: { href: null },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

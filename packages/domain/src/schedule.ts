@@ -1,11 +1,9 @@
 import { RULES } from "@wanyiyi/shared";
 
 /**
- * Déroulé minuté d'une soirée (section 9.2) : tours de 7 minutes, 1 minute de changement,
- * une pause après la moitié des tours. Sert au minuteur administrateur sur tablette.
- *
- * La durée de la pause n'est pas fixée par la note : elle est obligatoire ici
- * (question ouverte, voir propositions/PHASE2.txt).
+ * Déroulé minuté d'une soirée (section 9.2) : tours de 7 minutes, 1 minute de changement.
+ * Question 8, réponse du 22 octobre 2026 : pas de pause, les tours s'enchaînent (durée de
+ * pause 0 par défaut ; une pause éventuelle tomberait après la moitié des tours).
  */
 
 export type Slot =
@@ -16,14 +14,14 @@ export type Slot =
 export type ScheduleInput = {
   start: Date;
   rounds: number;
-  breakMinutes: number;
+  breakMinutes?: number;
   roundMinutes?: number;
   changeoverMinutes?: number;
 };
 
 const MINUTE = 60_000;
 
-/** Tour après lequel a lieu la pause : la moitié, arrondie à l'inférieur (question ouverte pour un nombre impair). */
+/** Tour après lequel aurait lieu une pause : la moitié, arrondie à l'inférieur (après le 5e sur 11, question 8). */
 export function breakAfterRound(rounds: number): number {
   return Math.floor(rounds / 2);
 }
@@ -31,7 +29,7 @@ export function breakAfterRound(rounds: number): number {
 export function buildSchedule({
   start,
   rounds,
-  breakMinutes,
+  breakMinutes = 0,
   roundMinutes = RULES.evenings.roundMinutes,
   changeoverMinutes = RULES.evenings.changeoverMinutes,
 }: ScheduleInput): Slot[] {

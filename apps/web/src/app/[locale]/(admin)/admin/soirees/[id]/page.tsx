@@ -145,6 +145,16 @@ export default async function AdminEveningPage({ params }: Props) {
         </section>
       )}
 
+      {event.status === "in_progress" && prepared && (
+        <section aria-labelledby="timer" className="mt-12 border-t border-line pt-8">
+          <h2 id="timer" className="text-2xl">{t("evenings.timer.title")}</h2>
+          <p className="mt-4 max-w-measure text-fg-muted">{t("evenings.timer.help")}</p>
+          <ButtonLink href={`/admin/soirees/${event.id}/minuteur`} className="mt-6">
+            {t("evenings.timer.open")}
+          </ButtonLink>
+        </section>
+      )}
+
       {options && (
         <section aria-labelledby="edit" className="mt-12 border-t border-line pt-8">
           <h2 id="edit" className="text-2xl">{t(published ? "evenings.editPublishedTitle" : "evenings.editTitle")}</h2>

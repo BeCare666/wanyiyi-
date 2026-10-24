@@ -34,3 +34,35 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function isEmail(value: string): boolean {
   return value.length <= 254 && EMAIL.test(value);
 }
+
+/**
+ * Confidentialité (question 15, 24 octobre 2026) : photo cachée jusqu'à un match réciproque,
+ * numéro partagé après un match. Par défaut : photo cachée, numéro partagé.
+ */
+export const privacyFields = ["photoHidden", "sharePhone"] as const;
+export type PrivacyField = (typeof privacyFields)[number];
+export type Privacy = Record<PrivacyField, boolean>;
+
+/** Colonne de member_profiles de chaque réglage. */
+export const privacyColumns = { photoHidden: "photo_blurred", sharePhone: "share_phone" } as const satisfies Record<PrivacyField, string>;
+
+export function isPrivacyField(value: unknown): value is PrivacyField {
+  return privacyFields.some((f) => f === value);
+}
+
+/** Réglages lus sur le profil ; sans profil, les valeurs par défaut de la base. */
+export function privacyFrom(row: { photo_blurred?: boolean | null; share_phone?: boolean | null } | null | undefined): Privacy {
+  return { photoHidden: row?.photo_blurred ?? true, sharePhone: row?.share_phone ?? true };
+}
+
+/** Demande de suppression en cours (question 17) : effacement prévu le purgeAfter, annulable avant. */
+export type Deletion = { requestedAt: string; purgeAfter: string } | null;
+
+export type DeletionResult = "requested" | "cancelled" | "upcoming_evening" | "already_requested" | "no_request" | "failed";
+
+const deletionErrors = ["upcoming_evening", "already_requested", "no_request"] as const;
+
+/** Message d'erreur de la base vers un résultat connu du formulaire. */
+export function deletionError(message: string | undefined): DeletionResult {
+  return deletionErrors.find((e) => e === message) ?? "failed";
+}

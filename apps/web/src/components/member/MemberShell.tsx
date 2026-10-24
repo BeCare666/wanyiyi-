@@ -73,8 +73,8 @@ export function MemberShell({ member, notifications, children }: Props) {
     <>
       <Sidebar member={member} pathname={pathname} collapsed={collapsed} onToggle={toggleCollapsed} />
 
-      <div className={cn("flex min-h-svh flex-col", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-64")}>
-        <header className="sticky top-0 z-30 border-b border-line bg-bg/95 backdrop-blur-md">
+      <div className={cn("flex min-h-svh flex-col print:pl-0!", collapsed ? "lg:pl-[4.75rem]" : "lg:pl-64")}>
+        <header className="sticky top-0 z-30 border-b border-line bg-bg/95 backdrop-blur-md print:hidden">
           <div className="flex h-16 items-center justify-between gap-3 px-gutter">
             <div className="flex items-center gap-2 lg:hidden">
               <button
@@ -110,7 +110,7 @@ export function MemberShell({ member, notifications, children }: Props) {
           </div>
         </header>
 
-        <main id="contenu" className="flex-1 px-gutter pb-28 pt-10 lg:pb-16 lg:pt-14">
+        <main id="contenu" className="flex-1 px-gutter pb-28 pt-10 lg:pb-16 lg:pt-14 print:p-0">
           {children}
         </main>
       </div>
@@ -195,7 +195,7 @@ function Sidebar({
     <aside
       aria-label={t("areaLabel")}
       className={cn(
-        "fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-line bg-bg lg:flex",
+        "fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-line bg-bg lg:flex print:hidden",
         collapsed ? "w-[4.75rem] px-3" : "w-64 px-5",
       )}
     >
@@ -255,7 +255,7 @@ function BottomBar({ pathname }: { pathname: string }) {
   return (
     <nav
       aria-label={t("areaLabel")}
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden print:hidden"
     >
       <ul className="mx-auto grid h-16 max-w-xl grid-cols-4">
         {memberPrimary.map((item) => {

@@ -290,7 +290,7 @@ html[data-js] [data-reveal]:not([data-revealed]) .reveal-zoom {
   }
 }
 
-/* Impression (codes QR des tables) : toujours en clair, même en mode sombre */
+/* Impression (codes QR des tables, mes données) : toujours en clair, même en mode sombre */
 @media print {
   [data-theme="dark"] {
     --bg: var(--white);

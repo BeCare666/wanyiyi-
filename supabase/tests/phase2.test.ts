@@ -261,7 +261,7 @@ describe("Confirmation 48 h avant et liste d'attente (9.2)", () => {
     await register(db, early, afiwa, "female", "booked");
     expect(await asUser(db, afiwa, (tx) => failure(tx.query("select app.confirm_registration($1)", [early])))).toBeNull();
     const late = await createEvent(db, { startsInHours: 47 });
-    await register(db, late, afiwa, "female", "booked");
+    await register(db, late, afiwa, "female", "booked", 2); // place attribuée avant la limite (il y a 2 h)
     expect(await asUser(db, afiwa, (tx) => failure(tx.query("select app.confirm_registration($1)", [late])))).toMatch(/confirmation_closed/);
   });
 

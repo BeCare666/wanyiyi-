@@ -66,7 +66,11 @@ export default async function DashboardPage() {
           <dt className="eyebrow md:col-span-4">{t("verification")}</dt>
           <dd className="md:col-span-8">
             {/* Sans profil, l'inscription n'est pas terminée : elle reprend à l'identité */}
-            <Link href={status === "none" ? "/inscription" : memberNav.verification.href} className="font-serif text-2xl underline-offset-8 hover:underline">
+            {/* Suppression demandée (question 17) : elle s'annule depuis les paramètres */}
+            <Link
+              href={status === "none" ? "/inscription" : status === "deleted" ? `${memberNav.settings.href}#suppression` : memberNav.verification.href}
+              className="font-serif text-2xl underline-offset-8 hover:underline"
+            >
               {t(`status.${status}`)}
             </Link>
           </dd>

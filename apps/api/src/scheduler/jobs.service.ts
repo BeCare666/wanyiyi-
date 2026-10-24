@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
+import { purgeDeletedAccounts } from "../accounts/purge";
 import { DeliveriesService } from "../notifications/deliveries.service";
 import { PaymentsService } from "../payments/payments.service";
 import { SupabaseService } from "../supabase/supabase.service";
@@ -10,7 +11,8 @@ import { SupabaseService } from "../supabase/supabase.service";
  * - calcul des matchs des soirées terminées ;
  * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h ;
  * - remboursement des soirées annulées (relance si un remboursement a échoué) ;
- * - envoi par SMS et e-mail des notifications des actions groupées (chaque minute).
+ * - envoi par SMS et e-mail des notifications des actions groupées (chaque minute) ;
+ * - effacement des comptes supprimés depuis 30 jours (chaque nuit, question 17).
  * Les règles elles-mêmes sont dans les fonctions SQL : ces tâches ne font que les déclencher.
  */
 @Injectable()
@@ -60,6 +62,23 @@ export class JobsService {
     const { data: released, error } = await db.rpc("release_unpaid");
     if (error) this.logger.error(`Places non payées : ${error.message}`);
     else if (released) this.logger.log(`${released} place(s) non payée(s) libérée(s)`);
+  }
+
+  /** Places données moins de 48 h avant, non confirmées ou non payées après 2 h (question 9). */
+  @Cron("*/5 * * * *", { name: "release-late-promotions", timeZone: "Africa/Porto-Novo" })
+  async releaseLatePromotions() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("libération des places données tard (2 h)");
+    const { data: released, error } = await db.rpc("release_late_promotions");
+    if (error) this.logger.error(`Places données tard : ${error.message}`);
+    else if (released) this.logger.log(`${released} place(s) donnée(s) tard libérée(s)`);
+  }
+
+  /** Comptes supprimés depuis 30 jours : données, fichiers du selfie et compte Auth effacés (question 17). */
+  @Cron("0 3 * * *", { name: "purge-deleted-accounts", timeZone: "Africa/Porto-Novo" })
+  async purgeDeletedAccounts() {
+    if (!this.ready()) return;
+    await purgeDeletedAccounts(this.supabase.system("effacement des comptes supprimés depuis 30 jours"), this.logger);
   }
 
   @Cron("*/5 * * * *", { name: "compute-matches", timeZone: "Africa/Porto-Novo" })

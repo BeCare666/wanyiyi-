@@ -74,3 +74,12 @@ export async function cancelEvening(eventId: string): Promise<ApiResult<{ refund
   if (!UUID.test(eventId)) return { ok: false, error: "generic" };
   return memberApi<{ refunds: number }>(`/admin/events/${eventId}/cancel`, { method: "POST" });
 }
+
+/** Démarrage du minuteur de la tablette (question 8) : horaire des tours fixé par la base, sans pause. */
+export async function startTimer(eventId: string): Promise<ApiResult<void>> {
+  if (!UUID.test(eventId)) return { ok: false, error: "generic" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { error } = await supabase.rpc("start_timer", { p_event: eventId });
+  return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
+}

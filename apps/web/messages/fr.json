@@ -532,7 +532,9 @@
         "member_suspended": "Votre compte est suspendu.",
         "member_reactivated": "Votre compte est de nouveau actif.",
         "member_excluded": "Votre compte est exclu de Ifedele.",
-        "profile_text_rejected": "Un texte de votre profil a été refusé. Réécrivez-le : il sera relu de nouveau."
+        "profile_text_rejected": "Un texte de votre profil a été refusé. Réécrivez-le : il sera relu de nouveau.",
+        "discovery_partner_left": "La personne avec qui vous étiez en découverte a supprimé son compte. La découverte est terminée.",
+        "couple_partner_left": "La personne avec qui vous étiez en couple a supprimé son compte. Le couple est terminé."
       }
     },
     "dashboard": {
@@ -547,7 +549,7 @@
         "verified": "Profil validé",
         "suspended": "Compte suspendu",
         "excluded": "Compte exclu",
-        "deleted": "Compte supprimé",
+        "deleted": "Suppression demandée",
         "none": "Inscription à commencer"
       },
       "nextEvening": "Votre prochaine soirée",
@@ -700,6 +702,37 @@
           "phone_taken": "Ce numéro est déjà utilisé par un autre compte.",
           "failed": "Le numéro n'a pas pu être enregistré. Réessayez plus tard."
         }
+      },
+      "privacy": {
+        "title": "Confidentialité",
+        "photoHidden": "Photo cachée jusqu'au match",
+        "photoHiddenHelp": "Votre photo n'est montrée qu'après un match réciproque.",
+        "sharePhone": "Numéro partagé après un match",
+        "sharePhoneHelp": "Après un match, votre numéro est donné à la personne. Décochez pour le garder pour vous."
+      },
+      "data": {
+        "title": "Mes données",
+        "help": "Téléchargez tout ce que Ifedele garde sur vous : profil, soirées, votes donnés, matchs, paiements et notifications.",
+        "json": "Télécharger le fichier (JSON)",
+        "printable": "Version lisible, à enregistrer en PDF"
+      },
+      "deletion": {
+        "title": "Supprimer mon compte",
+        "help": "Votre compte est masqué tout de suite, puis effacé au bout de 30 jours. Vous pouvez annuler pendant ce délai. Les paiements et le journal de sécurité sont gardés sans votre nom. Annulez d'abord vos soirées à venir.",
+        "request": "Demander la suppression",
+        "confirmText": "Votre compte sera masqué tout de suite et effacé dans 30 jours. Une découverte ou un couple en cours prendra fin, et l'autre personne sera prévenue.",
+        "confirm": "Oui, supprimer mon compte",
+        "keep": "Garder mon compte",
+        "pending": "Suppression demandée : votre compte est masqué et sera effacé le {date}. Vous pouvez encore annuler.",
+        "cancel": "Annuler la suppression",
+        "states": {
+          "requested": "Votre demande est enregistrée.",
+          "cancelled": "La suppression est annulée : votre compte est de nouveau actif.",
+          "upcoming_evening": "Vous avez une soirée à venir. Annulez-la d'abord dans Mes soirées.",
+          "already_requested": "La suppression est déjà demandée.",
+          "no_request": "Il n'y a plus de demande à annuler.",
+          "failed": "La demande n'a pas pu être enregistrée. Réessayez dans un instant."
+        }
       }
     },
     "verification": {
@@ -798,6 +831,84 @@
         "upload_failed": "L'envoi du selfie a échoué. Vérifiez votre connexion et réessayez.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
+    },
+    "myData": {
+      "title": "Mes données",
+      "help": "Tout ce que Ifedele garde sur vous. Pour un PDF, choisissez « Enregistrer en PDF » dans la fenêtre d'impression.",
+      "print": "Imprimer ou enregistrer en PDF",
+      "back": "Retour aux paramètres",
+      "exportedAt": "Données au {date}",
+      "unavailable": "Vos données ne sont pas disponibles pour le moment. Réessayez plus tard.",
+      "none": "Rien à afficher.",
+      "empty": "Non renseigné",
+      "yes": "Oui",
+      "no": "Non",
+      "sections": {
+        "account": "Compte",
+        "profile": "Profil",
+        "texts": "Textes du profil",
+        "answers": "Réponses du profil",
+        "dealbreakers": "Critères non négociables",
+        "verification": "Vérification",
+        "honor_declarations": "Déclarations sur l'honneur",
+        "evenings": "Soirées",
+        "votes": "Votes donnés",
+        "matches": "Matchs",
+        "payments": "Paiements",
+        "notifications": "Notifications",
+        "notification_preferences": "Canaux de notification",
+        "deletion": "Suppression du compte"
+      },
+      "fields": {
+        "member_number": "Numéro de membre",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "locale": "Langue",
+        "dark_mode": "Mode sombre",
+        "created_at": "Créé le",
+        "first_name": "Prénom",
+        "last_name": "Nom",
+        "sex": "Sexe",
+        "birth_date": "Date de naissance",
+        "city": "Ville",
+        "status": "État",
+        "journey_stage": "Étape du parcours",
+        "photo_hidden_until_match": "Photo cachée jusqu'au match",
+        "share_phone_after_match": "Numéro partagé après un match",
+        "field": "Rubrique",
+        "body": "Texte",
+        "review_status": "Relecture",
+        "review_note": "Motif",
+        "side": "Pour",
+        "category": "Catégorie",
+        "values": "Valeurs",
+        "decided_at": "Décidé le",
+        "marital_status": "Situation déclarée",
+        "text_version": "Version du texte",
+        "signed_at": "Signée le",
+        "starts_at": "Date",
+        "venue": "Lieu",
+        "booked_at": "Réservé le",
+        "confirmed_at": "Confirmé le",
+        "checked_in_at": "Arrivée",
+        "evening": "Soirée",
+        "round": "Tour",
+        "partner_first_name": "Prénom de la personne",
+        "choice": "Réponse",
+        "updated_at": "Modifié le",
+        "announced_at": "Annoncé le",
+        "purpose": "Objet",
+        "amount_xof": "Montant",
+        "provider": "Prestataire",
+        "refunded_amount_xof": "Remboursé",
+        "kind": "Type",
+        "payload": "Contenu",
+        "read_at": "Lue le",
+        "channel": "Canal",
+        "enabled": "Activé",
+        "requested_at": "Demandée le",
+        "purge_after": "Effacement prévu le"
       }
     }
   },
@@ -1222,6 +1333,31 @@
         "table": "Table {number}",
         "qrLabel": "Code QR de la table {number}",
         "scan": "Après chaque tour, scannez ce code avec votre téléphone pour donner votre réponse."
+      },
+      "timer": {
+        "title": "Minuteur",
+        "help": "Sur la tablette de la salle : le minuteur pilote les tours, sans pause, avec un signal visuel et sonore à chaque début de tour et à chaque changement de table.",
+        "open": "Ouvrir le minuteur",
+        "start": "Démarrer le premier tour",
+        "startHelp": "Démarrez quand tout le monde est assis. Les tours s'enchaînent ensuite seuls, sans pause.",
+        "notInProgress": "Le minuteur se démarre une fois la soirée commencée et les tables préparées.",
+        "before": "Premier tour dans",
+        "round": "Tour {round} sur {total}",
+        "changeover": "Changement de table, tour {round} ensuite",
+        "finished": "Tous les tours sont terminés.",
+        "remaining": "Temps restant",
+        "sound": "Activer le son",
+        "soundOn": "Son activé",
+        "back": "Retour à la soirée",
+        "errors": {
+          "already_started": "Le minuteur est déjà démarré.",
+          "invalid_status": "La soirée doit être commencée.",
+          "not_prepared": "Préparez d'abord les tables.",
+          "not_found": "Cette soirée est introuvable.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
       },
       "errors": {
         "venue_required": "Choisissez un lieu avant de publier.",

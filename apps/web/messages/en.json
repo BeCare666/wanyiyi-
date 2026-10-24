@@ -532,7 +532,9 @@
         "member_suspended": "Your account is suspended.",
         "member_reactivated": "Your account is active again.",
         "member_excluded": "Your account has been excluded from Ifedele.",
-        "profile_text_rejected": "A text in your profile was rejected. Please rewrite it: it will be reviewed again."
+        "profile_text_rejected": "A text in your profile was rejected. Please rewrite it: it will be reviewed again.",
+        "discovery_partner_left": "The person you were in discovery with has deleted their account. The discovery has ended.",
+        "couple_partner_left": "The person you were in a couple with has deleted their account. The couple has ended."
       }
     },
     "dashboard": {
@@ -547,7 +549,7 @@
         "verified": "Profile approved",
         "suspended": "Account suspended",
         "excluded": "Account excluded",
-        "deleted": "Account deleted",
+        "deleted": "Deletion requested",
         "none": "Registration not started"
       },
       "nextEvening": "Your next evening",
@@ -700,6 +702,37 @@
           "phone_taken": "This number is already used by another account.",
           "failed": "The number could not be saved. Please try again later."
         }
+      },
+      "privacy": {
+        "title": "Privacy",
+        "photoHidden": "Photo hidden until a match",
+        "photoHiddenHelp": "Your photo is only shown after a mutual match.",
+        "sharePhone": "Number shared after a match",
+        "sharePhoneHelp": "After a match, your number is given to the other person. Untick to keep it to yourself."
+      },
+      "data": {
+        "title": "My data",
+        "help": "Download everything Ifedele keeps about you: profile, evenings, votes given, matches, payments and notifications.",
+        "json": "Download the file (JSON)",
+        "printable": "Readable version, to save as PDF"
+      },
+      "deletion": {
+        "title": "Delete my account",
+        "help": "Your account is hidden straight away, then erased after 30 days. You can cancel during that time. Payments and the security log are kept without your name. Cancel your upcoming evenings first.",
+        "request": "Request deletion",
+        "confirmText": "Your account will be hidden straight away and erased in 30 days. An ongoing discovery or couple will end, and the other person will be told.",
+        "confirm": "Yes, delete my account",
+        "keep": "Keep my account",
+        "pending": "Deletion requested: your account is hidden and will be erased on {date}. You can still cancel.",
+        "cancel": "Cancel the deletion",
+        "states": {
+          "requested": "Your request is saved.",
+          "cancelled": "The deletion is cancelled: your account is active again.",
+          "upcoming_evening": "You have an upcoming evening. Cancel it first in My evenings.",
+          "already_requested": "Deletion has already been requested.",
+          "no_request": "There is no request left to cancel.",
+          "failed": "The request could not be saved. Try again in a moment."
+        }
       }
     },
     "verification": {
@@ -798,6 +831,84 @@
         "upload_failed": "The selfie could not be sent. Check your connection and try again.",
         "unavailable": "This service is not available yet. Please try again later.",
         "generic": "Something went wrong. Please try again in a moment."
+      }
+    },
+    "myData": {
+      "title": "My data",
+      "help": "Everything Ifedele keeps about you. For a PDF, choose “Save as PDF” in the print window.",
+      "print": "Print or save as PDF",
+      "back": "Back to settings",
+      "exportedAt": "Data as of {date}",
+      "unavailable": "Your data is not available right now. Try again later.",
+      "none": "Nothing to show.",
+      "empty": "Not given",
+      "yes": "Yes",
+      "no": "No",
+      "sections": {
+        "account": "Account",
+        "profile": "Profile",
+        "texts": "Profile texts",
+        "answers": "Profile answers",
+        "dealbreakers": "Non-negotiable criteria",
+        "verification": "Verification",
+        "honor_declarations": "Sworn statements",
+        "evenings": "Evenings",
+        "votes": "Votes given",
+        "matches": "Matches",
+        "payments": "Payments",
+        "notifications": "Notifications",
+        "notification_preferences": "Notification channels",
+        "deletion": "Account deletion"
+      },
+      "fields": {
+        "member_number": "Member number",
+        "email": "Email",
+        "phone": "Phone",
+        "locale": "Language",
+        "dark_mode": "Dark mode",
+        "created_at": "Created on",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "sex": "Sex",
+        "birth_date": "Date of birth",
+        "city": "City",
+        "status": "Status",
+        "journey_stage": "Journey stage",
+        "photo_hidden_until_match": "Photo hidden until a match",
+        "share_phone_after_match": "Number shared after a match",
+        "field": "Section",
+        "body": "Text",
+        "review_status": "Review",
+        "review_note": "Reason",
+        "side": "For",
+        "category": "Category",
+        "values": "Values",
+        "decided_at": "Decided on",
+        "marital_status": "Declared status",
+        "text_version": "Text version",
+        "signed_at": "Signed on",
+        "starts_at": "Date",
+        "venue": "Venue",
+        "booked_at": "Booked on",
+        "confirmed_at": "Confirmed on",
+        "checked_in_at": "Arrival",
+        "evening": "Evening",
+        "round": "Round",
+        "partner_first_name": "Person's first name",
+        "choice": "Answer",
+        "updated_at": "Changed on",
+        "announced_at": "Announced on",
+        "purpose": "Purpose",
+        "amount_xof": "Amount",
+        "provider": "Provider",
+        "refunded_amount_xof": "Refunded",
+        "kind": "Type",
+        "payload": "Content",
+        "read_at": "Read on",
+        "channel": "Channel",
+        "enabled": "On",
+        "requested_at": "Requested on",
+        "purge_after": "Erasure due on"
       }
     }
   },
@@ -1222,6 +1333,31 @@
         "table": "Table {number}",
         "qrLabel": "QR code for table {number}",
         "scan": "After each round, scan this code with your phone to give your answer."
+      },
+      "timer": {
+        "title": "Timer",
+        "help": "On the room tablet: the timer runs the rounds, without a break, with a visual and sound signal at the start of each round and at each table change.",
+        "open": "Open the timer",
+        "start": "Start the first round",
+        "startHelp": "Start once everyone is seated. The rounds then follow one another on their own, without a break.",
+        "notInProgress": "The timer can be started once the evening has begun and the tables are prepared.",
+        "before": "First round in",
+        "round": "Round {round} of {total}",
+        "changeover": "Table change, round {round} next",
+        "finished": "All rounds are over.",
+        "remaining": "Time remaining",
+        "sound": "Turn on sound",
+        "soundOn": "Sound on",
+        "back": "Back to the evening",
+        "errors": {
+          "already_started": "The timer has already been started.",
+          "invalid_status": "The evening must have begun.",
+          "not_prepared": "Prepare the tables first.",
+          "not_found": "This evening cannot be found.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Please try again later.",
+          "generic": "Something went wrong. Please try again in a moment."
+        }
       },
       "errors": {
         "venue_required": "Choose a venue before publishing.",

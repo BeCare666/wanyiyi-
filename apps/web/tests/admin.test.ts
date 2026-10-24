@@ -46,6 +46,7 @@ import { isAdminNavActive, visibleAdminNav } from "../src/components/admin/admin
 import ExcelJS from "exceljs";
 import { groupHits, hitStatusKey, isSearchShortcut, type SearchHit, searchHref } from "../src/components/admin/search";
 import QRCode from "qrcode";
+import { clock, stepKey, type TimerRound, timerState } from "../src/app/[locale]/(admin)/admin/soirees/timer";
 
 describe("Menu de l'administration (11.1)", () => {
   it("n'affiche que les modules permis au rôle, sans groupe vide", () => {
@@ -462,3 +463,34 @@ describe("Membres (11.2-2)", () => {
     expect(historyKey("vote.cast")).toBe("other");
   });
 });
+
+describe("Minuteur des tours (question 8 : pas de pause)", () => {
+  const at = (min: number) => new Date(Date.UTC(2026, 10, 7, 19, 0) + min * 60_000).toISOString();
+  // 3 tours de 7 minutes, 1 minute de changement, horaire fixé par la base
+  const rounds: TimerRound[] = [
+    { round_number: 1, started_at: at(0), ended_at: at(7) },
+    { round_number: 2, started_at: at(8), ended_at: at(15) },
+    { round_number: 3, started_at: at(16), ended_at: at(23) },
+  ];
+  const now = (min: number) => new Date(at(min));
+
+  it("tour en cours, changement de table, fin ; rien avant le démarrage", () => {
+    expect(timerState(rounds.map((r) => ({ ...r, started_at: null, ended_at: null })), now(0))).toEqual({ phase: "not_started" });
+    expect(timerState(rounds, now(-0.5))).toEqual({ phase: "before", untilMs: 30_000 });
+    expect(timerState(rounds, now(0))).toEqual({ phase: "round", round: 1, total: 3, remainingMs: 7 * 60_000 });
+    expect(timerState(rounds, now(6.5))).toEqual({ phase: "round", round: 1, total: 3, remainingMs: 30_000 });
+    expect(timerState(rounds, now(7.25))).toEqual({ phase: "changeover", nextRound: 2, total: 3, remainingMs: 45_000 });
+    expect(timerState(rounds, now(16))).toMatchObject({ phase: "round", round: 3 });
+    expect(timerState(rounds, now(23))).toEqual({ phase: "finished", total: 3 });
+  });
+
+  it("un signal à chaque changement d'étape ; temps affiché en minutes et secondes", () => {
+    expect(stepKey(timerState(rounds, now(1)))).toBe("round-1");
+    expect(stepKey(timerState(rounds, now(7.5)))).toBe("changeover-2");
+    expect(stepKey(timerState(rounds, now(30)))).toBe("finished");
+    expect(clock(7 * 60_000)).toBe("7:00");
+    expect(clock(30_500)).toBe("0:31");
+    expect(clock(-5)).toBe("0:00");
+  });
+});
+

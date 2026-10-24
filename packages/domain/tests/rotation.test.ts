@@ -66,6 +66,13 @@ describe("Rotation (9.2)", () => {
 describe("Minuteur (9.2)", () => {
   const start = new Date("2026-10-22T18:30:00Z");
 
+  it("sans pause par défaut (question 8) : 10 tours enchaînés, 9 changements de table, 79 minutes", () => {
+    const slots = buildSchedule({ start, rounds: 10 });
+    expect(slots.filter((s) => s.kind === "break")).toEqual([]);
+    expect(slots.filter((s) => s.kind === "changeover")).toHaveLength(9);
+    expect((slots.at(-1)!.end.getTime() - start.getTime()) / 60_000).toBe(79);
+  });
+
   it("tours de 7 minutes, changements de 1 minute, pause après la moitié des tours", () => {
     const slots = buildSchedule({ start, rounds: 10, breakMinutes: 15 });
     const rounds = slots.filter((s) => s.kind === "round");
