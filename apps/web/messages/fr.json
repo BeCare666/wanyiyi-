@@ -1072,7 +1072,8 @@
       "evenings": "Soirées",
       "venues": "Lieux",
       "members": "Membres",
-      "payments": "Paiements"
+      "payments": "Paiements",
+      "themes": "Thèmes"
     },
     "navHelp": {
       "verifications": "Dossiers en attente, selfies, décisions",
@@ -1766,6 +1767,45 @@
         "venue": "Lieux",
         "payment": "Paiements"
       }
+    },
+    "themes": {
+      "intro": "Thèmes proposés pour les soirées : tranche d'âge, foi, univers professionnel. Un membre ne peut réserver une soirée à thème que s'il en remplit les critères.",
+      "empty": "Aucun thème pour l'instant.",
+      "new": "Nouveau thème",
+      "ageRange": "de {min} à {max} ans",
+      "ageMin": "à partir de {min} ans",
+      "ageMax": "jusqu'à {max} ans",
+      "delete": "Supprimer",
+      "confirmDelete": "Confirmer la suppression",
+      "keep": "Garder",
+      "errors": {
+        "theme_in_use": "Ce thème sert déjà à une soirée : il ne peut pas être supprimé.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      },
+      "form": {
+        "name": {
+          "fr": "Nom en français",
+          "en": "Nom en anglais",
+          "yo": "Nom en yoruba"
+        },
+        "minAge": "Âge minimum",
+        "maxAge": "Âge maximum",
+        "religions": "Confessions (la personne doit avoir l'une d'elles)",
+        "sectors": "Secteurs d'activité (la personne doit être dans l'un d'eux)",
+        "help": "Le nom en français est obligatoire ; l'anglais et le yoruba le reprennent s'ils sont vides. Au moins un critère : âge, confession ou secteur.",
+        "submit": "Créer le thème",
+        "saved": "Thème créé.",
+        "errors": {
+          "name": "Indiquez le nom en français (80 caractères au plus).",
+          "age": "Vérifiez les âges : de 18 à 120 ans, le maximum au-dessus du minimum.",
+          "criteria": "Choisissez au moins un critère : âge, confession ou secteur.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
     }
   },
   "Password": {
@@ -1789,6 +1829,50 @@
       "tooManyRequests": "Trop de tentatives. Patientez quelques minutes avant de réessayer.",
       "unavailable": "Ce service n'est pas encore ouvert.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
+    }
+  },
+  "Profile": {
+    "religion": {
+      "catholic": "Catholique",
+      "protestant_evangelical": "Protestante ou évangélique",
+      "muslim": "Musulmane",
+      "traditional": "Religion traditionnelle",
+      "other": "Autre",
+      "none": "Aucune"
+    },
+    "sector": {
+      "agriculture_agrifood": "Agriculture et agroalimentaire",
+      "trade": "Commerce",
+      "education": "Éducation et formation",
+      "health": "Santé",
+      "public_administration": "Administration et fonction publique",
+      "banking_finance_insurance": "Banque, finance et assurance",
+      "it_telecom": "Informatique et télécoms",
+      "construction_engineering": "Bâtiment et ingénierie",
+      "transport_logistics": "Transport et logistique",
+      "hospitality_tourism": "Hôtellerie, restauration et tourisme",
+      "crafts": "Artisanat et métiers",
+      "arts_media_communication": "Arts, médias et communication",
+      "law_justice": "Droit et justice",
+      "ngo_international": "ONG et organisations internationales",
+      "defence_security": "Forces de défense et de sécurité",
+      "student": "Étudiant ou étudiante",
+      "other": "Autre"
+    },
+    "height": {
+      "under_150": "Moins de 150 cm",
+      "150_159": "150 à 159 cm",
+      "160_169": "160 à 169 cm",
+      "170_179": "170 à 179 cm",
+      "180_189": "180 à 189 cm",
+      "190_plus": "190 cm et plus"
+    },
+    "income": {
+      "under_100k": "Moins de 100 000 FCFA par mois",
+      "100k_250k": "100 000 à 249 999 FCFA par mois",
+      "250k_500k": "250 000 à 499 999 FCFA par mois",
+      "500k_1m": "500 000 à 999 999 FCFA par mois",
+      "1m_plus": "1 000 000 FCFA et plus par mois"
     }
   }
 }

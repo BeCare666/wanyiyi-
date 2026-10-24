@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { getFormatter, getTranslations } from "next-intl/server";
+import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { memberNav } from "@/components/member/memberNav";
 import { Link } from "@/i18n/navigation";
 import { memberApi } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { getSessionMember } from "@/lib/session";
+import { themeName } from "@/lib/theme-name";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { EveningActions } from "./EveningActions";
 import {
@@ -41,6 +42,7 @@ async function memberProfile(userId: string): Promise<{ sex: Sex | null; verifie
 export default async function EveningsPage({ searchParams }: Props) {
   const t = await getTranslations("Member");
   const format = await getFormatter();
+  const locale = await getLocale();
   const member = await getSessionMember();
   if (!member) return null;
   const filter = parseFilter((await searchParams).filtre);
@@ -115,7 +117,7 @@ export default async function EveningsPage({ searchParams }: Props) {
                         </p>
                         {evening.theme && (
                           <p className="eyebrow mt-4">
-                            {t("evenings.theme")}
+                            {evening.theme.name?.fr ? themeName(evening.theme, locale) : t("evenings.theme")}
                             {evening.theme.min_age !== null && evening.theme.max_age !== null
                               ? ` · ${t("evenings.themeAge", { min: evening.theme.min_age, max: evening.theme.max_age })}`
                               : evening.theme.min_age !== null

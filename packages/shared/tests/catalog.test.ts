@@ -34,6 +34,12 @@ describe("Catalogue du profil (section 8.2)", () => {
     expect(byKey.build?.optional).toBe(true);
   });
 
+  it("chaque catégorie a ses options (question 4 : taille par 10 cm, revenus, secteurs)", () => {
+    for (const c of PROFILE_CATALOG) expect(c.options.length, c.key).toBeGreaterThan(0);
+    expect(byKey.height?.options).toEqual(["under_150", "150_159", "160_169", "170_179", "180_189", "190_plus"]);
+    expect(byKey.sector?.options).toContain("other");
+  });
+
   it("couvre les 21 catégories de la note", () => {
     expect(PROFILE_CATALOG).toHaveLength(21);
   });

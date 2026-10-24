@@ -37,7 +37,7 @@ export class EventsController {
       await db
         .from("events")
         .select(
-          "id, starts_at, status, price_xof, capacity_women, capacity_men, round_minutes, theme:themes(key, min_age, max_age), venue:venues(name, address, city)",
+          "id, starts_at, status, price_xof, capacity_women, capacity_men, round_minutes, theme:themes(key, name, min_age, max_age), venue:venues(name, address, city)",
         )
         .in("status", ["published", "full"])
         .gte("starts_at", new Date().toISOString())

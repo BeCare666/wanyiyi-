@@ -7,7 +7,7 @@ export async function loadEventOptions(): Promise<{ venues: VenueOption[]; theme
   if (!supabase) return { venues: [], themes: [] };
   const [venues, themes] = await Promise.all([
     supabase.from("venues").select("id, name, city").order("name"),
-    supabase.from("themes").select("id, key, min_age, max_age").order("key"),
+    supabase.from("themes").select("id, key, name, min_age, max_age").order("created_at"),
   ]);
   return { venues: (venues.data as VenueOption[] | null) ?? [], themes: (themes.data as ThemeOption[] | null) ?? [] };
 }

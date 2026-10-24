@@ -53,7 +53,7 @@ describe("Menu de l'administration (11.1)", () => {
     // Administration : vérifications, soirées et lieux
     expect(visibleAdminNav(["verifications.review", "members.manage", "events.manage"]).map((g) => g.items.map((i) => i.key))).toEqual([
       ["members", "verifications"],
-      ["evenings", "venues"],
+      ["evenings", "venues", "themes"],
     ]);
     expect(visibleAdminNav(["events.manage"]).map((g) => g.key)).toEqual(["evenings"]);
     expect(visibleAdminNav(["payments.read"]).map((g) => g.items.map((i) => i.href))).toEqual([["/admin/paiements"]]);

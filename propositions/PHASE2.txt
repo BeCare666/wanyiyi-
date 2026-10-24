@@ -252,7 +252,7 @@ Décisions du 14 octobre 2026
     En attente : extension des filtres aux autres listes.
   Reste (24 octobre 2026 ; modération des textes et minuteur faits, questions 22
     et 8 ; modération des photos quand le dépôt des photos existera) : dans Soirées :
-    création des thèmes (questions 4 et 21), composition assistée (critères
+    thèmes faits le 24 octobre (questions 4 et 21) ; composition assistée (critères
     non négociables, après le profil). Recherche globale et filtres avancés
     11.3 faits le 19 octobre ; compte rendu d'entretien abandonné (question 5).
   Fait le 20 octobre 2026 : adaptateur de paiement KkiaPay (question 7). Le
@@ -306,6 +306,19 @@ QUESTIONS (je n'invente pas les réponses)
      RÉPONSE (19 octobre 2026) : 18 ans révolus, pas d'âge maximum.
   4. Profil : bornes des tranches de taille (10 cm), tranches de revenus,
      liste des secteurs d'activité.
+     CHOIX DE CLAUDE (24 octobre 2026, à la demande de l'utilisateur : « analyse
+     toi-même et choisis les meilleurs » ; modifiables) :
+     - taille, tranches de 10 cm : moins de 150, 150-159, 160-169, 170-179,
+       180-189, 190 et plus ;
+     - revenus mensuels (équipe seulement, facultatif) : moins de 100 000 FCFA,
+       100 000 à 249 999, 250 000 à 499 999, 500 000 à 999 999, 1 000 000 et
+       plus (repère : SMIG béninois 52 000 FCFA) ;
+     - secteurs : agriculture et agroalimentaire, commerce, éducation et
+       formation, santé, administration et fonction publique, banque, finance
+       et assurance, informatique et télécoms, bâtiment et ingénierie, transport
+       et logistique, hôtellerie, restauration et tourisme, artisanat et métiers,
+       arts, médias et communication, droit et justice, ONG et organisations
+       internationales, forces de défense et de sécurité, étudiant(e), autre.
   5. Entretien de vérification : en personne, par appel vidéo, ou les deux ?
      Lieu et créneaux habituels ?
      RÉPONSE (22 octobre 2026) : entretien abandonné. Validation sur selfie
@@ -339,6 +352,8 @@ QUESTIONS (je n'invente pas les réponses)
  10. Chiffres en yoruba écrits en lettres (blocage des numéros) :
      òdo, ọ̀kan, èjì, ẹ̀ta, ẹ̀rin, àrún, ẹ̀fà, èje, ẹ̀jọ, ẹ̀sán. À faire
      valider par le traducteur avec le reste.
+     CHOIX DE CLAUDE (24 octobre 2026) : liste gardée telle quelle ; seule la
+     relecture par un traducteur yoruba peut la confirmer.
  11. Vérification des pièces d'identité : réservée pour l'instant aux rôles
      administrateur et super administrateur. Les modérateurs doivent-ils
      aussi valider les inscriptions ?
@@ -353,11 +368,18 @@ QUESTIONS (je n'invente pas les réponses)
      prestataire. « Mes soirées » affiche « À régler avant le … » (pay_by).
  13. Node.js : la bibliothèque Supabase installée exige Node 22, le poste a
      Node 20. Pouvez-vous installer Node 22 LTS (nécessaire pour l'étape 3) ?
+     CHOIX DE CLAUDE (24 octobre 2026) : Node 22 LTS, à installer par
+     l'utilisateur sur son poste (nodejs.org) ; Render et Vercel utilisent déjà
+     leur propre version de Node.
  14. Brevo : nom d'expéditeur des SMS (11 lettres ou chiffres, par exemple
      « Wanyiyi ») et adresse d'envoi des e-mails (par exemple
      bonjour@votre-domaine). Le domaine devra être authentifié chez Brevo.
      Les noms d'expéditeur SMS doivent-ils être enregistrés auprès des
      opérateurs béninois ? Je n'ai pas cette information.
+     CHOIX DE CLAUDE (24 octobre 2026) : SMS coupés (question 26), donc pas
+     d'expéditeur SMS pour l'instant ; e-mails envoyés au nom « Ifedele »
+     depuis une adresse sans réponse (par exemple noreply@<domaine>) sur le
+     domaine du site, à authentifier chez Brevo par l'utilisateur.
  15. Paramètres, « confidentialité » (section 6.2-9) : quels réglages
      concrets ? (Par exemple : masquer sa photo jusqu'au match, ne pas
      apparaître dans les soirées thématiques.) Je n'invente pas la liste.
@@ -409,6 +431,17 @@ QUESTIONS (je n'invente pas les réponses)
  21. Thèmes des soirées : quelles confessions proposer pour les soirées
      « foi » (liste exacte), et quels secteurs pour les soirées « profession »
      (liée à la question 4) ? Les thèmes existants restent sélectionnables.
+     CHOIX DE CLAUDE (24 octobre 2026), d'après les thèmes déjà annoncés sur la
+     vitrine : « Foi chrétienne » (catholique, protestante et évangélique) et
+     « Foi musulmane » ; tranches d'âge 25-35, 35-45, 45 et plus ; les soirées
+     « Univers professionnel » sont créées par l'équipe, avec les secteurs de son
+     choix parmi la liste de la question 4. L'équipe peut créer d'autres thèmes
+     (nom en trois langues, âge, confessions, secteurs).
+     FAIT (4 et 21, 24 octobre 2026) : catalogue du profil complété (taille,
+     revenus, secteurs, packages/shared) ; migration 20261024000100_themes.sql
+     (nom en trois langues, 5 thèmes de départ, app.save_theme, app.delete_theme,
+     plus d'écriture directe) ; module /admin/themes ; nom du thème affiché dans
+     le formulaire des soirées et dans « Mes soirées ».
  22. Modération des textes de profil (et des photos, même permission) :
      a) un refus exige-t-il un motif écrit par l'équipe ?
      b) le membre est-il prévenu (notification avec le motif) ?

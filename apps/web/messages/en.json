@@ -1072,7 +1072,8 @@
       "evenings": "Evenings",
       "venues": "Venues",
       "members": "Members",
-      "payments": "Payments"
+      "payments": "Payments",
+      "themes": "Themes"
     },
     "navHelp": {
       "verifications": "Pending files, selfies, decisions",
@@ -1766,6 +1767,45 @@
         "venue": "Venues",
         "payment": "Payments"
       }
+    },
+    "themes": {
+      "intro": "Themes offered for evenings: age range, faith, professional world. A member can only book a themed evening if they meet its criteria.",
+      "empty": "No themes yet.",
+      "new": "New theme",
+      "ageRange": "{min} to {max}",
+      "ageMin": "from {min}",
+      "ageMax": "up to {max}",
+      "delete": "Delete",
+      "confirmDelete": "Confirm deletion",
+      "keep": "Keep",
+      "errors": {
+        "theme_in_use": "This theme is already used by an evening: it cannot be deleted.",
+        "forbidden": "Your role does not allow this action.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
+      },
+      "form": {
+        "name": {
+          "fr": "Name in French",
+          "en": "Name in English",
+          "yo": "Name in Yoruba"
+        },
+        "minAge": "Minimum age",
+        "maxAge": "Maximum age",
+        "religions": "Faiths (the person must have one of them)",
+        "sectors": "Sectors (the person must work in one of them)",
+        "help": "The French name is required; English and Yoruba reuse it when empty. At least one criterion: age, faith or sector.",
+        "submit": "Create the theme",
+        "saved": "Theme created.",
+        "errors": {
+          "name": "Enter the French name (80 characters at most).",
+          "age": "Check the ages: 18 to 120, the maximum above the minimum.",
+          "criteria": "Choose at least one criterion: age, faith or sector.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      }
     }
   },
   "Password": {
@@ -1789,6 +1829,50 @@
       "tooManyRequests": "Too many attempts. Please wait a few minutes before trying again.",
       "unavailable": "This service is not open yet.",
       "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
+  "Profile": {
+    "religion": {
+      "catholic": "Catholic",
+      "protestant_evangelical": "Protestant or evangelical",
+      "muslim": "Muslim",
+      "traditional": "Traditional religion",
+      "other": "Other",
+      "none": "None"
+    },
+    "sector": {
+      "agriculture_agrifood": "Agriculture and food",
+      "trade": "Trade",
+      "education": "Education and training",
+      "health": "Health",
+      "public_administration": "Public administration",
+      "banking_finance_insurance": "Banking, finance and insurance",
+      "it_telecom": "IT and telecoms",
+      "construction_engineering": "Construction and engineering",
+      "transport_logistics": "Transport and logistics",
+      "hospitality_tourism": "Hotels, catering and tourism",
+      "crafts": "Crafts and trades",
+      "arts_media_communication": "Arts, media and communication",
+      "law_justice": "Law and justice",
+      "ngo_international": "NGOs and international organisations",
+      "defence_security": "Defence and security forces",
+      "student": "Student",
+      "other": "Other"
+    },
+    "height": {
+      "under_150": "Under 150 cm",
+      "150_159": "150 to 159 cm",
+      "160_169": "160 to 169 cm",
+      "170_179": "170 to 179 cm",
+      "180_189": "180 to 189 cm",
+      "190_plus": "190 cm and over"
+    },
+    "income": {
+      "under_100k": "Under 100,000 FCFA a month",
+      "100k_250k": "100,000 to 249,999 FCFA a month",
+      "250k_500k": "250,000 to 499,999 FCFA a month",
+      "500k_1m": "500,000 to 999,999 FCFA a month",
+      "1m_plus": "1,000,000 FCFA and over a month"
     }
   }
 }

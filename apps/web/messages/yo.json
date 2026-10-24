@@ -1072,7 +1072,8 @@
       "evenings": "Ìpàdé alẹ́",
       "venues": "Àwọn ibi ìpàdé",
       "members": "Ọmọ ẹgbẹ́",
-      "payments": "Ìsanwó"
+      "payments": "Ìsanwó",
+      "themes": "Àkòrí"
     },
     "navHelp": {
       "verifications": "Àwọn ìwé tó ń dúró, àwọn fọ́tò ojú, àwọn ìpinnu",
@@ -1766,6 +1767,45 @@
         "venue": "Ibi ìpàdé",
         "payment": "Ìsanwó"
       }
+    },
+    "themes": {
+      "intro": "Àwọn àkòrí fún ìpàdé alẹ́: ọjọ́ orí, ìgbàgbọ́, iṣẹ́. Ọmọ ẹgbẹ́ lè fi ààyè pamọ́ fún ìpàdé alẹ́ àkòrí kan tí ó bá bá àwọn òfin rẹ̀ mu nìkan.",
+      "empty": "Kò sí àkòrí kankan síbẹ̀.",
+      "new": "Àkòrí tuntun",
+      "ageRange": "ọdún {min} sí {max}",
+      "ageMin": "láti ọdún {min}",
+      "ageMax": "títí dé ọdún {max}",
+      "delete": "Pa á rẹ́",
+      "confirmDelete": "Fìdí pípa rẹ́ múlẹ̀",
+      "keep": "Fi sílẹ̀",
+      "errors": {
+        "theme_in_use": "Ìpàdé alẹ́ kan ti ń lo àkòrí yìí: a kò lè pa á rẹ́.",
+        "forbidden": "Ipa rẹ kò fàyè gba ìgbésẹ̀ yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì wà. Gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́."
+      },
+      "form": {
+        "name": {
+          "fr": "Orúkọ ní èdè Faransé",
+          "en": "Orúkọ ní èdè Gẹ̀ẹ́sì",
+          "yo": "Orúkọ ní èdè Yorùbá"
+        },
+        "minAge": "Ọjọ́ orí tó kéré jù",
+        "maxAge": "Ọjọ́ orí tó pọ̀ jù",
+        "religions": "Ẹ̀sìn (ẹni náà gbọ́dọ̀ ní ọ̀kan nínú wọn)",
+        "sectors": "Ẹ̀ka iṣẹ́ (ẹni náà gbọ́dọ̀ wà nínú ọ̀kan nínú wọn)",
+        "help": "Orúkọ ní èdè Faransé pọn dandan; Gẹ̀ẹ́sì àti Yorùbá yóò lò ó tí wọn kò bá ní nǹkan. Ó kéré tán òfin kan: ọjọ́ orí, ẹ̀sìn tàbí ẹ̀ka iṣẹ́.",
+        "submit": "Ṣẹ̀dá àkòrí náà",
+        "saved": "A ti ṣẹ̀dá àkòrí náà.",
+        "errors": {
+          "name": "Kọ orúkọ ní èdè Faransé (kò ju lẹ́tà 80 lọ).",
+          "age": "Ṣàyẹ̀wò ọjọ́ orí: láti 18 sí 120, èyí tó pọ̀ jù ga ju èyí tó kéré jù lọ.",
+          "criteria": "Yan ó kéré tán òfin kan: ọjọ́ orí, ẹ̀sìn tàbí ẹ̀ka iṣẹ́.",
+          "forbidden": "Ipa rẹ kò fàyè gba ìgbésẹ̀ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì wà. Gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́."
+        }
+      }
     }
   },
   "Password": {
@@ -1789,6 +1829,50 @@
       "tooManyRequests": "Ẹ ti gbìyànjú jù. Ẹ dúró ìṣẹ́jú díẹ̀ kí ẹ tó tún gbìyànjú.",
       "unavailable": "Iṣẹ́ yìí kò tíì ṣí.",
       "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+    }
+  },
+  "Profile": {
+    "religion": {
+      "catholic": "Kátólíìkì",
+      "protestant_evangelical": "Pùròtẹ́sítáǹtì tàbí ajíhìnrere",
+      "muslim": "Mùsùlùmí",
+      "traditional": "Ẹ̀sìn ìbílẹ̀",
+      "other": "Òmíràn",
+      "none": "Kò sí"
+    },
+    "sector": {
+      "agriculture_agrifood": "Iṣẹ́ àgbẹ̀ àti oúnjẹ",
+      "trade": "Òwò",
+      "education": "Ẹ̀kọ́ àti ìdánilẹ́kọ̀ọ́",
+      "health": "Ìlera",
+      "public_administration": "Iṣẹ́ ìjọba",
+      "banking_finance_insurance": "Ilé ìfowópamọ́, ìṣúná àti ìdánilójú",
+      "it_telecom": "Kọ̀ǹpútà àti ìbánisọ̀rọ̀",
+      "construction_engineering": "Ìkọ́lé àti ìmọ̀ ẹ̀rọ",
+      "transport_logistics": "Ìrìnnà àti ìkẹ́rùlọ",
+      "hospitality_tourism": "Ilé ìtura, oúnjẹ àti ìrìn àjò afẹ́",
+      "crafts": "Iṣẹ́ ọwọ́",
+      "arts_media_communication": "Iṣẹ́ ọnà, ìròyìn àti ìbánisọ̀rọ̀",
+      "law_justice": "Òfin àti ìdájọ́",
+      "ngo_international": "Àjọ àánú àti àjọ àgbáyé",
+      "defence_security": "Ológun àti ààbò",
+      "student": "Akẹ́kọ̀ọ́",
+      "other": "Òmíràn"
+    },
+    "height": {
+      "under_150": "Kò tó 150 cm",
+      "150_159": "150 sí 159 cm",
+      "160_169": "160 sí 169 cm",
+      "170_179": "170 sí 179 cm",
+      "180_189": "180 sí 189 cm",
+      "190_plus": "190 cm sókè"
+    },
+    "income": {
+      "under_100k": "Kò tó 100 000 FCFA lóṣù",
+      "100k_250k": "100 000 sí 249 999 FCFA lóṣù",
+      "250k_500k": "250 000 sí 499 999 FCFA lóṣù",
+      "500k_1m": "500 000 sí 999 999 FCFA lóṣù",
+      "1m_plus": "1 000 000 FCFA sókè lóṣù"
     }
   }
 }

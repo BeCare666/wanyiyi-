@@ -1,3 +1,5 @@
+import type { ThemeName } from "../../../../../lib/theme-name";
+
 /** Sexe tel qu'enregistré dans le profil (quotas séparés, section 9.2). */
 export type Sex = "female" | "male";
 
@@ -20,7 +22,7 @@ export type Evening = {
   capacity_women: number;
   capacity_men: number;
   round_minutes: number;
-  theme: { key: string; min_age: number | null; max_age: number | null } | null;
+  theme: { key: string; name?: Partial<ThemeName> | null; min_age: number | null; max_age: number | null } | null;
   venue: { name: string; address: string; city: string } | null;
   seats: { sex: Sex; capacity: number; taken: number; waiting: number }[];
   mine: MyBooking | null;

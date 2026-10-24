@@ -1,15 +1,16 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useState, useTransition } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
+import { type ThemeName, themeName } from "@/lib/theme-name";
 import { saveEvent } from "./actions";
 import { checkDraft, type EventDraft } from "./evenings";
 
 export type VenueOption = { id: string; name: string; city: string };
-export type ThemeOption = { id: string; key: string; min_age: number | null; max_age: number | null };
+export type ThemeOption = { id: string; key: string; name: Partial<ThemeName> | null; min_age: number | null; max_age: number | null };
 
 const knownErrors = new Set([
   "starts_at",
@@ -47,6 +48,7 @@ export function EventForm({
   themes: ThemeOption[];
 }) {
   const t = useTranslations("Admin.evenings.form");
+  const locale = useLocale();
   const router = useRouter();
   const [draft, setDraft] = useState<EventDraft>(initial);
   const [price, setPrice] = useState(initial.priceXof === null ? "" : String(initial.priceXof));
@@ -109,7 +111,7 @@ export function EventForm({
           <option value="">{t("noTheme")}</option>
           {themes.map((th) => (
             <option key={th.id} value={th.id}>
-              {th.key}
+              {themeName(th, locale)}
               {th.min_age !== null && ` · ${t("themeMin", { min: th.min_age })}`}
               {th.max_age !== null && ` · ${t("themeMax", { max: th.max_age })}`}
             </option>

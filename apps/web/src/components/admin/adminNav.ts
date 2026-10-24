@@ -1,10 +1,10 @@
 import type { Icon } from "@phosphor-icons/react";
-import { ChampagneIcon, ChatTextIcon, MapPinIcon, ReceiptIcon, ShieldCheckIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
+import { ChampagneIcon, ChatTextIcon, MapPinIcon, ReceiptIcon, ShieldCheckIcon, TagIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
 import type { StaffPermission } from "@/lib/staff";
 
 /** Entrée du menu de l'administration : clé de traduction (Admin.nav), adresse, icône, permission requise. */
 export type AdminNavItem = {
-  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "payments";
+  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "payments";
   href: string;
   Icon: Icon;
   permission: StaffPermission;
@@ -30,6 +30,8 @@ export const adminNav: AdminNavGroup[] = [
     items: [
       { key: "evenings", href: "/admin/soirees", Icon: ChampagneIcon, permission: "events.manage" },
       { key: "venues", href: "/admin/lieux", Icon: MapPinIcon, permission: "events.manage" },
+      // Thèmes des soirées (questions 4 et 21, 24 octobre 2026)
+      { key: "themes", href: "/admin/themes", Icon: TagIcon, permission: "events.manage" },
     ],
   },
   {

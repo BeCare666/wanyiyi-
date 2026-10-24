@@ -32,11 +32,21 @@ export const PROFILE_CATALOG = [
   { key: "religion", options: ["catholic", "protestant_evangelical", "muslim", "traditional", "other", "none"], multiple: false, optional: false, visibility: "members" },
   { key: "religious_practice", options: ["regular", "occasional", "little_or_none"], multiple: false, optional: false, visibility: "members" },
   { key: "education", options: ["primary", "secondary", "bac", "licence", "master_plus", "vocational"], multiple: false, optional: false, visibility: "members" },
-  // Liste des secteurs à fournir (question ouverte) : valeurs provisoires à valider
-  { key: "sector", options: [], multiple: false, optional: false, visibility: "members" },
+  // Secteurs (question 4, choix du 24 octobre 2026, modifiable)
+  {
+    key: "sector",
+    options: [
+      "agriculture_agrifood", "trade", "education", "health", "public_administration", "banking_finance_insurance",
+      "it_telecom", "construction_engineering", "transport_logistics", "hospitality_tourism", "crafts",
+      "arts_media_communication", "law_justice", "ngo_international", "defence_security", "student", "other",
+    ],
+    multiple: false,
+    optional: false,
+    visibility: "members",
+  },
   { key: "languages", options: ["french", "fon", "yoruba", "goun", "mina", "bariba", "dendi", "english", "other"], multiple: true, optional: false, visibility: "members" },
-  // Tranches de 10 cm : bornes à confirmer (question ouverte)
-  { key: "height", options: [], multiple: false, optional: true, visibility: "members" },
+  // Tranches de 10 cm (question 4, choix du 24 octobre 2026)
+  { key: "height", options: ["under_150", "150_159", "160_169", "170_179", "180_189", "190_plus"], multiple: false, optional: true, visibility: "members" },
   { key: "build", options: ["slim", "average", "athletic", "curvy"], multiple: false, optional: true, visibility: "members" },
   { key: "personality", options: ["calm", "joyful", "reserved", "sociable", "organised", "spontaneous", "patient", "ambitious", "funny", "attentive"], multiple: true, optional: false, visibility: "members", min: 3, max: 5 },
   { key: "tobacco", options: ["no", "sometimes", "yes"], multiple: false, optional: false, visibility: "members" },
@@ -46,8 +56,8 @@ export const PROFILE_CATALOG = [
   { key: "money_management", options: ["all_shared", "separate", "mixed"], multiple: false, optional: false, visibility: "after_match" },
   { key: "extended_family", options: ["very_important", "balanced", "couple_independence"], multiple: false, optional: false, visibility: "after_match" },
   { key: "desired_location", options: ["cotonou", "other_benin_city", "abroad", "indifferent"], multiple: false, optional: false, visibility: "after_match" },
-  // Tranches de revenus à définir (question ouverte)
-  { key: "income", options: [], multiple: false, optional: true, visibility: "team" },
+  // Revenus mensuels en FCFA (question 4, choix du 24 octobre 2026 ; SMIG béninois : 52 000 FCFA)
+  { key: "income", options: ["under_100k", "100k_250k", "250k_500k", "500k_1m", "1m_plus"], multiple: false, optional: true, visibility: "team" },
 ] as const satisfies readonly CatalogCategory[];
 
 export type ProfileCategoryKey = (typeof PROFILE_CATALOG)[number]["key"];
