@@ -539,7 +539,8 @@
         "discovery_extended": "Your discovery is extended by 7 days.",
         "discovery_closed": "This introduction has ended.",
         "match_expired": "This introduction has ended.",
-        "couple_opened": "You both chose to continue: your couple space is open."
+        "couple_opened": "You both chose to continue: your couple space is open.",
+        "profile_photo_rejected": "A photo on your profile was declined. Upload another one: it will be reviewed again."
       }
     },
     "dashboard": {
@@ -713,7 +714,9 @@
         "photoHidden": "Photo hidden until a match",
         "photoHiddenHelp": "Your photo is only shown after a mutual match.",
         "sharePhone": "Number shared after a match",
-        "sharePhoneHelp": "After a match, your number is given to the other person. Untick to keep it to yourself."
+        "sharePhoneHelp": "After a match, your number is given to the other person. Untick to keep it to yourself.",
+        "keepBlurred": "Keep my photo blurred",
+        "keepBlurredHelp": "Even after a match, the other person sees your photo blurred until you change this setting."
       },
       "data": {
         "title": "My data",
@@ -973,6 +976,30 @@
           "failed": "The text could not be saved. Try again later.",
           "saved": "Saved, being reviewed.",
           "removed": "Text removed."
+        }
+      },
+      "photos": {
+        "title": "My photos",
+        "intro": "Up to {max} photos where your face is clearly visible. The team reviews them before they are shown, and nobody sees them before a match.",
+        "alt": "My photo {rank}",
+        "status": {
+          "pending": "Being reviewed by the team.",
+          "approved": "Approved."
+        },
+        "rejected": "Declined: {note}. Upload another one.",
+        "remove": "Remove",
+        "add": "Add a photo",
+        "sending": "Sending…",
+        "formats": "JPEG, PNG or WebP, 8 MB at most.",
+        "full": "You already have {max} photos. Remove one to add another.",
+        "errors": {
+          "photo_type": "This format is not accepted: JPEG, PNG or WebP.",
+          "photo_too_large": "This photo is larger than 8 MB.",
+          "photo_unreadable": "This image cannot be read. Try another photo.",
+          "too_many_photos": "You already have the maximum number of photos.",
+          "not_authenticated": "Your session has expired. Please sign in again.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
         }
       }
     }
@@ -1267,7 +1294,13 @@
         "forbidden": "Your role does not allow this action.",
         "unavailable": "This service is not available yet. Please try again later.",
         "generic": "Something went wrong. Please try again in a moment."
-      }
+      },
+      "photos": {
+        "title": "Photos to review",
+        "empty": "No photo to review.",
+        "alt": "Photo uploaded by {name}"
+      },
+      "texts": "Texts to review"
     },
     "evenings": {
       "intro": "All evenings, drafts included, most recent first. An evening is created as a draft; once published, it can be edited until the tables are prepared, and registered members are notified.",
@@ -2322,5 +2355,10 @@
         "1m_plus": "1,000,000 FCFA and over a month"
       }
     }
+  },
+  "Photos": {
+    "show": "Show the photo",
+    "loading": "Loading…",
+    "error": "The photo cannot be shown. Try again."
   }
 }

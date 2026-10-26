@@ -7,7 +7,7 @@ export type ApiResult<T> = { ok: true; data: T } | { ok: false; error: string };
  * Appel de l'API NestJS au nom du membre connecté : son jeton est transmis,
  * l'API le vérifie et la RLS s'applique dans la base. Uniquement côté serveur.
  */
-export async function memberApi<T>(path: string, init?: { method?: "GET" | "POST" | "PUT"; body?: unknown }): Promise<ApiResult<T>> {
+export async function memberApi<T>(path: string, init?: { method?: "GET" | "POST" | "PUT" | "DELETE"; body?: unknown }): Promise<ApiResult<T>> {
   const base = process.env.NEXT_PUBLIC_API_URL;
   const supabase = await createSupabaseServer();
   if (!base || !supabase) return { ok: false, error: "unavailable" };
@@ -18,11 +18,12 @@ export async function memberApi<T>(path: string, init?: { method?: "GET" | "POST
   try {
     const response = await fetch(`${base}${path}`, {
       method: init?.method ?? "GET",
+      // Un fichier (FormData) part tel quel : fetch fixe lui-même l'en-tête multipart
       headers: {
         Authorization: `Bearer ${token}`,
-        ...(init?.body === undefined ? {} : { "Content-Type": "application/json" }),
+        ...(init?.body === undefined || init.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
       },
-      body: init?.body === undefined ? undefined : JSON.stringify(init.body),
+      body: init?.body === undefined ? undefined : init.body instanceof FormData ? init.body : JSON.stringify(init.body),
       cache: "no-store",
     });
     if (!response.ok) {

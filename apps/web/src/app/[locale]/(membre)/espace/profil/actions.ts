@@ -1,6 +1,6 @@
 "use server";
 
-import { memberApi } from "@/lib/api";
+import { type ApiResult, memberApi } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { canBeDealbreaker, checkAnswer, maxDealbreakers, type TextField, type TextResult, textFields, textMaxLength } from "./profile";
 
@@ -71,4 +71,20 @@ export async function saveText(field: string, body: string): Promise<TextResult>
   const result = await memberApi<void>(`/profile/texts/${field}`, { method: "PUT", body: { body: text } });
   if (result.ok) return "saved";
   return result.error === "text_rejected" ? "text_rejected" : "failed";
+}
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Retrait d'une de ses photos (base et stockage, par l'API). */
+export async function removePhoto(photoId: string): Promise<ApiResult<void>> {
+  if (!UUID.test(photoId)) return { ok: false, error: "generic" };
+  return memberApi<void>(`/photos/${photoId}`, { method: "DELETE" });
+}
+
+/** Lien de 5 minutes vers sa propre photo, filigranée à son nom comme pour les autres. */
+export async function ownPhotoLink(photoId: string): Promise<ApiResult<{ url: string }>> {
+  if (!UUID.test(photoId)) return { ok: false, error: "generic" };
+  const result = await memberApi<{ path: string }>(`/photos/${photoId}/link`, { method: "POST" });
+  if (!result.ok) return result;
+  return { ok: true, data: { url: `${process.env.NEXT_PUBLIC_API_URL}${result.data.path}` } };
 }

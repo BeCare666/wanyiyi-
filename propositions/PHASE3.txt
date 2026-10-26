@@ -111,9 +111,18 @@ reports, reported_messages, photos.
     choisi) puis GET /api/photos/view/<jeton> valable 5 minutes, sans cache.
     Aucune clé service role. Effacement des comptes (question 17) : photos
     retirées du stockage. Tests : apps/api/tests/photos.test.ts (7).
-    Reste : écran de dépôt et réglage du flou (étape 5), relecture des photos
-    dans /admin/moderation, photo exigée pour réserver (question 10 c, branchée
-    avec l'écran de dépôt pour ne pas bloquer la démonstration actuelle).
+    Écrans faits le 26 octobre 2026 : « Mes photos » dans /espace/profil (dépôt
+    envoyé du navigateur directement à l'API, car une photo de 8 Mo dépasse la
+    limite de 4,5 Mo des fonctions de Vercel ; état de relecture et motif d'un
+    refus ; retrait ; affichage filigrané), réglage « Garder ma photo floutée »
+    dans /espace/parametres, « Photos à relire » dans /admin/moderation (même
+    relecture que les textes ; motif sous « reason », migration
+    20261026000800_photos_motif.sql). Composant commun ProtectedPhoto (clic
+    droit, appui long et glisser désactivés : dissuasion seulement).
+    Reste : photo exigée pour réserver (question 10 c). Elle bloquerait les
+    24 membres de démonstration et la soirée de démonstration, qui n'ont pas de
+    photo : à activer quand vous le direz (après le dépôt de vraies photos, ou
+    en dispensant les comptes de démonstration).
 
 Étape 5. Espace membre
   - Mes matchs et découvertes (6.2-6) : choix des découvertes, compte à
@@ -151,7 +160,8 @@ QUESTIONS (je n'invente pas les réponses)
      L'acceptez-vous ? Le chat ne contient-il que du texte, ou aussi des
      photos ou des messages vocaux ?
      RÉPONSE (26 octobre 2026) : Supabase Realtime accepté ; messages texte
-     seulement.
+     seulement, aucun échange de photo dans le chat (les photos sont celles du
+     profil, révélées après un match, étape 4).
 
   2. Ouverture d'une découverte (bloque l'étape 2). La note dit : « au-delà de
      2 découvertes actives, il choisit lesquelles ouvrir ; les autres matchs

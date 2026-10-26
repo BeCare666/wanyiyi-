@@ -8,7 +8,8 @@ import { type Privacy, type PrivacyField, privacyFields } from "./settings";
 
 /**
  * Confidentialité (question 15, 24 octobre 2026) : photo cachée jusqu'à un match réciproque,
- * numéro partagé après un match. Enregistré dès que le réglage change.
+ * numéro partagé après un match ; photo gardée floutée (10.2, phase 3). Enregistré dès que le
+ * réglage change.
  */
 export function PrivacyForm({ initial }: { initial: Privacy }) {
   const t = useTranslations("Member.settings");

@@ -1,4 +1,5 @@
 import { INDIFFERENT, PROFILE_CATALOG } from "@wanyiyi/shared";
+import { canAddPhoto, checkPhotoFile, photosFrom } from "../src/app/[locale]/(membre)/espace/profil/photos";
 import { describe, expect, it } from "vitest";
 import {
   type Answers,
@@ -88,5 +89,27 @@ describe("Progression et critères non négociables", () => {
 
   it("lignes inconnues de la base ignorées", () => {
     expect(answersFrom([{ side: "self", category: "inconnue", values: ["x"] }, { side: "x", category: "religion", values: ["muslim"] }])).toEqual({ self: {}, seeking: {} });
+  });
+});
+
+describe("Mes photos (10.2, question 10 de la phase 3)", () => {
+  const photo = (status: "pending" | "approved" | "rejected") => ({ id: status, status, note: null });
+
+  it("3 photos au plus ; une photo refusée libère une place", () => {
+    expect(canAddPhoto([photo("pending"), photo("approved")])).toBe(true);
+    expect(canAddPhoto([photo("pending"), photo("approved"), photo("approved")])).toBe(false);
+    expect(canAddPhoto([photo("pending"), photo("approved"), photo("rejected")])).toBe(true);
+  });
+
+  it("JPEG, PNG ou WebP de 8 Mo au plus, comme l'API", () => {
+    expect(checkPhotoFile({ type: "image/jpeg", size: 1000 })).toBeNull();
+    expect(checkPhotoFile({ type: "image/gif", size: 1000 })).toBe("photo_type");
+    expect(checkPhotoFile({ type: "image/webp", size: 8 * 1024 * 1024 + 1 })).toBe("photo_too_large");
+  });
+
+  it("lignes de app.my_photos() avec le motif d'un refus", () => {
+    expect(photosFrom([{ photo_id: "p", review_status: "rejected", review_note: "Visage non visible" }])).toEqual([
+      { id: "p", status: "rejected", note: "Visage non visible" },
+    ]);
   });
 });

@@ -84,8 +84,8 @@ describe("Photos des membres (10.2, question 10)", () => {
     expect(await failure(as(p.moderatrice!, "select app.review_photo($1, false, 'Visage non visible')", [second]))).toBeNull();
     expect(await failure(as(p.moderatrice!, "select app.review_photo($1, true)", [second]))).toMatch(/already_reviewed/);
     expect(await failure(as(p.moderatrice!, "select app.review_photo($1, true)", [photo]))).toBeNull();
-    const { rows } = await db.query<{ payload: { note: string } }>("select payload from app.notifications where user_id = $1 and kind = 'profile.photo_rejected'", [p.afiwa]);
-    expect(rows[0]?.payload.note).toBe("Visage non visible");
+    const { rows } = await db.query<{ payload: { reason: string } }>("select payload from app.notifications where user_id = $1 and kind = 'profile.photo_rejected'", [p.afiwa]);
+    expect(rows[0]?.payload.reason).toBe("Visage non visible");
     const queue = await as<{ photo_id: string }>(p.moderatrice!, "select * from app.photo_moderation_queue()");
     expect(queue).toHaveLength(1);
     expect(await upload(p.afiwa!, "5")).not.toBeNull();

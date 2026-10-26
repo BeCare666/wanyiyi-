@@ -86,7 +86,8 @@ export class PhotosController {
       watermark: watermarkText({ firstName: view.viewer_first_name, lastName: view.viewer_last_name, number: view.viewer_number }, new Date()),
     });
     const { token, expiresAt } = photoLinks.create(image);
-    return { path: `/api/photos/view/${token}`, expires_at: expiresAt.toISOString() };
+    // Chemin relatif à l'adresse de l'API (NEXT_PUBLIC_API_URL, qui finit par /api)
+    return { path: `/photos/view/${token}`, expires_at: expiresAt.toISOString() };
   }
 }
 

@@ -6,15 +6,15 @@ import { notificationKey } from "../src/components/member/notificationKinds";
 /** Paramètres du membre : questions 15 à 17, réponses du 24 octobre 2026. */
 
 describe("Confidentialité (question 15)", () => {
-  it("par défaut : photo cachée jusqu'au match, numéro partagé", () => {
-    expect(privacyFrom(null)).toEqual({ photoHidden: true, sharePhone: true });
-    expect(privacyFrom({ photo_blurred: false, share_phone: false })).toEqual({ photoHidden: false, sharePhone: false });
+  it("par défaut : photo cachée jusqu'au match, numéro partagé, photo non floutée (10.2)", () => {
+    expect(privacyFrom(null)).toEqual({ photoHidden: true, sharePhone: true, keepBlurred: false });
+    expect(privacyFrom({ photo_blurred: false, share_phone: false, keep_photo_blurred: true })).toEqual({ photoHidden: false, sharePhone: false, keepBlurred: true });
   });
 
-  it("seuls les deux réglages prévus sont écrits, chacun sur sa colonne", () => {
+  it("seuls les trois réglages prévus sont écrits, chacun sur sa colonne", () => {
     expect(isPrivacyField("photoHidden")).toBe(true);
     expect(isPrivacyField("status")).toBe(false);
-    expect(privacyColumns).toEqual({ photoHidden: "photo_blurred", sharePhone: "share_phone" });
+    expect(privacyColumns).toEqual({ photoHidden: "photo_blurred", sharePhone: "share_phone", keepBlurred: "keep_photo_blurred" });
   });
 });
 

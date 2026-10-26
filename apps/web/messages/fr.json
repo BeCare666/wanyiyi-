@@ -539,7 +539,8 @@
         "discovery_extended": "Votre découverte est prolongée de 7 jours.",
         "discovery_closed": "Cette mise en relation est terminée.",
         "match_expired": "Cette mise en relation est terminée.",
-        "couple_opened": "Vous avez tous les deux choisi de continuer : votre espace du couple est ouvert."
+        "couple_opened": "Vous avez tous les deux choisi de continuer : votre espace du couple est ouvert.",
+        "profile_photo_rejected": "Une photo de votre profil a été refusée. Déposez-en une autre : elle sera relue de nouveau."
       }
     },
     "dashboard": {
@@ -713,7 +714,9 @@
         "photoHidden": "Photo cachée jusqu'au match",
         "photoHiddenHelp": "Votre photo n'est montrée qu'après un match réciproque.",
         "sharePhone": "Numéro partagé après un match",
-        "sharePhoneHelp": "Après un match, votre numéro est donné à la personne. Décochez pour le garder pour vous."
+        "sharePhoneHelp": "Après un match, votre numéro est donné à la personne. Décochez pour le garder pour vous.",
+        "keepBlurred": "Garder ma photo floutée",
+        "keepBlurredHelp": "Même après un match, l'autre personne voit votre photo floutée, jusqu'à ce que vous changiez ce réglage."
       },
       "data": {
         "title": "Mes données",
@@ -973,6 +976,30 @@
           "failed": "Le texte n'a pas pu être enregistré. Réessayez plus tard.",
           "saved": "Enregistré, en relecture.",
           "removed": "Texte retiré."
+        }
+      },
+      "photos": {
+        "title": "Mes photos",
+        "intro": "Jusqu'à {max} photos, où l'on voit bien votre visage. L'équipe les relit avant qu'elles soient montrées, et personne ne les voit avant un match.",
+        "alt": "Ma photo {rank}",
+        "status": {
+          "pending": "En relecture par l'équipe.",
+          "approved": "Approuvée."
+        },
+        "rejected": "Refusée : {note}. Déposez-en une autre.",
+        "remove": "Retirer",
+        "add": "Ajouter une photo",
+        "sending": "Envoi…",
+        "formats": "JPEG, PNG ou WebP, 8 Mo au plus.",
+        "full": "Vous avez déjà {max} photos. Retirez-en une pour en ajouter une autre.",
+        "errors": {
+          "photo_type": "Ce format n'est pas accepté : JPEG, PNG ou WebP.",
+          "photo_too_large": "Cette photo dépasse 8 Mo.",
+          "photo_unreadable": "Cette image ne peut pas être lue. Essayez une autre photo.",
+          "too_many_photos": "Vous avez déjà le nombre maximal de photos.",
+          "not_authenticated": "Votre session a expiré. Reconnectez-vous.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
       }
     }
@@ -1267,7 +1294,13 @@
         "forbidden": "Votre rôle ne permet pas cette action.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
-      }
+      },
+      "photos": {
+        "title": "Photos à relire",
+        "empty": "Aucune photo à relire.",
+        "alt": "Photo déposée par {name}"
+      },
+      "texts": "Textes à relire"
     },
     "evenings": {
       "intro": "Toutes les soirées, brouillons compris, les plus récentes d'abord. Une soirée se crée en brouillon ; une fois publiée, elle se modifie jusqu'à la préparation des tables, et les inscrits sont notifiés.",
@@ -2322,5 +2355,10 @@
         "1m_plus": "1 000 000 FCFA et plus par mois"
       }
     }
+  },
+  "Photos": {
+    "show": "Afficher la photo",
+    "loading": "Chargement…",
+    "error": "La photo ne peut pas être affichée. Réessayez."
   }
 }

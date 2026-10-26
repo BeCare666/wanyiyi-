@@ -539,7 +539,8 @@
         "discovery_extended": "A ti fi ọjọ́ 7 kún ìmọ̀ra ẹni yín.",
         "discovery_closed": "Ìfìmọ̀ra ẹni yìí ti parí.",
         "match_expired": "Ìfìmọ̀ra ẹni yìí ti parí.",
-        "couple_opened": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú: àyè tọkọtaya yín ti ṣí."
+        "couple_opened": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú: àyè tọkọtaya yín ti ṣí.",
+        "profile_photo_rejected": "A kọ fọ́tò kan lórí àkọsílẹ̀ yín. Ẹ fi òmíràn ránṣẹ́: a ó tún un ṣàyẹ̀wò."
       }
     },
     "dashboard": {
@@ -713,7 +714,9 @@
         "photoHidden": "Fọ́tò mi pamọ́ títí di ìbámu",
         "photoHiddenHelp": "A kò ní fi fọ́tò rẹ hàn àyàfi lẹ́yìn ìbámu láti ọ̀dọ̀ ẹ̀yin méjèèjì.",
         "sharePhone": "Pín nọ́mbà mi lẹ́yìn ìbámu",
-        "sharePhoneHelp": "Lẹ́yìn ìbámu, a ó fún ẹni náà ní nọ́mbà rẹ. Yọ àmì náà kúrò láti pa á mọ́ fún ara rẹ."
+        "sharePhoneHelp": "Lẹ́yìn ìbámu, a ó fún ẹni náà ní nọ́mbà rẹ. Yọ àmì náà kúrò láti pa á mọ́ fún ara rẹ.",
+        "keepBlurred": "Jẹ́ kí fọ́tò mi máa ṣókùnkùn",
+        "keepBlurredHelp": "Kódà lẹ́yìn tí ẹ bá ara yín mu, ẹnìkejì yóò rí fọ́tò yín ní ṣókùnkùn títí ẹ ó fi yí ètò yìí padà."
       },
       "data": {
         "title": "Àwọn ìwífún mi",
@@ -973,6 +976,30 @@
           "failed": "A kò lè gba ọ̀rọ̀ náà sílẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
           "saved": "A ti gbà á sílẹ̀, à ń kà á.",
           "removed": "A ti yọ ọ̀rọ̀ náà kúrò."
+        }
+      },
+      "photos": {
+        "title": "Àwọn fọ́tò mi",
+        "intro": "Tó fọ́tò {max}, níbi tí a ti rí ojú yín dáadáa. Ẹgbẹ́ yóò ṣàyẹ̀wò wọn kí a tó fi wọ́n hàn, kò sì sí ẹni tí yóò rí wọn kí ẹ tó bá ẹnìkan mu.",
+        "alt": "Fọ́tò mi {rank}",
+        "status": {
+          "pending": "Ẹgbẹ́ ń ṣàyẹ̀wò rẹ̀.",
+          "approved": "A ti fọwọ́ sí i."
+        },
+        "rejected": "A kọ̀ ọ́: {note}. Ẹ fi òmíràn ránṣẹ́.",
+        "remove": "Yọ ọ́ kúrò",
+        "add": "Fi fọ́tò kún un",
+        "sending": "Ó ń lọ…",
+        "formats": "JPEG, PNG tàbí WebP, tí kò ju 8 MB lọ.",
+        "full": "Ẹ ti ní fọ́tò {max} tẹ́lẹ̀. Ẹ yọ ọ̀kan kúrò kí ẹ tó fi òmíràn kún un.",
+        "errors": {
+          "photo_type": "A kò gba irú fáìlì yìí: JPEG, PNG tàbí WebP.",
+          "photo_too_large": "Fọ́tò yìí ju 8 MB lọ.",
+          "photo_unreadable": "A kò lè ka àwòrán yìí. Ẹ gbìyànjú fọ́tò mìíràn.",
+          "too_many_photos": "Ẹ ti ní iye fọ́tò tó pọ̀ jù lọ.",
+          "not_authenticated": "Àkókò ìwọlé yín ti parí. Ẹ tún wọlé.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
       }
     }
@@ -1267,7 +1294,13 @@
         "forbidden": "Ipa yín kò fàyè gba ìgbésẹ̀ yìí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
-      }
+      },
+      "photos": {
+        "title": "Àwọn fọ́tò láti ṣàyẹ̀wò",
+        "empty": "Kò sí fọ́tò kankan láti ṣàyẹ̀wò.",
+        "alt": "Fọ́tò tí {name} fi ránṣẹ́"
+      },
+      "texts": "Àwọn ọ̀rọ̀ láti ṣàyẹ̀wò"
     },
     "evenings": {
       "intro": "Gbogbo ìpàdé alẹ́, pẹ̀lú àwọn àkọsílẹ̀ àkọ́kọ́, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. A máa ń ṣẹ̀dá ìpàdé gẹ́gẹ́ bí àkọsílẹ̀ àkọ́kọ́; lẹ́yìn ìtẹ̀jáde, a lè ṣàtúnṣe rẹ̀ títí a ó fi ṣètò àwọn tábìlì, a ó sì fi tó àwọn tó forúkọ sílẹ̀ létí.",
@@ -2322,5 +2355,10 @@
         "1m_plus": "1 000 000 FCFA sókè lóṣù"
       }
     }
+  },
+  "Photos": {
+    "show": "Fi fọ́tò hàn",
+    "loading": "Ó ń bọ̀…",
+    "error": "A kò lè fi fọ́tò náà hàn. Ẹ tún gbìyànjú."
   }
 }

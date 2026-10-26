@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { type MyPhotoRow, photosFrom } from "./photos";
+import { PhotosStep } from "./PhotosStep";
 import { answersFrom } from "./profile";
 import { ProfileEditor } from "./ProfileEditor";
 import type { ProfileText } from "./TextsStep";
@@ -14,17 +16,19 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Mon profil (section 6.2-3 et section 8) : « Je me décris » et « Ce que je recherche ».
- * Lecture avec le jeton du membre (RLS : ses propres lignes seulement).
+ * Lecture avec le jeton du membre (RLS : ses propres lignes seulement). Mes photos : phase 3,
+ * question 10.
  */
 export default async function ProfilePage() {
   const t = await getTranslations("Member");
   const member = await getSessionMember();
   if (!member) return null;
   const supabase = await createSupabaseServer();
-  const [answers, dealbreakers, texts] = await Promise.all([
+  const [answers, dealbreakers, texts, photos] = await Promise.all([
     supabase?.from("profile_answers").select("side, category, values"),
     supabase?.from("dealbreakers").select("category"),
     supabase?.from("profile_texts").select("field, body, review_status, review_note"),
+    supabase?.rpc("my_photos"),
   ]);
   const textRows = (texts?.data ?? []) as { field: string; body: string; review_status: ProfileText["status"]; review_note: string | null }[];
 
@@ -55,6 +59,9 @@ export default async function ProfilePage() {
           initialDealbreakers={((dealbreakers?.data ?? []) as { category: string }[]).map((d) => d.category)}
           texts={Object.fromEntries(textRows.map((r) => [r.field, { body: r.body, status: r.review_status, note: r.review_note }]))}
         />
+      )}
+      {member.firstName && supabase && !photos?.error && (
+        <PhotosStep photos={photosFrom((photos?.data ?? []) as MyPhotoRow[])} />
       )}
     </div>
   );
