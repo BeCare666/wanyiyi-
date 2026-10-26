@@ -32,6 +32,15 @@ reports, reported_messages, photos.
   - Conseiller 9.6 : trois niveaux d'accès, double accord, historique seulement
     si les deux le cochent, retrait immédiat par l'un ou l'autre.
   - Tests unitaires de chaque règle.
+  EN COURS (26 octobre 2026) : faits et testés dans packages/domain
+    (59 tests en tout, 17 nouveaux) : discovery.ts (places, choix d'office,
+    choix refusés, ouverture à deux, attente de 7 jours, 14 et 21 jours,
+    prolongation unique, couple, fermeture des autres découvertes, message
+    neutre), counselor.ts (demande, accord obligatoire de l'autre, lecture
+    depuis l'acceptation, historique si les deux l'ont coché, retrait
+    immédiat, bannière), couple.ts (partage des numéros à double clic).
+    Reste, en attente des questions 3, 6 et 7 : moment de la prolongation,
+    inactivité, fins du couple.
 
 Étape 2. Base : découvertes et couples
   - Fonctions atomiques : ouvrir ou choisir une découverte, décider
@@ -199,3 +208,10 @@ QUESTIONS (je n'invente pas les réponses)
  12. Espace souvenir (union) : il est livré en phase 4. En phase 3, l'issue
      « union célébrée » met seulement le chat en lecture seule et programme la
      suppression à 12 mois ; d'accord ?
+
+ 13. Matchs en attente et couple (étape 2) : quand deux membres forment un
+     couple, la note ferme leurs autres découvertes. Leurs matchs encore en
+     attente de choix (pas encore ouverts) doivent-ils aussi expirer tout de
+     suite, avec le message neutre ? En attendant votre réponse, la règle
+     codée refuse d'ouvrir un nouveau match tant que le membre est en couple
+     (exclusivité 9.5), et le match expire à ses 7 jours.

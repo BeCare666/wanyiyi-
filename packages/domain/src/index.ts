@@ -4,3 +4,6 @@ export * from "./schedule";
 export * from "./textGuard";
 export * from "./time";
 export * from "./votes";
+export * from "./counselor";
+export * from "./discovery";
+export * from "./couple";
