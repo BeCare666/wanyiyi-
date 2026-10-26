@@ -1002,6 +1002,63 @@
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
       }
+    },
+    "discoveries": {
+      "title": "Découverte",
+      "intro": "Un match naît quand deux personnes souhaitent se revoir ; il est annoncé le lendemain à 8 h. Chaque match peut ouvrir une découverte de 14 jours : une conversation simple et vos photos. Deux découvertes au plus en même temps.",
+      "active": "Découvertes en cours",
+      "daysLeft": "{count, plural, =0 {Dernier jour} one {Encore # jour, jusqu'au {date}} other {Encore # jours, jusqu'au {date}}}",
+      "extended": "prolongée",
+      "open": "Ouvrir la conversation",
+      "toChoose": "Matchs à ouvrir",
+      "slots": "{count, plural, one {Vous pouvez ouvrir encore # découverte.} other {Vous pouvez ouvrir encore # découvertes.}}",
+      "noSlot": "Vous avez déjà deux découvertes en cours. Une place se libère quand l'une d'elles se termine.",
+      "chooseBefore": "À ouvrir avant le {date}",
+      "choose": "Ouvrir la découverte",
+      "waiting": "En attente",
+      "waitingHelp": "Vous avez choisi d'ouvrir cette découverte. Elle s'ouvrira si l'autre personne la choisit aussi avant le {date}.",
+      "couple": "Votre couple",
+      "coupleHelp": "Vous avez tous les deux choisi de continuer. Votre espace du couple arrive bientôt.",
+      "ended": "Mises en relation terminées",
+      "endedMessage": "Cette mise en relation est terminée.",
+      "continue": "Je veux continuer avec cette personne",
+      "continueWithdraw": "Je retire « Je veux continuer »",
+      "extend": "Demander 7 jours de plus",
+      "extendWithdraw": "Je retire ma demande de prolongation",
+      "decisionPrivate": "L'autre personne ne voit pas votre choix. Il prend effet seulement si elle fait le même.",
+      "back": "Retour à mes matchs",
+      "advice": "Pour un premier rendez-vous, choisissez un lieu public. L'équipe peut vous conseiller un lieu partenaire.",
+      "photos": "Ses photos",
+      "photoAlt": "Photo {rank} de {name}",
+      "errors": {
+        "no_free_slot": "Vous avez déjà deux découvertes en cours.",
+        "expired": "Le délai pour ouvrir cette découverte est passé.",
+        "not_pending": "Ce match n'est plus en attente.",
+        "already_chosen": "Vous avez déjà choisi ce match.",
+        "couple_exclusivity": "Vous êtes en couple : aucune nouvelle découverte ne s'ouvre.",
+        "not_active": "Cette découverte est terminée.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
+    },
+    "chat": {
+      "label": "Conversation",
+      "empty": "Aucun message pour l'instant. Écrivez le premier.",
+      "me": "Moi",
+      "them": "L'autre personne",
+      "closed": "Cette conversation est fermée.",
+      "message": "Votre message",
+      "placeholder": "Écrivez votre message",
+      "rules": "Texte seulement. Les numéros, liens et adresses e-mail sont bloqués.",
+      "send": "Envoyer",
+      "errors": {
+        "contact_blocked": "Votre message contient un numéro, un lien ou une adresse e-mail : il n'a pas été envoyé.",
+        "conversation_closed": "Cette conversation est fermée.",
+        "invalid_body": "Écrivez un message de 2 000 caractères au plus.",
+        "not_member": "Vous ne faites pas partie de cette conversation.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
     }
   },
   "SignIn": {

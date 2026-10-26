@@ -132,6 +132,16 @@ reports, reported_messages, photos.
     rendez-vous déclarés et « Bien rentré(e) ? », partage des numéros, fin.
   - Bouton de signalement sur chaque profil et dans chaque conversation.
   - Tableau de bord : découvertes en cours, messages non lus.
+  EN COURS (26 octobre 2026) : /espace/matchs réécrit (app.my_discoveries) :
+    découvertes en cours (jours restants, « Je veux continuer », prolongation,
+    choix jamais montrés à l'autre), matchs à ouvrir (places libres, date
+    limite), matchs en attente de l'autre, couple, mises en relation
+    terminées (message neutre). /espace/matchs/<découverte> : conversation en
+    temps réel (Supabase Realtime, texte seulement, coordonnées refusées),
+    photos de l'autre filigranées au nom du membre, conseil du lieu public
+    (question 4 encore ouverte pour les lieux partenaires). Composant commun
+    ChatRoom. Reste : espace du couple (questions 6 et 7), signalement
+    (question 11), tableau de bord.
 
 Étape 6. Espace conseiller (section 7)
   - Interface séparée de même qualité que l'administration : couples suivis,

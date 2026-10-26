@@ -1002,6 +1002,63 @@
           "generic": "Something went wrong. Try again in a moment."
         }
       }
+    },
+    "discoveries": {
+      "title": "Discovery",
+      "intro": "A match happens when two people both want to meet again; it is announced the next day at 8 am. Each match can open a 14-day discovery: a simple conversation and your photos. Two discoveries at most at the same time.",
+      "active": "Discoveries in progress",
+      "daysLeft": "{count, plural, =0 {Last day} one {# day left, until {date}} other {# days left, until {date}}}",
+      "extended": "extended",
+      "open": "Open the conversation",
+      "toChoose": "Matches to open",
+      "slots": "{count, plural, one {You can still open # discovery.} other {You can still open # discoveries.}}",
+      "noSlot": "You already have two discoveries in progress. A place frees up when one of them ends.",
+      "chooseBefore": "To open before {date}",
+      "choose": "Open the discovery",
+      "waiting": "Waiting",
+      "waitingHelp": "You chose to open this discovery. It will open if the other person also chooses it before {date}.",
+      "couple": "Your couple",
+      "coupleHelp": "You both chose to continue. Your couple space is coming soon.",
+      "ended": "Ended introductions",
+      "endedMessage": "This introduction has ended.",
+      "continue": "I want to continue with this person",
+      "continueWithdraw": "I withdraw “I want to continue”",
+      "extend": "Ask for 7 more days",
+      "extendWithdraw": "I withdraw my extension request",
+      "decisionPrivate": "The other person does not see your choice. It only takes effect if they make the same one.",
+      "back": "Back to my matches",
+      "advice": "For a first date, choose a public place. The team can suggest a partner venue.",
+      "photos": "Their photos",
+      "photoAlt": "Photo {rank} of {name}",
+      "errors": {
+        "no_free_slot": "You already have two discoveries in progress.",
+        "expired": "The time to open this discovery has passed.",
+        "not_pending": "This match is no longer waiting.",
+        "already_chosen": "You have already chosen this match.",
+        "couple_exclusivity": "You are in a couple: no new discovery opens.",
+        "not_active": "This discovery has ended.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
+      }
+    },
+    "chat": {
+      "label": "Conversation",
+      "empty": "No messages yet. Write the first one.",
+      "me": "Me",
+      "them": "The other person",
+      "closed": "This conversation is closed.",
+      "message": "Your message",
+      "placeholder": "Write your message",
+      "rules": "Text only. Phone numbers, links and email addresses are blocked.",
+      "send": "Send",
+      "errors": {
+        "contact_blocked": "Your message contains a phone number, a link or an email address: it was not sent.",
+        "conversation_closed": "This conversation is closed.",
+        "invalid_body": "Write a message of 2,000 characters at most.",
+        "not_member": "You are not part of this conversation.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
+      }
     }
   },
   "SignIn": {

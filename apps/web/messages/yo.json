@@ -1002,6 +1002,63 @@
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
       }
+    },
+    "discoveries": {
+      "title": "Ìmọ̀ra ẹni",
+      "intro": "Ẹ bá ara yín mu nígbà tí ẹni méjì bá fẹ́ tún rí ara wọn; a ó kéde rẹ̀ ní ọjọ́ kejì ní aago mẹ́jọ àárọ̀. Ìbámu kọ̀ọ̀kan lè ṣí ìmọ̀ra ẹni ọjọ́ 14: ìfọ̀rọ̀wérọ̀ rírọrùn àti àwọn fọ́tò yín. Ìmọ̀ra ẹni méjì péré ní àkókò kan náà.",
+      "active": "Ìmọ̀ra ẹni tó ń lọ lọ́wọ́",
+      "daysLeft": "{count, plural, =0 {Ọjọ́ tó kẹ́yìn} other {Ọjọ́ # ló kù, títí di {date}}}",
+      "extended": "a ti fi kún un",
+      "open": "Ṣí ìfọ̀rọ̀wérọ̀",
+      "toChoose": "Àwọn ìbámu láti ṣí",
+      "slots": "{count, plural, other {Ẹ ṣì lè ṣí ìmọ̀ra ẹni #.}}",
+      "noSlot": "Ẹ ti ní ìmọ̀ra ẹni méjì tó ń lọ lọ́wọ́. Àyè yóò ṣí nígbà tí ọ̀kan bá parí.",
+      "chooseBefore": "Ẹ ṣí i kí {date} tó dé",
+      "choose": "Ṣí ìmọ̀ra ẹni",
+      "waiting": "Ń dúró",
+      "waitingHelp": "Ẹ ti yàn láti ṣí ìmọ̀ra ẹni yìí. Yóò ṣí tí ẹnìkejì bá yàn án pẹ̀lú kí {date} tó dé.",
+      "couple": "Tọkọtaya yín",
+      "coupleHelp": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú. Àyè tọkọtaya yín ń bọ̀ láìpẹ́.",
+      "ended": "Ìfìmọ̀ra ẹni tó ti parí",
+      "endedMessage": "Ìfìmọ̀ra ẹni yìí ti parí.",
+      "continue": "Mo fẹ́ tẹ̀síwájú pẹ̀lú ẹni yìí",
+      "continueWithdraw": "Mo yọ « Mo fẹ́ tẹ̀síwájú » kúrò",
+      "extend": "Béèrè ọjọ́ 7 sí i",
+      "extendWithdraw": "Mo yọ ìbéèrè àfikún mi kúrò",
+      "decisionPrivate": "Ẹnìkejì kò rí ìpinnu yín. Yóò ṣiṣẹ́ nìkan tí òun náà bá ṣe bẹ́ẹ̀.",
+      "back": "Padà sí àwọn ìbámu mi",
+      "advice": "Fún ìpàdé àkọ́kọ́, ẹ yan ibi tí gbogbo ènìyàn ń lọ. Ẹgbẹ́ lè dá ibi alábàáṣiṣẹ́pọ̀ kan lábàá.",
+      "photos": "Àwọn fọ́tò rẹ̀",
+      "photoAlt": "Fọ́tò {rank} ti {name}",
+      "errors": {
+        "no_free_slot": "Ẹ ti ní ìmọ̀ra ẹni méjì tó ń lọ lọ́wọ́.",
+        "expired": "Àkókò láti ṣí ìmọ̀ra ẹni yìí ti kọjá.",
+        "not_pending": "Ìbámu yìí kò dúró mọ́.",
+        "already_chosen": "Ẹ ti yan ìbámu yìí tẹ́lẹ̀.",
+        "couple_exclusivity": "Ẹ wà ní tọkọtaya: kò sí ìmọ̀ra ẹni tuntun tí yóò ṣí.",
+        "not_active": "Ìmọ̀ra ẹni yìí ti parí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+      }
+    },
+    "chat": {
+      "label": "Ìfọ̀rọ̀wérọ̀",
+      "empty": "Kò sí ọ̀rọ̀ kankan síbẹ̀. Ẹ kọ èyí àkọ́kọ́.",
+      "me": "Èmi",
+      "them": "Ẹnìkejì",
+      "closed": "Ìfọ̀rọ̀wérọ̀ yìí ti di títì.",
+      "message": "Ọ̀rọ̀ yín",
+      "placeholder": "Ẹ kọ ọ̀rọ̀ yín",
+      "rules": "Ọ̀rọ̀ nìkan. A dí nọ́ńbà fóònù, ìjápọ̀ àti àdírẹ́sì ímeèlì.",
+      "send": "Fi ránṣẹ́",
+      "errors": {
+        "contact_blocked": "Ọ̀rọ̀ yín ní nọ́ńbà, ìjápọ̀ tàbí àdírẹ́sì ímeèlì: a kò fi ránṣẹ́.",
+        "conversation_closed": "Ìfọ̀rọ̀wérọ̀ yìí ti di títì.",
+        "invalid_body": "Ẹ kọ ọ̀rọ̀ tí kò ju lẹ́tà 2 000 lọ.",
+        "not_member": "Ẹ kò sí nínú ìfọ̀rọ̀wérọ̀ yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+      }
     }
   },
   "SignIn": {
