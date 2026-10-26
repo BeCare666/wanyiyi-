@@ -7,7 +7,22 @@ import type { ApiResult } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
 
-export type ChatMessage = { id: string; sender_id: string | null; body: string; created_at: string };
+export type ChatMessage = { id: string; sender_id: string | null; body: string; created_at: string; is_system?: boolean };
+
+/** Messages système du chat du couple (question 9) : code envoyé par la base, texte traduit ici. */
+const systemCodes = [
+  "counselor_access.requested",
+  "counselor_access.accepted",
+  "counselor_access.refused",
+  "counselor_access.revoked",
+  "counselor_access.granted",
+  "couple.blocked",
+  "couple.unblocked",
+] as const;
+
+export function systemKey(code: string): string | null {
+  return (systemCodes as readonly string[]).includes(code) ? code.replace(".", "_") : null;
+}
 
 const knownErrors = new Set(["contact_blocked", "conversation_closed", "invalid_body", "not_member", "unavailable"]);
 
@@ -22,12 +37,15 @@ export function ChatRoom({
   initial,
   closed,
   send,
+  names = {},
 }: {
   conversationId: string;
   memberId: string;
   initial: ChatMessage[];
   closed: boolean;
   send: (conversationId: string, body: string) => Promise<ApiResult<string>>;
+  /** Prénoms des participants, pour les messages système. */
+  names?: Record<string, string>;
 }) {
   const t = useTranslations("Member.chat");
   const [messages, setMessages] = useState(initial);
@@ -79,6 +97,14 @@ export function ChatRoom({
       <ol aria-live="polite" className="max-h-[60svh] space-y-3 overflow-y-auto pr-1">
         {messages.length === 0 && <li className="text-sm text-fg-muted">{t("empty")}</li>}
         {messages.map((m) => {
+          if (m.is_system) {
+            const key = systemKey(m.body);
+            return (
+              <li key={m.id} className="text-center text-xs text-fg-muted">
+                {key ? t(`system.${key}`, { name: (m.sender_id && names[m.sender_id]) || t("them") }) : null}
+              </li>
+            );
+          }
           const mine = m.sender_id === memberId;
           return (
             <li key={m.id} className={cn("flex", mine ? "justify-end" : "justify-start")}>

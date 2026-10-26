@@ -540,7 +540,12 @@
         "discovery_closed": "Cette mise en relation est terminée.",
         "match_expired": "Cette mise en relation est terminée.",
         "couple_opened": "Vous avez tous les deux choisi de continuer : votre espace du couple est ouvert.",
-        "profile_photo_rejected": "Une photo de votre profil a été refusée. Déposez-en une autre : elle sera relue de nouveau."
+        "profile_photo_rejected": "Une photo de votre profil a été refusée. Déposez-en une autre : elle sera relue de nouveau.",
+        "counselor_access_requested": "Votre partenaire invite un conseiller dans votre conversation. Répondez dans le chat du couple.",
+        "counselor_assigned": "Un conseiller rejoint la conversation de votre couple.",
+        "counselor_access_granted": "Un couple vous a été confié : vous pouvez lire et écrire dans sa conversation.",
+        "couple_blocked": "L'équipe a bloqué la conversation de votre couple.",
+        "couple_unblocked": "L'équipe a débloqué la conversation de votre couple."
       }
     },
     "dashboard": {
@@ -1058,6 +1063,15 @@
         "not_member": "Vous ne faites pas partie de cette conversation.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
+      },
+      "system": {
+        "counselor_access_requested": "{name} invite un conseiller dans la conversation.",
+        "counselor_access_accepted": "{name} a accepté : l'équipe va désigner le conseiller.",
+        "counselor_access_refused": "{name} a refusé l'invitation d'un conseiller.",
+        "counselor_access_revoked": "{name} a retiré le conseiller de la conversation.",
+        "counselor_access_granted": "Le conseiller désigné par l'équipe a rejoint la conversation.",
+        "couple_blocked": "L'équipe a bloqué cette conversation.",
+        "couple_unblocked": "L'équipe a débloqué cette conversation."
       }
     }
   },
@@ -1213,7 +1227,8 @@
     "groups": {
       "members": "Membres",
       "evenings": "Soirées",
-      "payments": "Paiements"
+      "payments": "Paiements",
+      "relations": "Relations"
     },
     "nav": {
       "verifications": "Vérifications",
@@ -1222,7 +1237,10 @@
       "venues": "Lieux",
       "members": "Membres",
       "payments": "Paiements",
-      "themes": "Thèmes"
+      "themes": "Thèmes",
+      "discoveries": "Matchs et découvertes",
+      "couples": "Couples",
+      "counselors": "Conseillers"
     },
     "navHelp": {
       "verifications": "Dossiers en attente, selfies, décisions",
@@ -2167,6 +2185,176 @@
           "field": "Rubrique",
           "body": "Texte",
           "created_at": "Envoyé le"
+        }
+      },
+      "discoveries": {
+        "sortDefault": "Annonce, plus récente d'abord",
+        "fields": {
+          "member": "Membre",
+          "member_number": "Numéro de membre",
+          "match_status": "État du match",
+          "discovery_status": "État de la découverte",
+          "announced_at": "Date d'annonce",
+          "deadline": "Échéance",
+          "event_date": "Date de la soirée",
+          "extended": "Prolongée"
+        },
+        "columns": {
+          "event": "Soirée",
+          "status": "État",
+          "deadline": "Échéance"
+        },
+        "export": {
+          "event_date": "Soirée",
+          "member_a": "Premier membre",
+          "member_b": "Second membre",
+          "match_status": "État du match",
+          "discovery_status": "État de la découverte",
+          "deadline": "Échéance",
+          "extended": "Prolongée"
+        }
+      },
+      "couples": {
+        "sortDefault": "Création, plus récente d'abord",
+        "fields": {
+          "member": "Membre",
+          "member_number": "Numéro de membre",
+          "status": "État",
+          "has_counselor": "Avec conseiller",
+          "counselor": "Conseiller",
+          "created_at": "Date de création",
+          "last_activity_at": "Dernière activité",
+          "inactive_days": "Jours sans activité",
+          "blocked": "Bloqué"
+        },
+        "columns": {
+          "status": "État",
+          "counselor": "Conseiller",
+          "activity": "Activité",
+          "created": "Création"
+        },
+        "export": {
+          "member_a": "Premier membre",
+          "member_b": "Second membre",
+          "status": "État",
+          "counselor": "Conseiller",
+          "created_at": "Création",
+          "last_activity_at": "Dernière activité",
+          "inactive_days": "Jours sans activité"
+        }
+      }
+    },
+    "discoveries": {
+      "intro": "Les matchs annoncés, leur découverte et ses échéances. Les choix de chaque membre ne sont pas affichés.",
+      "empty": "Aucun match dans cette liste.",
+      "columns": {
+        "pair": "Les deux membres"
+      },
+      "matchStatus": {
+        "pending_choice": "En attente d'ouverture",
+        "discovery_open": "Découverte ouverte",
+        "expired": "Expiré",
+        "closed": "Terminé"
+      },
+      "discoveryStatus": {
+        "none": "Pas de découverte",
+        "active": "En cours",
+        "extended": "Prolongée",
+        "continued": "Devenue couple",
+        "closed": "Fermée",
+        "expired": "Arrivée à échéance"
+      },
+      "extended": "prolongée"
+    },
+    "couples": {
+      "intro": "Les couples, leur conseiller et leur activité. Aucun message n'est visible ici.",
+      "empty": "Aucun couple dans cette liste.",
+      "status": {
+        "active": "En cours",
+        "paused": "En pause",
+        "union_celebrated": "Union célébrée",
+        "separated": "Séparés",
+        "left": "Départ d'un membre"
+      },
+      "noCounselor": "Sans conseiller",
+      "inactiveDays": "{count, plural, =0 {Actif aujourd'hui} one {# jour sans activité} other {# jours sans activité}}",
+      "inactivityAlert": "Plus de {days} jours : le conseiller doit être prévenu",
+      "blocked": "Bloqué le {date}",
+      "block": {
+        "block": "Bloquer ce couple",
+        "unblock": "Lever le blocage",
+        "reason": "Motif du blocage (obligatoire)",
+        "reasonHelp": "Les deux membres reçoivent ce motif. Le chat passe en lecture seule et le conseiller est retiré.",
+        "confirmBlock": "Bloquer avec ce motif",
+        "confirmUnblock": "Confirmer la levée du blocage",
+        "cancel": "Annuler",
+        "errors": {
+          "reason_required": "Écrivez le motif du blocage.",
+          "reason_too_long": "Le motif dépasse 1 000 caractères.",
+          "already_blocked": "Ce couple est déjà bloqué.",
+          "not_blocked": "Ce couple n'est pas bloqué.",
+          "not_found": "Ce couple est introuvable.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
+    },
+    "counselors": {
+      "intro": "Les conseillers, leur disponibilité et le nombre de couples qu'ils suivent. Un conseiller est créé à partir du compte d'un membre.",
+      "empty": "Aucun conseiller pour l'instant.",
+      "load": "{count} couple(s) sur {max}",
+      "full": "complet",
+      "available": "disponible",
+      "unavailable": "indisponible",
+      "new": "Nouveau conseiller",
+      "form": {
+        "memberNumber": "Numéro de membre",
+        "memberNumberHelp": "Le compte de ce membre devient un compte de conseiller.",
+        "name": "Nom affiché",
+        "maxCouples": "Couples suivis au plus",
+        "bio": "Présentation (facultative)",
+        "languages": "Langues",
+        "language": {
+          "fr": "Français",
+          "en": "Anglais",
+          "yo": "Yoruba"
+        },
+        "available": "Disponible pour de nouveaux couples",
+        "save": "Enregistrer",
+        "create": "Créer le conseiller",
+        "saved": "Modifications enregistrées.",
+        "created": "Conseiller créé.",
+        "errors": {
+          "name_required": "Indiquez le nom affiché (80 caractères au plus).",
+          "languages_required": "Choisissez au moins une langue.",
+          "invalid_capacity": "Le nombre de couples doit être compris entre 1 et 100.",
+          "not_found": "Aucun compte ne porte ce numéro de membre.",
+          "not_a_member": "Ce compte n'est pas un simple membre : il ne peut pas devenir conseiller ici.",
+          "self_action": "Vous ne pouvez pas modifier votre propre rôle.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "list": "Conseillers",
+      "requests": {
+        "title": "Demandes de conseiller à attribuer",
+        "empty": "Aucune demande en attente.",
+        "withHistory": "Les deux acceptent que le conseiller lise les messages déjà échangés.",
+        "noHistory": "Le conseiller lira seulement les messages écrits après son arrivée.",
+        "choose": "Conseiller",
+        "assign": "Attribuer",
+        "noneAvailable": "Aucun conseiller disponible : rendez-en un disponible, ou augmentez son nombre de couples.",
+        "errors": {
+          "counselor_unavailable": "Ce conseiller n'est pas disponible.",
+          "counselor_full": "Ce conseiller suit déjà son nombre maximal de couples.",
+          "couple_blocked": "Ce couple est bloqué.",
+          "not_pending": "Cette demande n'est plus en attente.",
+          "not_found": "Demande ou conseiller introuvable.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
       }
     }

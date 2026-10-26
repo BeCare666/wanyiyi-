@@ -4,9 +4,10 @@ import { createDb, failure } from "./db";
 import { createEvent, createMember } from "./fixtures";
 
 /**
- * Conversations (9.4 à 9.6) : découverte, couple, canal privé ; accès du conseiller au chat du
- * couple seulement avec l'accord des deux, vérifié en RLS ; historique si les deux l'ont coché ;
- * retrait immédiat.
+ * Conversations (9.4 à 9.6) : découverte, couple, canal privé. Conseiller du couple (question 9,
+ * réponses du 26 octobre 2026) : invitation par l'un des deux, message dans le chat, accord de
+ * l'autre, attribution par l'administration, puis le conseiller lit et écrit dans le chat ;
+ * historique si les deux l'ont accepté ; retrait immédiat ; blocage du couple par l'administration.
  */
 
 let db: PGlite;
@@ -25,8 +26,18 @@ async function as<T>(user: string, sql: string, params: unknown[] = []): Promise
 }
 
 const send = (user: string, conversation: string, body: string) => failure(as(user, "select app.send_message($1, $2)", [conversation, body]));
+/** Messages écrits (sans les messages système) lisibles par la personne. */
 const read = async (user: string, conversation: string) =>
-  (await as<{ body: string }>(user, "select body from app.messages where conversation_id = $1 order by created_at", [conversation])).map((r) => r.body);
+  (await as<{ body: string }>(user, "select body from app.messages where conversation_id = $1 and not is_system order by created_at", [conversation])).map(
+    (r) => r.body,
+  );
+/** Messages système du chat (code et membre concerné) lisibles par la personne. */
+const notices = async (user: string, conversation: string) =>
+  (
+    await as<{ body: string; sender_id: string | null }>(user, "select body, sender_id from app.messages where conversation_id = $1 and is_system order by created_at", [
+      conversation,
+    ])
+  ).map((r) => [r.body, r.sender_id]);
 const one = async <T>(sql: string, params: unknown[] = []) => (await db.query<T>(sql, params)).rows[0]!;
 
 beforeAll(async () => {
@@ -37,6 +48,8 @@ beforeAll(async () => {
     ["sena", "female", "member"],
     ["dossou", "male", "member"],
     ["conseillere", "female", "counselor"],
+    ["admin", "female", "admin"],
+    ["moderateur", "male", "moderator"],
     ["autre", "male", "counselor"],
   ] as const) {
     p[name] = await createMember(db, { firstName: name, sex, role });
@@ -57,8 +70,8 @@ beforeAll(async () => {
   const d2 = await pair(p.afiwa!, p.koffi!, "discovery_open");
   couple = (
     await one<{ id: string }>(
-      "insert into app.couples (discovery_id, member_a, member_b, counselor_id, last_activity_at) values ($1, least($2::uuid, $3::uuid), greatest($2::uuid, $3::uuid), $4, now() - interval '10 days') returning id",
-      [d2, p.afiwa, p.koffi, p.conseillere],
+      "insert into app.couples (discovery_id, member_a, member_b, last_activity_at) values ($1, least($2::uuid, $3::uuid), greatest($2::uuid, $3::uuid), now() - interval '10 days') returning id",
+      [d2, p.afiwa, p.koffi],
     )
   ).id;
   coupleChat = (await one<{ id: string }>("insert into app.conversations (kind, couple_id) values ('couple', $1) returning id", [couple])).id;
@@ -111,46 +124,79 @@ describe("Conversations (9.4 à 9.6)", () => {
   });
 
   let access: string;
-  it("sans l'accord des deux, le conseiller ne lit rien", async () => {
-    expect(await read(p.conseillere!, coupleChat)).toEqual([]);
+  it("invitation par l'un des deux : message dans le chat pour l'autre ; le conseiller ne lit rien", async () => {
     const [{ id }] = await as<{ id: string }>(p.afiwa!, "select app.request_counselor_access($1, true) as id", [couple]);
     access = id;
+    expect(await notices(p.koffi!, coupleChat)).toEqual([["counselor_access.requested", p.afiwa]]);
     expect(await read(p.conseillere!, coupleChat)).toEqual([]);
     expect(await failure(as(p.koffi!, "select app.request_counselor_access($1, false)", [couple]))).toMatch(/access_pending/);
     expect(await failure(as(p.afiwa!, "select app.answer_counselor_access($1, true, true)", [access]))).toMatch(/own_request/);
     expect(await failure(as(p.sena!, "select app.answer_counselor_access($1, true, true)", [access]))).toMatch(/not_member/);
-    const [{ has }] = await as<{ has: boolean }>(p.afiwa!, "select app.counselor_has_access($1) as has", [coupleChat]);
-    expect(has).toBe(false);
   });
 
-  it("accord de l'autre sans l'historique : lecture à partir de l'acceptation seulement ; bannière", async () => {
-    const [{ s }] = await as<{ s: string }>(p.koffi!, "select app.answer_counselor_access($1, true, false) as s", [access]);
-    expect(s).toBe("granted");
+  it("acceptation de l'autre : en attente de l'attribution d'un conseiller par l'administration", async () => {
+    const [{ s: status }] = await as<{ s: string }>(p.koffi!, "select app.answer_counselor_access($1, true, false) as s", [access]);
+    expect(status).toBe("requested");
+    expect((await notices(p.afiwa!, coupleChat)).at(-1)).toEqual(["counselor_access.accepted", p.koffi]);
+    expect(await read(p.conseillere!, coupleChat)).toEqual([]);
+    const pending = await as<{ access_id: string }>(p.admin!, "select * from app.admin_counselor_requests()");
+    expect(pending.map((r) => r.access_id)).toEqual([access]);
+    expect(await failure(as(p.moderateur!, "select * from app.admin_counselor_requests()"))).toMatch(/forbidden/);
+    expect(await failure(as(p.afiwa!, "select app.admin_assign_counselor($1, $2)", [access, p.conseillere]))).toMatch(/forbidden/);
+  });
+
+  it("attribution par l'administration : le conseiller entre dans le chat, lit depuis son arrivée et écrit", async () => {
+    await db.query("update app.counselors set is_available = false where user_id = $1", [p.autre]);
+    expect(await failure(as(p.admin!, "select app.admin_assign_counselor($1, $2)", [access, p.autre]))).toMatch(/counselor_unavailable/);
+    expect(await failure(as(p.admin!, "select app.admin_assign_counselor($1, $2)", [access, p.conseillere]))).toBeNull();
+    expect((await notices(p.koffi!, coupleChat)).at(-1)).toEqual(["counselor_access.granted", null]);
     expect(await read(p.conseillere!, coupleChat)).toEqual([]);
     expect(await send(p.afiwa!, coupleChat, "Bonjour Madame")).toBeNull();
-    expect(await read(p.conseillere!, coupleChat)).toEqual(["Bonjour Madame"]);
+    expect(await send(p.conseillere!, coupleChat, "Bonjour à vous deux")).toBeNull();
+    expect(await read(p.conseillere!, coupleChat)).toEqual(["Bonjour Madame", "Bonjour à vous deux"]);
+    expect(await read(p.koffi!, coupleChat)).toContain("Bonjour à vous deux");
     expect(await read(p.autre!, coupleChat)).toEqual([]);
+    expect(await send(p.autre!, coupleChat, "Intrusion")).toMatch(/not_member/);
     const [{ has }] = await as<{ has: boolean }>(p.koffi!, "select app.counselor_has_access($1) as has", [coupleChat]);
     expect(has).toBe(true);
-    // Le conseiller ne peut pas écrire dans le chat du couple (médiation : question 9 d)
-    expect(await send(p.conseillere!, coupleChat, "Bonjour")).toMatch(/not_member/);
   });
 
-  it("retrait par l'un ou l'autre : effet immédiat", async () => {
+  it("retrait par l'un ou l'autre : effet immédiat, signalé dans le chat", async () => {
     expect(await failure(as(p.koffi!, "select app.revoke_counselor_access($1)", [access]))).toBeNull();
     expect(await read(p.conseillere!, coupleChat)).toEqual([]);
+    expect(await send(p.conseillere!, coupleChat, "Encore là ?")).toMatch(/not_member/);
+    expect((await notices(p.afiwa!, coupleChat)).at(-1)).toEqual(["counselor_access.revoked", p.koffi]);
     expect(await failure(as(p.koffi!, "select app.revoke_counselor_access($1)", [access]))).toMatch(/not_pending/);
   });
 
-  it("historique seulement si les deux l'ont coché ; refus possible", async () => {
+  it("historique seulement si les deux l'ont accepté", async () => {
     const [{ id }] = await as<{ id: string }>(p.koffi!, "select app.request_counselor_access($1, true) as id", [couple]);
     await as(p.afiwa!, "select app.answer_counselor_access($1, true, true)", [id]);
-    expect(await read(p.conseillere!, coupleChat)).toEqual(["Ancien message", "On se voit samedi ?", "Bonjour Madame"]);
-    await as(p.afiwa!, "select app.revoke_counselor_access($1)", [id]);
-    const [{ id: refused }] = await as<{ id: string }>(p.afiwa!, "select app.request_counselor_access($1, false) as id", [couple]);
-    const [{ s }] = await as<{ s: string }>(p.koffi!, "select app.answer_counselor_access($1, false, false) as s", [refused]);
-    expect(s).toBe("refused");
+    await as(p.admin!, "select app.admin_assign_counselor($1, $2)", [id, p.conseillere]);
+    expect((await read(p.conseillere!, coupleChat))[0]).toBe("Ancien message");
+  });
+
+  it("blocage par l'administration : chat en lecture seule, conseiller retiré, motif aux deux ; levée possible", async () => {
+    expect(await failure(as(p.moderateur!, "select app.admin_block_couple($1, 'Motif')", [couple]))).toMatch(/forbidden/);
+    expect(await failure(as(p.admin!, "select app.admin_block_couple($1, ' ')", [couple]))).toMatch(/reason_required/);
+    expect(await failure(as(p.admin!, "select app.admin_block_couple($1, 'Signalement en cours')", [couple]))).toBeNull();
+    expect(await send(p.afiwa!, coupleChat, "Allô ?")).toMatch(/conversation_closed/);
     expect(await read(p.conseillere!, coupleChat)).toEqual([]);
+    expect(await read(p.afiwa!, coupleChat)).toContain("Bonjour Madame");
+    const { rows } = await db.query<{ payload: { reason: string } }>(
+      "select payload from app.notifications where kind = 'couple.blocked' and user_id in ($1, $2)",
+      [p.afiwa, p.koffi],
+    );
+    expect(rows.map((r) => r.payload.reason)).toEqual(["Signalement en cours", "Signalement en cours"]);
+    expect(await failure(as(p.afiwa!, "select app.request_counselor_access($1, false)", [couple]))).toMatch(/couple_blocked/);
+    expect(await failure(as(p.admin!, "select app.admin_unblock_couple($1)", [couple]))).toBeNull();
+    expect(await send(p.afiwa!, coupleChat, "Nous revoilà")).toBeNull();
+    expect(await read(p.conseillere!, coupleChat)).toEqual([]);
+    // Refus de l'autre : aucune attribution possible
+    const [{ id }] = await as<{ id: string }>(p.afiwa!, "select app.request_counselor_access($1, false) as id", [couple]);
+    const [{ s: status }] = await as<{ s: string }>(p.koffi!, "select app.answer_counselor_access($1, false, false) as s", [id]);
+    expect(status).toBe("refused");
+    expect(await failure(as(p.admin!, "select app.admin_assign_counselor($1, $2)", [id, p.conseillere]))).toMatch(/not_pending/);
   });
 
   it("canal privé : le membre et son conseiller seulement ; il ne donne aucun accès au couple", async () => {

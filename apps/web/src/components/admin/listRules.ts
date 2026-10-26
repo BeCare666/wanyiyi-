@@ -7,14 +7,14 @@ import { encodeFilter, type FilterNode } from "../../app/[locale]/(admin)/admin/
  * L'arbre ET / OU et son encodage dans l'adresse sont ceux de la liste des membres.
  */
 
-export type ListName = "payments" | "verifications" | "events" | "venues" | "themes" | "moderation";
+export type ListName = "payments" | "verifications" | "events" | "venues" | "themes" | "moderation" | "discoveries" | "couples";
 export type FieldKind = "text" | "list" | "number" | "date" | "boolean";
 /** labels : préfixe des libellés des options dans l'espace de traduction « Admin ». */
 export type FieldSpec = { kind: FieldKind; options?: readonly string[]; labels?: string };
 
 export type ListSpec = {
   list: ListName;
-  pathname: "/admin/paiements" | "/admin/verifications" | "/admin/soirees" | "/admin/lieux" | "/admin/themes" | "/admin/moderation";
+  pathname: "/admin/paiements" | "/admin/verifications" | "/admin/soirees" | "/admin/lieux" | "/admin/themes" | "/admin/moderation" | "/admin/decouvertes" | "/admin/couples";
   /** Champs filtrables, dans l'ordre du sélecteur. */
   fields: Readonly<Record<string, FieldSpec>>;
   sortFields: readonly string[];
@@ -140,6 +140,45 @@ export const moderationSpec: ListSpec = {
   defaultColumns: ["field", "date"],
 };
 
+/** Matchs et découvertes (11.2-6) : suivi, échéances, expirations. */
+export const discoveriesSpec: ListSpec = {
+  list: "discoveries",
+  pathname: "/admin/decouvertes",
+  fields: {
+    member: { kind: "text" },
+    member_number: { kind: "text" },
+    match_status: { kind: "list", options: ["pending_choice", "discovery_open", "expired", "closed"], labels: "discoveries.matchStatus" },
+    discovery_status: { kind: "list", options: ["none", "active", "extended", "continued", "closed", "expired"], labels: "discoveries.discoveryStatus" },
+    announced_at: { kind: "date" },
+    deadline: { kind: "date" },
+    event_date: { kind: "date" },
+    extended: { kind: "boolean" },
+  },
+  sortFields: ["announced_at", "deadline", "event_date"],
+  columns: ["event", "status", "deadline"],
+  defaultColumns: ["event", "status", "deadline"],
+};
+
+/** Couples (11.2-7) : état, conseiller, activité (inactivité de 60 jours, 9.5). */
+export const couplesSpec: ListSpec = {
+  list: "couples",
+  pathname: "/admin/couples",
+  fields: {
+    member: { kind: "text" },
+    member_number: { kind: "text" },
+    status: { kind: "list", options: ["active", "paused", "union_celebrated", "separated", "left"], labels: "couples.status" },
+    has_counselor: { kind: "boolean" },
+    blocked: { kind: "boolean" },
+    counselor: { kind: "text" },
+    created_at: { kind: "date" },
+    last_activity_at: { kind: "date" },
+    inactive_days: { kind: "number" },
+  },
+  sortFields: ["created_at", "last_activity_at", "inactive_days"],
+  columns: ["status", "counselor", "activity", "created"],
+  defaultColumns: ["status", "counselor", "activity", "created"],
+};
+
 export const listSpecs: Record<ListName, ListSpec> = {
   payments: paymentsSpec,
   verifications: verificationsSpec,
@@ -147,6 +186,8 @@ export const listSpecs: Record<ListName, ListSpec> = {
   venues: venuesSpec,
   themes: themesSpec,
   moderation: moderationSpec,
+  discoveries: discoveriesSpec,
+  couples: couplesSpec,
 };
 
 /** Limites de la base (3 niveaux, 20 conditions) et du constructeur (un niveau de sous-groupes, 14 conditions). */

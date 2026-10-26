@@ -156,6 +156,30 @@ reports, reported_messages, photos.
   - Signalements et sanctions (11.2-4) : file avec délai cible de 24 h ;
     seuls les messages signalés sont lisibles, chaque consultation journalisée.
   - Filtres avancés sur ces nouvelles listes (même moteur que la phase 2).
+  EN COURS (26 octobre 2026) : migration 20261026000900_admin_phase3.sql et
+    groupe de menu « Relations » : /admin/decouvertes (matchs et découvertes,
+    état, échéance utile, prolongation ; events.manage), /admin/couples (état,
+    conseiller, jours sans activité avec alerte à 60 jours ; aucune
+    conversation visible ; nouvelle permission couples.read),
+    /admin/conseillers (création à partir du numéro de membre, seul passage de
+    rôle permis hors super administration : membre vers conseiller, journalisé ;
+    nom, présentation, langues, maximum de couples, disponibilité, charge ;
+    nouvelle permission counselors.manage). Les deux listes ont filtres
+    avancés, filtres enregistrés et export journalisé. Tests :
+    supabase/tests/admin-phase3.test.ts (5). Reste : signalements et sanctions
+    (question 11).
+  Fait le 26 octobre 2026 (question 9, règles précisées par l'utilisateur) :
+    migration 20261026001000_conseiller_couple.sql : invitation par l'un des
+    deux avec message dans le chat du couple, accord de l'autre, attribution du
+    conseiller par l'administration (/admin/conseillers, « Demandes de
+    conseiller à attribuer » ; disponibilité et charge vérifiées), le conseiller
+    lit et écrit dans le chat, historique si les deux l'ont accepté, retrait par
+    l'un ou l'autre (message dans le chat) ; blocage d'un couple par
+    l'administration (/admin/couples, permission couples.manage : chat en
+    lecture seule, conseiller retiré, motif obligatoire notifié aux deux,
+    blocage levable). Messages système du chat traduits par le site. Règles
+    pures mises à jour (packages/domain/src/counselor.ts : assignCounselor).
+    Tests : supabase/tests/conversations.test.ts (12), domaine (60).
 
 Étape 8. Critère de fin : tests de bout en bout des règles 9.4 à 9.6 sur des
   données fictives (suite de la simulation de soirée de la phase 2 : matchs,
@@ -244,12 +268,20 @@ QUESTIONS (je n'invente pas les réponses)
      c) Les séances sont-elles payantes (montant, paiement par FeexPay) ?
      d) Médiation à trois « dans le chat » : le conseiller écrit-il directement
         dans le chat du couple pendant la séance seulement ?
-     RÉPONSE (26 octobre 2026) : « oui ». Compris ainsi : a) l'administration
-     crée le conseiller à partir d'un compte existant ; b) l'un propose un
-     conseiller, l'autre accepte ; d) le conseiller écrit dans le chat du couple
-     pendant une séance de médiation. Reste à préciser : c) séances payantes :
-     quel montant, payé quand et par qui ? b) un couple peut-il rester sans
-     conseiller ?
+     RÉPONSE (26 octobre 2026, précisée par l'utilisateur ; remplace une
+     interprétation de Claude qui n'avait pas été validée) :
+     - l'un OU l'autre des deux membres peut inviter un conseiller ; l'autre est
+       prévenu par un message dans le chat du couple et doit accepter ;
+     - l'administration attribue le conseiller (elle gère tout) ;
+     - le conseiller intervient dans le chat du couple (il lit et écrit) ; un
+       canal privé entre un membre et le conseiller est gardé ;
+     - historique : visible seulement si les deux l'acceptent (9.6) ;
+     - l'administration peut bloquer un couple : chat en lecture seule,
+       conseiller retiré, motif obligatoire notifié aux deux, blocage levable
+       par l'administration.
+     Encore ouvert : séances payantes (c) ; un couple peut-il rester sans
+     conseiller (b) ; avec quel conseiller s'ouvre le canal privé d'un membre
+     (celui attribué à son couple ?).
 
  10. Photos (étape 4) :
      a) Nombre de photos par membre (1 à 3 ?), taille et formats acceptés ?

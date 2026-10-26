@@ -27,6 +27,12 @@ const kinds = {
   discovery_closed: { href: null },
   match_expired: { href: null },
   couple_opened: { href: { pathname: memberNav.matches.href } },
+  // Conseiller du couple et blocage (question 9, 26 octobre 2026) ; le motif d'un blocage est affiché
+  counselor_access_requested: { href: null },
+  counselor_assigned: { href: null },
+  counselor_access_granted: { href: null },
+  couple_blocked: { href: null },
+  couple_unblocked: { href: null },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   answerAccess,
+  assignCounselor,
   type CounselorAccess,
   counselorCanRead,
   counselorReadableSince,
@@ -16,39 +17,54 @@ const t1 = new Date("2026-11-02T10:00:00Z");
 const before = new Date("2026-10-30T10:00:00Z");
 
 const requested = requestAccess(couple, "afiwa", true) as CounselorAccess;
+/** Accord de l'autre puis attribution par l'administration. */
+const grantedWith = (history: boolean, requesterHistory = true) =>
+  assignCounselor(
+    answerAccess(requestAccess(couple, "afiwa", requesterHistory) as CounselorAccess, "koffi", true, history, t0) as CounselorAccess,
+    "conseillere",
+    t0,
+  ) as CounselorAccess;
 
-describe("Accès du conseiller au chat du couple (9.6)", () => {
-  it("demande par l'un des deux seulement ; sans accord, aucune lecture", () => {
+describe("Conseiller du couple (9.6, question 9)", () => {
+  it("invitation par l'un des deux seulement ; sans accord, aucune lecture", () => {
     expect(requestAccess(couple, "sena", false)).toBe("not_member");
     expect(requested.status).toBe("requested");
     expect(counselorCanRead(requested, t1)).toBe(false);
     expect(showCounselorBanner(requested)).toBe(false);
   });
 
-  it("l'accord de l'autre est obligatoire ; celui qui demande ne peut pas accepter à sa place", () => {
+  it("l'accord de l'autre est obligatoire ; celui qui invite ne peut pas accepter à sa place", () => {
     expect(answerAccess(requested, "afiwa", true, true, t0)).toBe("own_request");
     expect(answerAccess(requested, "sena", true, true, t0)).toBe("not_member");
     const refused = answerAccess(requested, "koffi", false, false, t0) as CounselorAccess;
     expect(refused.status).toBe("refused");
     expect(counselorCanRead(refused, t1)).toBe(false);
     expect(answerAccess(refused, "koffi", true, false, t1)).toBe("not_pending");
+    expect(assignCounselor(refused, "conseillere", t1)).toBe("not_pending");
   });
 
-  it("à partir de l'acceptation ; l'historique seulement si les deux l'ont coché", () => {
-    const noHistory = answerAccess(requested, "koffi", true, false, t0) as CounselorAccess;
-    expect(counselorReadableSince(noHistory)).toEqual(t0);
-    expect(counselorCanRead(noHistory, before)).toBe(false);
-    expect(counselorCanRead(noHistory, t1)).toBe(true);
-    expect(showCounselorBanner(noHistory)).toBe(true);
-    const history = answerAccess(requested, "koffi", true, true, t0) as CounselorAccess;
-    expect(counselorReadableSince(history)).toBe("all");
-    expect(counselorCanRead(history, before)).toBe(true);
-    const onlyOne = answerAccess(requestAccess(couple, "afiwa", false) as CounselorAccess, "koffi", true, true, t0) as CounselorAccess;
-    expect(counselorCanRead(onlyOne, before)).toBe(false);
+  it("après l'accord, l'administration attribue le conseiller ; avant, rien", () => {
+    expect(assignCounselor(requested, "conseillere", t0)).toBe("not_accepted");
+    const accepted = answerAccess(requested, "koffi", true, false, t0) as CounselorAccess;
+    expect(accepted.status).toBe("requested");
+    expect(counselorCanRead(accepted, t1)).toBe(false);
+    expect(answerAccess(accepted, "koffi", true, false, t1)).toBe("not_pending");
+    const granted = assignCounselor(accepted, "conseillere", t0) as CounselorAccess;
+    expect(granted).toMatchObject({ status: "granted", counselorId: "conseillere" });
+    expect(showCounselorBanner(granted)).toBe(true);
+  });
+
+  it("à partir de son arrivée ; l'historique seulement si les deux l'ont accepté", () => {
+    expect(counselorReadableSince(grantedWith(false))).toEqual(t0);
+    expect(counselorCanRead(grantedWith(false), before)).toBe(false);
+    expect(counselorCanRead(grantedWith(false), t1)).toBe(true);
+    expect(counselorReadableSince(grantedWith(true))).toBe("all");
+    expect(counselorCanRead(grantedWith(true), before)).toBe(true);
+    expect(counselorCanRead(grantedWith(true, false), before)).toBe(false);
   });
 
   it("retrait par l'un ou l'autre, effet immédiat", () => {
-    const granted = answerAccess(requested, "koffi", true, true, t0) as CounselorAccess;
+    const granted = grantedWith(true);
     for (const member of couple) {
       const revoked = revokeAccess(granted, member) as CounselorAccess;
       expect(revoked.status).toBe("revoked");

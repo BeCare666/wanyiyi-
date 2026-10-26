@@ -540,7 +540,12 @@
         "discovery_closed": "This introduction has ended.",
         "match_expired": "This introduction has ended.",
         "couple_opened": "You both chose to continue: your couple space is open.",
-        "profile_photo_rejected": "A photo on your profile was declined. Upload another one: it will be reviewed again."
+        "profile_photo_rejected": "A photo on your profile was declined. Upload another one: it will be reviewed again.",
+        "counselor_access_requested": "Your partner is inviting a counselor into your conversation. Answer in the couple chat.",
+        "counselor_assigned": "A counselor is joining your couple's conversation.",
+        "counselor_access_granted": "A couple has been entrusted to you: you can read and write in their conversation.",
+        "couple_blocked": "The team has blocked your couple's conversation.",
+        "couple_unblocked": "The team has unblocked your couple's conversation."
       }
     },
     "dashboard": {
@@ -1058,6 +1063,15 @@
         "not_member": "You are not part of this conversation.",
         "unavailable": "This service is not available yet. Try again later.",
         "generic": "Something went wrong. Try again in a moment."
+      },
+      "system": {
+        "counselor_access_requested": "{name} is inviting a counselor into the conversation.",
+        "counselor_access_accepted": "{name} accepted: the team will choose the counselor.",
+        "counselor_access_refused": "{name} declined the counselor invitation.",
+        "counselor_access_revoked": "{name} removed the counselor from the conversation.",
+        "counselor_access_granted": "The counselor chosen by the team has joined the conversation.",
+        "couple_blocked": "The team has blocked this conversation.",
+        "couple_unblocked": "The team has unblocked this conversation."
       }
     }
   },
@@ -1213,7 +1227,8 @@
     "groups": {
       "members": "Members",
       "evenings": "Evenings",
-      "payments": "Payments"
+      "payments": "Payments",
+      "relations": "Relationships"
     },
     "nav": {
       "verifications": "Verifications",
@@ -1222,7 +1237,10 @@
       "venues": "Venues",
       "members": "Members",
       "payments": "Payments",
-      "themes": "Themes"
+      "themes": "Themes",
+      "discoveries": "Matches and discoveries",
+      "couples": "Couples",
+      "counselors": "Counselors"
     },
     "navHelp": {
       "verifications": "Pending files, selfies, decisions",
@@ -2167,6 +2185,176 @@
           "field": "Section",
           "body": "Text",
           "created_at": "Submitted on"
+        }
+      },
+      "discoveries": {
+        "sortDefault": "Announcement, newest first",
+        "fields": {
+          "member": "Member",
+          "member_number": "Member number",
+          "match_status": "Match status",
+          "discovery_status": "Discovery status",
+          "announced_at": "Announcement date",
+          "deadline": "Deadline",
+          "event_date": "Evening date",
+          "extended": "Extended"
+        },
+        "columns": {
+          "event": "Evening",
+          "status": "Status",
+          "deadline": "Deadline"
+        },
+        "export": {
+          "event_date": "Evening",
+          "member_a": "First member",
+          "member_b": "Second member",
+          "match_status": "Match status",
+          "discovery_status": "Discovery status",
+          "deadline": "Deadline",
+          "extended": "Extended"
+        }
+      },
+      "couples": {
+        "sortDefault": "Creation, newest first",
+        "fields": {
+          "member": "Member",
+          "member_number": "Member number",
+          "status": "Status",
+          "has_counselor": "With a counselor",
+          "counselor": "Counselor",
+          "created_at": "Creation date",
+          "last_activity_at": "Last activity",
+          "inactive_days": "Days without activity",
+          "blocked": "Blocked"
+        },
+        "columns": {
+          "status": "Status",
+          "counselor": "Counselor",
+          "activity": "Activity",
+          "created": "Created"
+        },
+        "export": {
+          "member_a": "First member",
+          "member_b": "Second member",
+          "status": "Status",
+          "counselor": "Counselor",
+          "created_at": "Created",
+          "last_activity_at": "Last activity",
+          "inactive_days": "Days without activity"
+        }
+      }
+    },
+    "discoveries": {
+      "intro": "Announced matches, their discovery and its deadlines. Each member's choices are not shown.",
+      "empty": "No match in this list.",
+      "columns": {
+        "pair": "The two members"
+      },
+      "matchStatus": {
+        "pending_choice": "Waiting to open",
+        "discovery_open": "Discovery open",
+        "expired": "Expired",
+        "closed": "Ended"
+      },
+      "discoveryStatus": {
+        "none": "No discovery",
+        "active": "In progress",
+        "extended": "Extended",
+        "continued": "Became a couple",
+        "closed": "Closed",
+        "expired": "Reached its end"
+      },
+      "extended": "extended"
+    },
+    "couples": {
+      "intro": "Couples, their counselor and their activity. No message is visible here.",
+      "empty": "No couple in this list.",
+      "status": {
+        "active": "In progress",
+        "paused": "Paused",
+        "union_celebrated": "Union celebrated",
+        "separated": "Separated",
+        "left": "One member left"
+      },
+      "noCounselor": "No counselor",
+      "inactiveDays": "{count, plural, =0 {Active today} one {# day without activity} other {# days without activity}}",
+      "inactivityAlert": "More than {days} days: the counselor must be told",
+      "blocked": "Blocked on {date}",
+      "block": {
+        "block": "Block this couple",
+        "unblock": "Lift the block",
+        "reason": "Reason for the block (required)",
+        "reasonHelp": "Both members receive this reason. The chat becomes read-only and the counselor is removed.",
+        "confirmBlock": "Block with this reason",
+        "confirmUnblock": "Confirm lifting the block",
+        "cancel": "Cancel",
+        "errors": {
+          "reason_required": "Write the reason for the block.",
+          "reason_too_long": "The reason is longer than 1,000 characters.",
+          "already_blocked": "This couple is already blocked.",
+          "not_blocked": "This couple is not blocked.",
+          "not_found": "This couple cannot be found.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      }
+    },
+    "counselors": {
+      "intro": "Counselors, their availability and the number of couples they follow. A counselor is created from a member's account.",
+      "empty": "No counselor yet.",
+      "load": "{count} couple(s) out of {max}",
+      "full": "full",
+      "available": "available",
+      "unavailable": "unavailable",
+      "new": "New counselor",
+      "form": {
+        "memberNumber": "Member number",
+        "memberNumberHelp": "This member's account becomes a counselor account.",
+        "name": "Display name",
+        "maxCouples": "Couples followed at most",
+        "bio": "Introduction (optional)",
+        "languages": "Languages",
+        "language": {
+          "fr": "French",
+          "en": "English",
+          "yo": "Yoruba"
+        },
+        "available": "Available for new couples",
+        "save": "Save",
+        "create": "Create the counselor",
+        "saved": "Changes saved.",
+        "created": "Counselor created.",
+        "errors": {
+          "name_required": "Enter the display name (80 characters at most).",
+          "languages_required": "Choose at least one language.",
+          "invalid_capacity": "The number of couples must be between 1 and 100.",
+          "not_found": "No account has this member number.",
+          "not_a_member": "This account is not a plain member: it cannot become a counselor here.",
+          "self_action": "You cannot change your own role.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      },
+      "list": "Counselors",
+      "requests": {
+        "title": "Counselor requests to assign",
+        "empty": "No pending request.",
+        "withHistory": "Both agree that the counselor may read the messages already exchanged.",
+        "noHistory": "The counselor will only read messages written after joining.",
+        "choose": "Counselor",
+        "assign": "Assign",
+        "noneAvailable": "No counselor available: make one available, or raise their number of couples.",
+        "errors": {
+          "counselor_unavailable": "This counselor is not available.",
+          "counselor_full": "This counselor already follows their maximum number of couples.",
+          "couple_blocked": "This couple is blocked.",
+          "not_pending": "This request is no longer pending.",
+          "not_found": "Request or counselor not found.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
         }
       }
     }

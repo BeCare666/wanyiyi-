@@ -540,7 +540,12 @@
         "discovery_closed": "Ìfìmọ̀ra ẹni yìí ti parí.",
         "match_expired": "Ìfìmọ̀ra ẹni yìí ti parí.",
         "couple_opened": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú: àyè tọkọtaya yín ti ṣí.",
-        "profile_photo_rejected": "A kọ fọ́tò kan lórí àkọsílẹ̀ yín. Ẹ fi òmíràn ránṣẹ́: a ó tún un ṣàyẹ̀wò."
+        "profile_photo_rejected": "A kọ fọ́tò kan lórí àkọsílẹ̀ yín. Ẹ fi òmíràn ránṣẹ́: a ó tún un ṣàyẹ̀wò.",
+        "counselor_access_requested": "Ẹnìkejì yín ń pe olùdámọ̀ràn sínú ìfọ̀rọ̀wérọ̀ yín. Ẹ dáhùn nínú ìfọ̀rọ̀wérọ̀ tọkọtaya.",
+        "counselor_assigned": "Olùdámọ̀ràn kan ń darapọ̀ mọ́ ìfọ̀rọ̀wérọ̀ tọkọtaya yín.",
+        "counselor_access_granted": "A ti fi tọkọtaya kan lé yín lọ́wọ́: ẹ lè ka àti kọ̀wé nínú ìfọ̀rọ̀wérọ̀ wọn.",
+        "couple_blocked": "Ẹgbẹ́ ti dí ìfọ̀rọ̀wérọ̀ tọkọtaya yín.",
+        "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ tọkọtaya yín padà."
       }
     },
     "dashboard": {
@@ -1058,6 +1063,15 @@
         "not_member": "Ẹ kò sí nínú ìfọ̀rọ̀wérọ̀ yìí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+      },
+      "system": {
+        "counselor_access_requested": "{name} ń pe olùdámọ̀ràn sínú ìfọ̀rọ̀wérọ̀ yìí.",
+        "counselor_access_accepted": "{name} ti gbà: ẹgbẹ́ yóò yan olùdámọ̀ràn.",
+        "counselor_access_refused": "{name} kọ ìpè olùdámọ̀ràn.",
+        "counselor_access_revoked": "{name} ti yọ olùdámọ̀ràn kúrò nínú ìfọ̀rọ̀wérọ̀.",
+        "counselor_access_granted": "Olùdámọ̀ràn tí ẹgbẹ́ yàn ti darapọ̀ mọ́ ìfọ̀rọ̀wérọ̀.",
+        "couple_blocked": "Ẹgbẹ́ ti dí ìfọ̀rọ̀wérọ̀ yìí.",
+        "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ yìí padà."
       }
     }
   },
@@ -1213,7 +1227,8 @@
     "groups": {
       "members": "Ọmọ ẹgbẹ́",
       "evenings": "Ìpàdé alẹ́",
-      "payments": "Ìsanwó"
+      "payments": "Ìsanwó",
+      "relations": "Àjọṣepọ̀"
     },
     "nav": {
       "verifications": "Àyẹ̀wò",
@@ -1222,7 +1237,10 @@
       "venues": "Àwọn ibi ìpàdé",
       "members": "Ọmọ ẹgbẹ́",
       "payments": "Ìsanwó",
-      "themes": "Àkòrí"
+      "themes": "Àkòrí",
+      "discoveries": "Ìbámu àti ìmọ̀ra ẹni",
+      "couples": "Tọkọtaya",
+      "counselors": "Àwọn olùdámọ̀ràn"
     },
     "navHelp": {
       "verifications": "Àwọn ìwé tó ń dúró, àwọn fọ́tò ojú, àwọn ìpinnu",
@@ -2167,6 +2185,176 @@
           "field": "Abala",
           "body": "Ọ̀rọ̀",
           "created_at": "Ọjọ́ ìfiránṣẹ́"
+        }
+      },
+      "discoveries": {
+        "sortDefault": "Ìkéde, èyí tó ṣẹ̀ṣẹ̀ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "member": "Ọmọ ẹgbẹ́",
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "match_status": "Ipò ìbámu",
+          "discovery_status": "Ipò ìmọ̀ra ẹni",
+          "announced_at": "Ọjọ́ ìkéde",
+          "deadline": "Ọjọ́ ìparí",
+          "event_date": "Ọjọ́ ìpàdé alẹ́",
+          "extended": "A ti fi kún un"
+        },
+        "columns": {
+          "event": "Ìpàdé alẹ́",
+          "status": "Ipò",
+          "deadline": "Ọjọ́ ìparí"
+        },
+        "export": {
+          "event_date": "Ìpàdé alẹ́",
+          "member_a": "Ọmọ ẹgbẹ́ àkọ́kọ́",
+          "member_b": "Ọmọ ẹgbẹ́ kejì",
+          "match_status": "Ipò ìbámu",
+          "discovery_status": "Ipò ìmọ̀ra ẹni",
+          "deadline": "Ọjọ́ ìparí",
+          "extended": "A ti fi kún un"
+        }
+      },
+      "couples": {
+        "sortDefault": "Ìṣẹ̀dá, èyí tó ṣẹ̀ṣẹ̀ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "member": "Ọmọ ẹgbẹ́",
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "status": "Ipò",
+          "has_counselor": "Pẹ̀lú olùdámọ̀ràn",
+          "counselor": "Olùdámọ̀ràn",
+          "created_at": "Ọjọ́ ìṣẹ̀dá",
+          "last_activity_at": "Ìgbòkègbodò tó kẹ́yìn",
+          "inactive_days": "Ọjọ́ láìsí ìgbòkègbodò",
+          "blocked": "A ti dí i"
+        },
+        "columns": {
+          "status": "Ipò",
+          "counselor": "Olùdámọ̀ràn",
+          "activity": "Ìgbòkègbodò",
+          "created": "Ìṣẹ̀dá"
+        },
+        "export": {
+          "member_a": "Ọmọ ẹgbẹ́ àkọ́kọ́",
+          "member_b": "Ọmọ ẹgbẹ́ kejì",
+          "status": "Ipò",
+          "counselor": "Olùdámọ̀ràn",
+          "created_at": "Ìṣẹ̀dá",
+          "last_activity_at": "Ìgbòkègbodò tó kẹ́yìn",
+          "inactive_days": "Ọjọ́ láìsí ìgbòkègbodò"
+        }
+      }
+    },
+    "discoveries": {
+      "intro": "Àwọn ìbámu tí a kéde, ìmọ̀ra ẹni wọn àti ọjọ́ ìparí rẹ̀. A kò fi ìpinnu ọmọ ẹgbẹ́ kọ̀ọ̀kan hàn.",
+      "empty": "Kò sí ìbámu kankan nínú àkójọ yìí.",
+      "columns": {
+        "pair": "Àwọn ọmọ ẹgbẹ́ méjèèjì"
+      },
+      "matchStatus": {
+        "pending_choice": "Ń dúró láti ṣí",
+        "discovery_open": "Ìmọ̀ra ẹni ti ṣí",
+        "expired": "Ti kọjá àkókò",
+        "closed": "Ti parí"
+      },
+      "discoveryStatus": {
+        "none": "Kò sí ìmọ̀ra ẹni",
+        "active": "Ń lọ lọ́wọ́",
+        "extended": "A ti fi kún un",
+        "continued": "Ti di tọkọtaya",
+        "closed": "Ti di títì",
+        "expired": "Àkókò rẹ̀ ti tán"
+      },
+      "extended": "a ti fi kún un"
+    },
+    "couples": {
+      "intro": "Àwọn tọkọtaya, olùdámọ̀ràn wọn àti ìgbòkègbodò wọn. A kò rí ọ̀rọ̀ kankan níbí.",
+      "empty": "Kò sí tọkọtaya kankan nínú àkójọ yìí.",
+      "status": {
+        "active": "Ń lọ lọ́wọ́",
+        "paused": "Dúró díẹ̀",
+        "union_celebrated": "A ti ṣe ayẹyẹ ìgbéyàwó",
+        "separated": "Wọ́n ti pínyà",
+        "left": "Ọ̀kan ti kúrò"
+      },
+      "noCounselor": "Kò sí olùdámọ̀ràn",
+      "inactiveDays": "{count, plural, =0 {Ó ṣiṣẹ́ lónìí} other {Ọjọ́ # láìsí ìgbòkègbodò}}",
+      "inactivityAlert": "Ó ju ọjọ́ {days} lọ: a gbọ́dọ̀ sọ fún olùdámọ̀ràn",
+      "blocked": "A dí i ní {date}",
+      "block": {
+        "block": "Dí tọkọtaya yìí",
+        "unblock": "Ṣí i padà",
+        "reason": "Ìdí tí a fi dí i (dandan)",
+        "reasonHelp": "Àwọn méjèèjì yóò gba ìdí yìí. Ìfọ̀rọ̀wérọ̀ yóò di kíkà nìkan, a ó sì yọ olùdámọ̀ràn kúrò.",
+        "confirmBlock": "Dí i pẹ̀lú ìdí yìí",
+        "confirmUnblock": "Jẹ́rìí ìṣípadà",
+        "cancel": "Fagilé",
+        "errors": {
+          "reason_required": "Ẹ kọ ìdí tí ẹ fi dí i.",
+          "reason_too_long": "Ìdí náà ju lẹ́tà 1 000 lọ.",
+          "already_blocked": "A ti dí tọkọtaya yìí tẹ́lẹ̀.",
+          "not_blocked": "A kò dí tọkọtaya yìí.",
+          "not_found": "A kò rí tọkọtaya yìí.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+        }
+      }
+    },
+    "counselors": {
+      "intro": "Àwọn olùdámọ̀ràn, bí wọ́n ṣe wà ní àrọ́wọ́tó àti iye tọkọtaya tí wọ́n ń tọ́jú. A ń dá olùdámọ̀ràn láti inú àkọọ́lẹ̀ ọmọ ẹgbẹ́ kan.",
+      "empty": "Kò sí olùdámọ̀ràn kankan síbẹ̀.",
+      "load": "Tọkọtaya {count} nínú {max}",
+      "full": "ti kún",
+      "available": "wà ní àrọ́wọ́tó",
+      "unavailable": "kò sí ní àrọ́wọ́tó",
+      "new": "Olùdámọ̀ràn tuntun",
+      "form": {
+        "memberNumber": "Nọ́ńbà ọmọ ẹgbẹ́",
+        "memberNumberHelp": "Àkọọ́lẹ̀ ọmọ ẹgbẹ́ yìí yóò di àkọọ́lẹ̀ olùdámọ̀ràn.",
+        "name": "Orúkọ tí a ó fi hàn",
+        "maxCouples": "Iye tọkọtaya tó pọ̀ jù",
+        "bio": "Ìfihàn ara ẹni (kò pọn dandan)",
+        "languages": "Àwọn èdè",
+        "language": {
+          "fr": "Faransé",
+          "en": "Gẹ̀ẹ́sì",
+          "yo": "Yorùbá"
+        },
+        "available": "Wà ní àrọ́wọ́tó fún tọkọtaya tuntun",
+        "save": "Fi pamọ́",
+        "create": "Dá olùdámọ̀ràn",
+        "saved": "A ti fi àwọn àyípadà pamọ́.",
+        "created": "A ti dá olùdámọ̀ràn.",
+        "errors": {
+          "name_required": "Ẹ kọ orúkọ tí a ó fi hàn (tí kò ju lẹ́tà 80 lọ).",
+          "languages_required": "Ẹ yan èdè kan ó kéré tán.",
+          "invalid_capacity": "Iye tọkọtaya gbọ́dọ̀ wà láàrin 1 sí 100.",
+          "not_found": "Kò sí àkọọ́lẹ̀ kankan tó ní nọ́ńbà ọmọ ẹgbẹ́ yìí.",
+          "not_a_member": "Àkọọ́lẹ̀ yìí kì í ṣe ọmọ ẹgbẹ́ lásán: kò lè di olùdámọ̀ràn níbí.",
+          "self_action": "Ẹ kò lè yí ipa ara yín padà.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+        }
+      },
+      "list": "Àwọn olùdámọ̀ràn",
+      "requests": {
+        "title": "Àwọn ìbéèrè olùdámọ̀ràn láti fi lélẹ̀",
+        "empty": "Kò sí ìbéèrè kankan tó ń dúró.",
+        "withHistory": "Àwọn méjèèjì gbà kí olùdámọ̀ràn ka àwọn ọ̀rọ̀ tí wọ́n ti kọ tẹ́lẹ̀.",
+        "noHistory": "Olùdámọ̀ràn yóò ka àwọn ọ̀rọ̀ tí a kọ lẹ́yìn tí ó dé nìkan.",
+        "choose": "Olùdámọ̀ràn",
+        "assign": "Fi lélẹ̀",
+        "noneAvailable": "Kò sí olùdámọ̀ràn tó wà ní àrọ́wọ́tó: ẹ jẹ́ kí ọ̀kan wà ní àrọ́wọ́tó, tàbí ẹ fi kún iye tọkọtaya rẹ̀.",
+        "errors": {
+          "counselor_unavailable": "Olùdámọ̀ràn yìí kò sí ní àrọ́wọ́tó.",
+          "counselor_full": "Olùdámọ̀ràn yìí ti ń tọ́jú iye tọkọtaya tó pọ̀ jù.",
+          "couple_blocked": "A ti dí tọkọtaya yìí.",
+          "not_pending": "Ìbéèrè yìí kò dúró mọ́.",
+          "not_found": "A kò rí ìbéèrè tàbí olùdámọ̀ràn náà.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
       }
     }

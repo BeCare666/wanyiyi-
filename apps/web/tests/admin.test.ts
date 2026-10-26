@@ -1,4 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { deadlineOf, pairLabel } from "../src/app/[locale]/(admin)/admin/decouvertes/relations";
+import { checkCounselor, counselorParams, isFull } from "../src/app/[locale]/(admin)/admin/conseillers/counselors";
+import { couplesSpec, discoveriesSpec, isValidListFilter } from "../src/components/admin/listRules";
 import { ageOn, filterQueue, memberName, parseQueueFilter, type QueueRow } from "../src/app/[locale]/(admin)/admin/verifications/queue";
 import { checkVenue } from "../src/app/[locale]/(admin)/admin/lieux/venues";
 import {
@@ -54,8 +57,11 @@ describe("Menu de l'administration (11.1)", () => {
     expect(visibleAdminNav(["verifications.review", "members.manage", "events.manage"]).map((g) => g.items.map((i) => i.key))).toEqual([
       ["members", "verifications"],
       ["evenings", "venues", "themes"],
+      ["discoveries"],
     ]);
-    expect(visibleAdminNav(["events.manage"]).map((g) => g.key)).toEqual(["evenings"]);
+    expect(visibleAdminNav(["events.manage"]).map((g) => g.key)).toEqual(["evenings", "relations"]);
+    // Phase 3 : couples et conseillers, chacun sa permission
+    expect(visibleAdminNav(["couples.read", "counselors.manage"]).map((g) => g.items.map((i) => i.href))).toEqual([["/admin/couples", "/admin/conseillers"]]);
     expect(visibleAdminNav(["payments.read"]).map((g) => g.items.map((i) => i.href))).toEqual([["/admin/paiements"]]);
     // Modération : relecture des textes seulement, pas de vérification (décisions du 17 et du 22 octobre 2026)
     expect(visibleAdminNav(["profile_texts.review"]).map((g) => g.items.map((i) => i.href))).toEqual([["/admin/moderation"]]);
@@ -494,3 +500,30 @@ describe("Minuteur des tours (question 8 : pas de pause)", () => {
   });
 });
 
+
+describe("Administration de la phase 3 (11.2-6 à 11.2-8)", () => {
+  it("paire de membres et échéance utile d'un match", () => {
+    const pair = { a_first_name: "Afiwa", a_last_name: "Fictif", a_number: "W-1", b_first_name: null, b_last_name: null, b_number: "W-2" };
+    expect(pairLabel(pair)).toEqual(["Afiwa Fictif (W-1)", "· (W-2)"]);
+    const base = { ends_at: "2026-11-09T10:00:00Z", pending_expires_at: "2026-11-01T07:00:00Z" };
+    expect(deadlineOf({ ...base, match_status: "discovery_open", discovery_status: "active" })).toBe(base.ends_at);
+    expect(deadlineOf({ ...base, match_status: "pending_choice", discovery_status: null })).toBe(base.pending_expires_at);
+    expect(deadlineOf({ ...base, match_status: "expired", discovery_status: null })).toBeNull();
+  });
+
+  it("conseiller : nom, langue, capacité de 1 à 100 ; langues hors liste écartées", () => {
+    const ok = { name: " Mme C. ", bio: "", languages: ["fr", "xx"], maxCouples: 10 };
+    expect(checkCounselor(ok)).toBeNull();
+    expect(checkCounselor({ ...ok, name: " " })).toBe("name_required");
+    expect(checkCounselor({ ...ok, languages: ["xx"] })).toBe("languages_required");
+    expect(checkCounselor({ ...ok, maxCouples: 0 })).toBe("invalid_capacity");
+    expect(counselorParams(ok)).toEqual({ p_display_name: "Mme C.", p_bio: null, p_languages: ["fr"], p_max_couples: 10 });
+    expect(isFull({ active_couples: 10, max_couples: 10 })).toBe(true);
+  });
+
+  it("listes : champs propres à chacune", () => {
+    expect(isValidListFilter(couplesSpec, { field: "inactive_days", cmp: "between", value: [60, null] })).toBe(true);
+    expect(isValidListFilter(discoveriesSpec, { field: "inactive_days", cmp: "between", value: [60, null] })).toBe(false);
+    expect(isValidListFilter(discoveriesSpec, { field: "discovery_status", cmp: "in", value: ["none"] })).toBe(true);
+  });
+});

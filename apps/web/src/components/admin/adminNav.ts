@@ -1,17 +1,28 @@
 import type { Icon } from "@phosphor-icons/react";
-import { ChampagneIcon, ChatTextIcon, MapPinIcon, ReceiptIcon, ShieldCheckIcon, TagIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
+import {
+  ChampagneIcon,
+  ChatTextIcon,
+  HandHeartIcon,
+  HeartIcon,
+  MapPinIcon,
+  ReceiptIcon,
+  ShieldCheckIcon,
+  TagIcon,
+  UsersIcon,
+  UsersThreeIcon,
+} from "@phosphor-icons/react/ssr";
 import type { StaffPermission } from "@/lib/staff";
 
 /** Entrée du menu de l'administration : clé de traduction (Admin.nav), adresse, icône, permission requise. */
 export type AdminNavItem = {
-  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "payments";
+  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "discoveries" | "couples" | "counselors" | "payments";
   href: string;
   Icon: Icon;
   permission: StaffPermission;
 };
 
 /** Groupe de menus (11.1). Seuls les modules déjà livrés y figurent : aucun lien vers une page absente. */
-export type AdminNavGroup = { key: "members" | "evenings" | "payments"; items: AdminNavItem[] };
+export type AdminNavGroup = { key: "members" | "evenings" | "relations" | "payments"; items: AdminNavItem[] };
 
 export const adminHome = "/admin";
 
@@ -32,6 +43,15 @@ export const adminNav: AdminNavGroup[] = [
       { key: "venues", href: "/admin/lieux", Icon: MapPinIcon, permission: "events.manage" },
       // Thèmes des soirées (questions 4 et 21, 24 octobre 2026)
       { key: "themes", href: "/admin/themes", Icon: TagIcon, permission: "events.manage" },
+    ],
+  },
+  // Phase 3 (11.2-6 à 11.2-8) : suivi des matchs et découvertes, des couples, des conseillers
+  {
+    key: "relations",
+    items: [
+      { key: "discoveries", href: "/admin/decouvertes", Icon: HeartIcon, permission: "events.manage" },
+      { key: "couples", href: "/admin/couples", Icon: UsersIcon, permission: "couples.read" },
+      { key: "counselors", href: "/admin/conseillers", Icon: HandHeartIcon, permission: "counselors.manage" },
     ],
   },
   {

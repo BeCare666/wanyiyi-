@@ -46,7 +46,7 @@ export default async function DiscoveryPage({ params }: Props) {
       ? supabase.from("photos").select("id").eq("user_id", partner).eq("review_status", "approved").order("position")
       : Promise.resolve({ data: [] as { id: string }[] }),
     conversation
-      ? supabase.from("messages").select("id, sender_id, body, created_at").eq("conversation_id", conversation.id).order("created_at").limit(500)
+      ? supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", conversation.id).order("created_at").limit(500)
       : Promise.resolve({ data: [] as ChatMessage[] }),
   ]);
   const active = row.discovery_status === "active" || row.discovery_status === "extended";
