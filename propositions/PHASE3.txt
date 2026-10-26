@@ -1,0 +1,201 @@
+IFEDELE (WANYIYI) : FEUILLE DE ROUTE DE LA PHASE 3
+Version 1, 26 octobre 2026. Proposition : rien n'est codé avant vos réponses aux
+questions qui bloquent une étape (marquées « bloque l'étape N »).
+
+Périmètre (section 14 de la note) : découverte, espace du couple, chat en temps
+réel, conseillers, signalements, filtres avancés.
+Critère de fin : tous les tests des règles 9.4 à 9.6 passent.
+
+Déjà fait pendant la phase 2 : filtres avancés sur toutes les listes de
+l'administration (11.3) ; matchs calculés et annoncés à 8 h ; page « Mes matchs »
+(liste) ; réglages « photo cachée jusqu'au match » et « numéro partagé après un
+match » (question 15) ; numéro déclaré sans vérification (question 27).
+Tables déjà prévues par le schéma initial, sans fonctions ni politiques :
+discoveries, discovery_decisions, couples, couple_milestones, date_checkins,
+phone_shares, counselors, counselor_availability, conversations, messages,
+counselor_access, counselor_access_consents, sessions, counselor_notes,
+reports, reported_messages, photos.
+
+======================================================================
+ÉTAPES
+======================================================================
+
+Étape 1. Règles pures (packages/domain), comme à la phase 2
+  - Découverte 9.4 : 14 jours ; 2 découvertes actives au plus ; au-delà, choix
+    du membre et attente de 7 jours puis expiration ; « Je veux continuer »
+    des deux : couple, exclusivité, fermeture des autres découvertes des deux ;
+    une prolongation de 7 jours si les deux la demandent ; fermeture à 14 jours
+    sans décision ; message unique « Cette mise en relation est terminée. ».
+  - Couple 9.5 : exclusivité (plus de réservation), partage des numéros si les
+    deux cliquent, inactivité 60 jours, trois issues (union, séparation,
+    départ d'un seul) avec leurs durées de conservation.
+  - Conseiller 9.6 : trois niveaux d'accès, double accord, historique seulement
+    si les deux le cochent, retrait immédiat par l'un ou l'autre.
+  - Tests unitaires de chaque règle.
+
+Étape 2. Base : découvertes et couples
+  - Fonctions atomiques : ouvrir ou choisir une découverte, décider
+    (continuer, prolonger), créer le couple, fermer, expirer ; tâches
+    planifiées de l'API (fin à 14 jours, attente de 7 jours, inactivité).
+  - Exclusivité branchée sur la réservation (déjà prévue par app.book).
+  - Politiques RLS : chacun ne voit que ses découvertes et son couple.
+  - Tests PGlite de 9.4 et 9.5.
+
+Étape 3. Base : conversations et chat en temps réel
+  - Conversations de découverte, de couple, et canal privé avec le conseiller.
+  - Envoi de messages par fonction (filtre des coordonnées en découverte ?
+    question 8), lecture seule après l'union, fermeture immédiate à la
+    séparation ou au départ, suppression programmée (90 jours, 12 mois).
+  - Accès du conseiller au chat du couple vérifié en RLS (double accord) ;
+    bannière tant qu'il a accès ; retrait immédiat.
+  - Temps réel par Supabase Realtime (question 1).
+  - Tests PGlite de 9.6, dont « impossible de lire sans l'accord des deux ».
+
+Étape 4. Photos (section 10.2 ; reprend la modération des photos de la phase 2)
+  - Dépôt dans le compartiment privé « member-photos » (jamais Cloudinary),
+    relecture par l'équipe (mêmes règles que les textes, question 22).
+  - Aucune photo avant un match ; URL signées de 5 minutes ; filigrane généré
+    par le serveur (nom et numéro de celui qui regarde, date, heure, position
+    variable) ; photo floutée si le membre le choisit ; pas de clic droit ni
+    d'appui long (dissuasion seulement, documentée comme telle).
+
+Étape 5. Espace membre
+  - Mes matchs et découvertes (6.2-6) : choix des découvertes, compte à
+    rebours, chat, photos révélées, lieux partenaires conseillés, boutons
+    « Je veux continuer » et « Prolonger ».
+  - Espace du couple (6.2-7) : chat, photos, conseiller, parcours en 5 étapes,
+    rendez-vous déclarés et « Bien rentré(e) ? », partage des numéros, fin.
+  - Bouton de signalement sur chaque profil et dans chaque conversation.
+  - Tableau de bord : découvertes en cours, messages non lus.
+
+Étape 6. Espace conseiller (section 7)
+  - Interface séparée de même qualité que l'administration : couples suivis,
+    canaux privés, accès au chat d'un couple seulement avec les deux accords,
+    agenda des séances, notes privées (jamais visibles des membres), suivi des
+    étapes du couple.
+
+Étape 7. Administration
+  - Matchs et découvertes (11.2-6) : suivi, échéances, expirations.
+  - Couples (11.2-7) : étapes, conseiller, état, issue.
+  - Conseillers (11.2-8) : profils, disponibilités, charge, couples suivis.
+  - Signalements et sanctions (11.2-4) : file avec délai cible de 24 h ;
+    seuls les messages signalés sont lisibles, chaque consultation journalisée.
+  - Filtres avancés sur ces nouvelles listes (même moteur que la phase 2).
+
+Étape 8. Critère de fin : tests de bout en bout des règles 9.4 à 9.6 sur des
+  données fictives (suite de la simulation de soirée de la phase 2 : matchs,
+  découvertes, couple, conseiller, fin).
+
+======================================================================
+QUESTIONS (je n'invente pas les réponses)
+======================================================================
+
+  1. Chat en temps réel (bloque l'étape 3) : j'utiliserais Supabase Realtime
+     (inclus dans votre projet Supabase, rien à installer, la RLS s'applique).
+     L'acceptez-vous ? Le chat ne contient-il que du texte, ou aussi des
+     photos ou des messages vocaux ?
+     RÉPONSE (26 octobre 2026) : Supabase Realtime accepté. (Texte seul, ou
+     aussi photos ou messages vocaux : encore ouvert.)
+
+  2. Ouverture d'une découverte (bloque l'étape 2). La note dit : « au-delà de
+     2 découvertes actives, il choisit lesquelles ouvrir ; les autres matchs
+     restent en attente 7 jours puis expirent ». Quand A a de la place et
+     B n'en a pas : la découverte s'ouvre-t-elle seulement quand les DEUX ont
+     de la place et l'ont choisie ? Et si B laisse expirer le match, A est-il
+     prévenu par le même message neutre « Cette mise en relation est
+     terminée. » ?
+     CHOIX DE CLAUDE (26 octobre 2026, à la demande de l'utilisateur ; modifiable) :
+     a) Une découverte ne s'ouvre que si les deux membres y consentent ET ont
+        chacun une place libre (moins de 2 découvertes actives).
+     b) À l'annonce de 8 h, pour chaque membre : si tous ses nouveaux matchs
+        tiennent dans ses places libres, ils sont choisis d'office ; sinon il
+        choisit lui-même lesquels ouvrir, dans la limite de ses places. Un match
+        choisi par les deux s'ouvre aussitôt (14 jours à partir de l'ouverture).
+     c) Un match non ouvert attend 7 jours à partir de l'annonce. Pendant ce
+        temps, une place libérée (découverte fermée) permet de le choisir.
+        L'autre voit seulement « en attente », jamais pourquoi.
+     d) À 7 jours sans ouverture, le match expire ; les deux reçoivent le même
+        message neutre « Cette mise en relation est terminée. », sans savoir
+        qui n'a pas choisi.
+     e) Un membre ne peut pas refuser explicitement un match : ne pas le
+        choisir suffit (rien n'est jamais montré à l'autre).
+
+  3. Prolongation (étape 2) : une seule prolongation de 7 jours si les deux la
+     demandent. Peut-on la demander à tout moment pendant les 14 jours, ou
+     seulement les derniers jours (lesquels) ?
+
+  4. Premier rendez-vous « conseillé dans un lieu partenaire » (étape 5) :
+     simple liste des lieux partenaires affichée dans la découverte, ou
+     réservation d'un rendez-vous par l'équipe ?
+
+  5. « Bien rentré(e) ? » (étape 5) : le membre déclare la date et l'heure du
+     rendez-vous ; combien de temps après cette heure envoyer le message, par
+     quel canal (espace membre, e-mail), et que se passe-t-il s'il répond
+     « Non » ou ne répond pas (alerte à l'équipe ou au conseiller ?) ?
+     Ce message existe-t-il aussi pendant la découverte (la table le permet) ?
+
+  6. Inactivité du couple (étape 2) : après 60 jours sans activité, le
+     conseiller est prévenu ; « sans réponse du couple, mise en pause ». Combien
+     de jours pour répondre, qu'est-ce qu'une « activité » (message, étape,
+     connexion ?), et que change la pause (chat en lecture seule ?
+     exclusivité levée, donc soirées de nouveau possibles ?). Et un couple
+     sans conseiller ?
+
+  7. Fins du couple (étape 2) :
+     a) Union célébrée : qui la déclare (les deux membres, le conseiller,
+        l'équipe) ? « Suivi post-union facultatif » : en quoi consiste-t-il ?
+     b) Séparation et départ d'un seul : la séparation est-elle décidée par les
+        deux (et le départ par un seul) ? Le « retour aux soirées après
+        1 mois » vaut-il aussi pour le départ d'un seul, et pour l'autre
+        membre ?
+     c) Départ d'un seul : « l'autre est prévenu par le conseiller ». Sans
+        conseiller, par un message neutre de la plateforme ?
+
+  8. Coordonnées dans le chat (étape 3) : faut-il bloquer les numéros, liens et
+     e-mails dans le chat de découverte, comme dans les textes du profil
+     (le partage des numéros n'existe qu'en couple, 9.5) ? Et dans le chat du
+     couple ?
+
+  9. Conseillers (étapes 6 et 7) :
+     a) Qui crée un conseiller : l'administration, à partir d'un compte existant
+        (rôle « conseiller ») ?
+     b) « Choisi ensemble » : l'un propose un conseiller et l'autre accepte ?
+        Un couple peut-il rester sans conseiller ?
+     c) Les séances sont-elles payantes (montant, paiement par FeexPay) ?
+     d) Médiation à trois « dans le chat » : le conseiller écrit-il directement
+        dans le chat du couple pendant la séance seulement ?
+
+ 10. Photos (étape 4) :
+     a) Nombre de photos par membre (1 à 3 ?), taille et formats acceptés ?
+     b) Filigrane : il faut traiter l'image sur le serveur. Je propose la
+        bibliothèque libre « sharp » (npm, licence Apache 2.0) dans l'API
+        NestJS sur Render. L'acceptez-vous ?
+     c) La photo est-elle obligatoire pour participer aux soirées ?
+     d) Réglage « numéro partagé après un match » (question 15, vrai par
+        défaut) et règle 9.5 « partage des numéros seulement si les deux
+        cliquent, dans l'espace du couple » : lequel s'applique ? Je propose
+        de suivre 9.5 (couple seulement, double clic) et de faire du réglage
+        la valeur proposée par défaut au moment du clic.
+     CHOIX DE CLAUDE (26 octobre 2026, à la demande de l'utilisateur ; modifiable) :
+     a) 1 à 3 photos par membre ; JPEG, PNG ou WebP, 8 Mo au plus ; le serveur
+        les réduit à 1 600 pixels de côté et retire les métadonnées (lieu de
+        prise de vue). Chaque photo est relue par l'équipe (règles des textes,
+        question 22) avant d'être montrée.
+     b) Bibliothèque « sharp » acceptée dans l'API : réduction, retrait des
+        métadonnées, flou et filigrane générés à chaque affichage.
+     c) Au moins une photo approuvée est exigée pour réserver une soirée (un
+        match révèle les photos : il faut qu'il y en ait une).
+     d) La règle 9.5 s'applique : le numéro n'est partagé que dans l'espace du
+        couple, quand les deux ont cliqué « Partager mon numéro ». Le réglage
+        de la question 15 devient « Autoriser le partage de mon numéro dans
+        l'espace du couple » (vrai par défaut) : faux, le bouton n'est pas
+        proposé.
+
+ 11. Signalements (étape 7) : liste des motifs proposés au membre (par exemple
+     comportement irrespectueux, faux profil, demande d'argent, autre) ? Qui
+     traite : modération, administration ? Le membre signalé est-il prévenu ?
+     Un signalement ferme-t-il automatiquement la découverte ?
+
+ 12. Espace souvenir (union) : il est livré en phase 4. En phase 3, l'issue
+     « union célébrée » met seulement le chat en lecture seule et programme la
+     suppression à 12 mois ; d'accord ?

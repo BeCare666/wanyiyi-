@@ -2002,6 +2002,77 @@
           "waiting_men": "Waiting men",
           "matches": "Matches"
         }
+      },
+      "eventsCount": "{count, plural, =0 {No evening} one {# evening} other {# evenings}}",
+      "venues": {
+        "sortDefault": "Name, A to Z",
+        "fields": {
+          "name": "Name",
+          "address": "Address",
+          "city": "City",
+          "is_partner": "Partner venue",
+          "events": "Number of evenings",
+          "created_at": "Date added"
+        },
+        "columns": {
+          "address": "Address",
+          "city": "City",
+          "events": "Evenings"
+        },
+        "export": {
+          "name": "Name",
+          "address": "Address",
+          "city": "City",
+          "is_partner": "Partner",
+          "events": "Evenings",
+          "created_at": "Added on"
+        }
+      },
+      "themes": {
+        "sortDefault": "Creation, oldest first",
+        "fields": {
+          "name": "Name",
+          "min_age": "Minimum age",
+          "max_age": "Maximum age",
+          "has_religions": "Faith required",
+          "has_sectors": "Sector required",
+          "events": "Number of evenings",
+          "created_at": "Creation date"
+        },
+        "columns": {
+          "criteria": "Criteria",
+          "events": "Evenings"
+        },
+        "export": {
+          "name": "Name",
+          "min_age": "Minimum age",
+          "max_age": "Maximum age",
+          "religions": "Faiths",
+          "sectors": "Sectors",
+          "events": "Evenings",
+          "created_at": "Created on"
+        }
+      },
+      "moderation": {
+        "sortDefault": "Submission, oldest first",
+        "fields": {
+          "member": "First name",
+          "member_number": "Member number",
+          "field": "Section",
+          "body": "Text",
+          "created_at": "Submission date"
+        },
+        "columns": {
+          "field": "Section",
+          "date": "Submission date"
+        },
+        "export": {
+          "member_number": "Member number",
+          "first_name": "First name",
+          "field": "Section",
+          "body": "Text",
+          "created_at": "Submitted on"
+        }
       }
     }
   },

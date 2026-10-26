@@ -9,14 +9,20 @@ import {
   isValidListFilter,
   listFilterQuery,
   listSpecs,
+  moderationSpec,
   parseListColumns,
   parseListPage,
   parseListSort,
   parseListState,
   paymentsSpec,
   pruneListFilter,
+  themesSpec,
+  venuesSpec,
   verificationsSpec,
 } from "../src/components/admin/listRules";
+import { venueExportCell, venueExportColumns } from "../src/app/[locale]/(admin)/admin/lieux/venues";
+import { themeExportCell, themeExportColumns } from "../src/app/[locale]/(admin)/admin/themes/themes";
+import { moderationExportCell, moderationExportColumns } from "../src/app/[locale]/(admin)/admin/moderation/moderation";
 import { eventConditions, eventExportCell, eventExportColumns, type AdminEventRow } from "../src/app/[locale]/(admin)/admin/soirees/evenings";
 import { paymentConditions, paymentExportCell, paymentExportColumns, type PaymentRow } from "../src/app/[locale]/(admin)/admin/paiements/payments";
 import {
@@ -246,6 +252,53 @@ describe("Export des listes (11.3)", () => {
       10,
       3,
       0,
+    ]);
+  });
+});
+
+describe("Listes Lieux, Thèmes et Modération (question 32)", () => {
+  it("champs de chaque liste seulement ; rubrique de texte contrôlée", () => {
+    expect(isValidListFilter(venuesSpec, { field: "city", cmp: "contains", value: "Porto" })).toBe(true);
+    expect(isValidListFilter(themesSpec, { field: "city", cmp: "contains", value: "Porto" })).toBe(false);
+    expect(isValidListFilter(themesSpec, { field: "min_age", cmp: "between", value: [25, null] })).toBe(true);
+    expect(isValidListFilter(moderationSpec, { field: "field", cmp: "in", value: ["who_i_am"] })).toBe(true);
+    expect(isValidListFilter(moderationSpec, { field: "field", cmp: "in", value: ["autre"] })).toBe(false);
+    expect(parseListColumns(venuesSpec, undefined)).toEqual(["address", "city"]);
+    expect(parseListSort(moderationSpec, "created_at.desc,body.asc")).toEqual([{ field: "created_at", dir: "desc" }]);
+  });
+
+  it("export : lieux, thèmes (libellés du catalogue), textes", () => {
+    const date = (iso: string) => iso.slice(0, 10);
+    const venue = { id: "v", name: "Lieu fictif", address: "Adresse fictive", city: "Cotonou", is_partner: true, events: 2, created_at: "2026-10-01T00:00:00Z", total: 1 };
+    expect(venueExportColumns.map((c) => venueExportCell(venue, c, { yesNo: (b) => (b ? "oui" : "non"), date }))).toEqual([
+      "Lieu fictif",
+      "Adresse fictive",
+      "Cotonou",
+      "oui",
+      2,
+      "2026-10-01",
+    ]);
+    const theme = {
+      id: "t",
+      key: "foi",
+      name: { fr: "Foi chrétienne" },
+      min_age: null,
+      max_age: 45,
+      required_religions: ["catholic", "protestant"],
+      sectors: null,
+      events: 0,
+      created_at: "2026-10-24T00:00:00Z",
+      total: 1,
+    };
+    const labels = { name: (r: { name: unknown }) => (r.name as { fr: string }).fr, religion: (r: string) => r.toUpperCase(), sector: (s: string) => s, date };
+    expect(themeExportColumns.map((c) => themeExportCell(theme, c, labels))).toEqual(["Foi chrétienne", null, 45, "CATHOLIC, PROTESTANT", null, 0, "2026-10-24"]);
+    const text = { text_id: "x", user_id: "u", first_name: "Ayaba", member_number: "W-1", field: "who_i_am" as const, body: "Bonjour", created_at: "2026-10-26T09:00:00Z", total: 1 };
+    expect(moderationExportColumns.map((c) => moderationExportCell(text, c, { field: (f) => `rubrique:${f}`, date }))).toEqual([
+      "W-1",
+      "Ayaba",
+      "rubrique:who_i_am",
+      "Bonjour",
+      "2026-10-26",
     ]);
   });
 });

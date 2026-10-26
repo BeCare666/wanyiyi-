@@ -2002,6 +2002,77 @@
           "waiting_men": "Ń dúró, ọkùnrin",
           "matches": "Ìfohùnṣọ̀kan"
         }
+      },
+      "eventsCount": "{count, plural, =0 {Kò sí ìpàdé alẹ́} other {Ìpàdé alẹ́ #}}",
+      "venues": {
+        "sortDefault": "Orúkọ, láti A dé Z",
+        "fields": {
+          "name": "Orúkọ",
+          "address": "Àdírẹ́sì",
+          "city": "Ìlú",
+          "is_partner": "Ibi alábàáṣiṣẹ́pọ̀",
+          "events": "Iye ìpàdé alẹ́",
+          "created_at": "Ọjọ́ tí a fi kún un"
+        },
+        "columns": {
+          "address": "Àdírẹ́sì",
+          "city": "Ìlú",
+          "events": "Ìpàdé alẹ́"
+        },
+        "export": {
+          "name": "Orúkọ",
+          "address": "Àdírẹ́sì",
+          "city": "Ìlú",
+          "is_partner": "Alábàáṣiṣẹ́pọ̀",
+          "events": "Ìpàdé alẹ́",
+          "created_at": "Ọjọ́ tí a fi kún un"
+        }
+      },
+      "themes": {
+        "sortDefault": "Ìṣẹ̀dá, èyí tó pẹ́ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "name": "Orúkọ",
+          "min_age": "Ọjọ́ orí tó kéré jù",
+          "max_age": "Ọjọ́ orí tó pọ̀ jù",
+          "has_religions": "Ẹ̀sìn tí a béèrè",
+          "has_sectors": "Ẹ̀ka iṣẹ́ tí a béèrè",
+          "events": "Iye ìpàdé alẹ́",
+          "created_at": "Ọjọ́ ìṣẹ̀dá"
+        },
+        "columns": {
+          "criteria": "Àwọn ohun tí a béèrè",
+          "events": "Ìpàdé alẹ́"
+        },
+        "export": {
+          "name": "Orúkọ",
+          "min_age": "Ọjọ́ orí tó kéré jù",
+          "max_age": "Ọjọ́ orí tó pọ̀ jù",
+          "religions": "Ẹ̀sìn",
+          "sectors": "Ẹ̀ka iṣẹ́",
+          "events": "Ìpàdé alẹ́",
+          "created_at": "Ọjọ́ ìṣẹ̀dá"
+        }
+      },
+      "moderation": {
+        "sortDefault": "Ìfiránṣẹ́, èyí tó pẹ́ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "member": "Orúkọ àkọ́kọ́",
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "field": "Abala",
+          "body": "Ọ̀rọ̀",
+          "created_at": "Ọjọ́ ìfiránṣẹ́"
+        },
+        "columns": {
+          "field": "Abala",
+          "date": "Ọjọ́ ìfiránṣẹ́"
+        },
+        "export": {
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "first_name": "Orúkọ àkọ́kọ́",
+          "field": "Abala",
+          "body": "Ọ̀rọ̀",
+          "created_at": "Ọjọ́ ìfiránṣẹ́"
+        }
       }
     }
   },

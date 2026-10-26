@@ -68,3 +68,31 @@ export function themeParams(input: ThemeInput) {
     p_sectors: input.sectors.filter((s) => themeSectors.includes(s)),
   };
 }
+
+/** Colonnes du fichier exporté de la liste des thèmes (11.3). */
+export const themeExportColumns = ["name", "min_age", "max_age", "religions", "sectors", "events", "created_at"] as const;
+export type ThemeExportColumn = (typeof themeExportColumns)[number];
+export type ThemeListRow = ThemeRow & { events: number; created_at: string; total: number };
+
+export function themeExportCell(
+  row: ThemeListRow,
+  column: ThemeExportColumn,
+  labels: { name: (row: ThemeRow) => string; religion: (r: string) => string; sector: (s: string) => string; date: (iso: string) => string },
+): string | number | null {
+  switch (column) {
+    case "name":
+      return labels.name(row);
+    case "min_age":
+      return row.min_age;
+    case "max_age":
+      return row.max_age;
+    case "religions":
+      return (row.required_religions ?? []).map(labels.religion).join(", ") || null;
+    case "sectors":
+      return (row.sectors ?? []).map(labels.sector).join(", ") || null;
+    case "events":
+      return row.events;
+    case "created_at":
+      return labels.date(row.created_at);
+  }
+}

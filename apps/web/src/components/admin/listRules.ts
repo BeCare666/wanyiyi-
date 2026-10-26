@@ -7,14 +7,14 @@ import { encodeFilter, type FilterNode } from "../../app/[locale]/(admin)/admin/
  * L'arbre ET / OU et son encodage dans l'adresse sont ceux de la liste des membres.
  */
 
-export type ListName = "payments" | "verifications" | "events";
+export type ListName = "payments" | "verifications" | "events" | "venues" | "themes" | "moderation";
 export type FieldKind = "text" | "list" | "number" | "date" | "boolean";
 /** labels : préfixe des libellés des options dans l'espace de traduction « Admin ». */
 export type FieldSpec = { kind: FieldKind; options?: readonly string[]; labels?: string };
 
 export type ListSpec = {
   list: ListName;
-  pathname: "/admin/paiements" | "/admin/verifications" | "/admin/soirees";
+  pathname: "/admin/paiements" | "/admin/verifications" | "/admin/soirees" | "/admin/lieux" | "/admin/themes" | "/admin/moderation";
   /** Champs filtrables, dans l'ordre du sélecteur. */
   fields: Readonly<Record<string, FieldSpec>>;
   sortFields: readonly string[];
@@ -91,7 +91,63 @@ export const eventsSpec: ListSpec = {
   defaultColumns: ["status", "women", "men", "matches"],
 };
 
-export const listSpecs: Record<ListName, ListSpec> = { payments: paymentsSpec, verifications: verificationsSpec, events: eventsSpec };
+export const venuesSpec: ListSpec = {
+  list: "venues",
+  pathname: "/admin/lieux",
+  fields: {
+    name: { kind: "text" },
+    address: { kind: "text" },
+    city: { kind: "text" },
+    is_partner: { kind: "boolean" },
+    events: { kind: "number" },
+    created_at: { kind: "date" },
+  },
+  sortFields: ["name", "city", "events", "created_at"],
+  columns: ["address", "city", "events"],
+  defaultColumns: ["address", "city"],
+};
+
+export const themesSpec: ListSpec = {
+  list: "themes",
+  pathname: "/admin/themes",
+  fields: {
+    name: { kind: "text" },
+    min_age: { kind: "number" },
+    max_age: { kind: "number" },
+    has_religions: { kind: "boolean" },
+    has_sectors: { kind: "boolean" },
+    events: { kind: "number" },
+    created_at: { kind: "date" },
+  },
+  sortFields: ["name", "events", "created_at"],
+  columns: ["criteria", "events"],
+  defaultColumns: ["criteria"],
+};
+
+/** Modération : textes en attente de relecture seulement, comme la file. */
+export const moderationSpec: ListSpec = {
+  list: "moderation",
+  pathname: "/admin/moderation",
+  fields: {
+    member: { kind: "text" },
+    member_number: { kind: "text" },
+    field: { kind: "list", options: ["who_i_am", "what_matters", "evening_topic"], labels: "moderation.fields" },
+    body: { kind: "text" },
+    created_at: { kind: "date" },
+  },
+  sortFields: ["created_at", "member", "field"],
+  columns: ["field", "date"],
+  defaultColumns: ["field", "date"],
+};
+
+export const listSpecs: Record<ListName, ListSpec> = {
+  payments: paymentsSpec,
+  verifications: verificationsSpec,
+  events: eventsSpec,
+  venues: venuesSpec,
+  themes: themesSpec,
+  moderation: moderationSpec,
+};
 
 /** Limites de la base (3 niveaux, 20 conditions) et du constructeur (un niveau de sous-groupes, 14 conditions). */
 const MAX_DEPTH = 3;

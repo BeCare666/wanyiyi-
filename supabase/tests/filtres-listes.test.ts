@@ -198,3 +198,52 @@ describe("Filtres avancés des autres listes (11.3)", () => {
     expect(seen).toEqual([]);
   });
 });
+
+describe("Filtres des listes Lieux, Thèmes et Modération (question 32)", () => {
+  it("lieux : texte, partenaire, nombre de soirées ; réservé à events.manage", async () => {
+    await db.query("insert into app.venues (name, address, city, is_partner) values ('Salle Ganhi (lieu fictif)', 'Adresse fictive', 'Porto-Novo', false)");
+    const names = async (filter: unknown, sort: unknown = null) => (await list("venues", filter, sort)).map((r) => r.name);
+    expect(await names({ field: "city", cmp: "contains", value: "porto" })).toEqual(["Salle Ganhi (lieu fictif)"]);
+    expect(await names({ field: "events", cmp: "between", value: [1, null] })).toHaveLength(2);
+    expect(await names({ op: "and", items: [{ field: "is_partner", cmp: "is", value: false }, { field: "events", cmp: "between", value: [null, 0] }] })).toEqual([
+      "Salle Ganhi (lieu fictif)",
+    ]);
+    expect(await asUser(db, moderator, (tx) => failure(tx.query("select * from app.admin_list('venues')")))).toMatch(/forbidden/);
+  });
+
+  it("thèmes : nom dans les trois langues, âges, critères, soirées", async () => {
+    const keys = async (filter: unknown) => (await list("themes", filter)).map((r) => r.key);
+    expect(await keys({ field: "name", cmp: "contains", value: "25 to 35" })).toEqual(["age-25-35"]);
+    expect(await keys({ op: "and", items: [{ field: "min_age", cmp: "between", value: [25, 25] }, { field: "has_religions", cmp: "is", value: false }] })).toEqual([
+      "age-25-35",
+    ]);
+    const all = await list("themes", null, [{ field: "events", dir: "desc" }]);
+    expect(all.length).toBeGreaterThan(1);
+    expect(all.every((r) => r.events === 0)).toBe(true);
+  });
+
+  it("modération : textes en attente seulement, champ, contenu ; modérateur autorisé", async () => {
+    await db.query("insert into app.profile_texts (user_id, field, body) values ($1, 'who_i_am', 'J''aime la cuisine du dimanche')", [ayaba]);
+    await db.query("insert into app.profile_texts (user_id, field, body, review_status) values ($1, 'who_i_am', 'Déjà relu', 'approved')", [comlan]);
+    const rows = await list("moderation", { field: "body", cmp: "contains", value: "cuisine" }, null, moderator);
+    expect(rows.map((r) => r.first_name)).toEqual(["Ayaba"]);
+    expect(await list("moderation", { field: "field", cmp: "in", value: ["what_matters"] }, null, moderator)).toEqual([]);
+    expect((await list("moderation", null, null, moderator)).map((r) => r.first_name)).toEqual(["Ayaba"]);
+    expect(await fails("moderation", { field: "field", cmp: "in", value: ["autre"] })).toMatch(/invalid_filter/);
+  });
+
+  it("liste inconnue et liste des membres refusées par ce moteur ; filtre enregistré accepté", async () => {
+    expect(await asUser(db, admin, (tx) => failure(tx.query("select * from app.admin_list('lieux')")))).toMatch(/forbidden/);
+    expect(await asUser(db, admin, (tx) => failure(tx.query("select * from app.admin_list_export('members', null, null, 'csv')")))).toMatch(/forbidden/);
+    const error = await asUser(db, admin, (tx) =>
+      failure(
+        tx.query("insert into app.saved_filters (owner_id, resource, name, definition, columns) values ($1, 'themes', 'Âges', $2, $3)", [
+          admin,
+          JSON.stringify({ op: "and", items: [{ field: "min_age", cmp: "between", value: [18, null] }] }),
+          ["events"],
+        ]),
+      ),
+    );
+    expect(error).toBeNull();
+  });
+});

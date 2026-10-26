@@ -2002,6 +2002,77 @@
           "waiting_men": "En attente hommes",
           "matches": "Matchs"
         }
+      },
+      "eventsCount": "{count, plural, =0 {Aucune soirée} one {# soirée} other {# soirées}}",
+      "venues": {
+        "sortDefault": "Nom, de A à Z",
+        "fields": {
+          "name": "Nom",
+          "address": "Adresse",
+          "city": "Ville",
+          "is_partner": "Lieu partenaire",
+          "events": "Nombre de soirées",
+          "created_at": "Date d'ajout"
+        },
+        "columns": {
+          "address": "Adresse",
+          "city": "Ville",
+          "events": "Soirées"
+        },
+        "export": {
+          "name": "Nom",
+          "address": "Adresse",
+          "city": "Ville",
+          "is_partner": "Partenaire",
+          "events": "Soirées",
+          "created_at": "Ajouté le"
+        }
+      },
+      "themes": {
+        "sortDefault": "Création, plus ancien d'abord",
+        "fields": {
+          "name": "Nom",
+          "min_age": "Âge minimum",
+          "max_age": "Âge maximum",
+          "has_religions": "Confession exigée",
+          "has_sectors": "Secteur exigé",
+          "events": "Nombre de soirées",
+          "created_at": "Date de création"
+        },
+        "columns": {
+          "criteria": "Critères",
+          "events": "Soirées"
+        },
+        "export": {
+          "name": "Nom",
+          "min_age": "Âge minimum",
+          "max_age": "Âge maximum",
+          "religions": "Confessions",
+          "sectors": "Secteurs",
+          "events": "Soirées",
+          "created_at": "Créé le"
+        }
+      },
+      "moderation": {
+        "sortDefault": "Envoi, plus ancien d'abord",
+        "fields": {
+          "member": "Prénom",
+          "member_number": "Numéro de membre",
+          "field": "Rubrique",
+          "body": "Texte",
+          "created_at": "Date d'envoi"
+        },
+        "columns": {
+          "field": "Rubrique",
+          "date": "Date d'envoi"
+        },
+        "export": {
+          "member_number": "Numéro de membre",
+          "first_name": "Prénom",
+          "field": "Rubrique",
+          "body": "Texte",
+          "created_at": "Envoyé le"
+        }
       }
     }
   },

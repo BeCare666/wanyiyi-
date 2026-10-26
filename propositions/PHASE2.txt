@@ -282,9 +282,14 @@ Décisions du 14 octobre 2026
     lieu choisi). Un moteur unique dans la base (app.list_field,
     app.list_filter_sql, app.list_sort_sql, app.admin_list,
     app.admin_list_export) ; la liste des membres garde le sien. Migration
-    20261026000200_filtres_listes.sql. Les petites listes Lieux, Thèmes et
-    Modération gardent leur affichage simple. Actions groupées : membres
-    seulement (question 32).
+    20261026000200_filtres_listes.sql. Listes Lieux, Thèmes et
+    Modération : faits aussi le 26 octobre (question 32), migration
+    20261026000300_filtres_petites_listes.sql : lieux (nom, adresse, ville,
+    partenaire, nombre de soirées, date d'ajout), thèmes (nom dans les trois
+    langues, âges, confession ou secteur exigés, soirées, date), modération
+    (textes en attente : prénom, numéro, rubrique, texte, date). Actions
+    groupées : membres seulement ; validation des vérifications un par un
+    (question 32).
   Reste (24 octobre 2026 ; modération des textes et minuteur faits, questions 22
     et 8 ; modération des photos quand le dépôt des photos existera) : dans Soirées :
     thèmes faits le 24 octobre (questions 4 et 21) ; composition assistée faite le
@@ -641,3 +646,5 @@ QUESTIONS (je n'invente pas les réponses)
      selfie de chaque dossier (lien de 5 minutes journalisé) avant de valider.
      Et faut-il les filtres avancés sur Lieux, Thèmes et Modération (listes
      courtes aujourd'hui) ?
+     RÉPONSE (26 octobre 2026) : validation un par un gardée (pas de
+     validation groupée) ; filtres avancés ajoutés à Lieux, Thèmes et Modération.
