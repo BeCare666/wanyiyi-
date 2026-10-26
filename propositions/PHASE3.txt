@@ -71,6 +71,17 @@ reports, reported_messages, photos.
     bannière tant qu'il a accès ; retrait immédiat.
   - Temps réel par Supabase Realtime (question 1).
   - Tests PGlite de 9.6, dont « impossible de lire sans l'accord des deux ».
+  EN COURS (26 octobre 2026) : migration 20261026000500_conversations.sql :
+    participants de chaque conversation (découverte, couple, canal privé),
+    RLS des messages, app.send_message (conversation ouverte, texte de 1 à
+    2 000 caractères : longueur choisie par Claude, modifiable ; activité du
+    couple), accès du conseiller (app.request_counselor_access,
+    app.answer_counselor_access, app.revoke_counselor_access : accord des
+    deux, historique si les deux l'ont coché, retrait immédiat, journalisés),
+    bannière (app.counselor_has_access), messages publiés pour Supabase
+    Realtime. Tests : supabase/tests/conversations.test.ts (9). Reste : médias
+    (question 1), coordonnées (8), découverte fermée (14), conservation (7),
+    médiation (9 d), messages signalés (étape 7).
 
 Étape 4. Photos (section 10.2 ; reprend la modération des photos de la phase 2)
   - Dépôt dans le compartiment privé « member-photos » (jamais Cloudinary),
@@ -227,3 +238,9 @@ QUESTIONS (je n'invente pas les réponses)
      suite, avec le message neutre ? En attendant votre réponse, la règle
      codée refuse d'ouvrir un nouveau match tant que le membre est en couple
      (exclusivité 9.5), et le match expire à ses 7 jours.
+
+ 14. Découverte fermée (étape 3) : les deux membres peuvent-ils encore relire
+     leur conversation de découverte une fois celle-ci fermée (sans pouvoir
+     écrire), ou disparaît-elle de leur espace ? Et combien de temps la
+     garder avant de l'effacer ? Pour l'instant : relisible, plus d'envoi,
+     aucun effacement programmé.
