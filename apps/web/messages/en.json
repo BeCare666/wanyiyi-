@@ -910,6 +910,66 @@
         "requested_at": "Requested on",
         "purge_after": "Erasure due on"
       }
+    },
+    "profile": {
+      "title": "My profile",
+      "intro": "Describe yourself, then say what you are looking for. Each choice is saved straight away. Your texts are reviewed by the team before they are shown.",
+      "noProfile": "Your registration is not finished.",
+      "finishRegistration": "Finish my registration",
+      "unavailable": "Your profile is not available right now. Try again later.",
+      "tabsLabel": "Profile sections",
+      "tabs": {
+        "self": "About me",
+        "seeking": "What I'm looking for"
+      },
+      "step": "Step {current} of {total}",
+      "progress": "{done} of {total} filled in",
+      "progressLabel": "Profile progress",
+      "steps": {
+        "words": "In my words",
+        "situation": "Situation and plans",
+        "faith": "Faith",
+        "work": "Education and work",
+        "appearance": "Languages and appearance",
+        "lifestyle": "Personality and lifestyle",
+        "after_match": "Shown after a match"
+      },
+      "optional": "Optional",
+      "one": "One choice",
+      "several": "Several choices allowed",
+      "between": "{min} to {max} choices",
+      "afterMatch": "Only visible after a match",
+      "teamOnly": "Never shown to members, only to the team",
+      "indifferent": "No preference",
+      "dealbreaker": "Non-negotiable",
+      "dealbreakersHelp": "Tick “non-negotiable” under what really matters: {max} at most.",
+      "tooMany": "You already have {max} non-negotiable criteria. Remove one first.",
+      "saving": "Saving…",
+      "saved": "Saved.",
+      "error": "Saving failed. Try again in a moment.",
+      "previous": "Previous step",
+      "next": "Next step",
+      "toSeeking": "Go to “What I'm looking for”",
+      "texts": {
+        "help": "About 300 characters each. Don't write any number, link, email address or username: they are refused. The text is saved when you leave the box, then reviewed by the team.",
+        "fields": {
+          "who_i_am": "Who I am in a few words",
+          "what_matters": "What matters to me in a couple",
+          "evening_topic": "A topic I'd like to talk about at the evening"
+        },
+        "status": {
+          "pending": "Being reviewed by the team.",
+          "approved": "Reviewed and published."
+        },
+        "rejected": "Refused by the team: {note}. Rewrite it and it will be reviewed again.",
+        "results": {
+          "text_rejected": "Remove numbers, links, email addresses and usernames: the text is not saved.",
+          "too_long": "The text is longer than 300 characters.",
+          "failed": "The text could not be saved. Try again later.",
+          "saved": "Saved, being reviewed.",
+          "removed": "Text removed."
+        }
+      }
     }
   },
   "SignIn": {
@@ -1832,47 +1892,222 @@
     }
   },
   "Profile": {
+    "marital_status": {
+      "title": "Situation",
+      "options": {
+        "never_married": "Never married",
+        "divorced": "Divorced",
+        "widowed": "Widowed"
+      }
+    },
+    "children": {
+      "title": "Children",
+      "options": {
+        "none": "None",
+        "yes_living_with_me": "Yes, and they live with me",
+        "yes_not_living_with_me": "Yes, and they don't live with me"
+      }
+    },
+    "wants_children": {
+      "title": "Wanting children",
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "have_enough": "I already have enough",
+        "to_discuss": "To discuss"
+      }
+    },
+    "intention": {
+      "title": "Intention",
+      "options": {
+        "civil": "Civil marriage",
+        "religious": "Religious marriage",
+        "traditional_dowry": "Traditional union (dowry)",
+        "several": "Several"
+      }
+    },
+    "timeline": {
+      "title": "Desired timeline",
+      "options": {
+        "under_1_year": "Under a year",
+        "1_to_2_years": "1 to 2 years",
+        "taking_my_time": "I'm taking my time"
+      }
+    },
     "religion": {
-      "catholic": "Catholic",
-      "protestant_evangelical": "Protestant or evangelical",
-      "muslim": "Muslim",
-      "traditional": "Traditional religion",
-      "other": "Other",
-      "none": "None"
+      "title": "Religion",
+      "options": {
+        "catholic": "Catholic",
+        "protestant_evangelical": "Protestant or evangelical",
+        "muslim": "Muslim",
+        "traditional": "Traditional religion",
+        "other": "Other",
+        "none": "No religion"
+      }
+    },
+    "religious_practice": {
+      "title": "Religious practice",
+      "options": {
+        "regular": "Regular",
+        "occasional": "Occasional",
+        "little_or_none": "Little or none"
+      }
+    },
+    "education": {
+      "title": "Education",
+      "options": {
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "bac": "Baccalaureate",
+        "licence": "Bachelor's degree",
+        "master_plus": "Master's and above",
+        "vocational": "Vocational training"
+      }
     },
     "sector": {
-      "agriculture_agrifood": "Agriculture and food",
-      "trade": "Trade",
-      "education": "Education and training",
-      "health": "Health",
-      "public_administration": "Public administration",
-      "banking_finance_insurance": "Banking, finance and insurance",
-      "it_telecom": "IT and telecoms",
-      "construction_engineering": "Construction and engineering",
-      "transport_logistics": "Transport and logistics",
-      "hospitality_tourism": "Hotels, catering and tourism",
-      "crafts": "Crafts and trades",
-      "arts_media_communication": "Arts, media and communication",
-      "law_justice": "Law and justice",
-      "ngo_international": "NGOs and international organisations",
-      "defence_security": "Defence and security forces",
-      "student": "Student",
-      "other": "Other"
+      "title": "Sector",
+      "options": {
+        "agriculture_agrifood": "Agriculture and food",
+        "trade": "Trade",
+        "education": "Education and training",
+        "health": "Health",
+        "public_administration": "Public administration",
+        "banking_finance_insurance": "Banking, finance and insurance",
+        "it_telecom": "IT and telecoms",
+        "construction_engineering": "Construction and engineering",
+        "transport_logistics": "Transport and logistics",
+        "hospitality_tourism": "Hotels, catering and tourism",
+        "crafts": "Crafts and trades",
+        "arts_media_communication": "Arts, media and communication",
+        "law_justice": "Law and justice",
+        "ngo_international": "NGOs and international organisations",
+        "defence_security": "Defence and security forces",
+        "student": "Student",
+        "other": "Other"
+      }
+    },
+    "languages": {
+      "title": "Languages spoken",
+      "options": {
+        "french": "French",
+        "fon": "Fon",
+        "yoruba": "Yoruba",
+        "goun": "Goun",
+        "mina": "Mina",
+        "bariba": "Bariba",
+        "dendi": "Dendi",
+        "english": "English",
+        "other": "Other"
+      }
     },
     "height": {
-      "under_150": "Under 150 cm",
-      "150_159": "150 to 159 cm",
-      "160_169": "160 to 169 cm",
-      "170_179": "170 to 179 cm",
-      "180_189": "180 to 189 cm",
-      "190_plus": "190 cm and over"
+      "title": "Height",
+      "options": {
+        "under_150": "Under 150 cm",
+        "150_159": "150 to 159 cm",
+        "160_169": "160 to 169 cm",
+        "170_179": "170 to 179 cm",
+        "180_189": "180 to 189 cm",
+        "190_plus": "190 cm and over"
+      }
+    },
+    "build": {
+      "title": "Build",
+      "options": {
+        "slim": "Slim",
+        "average": "Average",
+        "athletic": "Athletic",
+        "curvy": "Curvy"
+      }
+    },
+    "personality": {
+      "title": "Personality",
+      "options": {
+        "calm": "Calm",
+        "joyful": "Joyful",
+        "reserved": "Reserved",
+        "sociable": "Sociable",
+        "organised": "Organised",
+        "spontaneous": "Spontaneous",
+        "patient": "Patient",
+        "ambitious": "Ambitious",
+        "funny": "Funny",
+        "attentive": "Attentive"
+      }
+    },
+    "tobacco": {
+      "title": "Tobacco",
+      "options": {
+        "no": "No",
+        "sometimes": "Sometimes",
+        "yes": "Yes"
+      }
+    },
+    "alcohol": {
+      "title": "Alcohol",
+      "options": {
+        "never": "Never",
+        "occasionally": "Occasionally",
+        "regularly": "Regularly"
+      }
+    },
+    "going_out": {
+      "title": "Going out",
+      "options": {
+        "homebody": "Mostly at home",
+        "balanced": "Balanced",
+        "often_out": "Often out"
+      }
+    },
+    "interests": {
+      "title": "Interests",
+      "options": {
+        "cooking": "Cooking",
+        "music": "Music",
+        "reading": "Reading",
+        "sport": "Sport",
+        "travel": "Travel",
+        "entrepreneurship": "Entrepreneurship",
+        "church_or_mosque": "Church or mosque",
+        "associations": "Associations",
+        "cinema": "Cinema",
+        "fashion": "Fashion"
+      }
+    },
+    "money_management": {
+      "title": "Managing money",
+      "options": {
+        "all_shared": "All shared",
+        "separate": "Separate",
+        "mixed": "Mixed"
+      }
+    },
+    "extended_family": {
+      "title": "Role of the extended family",
+      "options": {
+        "very_important": "Very important",
+        "balanced": "Balanced",
+        "couple_independence": "Couple's independence"
+      }
+    },
+    "desired_location": {
+      "title": "Where I'd like to live",
+      "options": {
+        "cotonou": "Cotonou",
+        "other_benin_city": "Another city in Benin",
+        "abroad": "Abroad",
+        "indifferent": "No preference"
+      }
     },
     "income": {
-      "under_100k": "Under 100,000 FCFA a month",
-      "100k_250k": "100,000 to 249,999 FCFA a month",
-      "250k_500k": "250,000 to 499,999 FCFA a month",
-      "500k_1m": "500,000 to 999,999 FCFA a month",
-      "1m_plus": "1,000,000 FCFA and over a month"
+      "title": "Income",
+      "options": {
+        "under_100k": "Under 100,000 FCFA a month",
+        "100k_250k": "100,000 to 249,999 FCFA a month",
+        "250k_500k": "250,000 to 499,999 FCFA a month",
+        "500k_1m": "500,000 to 999,999 FCFA a month",
+        "1m_plus": "1,000,000 FCFA and over a month"
+      }
     }
   }
 }

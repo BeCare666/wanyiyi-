@@ -7,7 +7,7 @@ export type ApiResult<T> = { ok: true; data: T } | { ok: false; error: string };
  * Appel de l'API NestJS au nom du membre connecté : son jeton est transmis,
  * l'API le vérifie et la RLS s'applique dans la base. Uniquement côté serveur.
  */
-export async function memberApi<T>(path: string, init?: { method?: "GET" | "POST"; body?: unknown }): Promise<ApiResult<T>> {
+export async function memberApi<T>(path: string, init?: { method?: "GET" | "POST" | "PUT"; body?: unknown }): Promise<ApiResult<T>> {
   const base = process.env.NEXT_PUBLIC_API_URL;
   const supabase = await createSupabaseServer();
   if (!base || !supabase) return { ok: false, error: "unavailable" };

@@ -910,6 +910,66 @@
         "requested_at": "Ọjọ́ ìbéèrè",
         "purge_after": "Ọjọ́ pípa rẹ́"
       }
+    },
+    "profile": {
+      "title": "Profaili mi",
+      "intro": "Ṣàpèjúwe ara rẹ, lẹ́yìn náà sọ ohun tí o ń wá. A ń gba gbogbo ìyàn sílẹ̀ lẹ́sẹ̀kẹsẹ̀. Àwọn ọmọ ẹgbẹ́ iṣẹ́ yóò ka ọ̀rọ̀ rẹ kí a tó fi hàn.",
+      "noProfile": "Ìforúkọsílẹ̀ rẹ kò tíì parí.",
+      "finishRegistration": "Parí ìforúkọsílẹ̀ mi",
+      "unavailable": "Profaili rẹ kò sí ní báyìí. Gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
+      "tabsLabel": "Àwọn apá profaili",
+      "tabs": {
+        "self": "Mo ṣàpèjúwe ara mi",
+        "seeking": "Ohun tí mo ń wá"
+      },
+      "step": "Ìgbésẹ̀ {current} nínú {total}",
+      "progress": "{done} nínú {total} ti kún",
+      "progressLabel": "Ìlọsíwájú profaili",
+      "steps": {
+        "words": "Ọ̀rọ̀ mi",
+        "situation": "Ipò àti èrò",
+        "faith": "Ìgbàgbọ́",
+        "work": "Ẹ̀kọ́ àti iṣẹ́",
+        "appearance": "Èdè àti ìrísí",
+        "lifestyle": "Ìwà àti ìgbésí ayé",
+        "after_match": "A ó fihàn lẹ́yìn ìbámu"
+      },
+      "optional": "Kò pọn dandan",
+      "one": "Ìyàn kan",
+      "several": "O lè yan ọ̀pọ̀",
+      "between": "Ìyàn {min} sí {max}",
+      "afterMatch": "A ó fihàn lẹ́yìn ìbámu nìkan",
+      "teamOnly": "A kì í fi hàn àwọn ọmọ ẹgbẹ́, ẹgbẹ́ iṣẹ́ nìkan ló ń rí i",
+      "indifferent": "Kò jẹ mí lógún",
+      "dealbreaker": "Ohun tí kò ṣe é yípadà",
+      "dealbreakersHelp": "Fi àmì sí « ohun tí kò ṣe é yípadà » lábẹ́ ohun tó ṣe pàtàkì gan-an: {max} ló pọ̀ jù.",
+      "tooMany": "O ti ní {max} ohun tí kò ṣe é yípadà. Kọ́kọ́ yọ ọ̀kan kúrò.",
+      "saving": "À ń gbà á sílẹ̀…",
+      "saved": "A ti gbà á sílẹ̀.",
+      "error": "A kò lè gbà á sílẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́.",
+      "previous": "Ìgbésẹ̀ tó ṣáájú",
+      "next": "Ìgbésẹ̀ tó kàn",
+      "toSeeking": "Lọ sí « Ohun tí mo ń wá »",
+      "texts": {
+        "help": "Nǹkan bí lẹ́tà 300 fún ọ̀kọ̀ọ̀kan. Má kọ nọ́mbà, ìjápọ̀, àdírẹ́sì ímeèlì tàbí orúkọ ìkànnì: a kò ní gbà wọ́n. A ó gba ọ̀rọ̀ náà sílẹ̀ nígbà tí o bá kúrò nínú àpótí, lẹ́yìn náà ẹgbẹ́ iṣẹ́ yóò kà á.",
+        "fields": {
+          "who_i_am": "Ta ni mí ní ọ̀rọ̀ díẹ̀",
+          "what_matters": "Ohun tó ṣe pàtàkì fún mi nínú ìgbéyàwó",
+          "evening_topic": "Ọ̀rọ̀ kan tí mo fẹ́ sọ ní ìpàdé alẹ́"
+        },
+        "status": {
+          "pending": "Ẹgbẹ́ iṣẹ́ ń kà á lọ́wọ́.",
+          "approved": "A ti kà á, a sì ti gbé e jáde."
+        },
+        "rejected": "Ẹgbẹ́ iṣẹ́ kọ̀ ọ́: {note}. Tún un kọ, a ó tún un kà.",
+        "results": {
+          "text_rejected": "Yọ nọ́mbà, ìjápọ̀, àdírẹ́sì ímeèlì àti orúkọ ìkànnì kúrò: a kò gba ọ̀rọ̀ náà sílẹ̀.",
+          "too_long": "Ọ̀rọ̀ náà ju lẹ́tà 300 lọ.",
+          "failed": "A kò lè gba ọ̀rọ̀ náà sílẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
+          "saved": "A ti gbà á sílẹ̀, à ń kà á.",
+          "removed": "A ti yọ ọ̀rọ̀ náà kúrò."
+        }
+      }
     }
   },
   "SignIn": {
@@ -1832,47 +1892,222 @@
     }
   },
   "Profile": {
+    "marital_status": {
+      "title": "Ipò ìgbéyàwó",
+      "options": {
+        "never_married": "N kò ṣe ìgbéyàwó rí",
+        "divorced": "Mo ti kọ ara sílẹ̀",
+        "widowed": "Opó"
+      }
+    },
+    "children": {
+      "title": "Ọmọ",
+      "options": {
+        "none": "Kò sí",
+        "yes_living_with_me": "Bẹ́ẹ̀ ni, wọ́n ń gbé pẹ̀lú mi",
+        "yes_not_living_with_me": "Bẹ́ẹ̀ ni, wọn kò gbé pẹ̀lú mi"
+      }
+    },
+    "wants_children": {
+      "title": "Ìfẹ́ láti bímọ",
+      "options": {
+        "yes": "Bẹ́ẹ̀ ni",
+        "no": "Rárá",
+        "have_enough": "Mo ti ní tó",
+        "to_discuss": "A ó jọ sọ̀rọ̀ rẹ̀"
+      }
+    },
+    "intention": {
+      "title": "Èrò ọkàn",
+      "options": {
+        "civil": "Ìgbéyàwó ìjọba",
+        "religious": "Ìgbéyàwó ẹ̀sìn",
+        "traditional_dowry": "Ìgbéyàwó ìbílẹ̀ (owó orí)",
+        "several": "Ọ̀pọ̀lọpọ̀"
+      }
+    },
+    "timeline": {
+      "title": "Àkókò tí mo fẹ́",
+      "options": {
+        "under_1_year": "Kò tó ọdún kan",
+        "1_to_2_years": "Ọdún 1 sí 2",
+        "taking_my_time": "Mo ń fara balẹ̀"
+      }
+    },
     "religion": {
-      "catholic": "Kátólíìkì",
-      "protestant_evangelical": "Pùròtẹ́sítáǹtì tàbí ajíhìnrere",
-      "muslim": "Mùsùlùmí",
-      "traditional": "Ẹ̀sìn ìbílẹ̀",
-      "other": "Òmíràn",
-      "none": "Kò sí"
+      "title": "Ẹ̀sìn",
+      "options": {
+        "catholic": "Kátólíìkì",
+        "protestant_evangelical": "Pùròtẹ́sítáǹtì tàbí ajíhìnrere",
+        "muslim": "Mùsùlùmí",
+        "traditional": "Ẹ̀sìn ìbílẹ̀",
+        "other": "Òmíràn",
+        "none": "Kò ní ẹ̀sìn"
+      }
+    },
+    "religious_practice": {
+      "title": "Ìṣe ẹ̀sìn",
+      "options": {
+        "regular": "Déédéé",
+        "occasional": "Lẹ́ẹ̀kọ̀ọ̀kan",
+        "little_or_none": "Díẹ̀ tàbí rárá"
+      }
+    },
+    "education": {
+      "title": "Ìpele ẹ̀kọ́",
+      "options": {
+        "primary": "Alákọ̀ọ́bẹ̀rẹ̀",
+        "secondary": "Gíga",
+        "bac": "BAC",
+        "licence": "Oyè àkọ́kọ́ ní yunifásítì",
+        "master_plus": "Oyè gíga àti jù bẹ́ẹ̀ lọ",
+        "vocational": "Ẹ̀kọ́ iṣẹ́ ọwọ́"
+      }
     },
     "sector": {
-      "agriculture_agrifood": "Iṣẹ́ àgbẹ̀ àti oúnjẹ",
-      "trade": "Òwò",
-      "education": "Ẹ̀kọ́ àti ìdánilẹ́kọ̀ọ́",
-      "health": "Ìlera",
-      "public_administration": "Iṣẹ́ ìjọba",
-      "banking_finance_insurance": "Ilé ìfowópamọ́, ìṣúná àti ìdánilójú",
-      "it_telecom": "Kọ̀ǹpútà àti ìbánisọ̀rọ̀",
-      "construction_engineering": "Ìkọ́lé àti ìmọ̀ ẹ̀rọ",
-      "transport_logistics": "Ìrìnnà àti ìkẹ́rùlọ",
-      "hospitality_tourism": "Ilé ìtura, oúnjẹ àti ìrìn àjò afẹ́",
-      "crafts": "Iṣẹ́ ọwọ́",
-      "arts_media_communication": "Iṣẹ́ ọnà, ìròyìn àti ìbánisọ̀rọ̀",
-      "law_justice": "Òfin àti ìdájọ́",
-      "ngo_international": "Àjọ àánú àti àjọ àgbáyé",
-      "defence_security": "Ológun àti ààbò",
-      "student": "Akẹ́kọ̀ọ́",
-      "other": "Òmíràn"
+      "title": "Ẹ̀ka iṣẹ́",
+      "options": {
+        "agriculture_agrifood": "Iṣẹ́ àgbẹ̀ àti oúnjẹ",
+        "trade": "Òwò",
+        "education": "Ẹ̀kọ́ àti ìdánilẹ́kọ̀ọ́",
+        "health": "Ìlera",
+        "public_administration": "Iṣẹ́ ìjọba",
+        "banking_finance_insurance": "Ilé ìfowópamọ́, ìṣúná àti ìdánilójú",
+        "it_telecom": "Kọ̀ǹpútà àti ìbánisọ̀rọ̀",
+        "construction_engineering": "Ìkọ́lé àti ìmọ̀ ẹ̀rọ",
+        "transport_logistics": "Ìrìnnà àti ìkẹ́rùlọ",
+        "hospitality_tourism": "Ilé ìtura, oúnjẹ àti ìrìn àjò afẹ́",
+        "crafts": "Iṣẹ́ ọwọ́",
+        "arts_media_communication": "Iṣẹ́ ọnà, ìròyìn àti ìbánisọ̀rọ̀",
+        "law_justice": "Òfin àti ìdájọ́",
+        "ngo_international": "Àjọ àánú àti àjọ àgbáyé",
+        "defence_security": "Ológun àti ààbò",
+        "student": "Akẹ́kọ̀ọ́",
+        "other": "Òmíràn"
+      }
+    },
+    "languages": {
+      "title": "Èdè tí mo ń sọ",
+      "options": {
+        "french": "Faransé",
+        "fon": "Fọ̀n",
+        "yoruba": "Yorùbá",
+        "goun": "Gun",
+        "mina": "Mina",
+        "bariba": "Bàrìbá",
+        "dendi": "Dendi",
+        "english": "Gẹ̀ẹ́sì",
+        "other": "Òmíràn"
+      }
     },
     "height": {
-      "under_150": "Kò tó 150 cm",
-      "150_159": "150 sí 159 cm",
-      "160_169": "160 sí 169 cm",
-      "170_179": "170 sí 179 cm",
-      "180_189": "180 sí 189 cm",
-      "190_plus": "190 cm sókè"
+      "title": "Gíga",
+      "options": {
+        "under_150": "Kò tó 150 cm",
+        "150_159": "150 sí 159 cm",
+        "160_169": "160 sí 169 cm",
+        "170_179": "170 sí 179 cm",
+        "180_189": "180 sí 189 cm",
+        "190_plus": "190 cm sókè"
+      }
+    },
+    "build": {
+      "title": "Ìrísí ara",
+      "options": {
+        "slim": "Tẹ́ẹ́rẹ́",
+        "average": "Àárín",
+        "athletic": "Alágbára",
+        "curvy": "Kíkún"
+      }
+    },
+    "personality": {
+      "title": "Ìwà",
+      "options": {
+        "calm": "Ìdákẹ́jẹ́",
+        "joyful": "Ayọ̀",
+        "reserved": "Ẹni tí kì í sọ̀rọ̀ púpọ̀",
+        "sociable": "Ẹlẹ́gbẹ́",
+        "organised": "Ẹni tó ń ṣe nǹkan létòlétò",
+        "spontaneous": "Ẹni tí kì í ronú pẹ́",
+        "patient": "Onísùúrù",
+        "ambitious": "Onífẹ̀ẹ́ ìlọsíwájú",
+        "funny": "Apanilẹ́rìn-ín",
+        "attentive": "Olùtọ́jú"
+      }
+    },
+    "tobacco": {
+      "title": "Sìgá",
+      "options": {
+        "no": "Rárá",
+        "sometimes": "Nígbà míì",
+        "yes": "Bẹ́ẹ̀ ni"
+      }
+    },
+    "alcohol": {
+      "title": "Ọtí",
+      "options": {
+        "never": "Láéláé",
+        "occasionally": "Lẹ́ẹ̀kọ̀ọ̀kan",
+        "regularly": "Déédéé"
+      }
+    },
+    "going_out": {
+      "title": "Ìjáde",
+      "options": {
+        "homebody": "Mo fẹ́ràn ilé",
+        "balanced": "Ní ìwọ̀ntúnwọ̀nsì",
+        "often_out": "Mo máa ń jáde lọ́pọ̀ ìgbà"
+      }
+    },
+    "interests": {
+      "title": "Ohun tí mo fẹ́ràn",
+      "options": {
+        "cooking": "Oúnjẹ sísè",
+        "music": "Orin",
+        "reading": "Ìwé kíkà",
+        "sport": "Eré ìdárayá",
+        "travel": "Ìrìn àjò",
+        "entrepreneurship": "Iṣẹ́ ara ẹni",
+        "church_or_mosque": "Ṣọ́ọ̀ṣì tàbí mọ́ṣáláṣí",
+        "associations": "Ẹgbẹ́",
+        "cinema": "Sinimá",
+        "fashion": "Aṣọ àti ẹwà"
+      }
+    },
+    "money_management": {
+      "title": "Ìṣàkóso owó",
+      "options": {
+        "all_shared": "Gbogbo rẹ̀ papọ̀",
+        "separate": "Lọ́tọ̀ọ̀tọ̀",
+        "mixed": "Àdàlù"
+      }
+    },
+    "extended_family": {
+      "title": "Ipò ẹbí ńlá",
+      "options": {
+        "very_important": "Ó ṣe pàtàkì gan-an",
+        "balanced": "Ní ìwọ̀ntúnwọ̀nsì",
+        "couple_independence": "Òmìnira tọkọtaya"
+      }
+    },
+    "desired_location": {
+      "title": "Ibi tí mo fẹ́ gbé",
+      "options": {
+        "cotonou": "Kútọnú",
+        "other_benin_city": "Ìlú mìíràn ní Benin",
+        "abroad": "Òkè òkun",
+        "indifferent": "Kò jẹ mí lógún"
+      }
     },
     "income": {
-      "under_100k": "Kò tó 100 000 FCFA lóṣù",
-      "100k_250k": "100 000 sí 249 999 FCFA lóṣù",
-      "250k_500k": "250 000 sí 499 999 FCFA lóṣù",
-      "500k_1m": "500 000 sí 999 999 FCFA lóṣù",
-      "1m_plus": "1 000 000 FCFA sókè lóṣù"
+      "title": "Owó oṣù",
+      "options": {
+        "under_100k": "Kò tó 100 000 FCFA lóṣù",
+        "100k_250k": "100 000 sí 249 999 FCFA lóṣù",
+        "250k_500k": "250 000 sí 499 999 FCFA lóṣù",
+        "500k_1m": "500 000 sí 999 999 FCFA lóṣù",
+        "1m_plus": "1 000 000 FCFA sókè lóṣù"
+      }
     }
   }
 }

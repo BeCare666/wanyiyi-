@@ -76,7 +76,7 @@ export function ThemeForm() {
             <li key={r}>
               <label className="flex min-h-11 cursor-pointer items-center gap-3">
                 <input type="checkbox" checked={theme.religions.includes(r)} onChange={(e) => toggle("religions", r, e.target.checked)} className="size-4 accent-[var(--accent)]" />
-                <span>{tp(`religion.${r}`)}</span>
+                <span>{tp(`religion.options.${r}`)}</span>
               </label>
             </li>
           ))}
@@ -89,7 +89,7 @@ export function ThemeForm() {
             <li key={s}>
               <label className="flex min-h-11 cursor-pointer items-center gap-3">
                 <input type="checkbox" checked={theme.sectors.includes(s)} onChange={(e) => toggle("sectors", s, e.target.checked)} className="size-4 accent-[var(--accent)]" />
-                <span>{tp(`sector.${s}`)}</span>
+                <span>{tp(`sector.options.${s}`)}</span>
               </label>
             </li>
           ))}

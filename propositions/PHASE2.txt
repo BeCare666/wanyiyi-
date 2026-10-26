@@ -144,8 +144,19 @@ Décisions du 14 octobre 2026
     email », fournisseur Phone désactivé, longueur minimale du mot de passe 8,
     Send Email Hook vers https://<api>/api/hooks/auth/email.
   Reste (24 octobre 2026 ; entretien et frais d'inscription abandonnés, questions 5 et 29) :
-    profil (question 4). Paramètres : confidentialité, téléchargement des données
-    et suppression du compte faits le 24 octobre (questions 15 à 17).
+    rien. Paramètres (confidentialité, téléchargement des données, suppression
+    du compte) faits le 24 octobre (questions 15 à 17).
+  Fait le 24 octobre 2026 : profil en étapes /espace/profil (section 8) : onglets
+    « Je me décris » et « Ce que je recherche », 7 étapes avec barre de
+    progression (mes mots, situation et projet, foi, études et métier, langues et
+    apparence, personnalité et mode de vie, montré après un match), étiquettes
+    sélectionnables, enregistrement automatique à chaque choix ; recherche en
+    choix multiples avec « Indifférent » ; 3 critères non négociables au plus ;
+    textes envoyés à l'API (blocage des coordonnées côté serveur), état de
+    relecture et motif d'un refus affichés. Aucune migration.
+    Reste ouvert : la base accepte encore l'écriture directe d'un texte par le
+    membre (politique profile_texts_self) sans passer par le filtre de l'API ;
+    le texte reste en relecture par l'équipe dans tous les cas.
 
 Étape 5. Administration de base
   - Coquille 11.1, membres, vérifications (consultation de la pièce

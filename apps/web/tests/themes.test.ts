@@ -20,9 +20,9 @@ describe("Thèmes des soirées", () => {
     expect(themeSectors).toHaveLength(17);
   });
 
-  it("chaque option du catalogue a son libellé (Profile)", () => {
-    for (const c of PROFILE_CATALOG.filter((c) => ["religion", "sector", "height", "income"].includes(c.key))) {
-      const labels = (fr.Profile as Record<string, Record<string, string>>)[c.key]!;
+  it("chaque option du catalogue a son libellé (Profile.<catégorie>.options)", () => {
+    for (const c of PROFILE_CATALOG) {
+      const labels = (fr.Profile as Record<string, { options: Record<string, string> }>)[c.key]!.options;
       for (const o of c.options) expect(labels[o], `${c.key}.${o}`).toBeTruthy();
     }
   });

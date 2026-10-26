@@ -35,8 +35,8 @@ export default async function AdminThemesPage() {
               : t("themes.ageMax", { max: th.max_age ?? 0 }),
         ]
       : []),
-    ...(th.required_religions ?? []).map((r) => (tp.has(`religion.${r}`) ? tp(`religion.${r}`) : r)),
-    ...(th.sectors ?? []).map((s) => (tp.has(`sector.${s}`) ? tp(`sector.${s}`) : s)),
+    ...(th.required_religions ?? []).map((r) => (tp.has(`religion.options.${r}`) ? tp(`religion.options.${r}`) : r)),
+    ...(th.sectors ?? []).map((s) => (tp.has(`sector.options.${s}`) ? tp(`sector.options.${s}`) : s)),
   ];
 
   return (
