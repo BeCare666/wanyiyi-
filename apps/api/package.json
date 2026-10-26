@@ -27,6 +27,7 @@
     "@wanyiyi/domain": "*",
     "jose": "6.2.12",
     "reflect-metadata": "^0.2.2",
+    "sharp": "0.35.5",
     "standardwebhooks": "1.1.1",
     "zod": "^4.6.7"
   }

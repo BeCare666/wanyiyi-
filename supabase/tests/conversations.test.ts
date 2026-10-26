@@ -93,6 +93,17 @@ describe("Conversations (9.4 à 9.6)", () => {
     expect(await send(p.sena!, discoveryChat, "Encore là ?")).toMatch(/conversation_closed/);
   });
 
+  it("liens, e-mails et numéros bloqués dans le chat (question 8) ; pseudos permis", async () => {
+    await db.query("update app.conversations set read_only = false where id = $1", [discoveryChat]);
+    expect(await send(p.sena!, discoveryChat, "Appelle-moi au 97 12 34 56")).toMatch(/contact_blocked/);
+    expect(await send(p.sena!, discoveryChat, "mon numéro : neuf sept douze trente-quatre cinquante-six")).toMatch(/contact_blocked/);
+    expect(await send(p.sena!, discoveryChat, "Écris-moi à sena@exemple.bj")).toMatch(/contact_blocked/);
+    expect(await send(p.sena!, discoveryChat, "Regarde www.exemple.bj")).toMatch(/contact_blocked/);
+    expect(await send(p.koffi!, coupleChat, "Mon numéro : 0197123456")).toMatch(/contact_blocked/);
+    expect(await send(p.sena!, discoveryChat, "Je suis sur Instagram @sena_bj")).toBeNull();
+    expect(await send(p.sena!, discoveryChat, "Rendez-vous samedi à 15 h, table 4 ?")).toBeNull();
+  });
+
   it("couple : un message compte comme activité", async () => {
     expect(await send(p.koffi!, coupleChat, "On se voit samedi ?")).toBeNull();
     const { last_activity_at } = await one<{ last_activity_at: Date }>("select last_activity_at from app.couples where id = $1", [couple]);

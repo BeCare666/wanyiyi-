@@ -90,6 +90,30 @@ reports, reported_messages, photos.
     par le serveur (nom et numéro de celui qui regarde, date, heure, position
     variable) ; photo floutée si le membre le choisit ; pas de clic droit ni
     d'appui long (dissuasion seulement, documentée comme telle).
+  EN COURS (26 octobre 2026) : base et API faites.
+    Base, migration 20261026000700_photos.sql : compartiment privé
+    « member-photos » (8 Mo, JPEG, PNG, WebP), dépôt dans son dossier
+    seulement, 3 photos au plus (refusées exclues), app.add_photo,
+    app.remove_photo, app.my_photos ; relecture (app.photo_moderation_queue,
+    app.review_photo : motif obligatoire, notification profile.photo_rejected) ;
+    visibilité (app.can_view_photo : soi-même, l'équipe, ou une photo approuvée
+    si un match annoncé les lie, en attente ou en découverte, ou en couple ;
+    fichier lisible sous les mêmes règles) ; app.photo_for_view (flou, nom et
+    numéro de qui regarde, consultation de l'équipe journalisée). Nouveau
+    réglage keep_photo_blurred (10.2, faux par défaut), distinct de
+    photo_blurred (« photo cachée jusqu'au match », question 15 de la phase 2).
+    Écriture directe dans la table des photos retirée. Tests :
+    supabase/tests/photos.test.ts (7).
+    API (bibliothèque sharp 0.35.5) : POST /api/photos (réduction à
+    1 600 pixels, orientation, JPEG sans métadonnées, dépôt avec le jeton du
+    membre), DELETE /api/photos/:id, POST /api/photos/:id/link (filigrane :
+    nom, numéro, date et heure de Cotonou, position variable ; flou si
+    choisi) puis GET /api/photos/view/<jeton> valable 5 minutes, sans cache.
+    Aucune clé service role. Effacement des comptes (question 17) : photos
+    retirées du stockage. Tests : apps/api/tests/photos.test.ts (7).
+    Reste : écran de dépôt et réglage du flou (étape 5), relecture des photos
+    dans /admin/moderation, photo exigée pour réserver (question 10 c, branchée
+    avec l'écran de dépôt pour ne pas bloquer la démonstration actuelle).
 
 Étape 5. Espace membre
   - Mes matchs et découvertes (6.2-6) : choix des découvertes, compte à
@@ -126,8 +150,8 @@ QUESTIONS (je n'invente pas les réponses)
      (inclus dans votre projet Supabase, rien à installer, la RLS s'applique).
      L'acceptez-vous ? Le chat ne contient-il que du texte, ou aussi des
      photos ou des messages vocaux ?
-     RÉPONSE (26 octobre 2026) : Supabase Realtime accepté. (Texte seul, ou
-     aussi photos ou messages vocaux : encore ouvert.)
+     RÉPONSE (26 octobre 2026) : Supabase Realtime accepté ; messages texte
+     seulement.
 
   2. Ouverture d'une découverte (bloque l'étape 2). La note dit : « au-delà de
      2 découvertes actives, il choisit lesquelles ouvrir ; les autres matchs
@@ -187,6 +211,10 @@ QUESTIONS (je n'invente pas les réponses)
      e-mails dans le chat de découverte, comme dans les textes du profil
      (le partage des numéros n'existe qu'en couple, 9.5) ? Et dans le chat du
      couple ?
+     RÉPONSE (26 octobre 2026) : liens, e-mails et numéros bloqués dans le chat
+     (découverte et couple). FAIT : migration 20261026000600_chat_coordonnees.sql
+     (refus « contact_blocked », même filtre que les textes du profil ; les
+     pseudos de réseaux sociaux, non cités, restent permis).
 
   9. Conseillers (étapes 6 et 7) :
      a) Qui crée un conseiller : l'administration, à partir d'un compte existant
@@ -196,6 +224,12 @@ QUESTIONS (je n'invente pas les réponses)
      c) Les séances sont-elles payantes (montant, paiement par FeexPay) ?
      d) Médiation à trois « dans le chat » : le conseiller écrit-il directement
         dans le chat du couple pendant la séance seulement ?
+     RÉPONSE (26 octobre 2026) : « oui ». Compris ainsi : a) l'administration
+     crée le conseiller à partir d'un compte existant ; b) l'un propose un
+     conseiller, l'autre accepte ; d) le conseiller écrit dans le chat du couple
+     pendant une séance de médiation. Reste à préciser : c) séances payantes :
+     quel montant, payé quand et par qui ? b) un couple peut-il rester sans
+     conseiller ?
 
  10. Photos (étape 4) :
      a) Nombre de photos par membre (1 à 3 ?), taille et formats acceptés ?
@@ -244,3 +278,8 @@ QUESTIONS (je n'invente pas les réponses)
      écrire), ou disparaît-elle de leur espace ? Et combien de temps la
      garder avant de l'effacer ? Pour l'instant : relisible, plus d'envoi,
      aucun effacement programmé.
+
+ 15. Photos après la fin d'une mise en relation (étape 4) : une fois le match
+     expiré ou la découverte fermée, l'autre personne ne voit plus les photos
+     (règle codée, la plus protectrice). D'accord ? Et après une séparation du
+     couple (question 7) : même règle ?
