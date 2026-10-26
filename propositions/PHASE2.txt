@@ -154,9 +154,15 @@ Décisions du 14 octobre 2026
     choix multiples avec « Indifférent » ; 3 critères non négociables au plus ;
     textes envoyés à l'API (blocage des coordonnées côté serveur), état de
     relecture et motif d'un refus affichés. Aucune migration.
-    Reste ouvert : la base accepte encore l'écriture directe d'un texte par le
-    membre (politique profile_texts_self) sans passer par le filtre de l'API ;
-    le texte reste en relecture par l'équipe dans tous les cas.
+    Fermé le 26 octobre 2026 (choix de l'utilisateur : refaire le filtre dans
+    la base) : l'écriture directe d'un texte par le membre (politique
+    profile_texts_self) passe désormais par le même filtre que l'API.
+    app.text_contact_issues et app.words_to_digits reproduisent checkFreeText
+    règle pour règle ; déclencheur profile_texts_guard (refus « text_rejected »
+    à toute écriture d'un texte contenant des coordonnées). Migration
+    20261026000100_filtre_textes.sql ; supabase/tests/filtre-textes.test.ts
+    compare les deux filtres (cas connus et 400 textes générés). Toute
+    modification du filtre doit être faite aux deux endroits.
 
 Étape 5. Administration de base
   - Coquille 11.1, membres, vérifications (consultation de la pièce
@@ -260,11 +266,35 @@ Décisions du 14 octobre 2026
     app.invitable_events, app.pending_deliveries, app.mark_delivery ; table
     notification_deliveries du schéma initial complétée. Migration
     20261019000800_actions_groupees.sql. Journalisées.
-    En attente : extension des filtres aux autres listes.
+    Fait le 26 octobre 2026 : filtres avancés étendus aux listes Paiements,
+    Vérifications et Soirées (11.3, « sur toutes les listes ») : même
+    constructeur ET / OU, tri sur 3 colonnes, choix des colonnes, filtres
+    enregistrés et partagés, tout dans l'adresse, pagination côté serveur
+    (les listes Vérifications et Soirées étaient chargées en entier), export
+    CSV et Excel du résultat filtré (5 000 lignes, journalisé : payments.exported,
+    verifications.exported, events.exported ; aucun chemin de pièce). Champs :
+    paiements (membre, numéro, référence, état, objet, prestataire,
+    remboursement, montant, montant remboursé, dates du paiement et de la
+    soirée, rapproché) ; vérifications (tous les dossiers : membre, numéro,
+    état, pièce, situation déclarée, sexe, âge, dates, complet, selfie ; onglet
+    « Traités » ajouté pour les dossiers validés ou refusés) ; soirées (lieu,
+    thème, état, date, tarif, places prises par sexe, liste d'attente, matchs,
+    lieu choisi). Un moteur unique dans la base (app.list_field,
+    app.list_filter_sql, app.list_sort_sql, app.admin_list,
+    app.admin_list_export) ; la liste des membres garde le sien. Migration
+    20261026000200_filtres_listes.sql. Les petites listes Lieux, Thèmes et
+    Modération gardent leur affichage simple. Actions groupées : membres
+    seulement (question 32).
   Reste (24 octobre 2026 ; modération des textes et minuteur faits, questions 22
     et 8 ; modération des photos quand le dépôt des photos existera) : dans Soirées :
-    thèmes faits le 24 octobre (questions 4 et 21) ; composition assistée (critères
-    non négociables, après le profil). Recherche globale et filtres avancés
+    thèmes faits le 24 octobre (questions 4 et 21) ; composition assistée faite le
+    26 octobre : app.event_composition_alerts (migration
+    20261026000000_composition_assistee.sql), section « Composition assistée » de
+    la fiche d'une soirée publiée, complète ou en cours : pour chaque femme et
+    chaque homme inscrits, dans chaque sens, critère non négociable de l'un
+    comparé à ce que l'autre a déclaré (« incompatible », ou « à vérifier » si
+    l'autre n'a pas répondu ; « Indifférent » déclaré = compatible). Alerte
+    seulement : la décision reste à l'équipe. Recherche globale et filtres avancés
     11.3 faits le 19 octobre ; compte rendu d'entretien abandonné (question 5).
   Fait le 20 octobre 2026 : adaptateur de paiement KkiaPay (question 7). Le
     membre paie dans le widget officiel (cdn.kkiapay.me/k.js) ouvert par la
@@ -602,3 +632,12 @@ QUESTIONS (je n'invente pas les réponses)
      supprimer-membres-demo.sql retire aussi la soirée et le lieu. Tests :
      supabase/tests/membres-demo.test.ts (4). Mode d'emploi :
      GUIDE-ADMIN-ET-DEMO.txt, partie 2.
+
+ 32. Actions groupées sur les autres listes (11.3 : « valider, envoyer une
+     notification, inviter à une soirée, exporter ») : l'export est fait sur
+     les listes Paiements, Vérifications et Soirées. Faut-il aussi « valider »
+     plusieurs dossiers de vérification d'un coup ? Je ne l'ai pas fait :
+     la décision du 17 octobre prévoit que l'équipe regarde la pièce et le
+     selfie de chaque dossier (lien de 5 minutes journalisé) avant de valider.
+     Et faut-il les filtres avancés sur Lieux, Thèmes et Modération (listes
+     courtes aujourd'hui) ?

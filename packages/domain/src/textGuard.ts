@@ -5,6 +5,8 @@ import { RULES } from "@wanyiyi/shared";
  * numéros de téléphone (y compris en lettres ou avec espaces), liens, adresses e-mail
  * et pseudos de réseaux sociaux. Appliqué à la saisie et côté serveur.
  * Les textes passent ensuite en relecture par l'équipe : ce filtre ne la remplace pas.
+ * Copie dans la base : app.text_contact_issues (migration 20261026000100_filtre_textes.sql),
+ * à modifier en même temps ; supabase/tests/filtre-textes.test.ts compare les deux.
  */
 
 export type TextIssue = "too_long" | "phone" | "email" | "link" | "social_handle";

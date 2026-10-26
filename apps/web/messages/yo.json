@@ -1153,7 +1153,8 @@
         "all": "Gbogbo wọn",
         "ready": "Tó pé, láti ṣe",
         "pending": "Ń dúró",
-        "to_correct": "Láti tún ṣe"
+        "to_correct": "Láti tún ṣe",
+        "processed": "Tí a ti ṣe"
       },
       "empty": "Kò sí ìwé kankan nínú àkójọ yìí.",
       "columns": {
@@ -1174,7 +1175,8 @@
       "kinds": {
         "id_card": "Káàdì ìdánimọ̀",
         "driving_licence": "Ìwé àṣẹ ìwakọ̀",
-        "passport": "Ìwé ìrìnnà"
+        "passport": "Ìwé ìrìnnà",
+        "other": "Ìwé mìíràn"
       },
       "openFailed": "A kò lè ṣí i. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
       "back": "Padà sí àkójọ",
@@ -1459,6 +1461,20 @@
         "matches": "Ìfohùnṣọ̀kan",
         "announce": "Ìkéde fún àwọn ọmọ ẹgbẹ́: {date}.",
         "noNo": "A kì í fi « rárá » kankan hàn láé."
+      },
+      "composition": {
+        "title": "Ìrànlọ́wọ́ ìṣètò",
+        "help": "Obìnrin kọ̀ọ̀kan yóò pàdé ọkùnrin kọ̀ọ̀kan ní ìpàdé alẹ́. Ìkìlọ̀ nígbà tí ohun tí kò ṣe é yípadà fún ẹnì kan kò bá ohun tí ẹnì kan láti ẹ̀yà kejì kéde mu. Ẹgbẹ́ iṣẹ́ ló ń ṣe ìpinnu.",
+        "none": "Kò sí àìbáramu kankan láàárín àwọn olùkópa.",
+        "summary": "{people, plural, other {Olùkópa #}} ni àìbáramu kan kàn.",
+        "kinds": {
+          "incompatible": "Àìbáramu ({count})",
+          "unknown": "Láti ṣàyẹ̀wò, ìdáhùn kò sí ({count})"
+        },
+        "lines": {
+          "incompatible": "{holder} ń béèrè « {category} »: {sought}. {other} kéde: {declared}.",
+          "unknown": "{holder} ń béèrè « {category} »: {sought}. {other} kò dáhùn."
+        }
       }
     },
     "venues": {
@@ -1789,7 +1805,8 @@
       },
       "refunds": {
         "requested": "A gbọ́dọ̀ dá a padà",
-        "refunded": "A ti dá a padà"
+        "refunded": "A ti dá a padà",
+        "none": "Kò sí"
       },
       "providers": {
         "simulated": "Ìsanwó àpẹẹrẹ",
@@ -1864,6 +1881,126 @@
           "forbidden": "Ipa rẹ kò fàyè gba ìgbésẹ̀ yìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì wà. Gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́."
+        }
+      }
+    },
+    "lists": {
+      "count": "{count, plural, other {Èsì #}}",
+      "empty": "Kò sí ipò kankan: gbogbo àkójọ.",
+      "declared": {
+        "single": "Àpọ́n",
+        "divorced": "Ẹni tí ìgbéyàwó rẹ̀ ti tú",
+        "widowed": "Opó",
+        "other": "Òmíràn"
+      },
+      "payments": {
+        "sortDefault": "Ọjọ́, èyí tó ṣẹ̀ṣẹ̀ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "member": "Ọmọ ẹgbẹ́",
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "reference": "Nọ́ńbà ilé iṣẹ́ ìsanwó",
+          "status": "Ipò",
+          "purpose": "Ohun tí a san fún",
+          "provider": "Ilé iṣẹ́ ìsanwó",
+          "refund": "Ìdápadà owó",
+          "amount": "Iye owó (FCFA)",
+          "refunded_amount": "Owó tí a dá padà (FCFA)",
+          "created_at": "Ọjọ́ ìsanwó",
+          "event_date": "Ọjọ́ ìpàdé alẹ́",
+          "reconciled": "A ti ṣàyẹ̀wò rẹ̀"
+        },
+        "columns": {
+          "date": "Ọjọ́",
+          "purpose": "Ohun tí a san fún",
+          "status": "Ipò",
+          "provider": "Ilé iṣẹ́ ìsanwó",
+          "amount": "Iye owó"
+        },
+        "export": {
+          "date": "Ọjọ́",
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "first_name": "Orúkọ àkọ́kọ́",
+          "last_name": "Orúkọ ìdílé",
+          "purpose": "Ohun tí a san fún",
+          "status": "Ipò",
+          "provider": "Ilé iṣẹ́ ìsanwó",
+          "reference": "Nọ́ńbà",
+          "amount": "Iye owó (FCFA)",
+          "refunded_amount": "A dá padà (FCFA)",
+          "event_date": "Ọjọ́ ìpàdé alẹ́"
+        }
+      },
+      "verifications": {
+        "sortDefault": "Ìfiránṣẹ́ tó kẹ́yìn, èyí tó pẹ́ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "member": "Ọmọ ẹgbẹ́",
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "status": "Ipò",
+          "document_kind": "Ìwé ìdánimọ̀",
+          "declared_status": "Ipò tí a sọ",
+          "sex": "Akọ tàbí abo",
+          "age": "Ọjọ́ orí",
+          "submitted_at": "Ọjọ́ ìfiránṣẹ́ tó kẹ́yìn",
+          "created_at": "Ọjọ́ tí a ṣí ìwé",
+          "ready": "Ìwé tó pé",
+          "has_selfie": "A ti fi selfie ránṣẹ́"
+        },
+        "columns": {
+          "status": "Ipò",
+          "dossier": "Ìwé",
+          "declared": "Ipò tí a sọ",
+          "age": "Ọjọ́ orí",
+          "submitted": "Ìfiránṣẹ́ tó kẹ́yìn"
+        },
+        "export": {
+          "member_number": "Nọ́ńbà ọmọ ẹgbẹ́",
+          "first_name": "Orúkọ àkọ́kọ́",
+          "last_name": "Orúkọ ìdílé",
+          "sex": "Akọ tàbí abo",
+          "age": "Ọjọ́ orí",
+          "status": "Ipò",
+          "ready": "Ìwé tó pé",
+          "document_kind": "Ìwé ìdánimọ̀",
+          "has_selfie": "Selfie",
+          "declared_status": "Ipò tí a sọ",
+          "submitted": "Ìfiránṣẹ́ tó kẹ́yìn",
+          "decided": "Ìpinnu"
+        }
+      },
+      "events": {
+        "sortDefault": "Ọjọ́, èyí tó ṣẹ̀ṣẹ̀ jù lákọ̀ọ́kọ́",
+        "fields": {
+          "venue": "Ibi ìpàdé",
+          "theme": "Àkòrí",
+          "status": "Ipò",
+          "starts_at": "Ọjọ́ ìpàdé alẹ́",
+          "price": "Iye owó (FCFA)",
+          "taken_women": "Ààyè tí a gbà, obìnrin",
+          "taken_men": "Ààyè tí a gbà, ọkùnrin",
+          "waiting": "Àkójọ ìdúró",
+          "matches": "Ìfohùnṣọ̀kan",
+          "has_venue": "A ti yan ibi ìpàdé"
+        },
+        "columns": {
+          "status": "Ipò",
+          "women": "Obìnrin",
+          "men": "Ọkùnrin",
+          "price": "Iye owó",
+          "matches": "Ìfohùnṣọ̀kan"
+        },
+        "export": {
+          "date": "Ọjọ́",
+          "status": "Ipò",
+          "venue": "Ibi ìpàdé",
+          "theme": "Àkòrí",
+          "price": "Iye owó (FCFA)",
+          "capacity_women": "Ààyè obìnrin",
+          "taken_women": "Tí a gbà, obìnrin",
+          "waiting_women": "Ń dúró, obìnrin",
+          "capacity_men": "Ààyè ọkùnrin",
+          "taken_men": "Tí a gbà, ọkùnrin",
+          "waiting_men": "Ń dúró, ọkùnrin",
+          "matches": "Ìfohùnṣọ̀kan"
         }
       }
     }

@@ -9,6 +9,7 @@ import { memberName } from "../../verifications/queue";
 import { canCheckIn, type EventStatus, groupParticipants, nextStep, type ParticipantRow, toCotonouInput } from "../evenings";
 import { EventForm } from "../EventForm";
 import { loadEventOptions } from "../options";
+import { type CompositionAlert, involvedCount, showComposition, splitAlerts } from "../composition";
 import { canPrintTables } from "../tables";
 import { CancelEveningButton, CheckInButton, DeleteDraftButton, StepButton } from "./EveningControls";
 
@@ -52,11 +53,13 @@ async function loadEvening(id: string) {
     .maybeSingle();
   if (!data) return null;
   const event = data as unknown as EventRow;
-  const [participants, rounds, results, matches] = await Promise.all([
+  const [participants, rounds, results, matches, alerts] = await Promise.all([
     supabase.rpc("event_participants", { p_event: id }),
     supabase.from("rounds").select("id", { count: "exact", head: true }).eq("event_id", id),
     supabase.rpc("event_results", { p_event: id }),
     supabase.rpc("event_matches", { p_event: id }),
+    // Composition assistée (section 11.2-5) : critères non négociables incompatibles
+    showComposition(event.status) ? supabase.rpc("event_composition_alerts", { p_event: id }) : Promise.resolve({ data: [] }),
   ]);
   return {
     event,
@@ -64,6 +67,7 @@ async function loadEvening(id: string) {
     rounds: rounds.count ?? 0,
     results: ((results.data as Results[] | null) ?? [])[0] ?? null,
     matches: (matches.data as MatchRow[] | null) ?? [],
+    alerts: (alerts.data as CompositionAlert[] | null) ?? [],
   };
 }
 
@@ -80,8 +84,9 @@ export default async function AdminEveningPage({ params }: Props) {
   if (!evening) notFound();
 
   const t = await getTranslations("Admin");
+  const tp = await getTranslations("Profile");
   const format = await getFormatter();
-  const { event, participants, rounds, results, matches } = evening;
+  const { event, participants, rounds, results, matches, alerts } = evening;
   const prepared = rounds > 0;
   const step = nextStep(event.status, prepared, event.results_computed_at !== null);
   const dateTime = (iso: string) => format.dateTime(new Date(iso), { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -234,6 +239,55 @@ export default async function AdminEveningPage({ params }: Props) {
               );
             })}
           </div>
+        </section>
+      )}
+
+      {showComposition(event.status) && (
+        <section aria-labelledby="composition" className="mt-12 border-t border-line pt-8">
+          <h2 id="composition" className="text-2xl">{t("evenings.composition.title")}</h2>
+          <p className="mt-2 max-w-measure text-sm text-fg-muted">{t("evenings.composition.help")}</p>
+          {alerts.length === 0 ? (
+            <p className="mt-6 border-l border-line-strong pl-5 text-sm">{t("evenings.composition.none")}</p>
+          ) : (
+            <>
+              {involvedCount(alerts) > 0 && (
+                <p role="alert" className="mt-6 border-l border-accent pl-5 text-sm">
+                  {t("evenings.composition.summary", { people: involvedCount(alerts) })}
+                </p>
+              )}
+              {(["incompatible", "unknown"] as const).map((kind) => {
+                const list = splitAlerts(alerts)[kind];
+                if (list.length === 0) return null;
+                const values = (category: string, items: string[]) =>
+                  items.map((v) => (tp.has(`${category}.options.${v}`) ? tp(`${category}.options.${v}`) : v)).join(", ");
+                return (
+                  <div key={kind} className="mt-8">
+                    <h3 className="eyebrow">{t(`evenings.composition.kinds.${kind}`, { count: list.length })}</h3>
+                    <ul className="mt-4 divide-y divide-line border-y border-line text-sm">
+                      {list.map((a) => (
+                        <li key={`${a.holder_id}-${a.other_id}-${a.category}`} className="py-3">
+                          <p>
+                            <span className="font-medium">{a.holder_first_name ?? a.holder_number}</span>
+                            <span className="text-fg-muted"> · </span>
+                            <span className="font-medium">{a.other_first_name ?? a.other_number}</span>
+                          </p>
+                          <p className="mt-1 text-fg-muted">
+                            {t(`evenings.composition.lines.${kind}`, {
+                              holder: a.holder_first_name ?? a.holder_number ?? "",
+                              other: a.other_first_name ?? a.other_number ?? "",
+                              category: tp.has(`${a.category}.title`) ? tp(`${a.category}.title`) : a.category,
+                              sought: values(a.category, a.sought),
+                              declared: values(a.category, a.declared ?? []),
+                            })}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </section>
       )}
 

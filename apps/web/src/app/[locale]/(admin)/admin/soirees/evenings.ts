@@ -1,3 +1,5 @@
+import type { ListNode } from "@/components/admin/listRules";
+
 /** État d'une soirée (enum app.event_status). */
 export type EventStatus = "draft" | "published" | "full" | "in_progress" | "finished" | "cancelled";
 
@@ -57,6 +59,61 @@ const statusesOf: Record<Exclude<EventFilter, "all">, EventStatus[]> = {
 
 export function filterEvents<T extends { status: EventStatus }>(rows: T[], filter: EventFilter): T[] {
   return filter === "all" ? rows : rows.filter((r) => statusesOf[filter].includes(r.status));
+}
+
+/** Onglet de la liste en conditions du filtre avancé (app.admin_list), mêmes règles que filterEvents. */
+export function eventConditions(filter: EventFilter): ListNode[] {
+  return filter === "all" ? [] : [{ field: "status", cmp: "in", value: [...statusesOf[filter]] }];
+}
+
+/** Colonnes du fichier exporté de la liste des soirées (11.3). */
+export const eventExportColumns = [
+  "date",
+  "status",
+  "venue",
+  "theme",
+  "price",
+  "capacity_women",
+  "taken_women",
+  "waiting_women",
+  "capacity_men",
+  "taken_men",
+  "waiting_men",
+  "matches",
+] as const;
+export type EventExportColumn = (typeof eventExportColumns)[number];
+
+export function eventExportCell(
+  row: AdminEventRow,
+  column: EventExportColumn,
+  labels: { status: (s: EventStatus) => string; date: (iso: string) => string },
+): string | number | null {
+  switch (column) {
+    case "date":
+      return labels.date(row.starts_at);
+    case "status":
+      return labels.status(row.status);
+    case "venue":
+      return row.venue_name;
+    case "theme":
+      return row.theme_key;
+    case "price":
+      return row.price_xof;
+    case "capacity_women":
+      return row.capacity_women;
+    case "taken_women":
+      return row.taken_women;
+    case "waiting_women":
+      return row.waiting_women;
+    case "capacity_men":
+      return row.capacity_men;
+    case "taken_men":
+      return row.taken_men;
+    case "waiting_men":
+      return row.waiting_men;
+    case "matches":
+      return row.matches;
+  }
 }
 
 /**

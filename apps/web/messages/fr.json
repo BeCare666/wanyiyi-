@@ -1153,7 +1153,8 @@
         "all": "Tous",
         "ready": "Complets, à traiter",
         "pending": "En attente",
-        "to_correct": "À corriger"
+        "to_correct": "À corriger",
+        "processed": "Traités"
       },
       "empty": "Aucun dossier dans cette liste.",
       "columns": {
@@ -1174,7 +1175,8 @@
       "kinds": {
         "id_card": "Carte d'identité",
         "driving_licence": "Permis de conduire",
-        "passport": "Passeport"
+        "passport": "Passeport",
+        "other": "Autre pièce"
       },
       "openFailed": "Ouverture impossible. Réessayez.",
       "back": "Retour à la file",
@@ -1459,6 +1461,20 @@
         "matches": "Matchs",
         "announce": "Annonce aux membres : {date}.",
         "noNo": "Aucun « non » n'est jamais affiché."
+      },
+      "composition": {
+        "title": "Composition assistée",
+        "help": "Chaque femme rencontre chaque homme de la soirée. Alertes quand le critère non négociable d'un participant ne correspond pas à ce qu'un participant de l'autre sexe a déclaré. La décision reste à l'équipe.",
+        "none": "Aucune incompatibilité entre les participants.",
+        "summary": "{people, plural, one {# participant est concerné} other {# participants sont concernés}} par une incompatibilité.",
+        "kinds": {
+          "incompatible": "Incompatibilités ({count})",
+          "unknown": "À vérifier, réponse manquante ({count})"
+        },
+        "lines": {
+          "incompatible": "{holder} exige « {category} » : {sought}. {other} a déclaré : {declared}.",
+          "unknown": "{holder} exige « {category} » : {sought}. {other} n'a pas répondu."
+        }
       }
     },
     "venues": {
@@ -1789,7 +1805,8 @@
       },
       "refunds": {
         "requested": "À rembourser",
-        "refunded": "Remboursé"
+        "refunded": "Remboursé",
+        "none": "Aucun"
       },
       "providers": {
         "simulated": "Paiement de démonstration",
@@ -1864,6 +1881,126 @@
           "forbidden": "Votre rôle ne permet pas cette action.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
+    },
+    "lists": {
+      "count": "{count, plural, one {# résultat} other {# résultats}}",
+      "empty": "Aucune condition : toute la liste.",
+      "declared": {
+        "single": "Célibataire",
+        "divorced": "Divorcé(e)",
+        "widowed": "Veuf ou veuve",
+        "other": "Autre"
+      },
+      "payments": {
+        "sortDefault": "Date, plus récente d'abord",
+        "fields": {
+          "member": "Membre",
+          "member_number": "Numéro de membre",
+          "reference": "Référence du prestataire",
+          "status": "État",
+          "purpose": "Objet",
+          "provider": "Prestataire",
+          "refund": "Remboursement",
+          "amount": "Montant (FCFA)",
+          "refunded_amount": "Montant remboursé (FCFA)",
+          "created_at": "Date du paiement",
+          "event_date": "Date de la soirée",
+          "reconciled": "Rapproché"
+        },
+        "columns": {
+          "date": "Date",
+          "purpose": "Objet",
+          "status": "État",
+          "provider": "Prestataire",
+          "amount": "Montant"
+        },
+        "export": {
+          "date": "Date",
+          "member_number": "Numéro de membre",
+          "first_name": "Prénom",
+          "last_name": "Nom",
+          "purpose": "Objet",
+          "status": "État",
+          "provider": "Prestataire",
+          "reference": "Référence",
+          "amount": "Montant (FCFA)",
+          "refunded_amount": "Remboursé (FCFA)",
+          "event_date": "Date de la soirée"
+        }
+      },
+      "verifications": {
+        "sortDefault": "Dernier dépôt, plus ancien d'abord",
+        "fields": {
+          "member": "Membre",
+          "member_number": "Numéro de membre",
+          "status": "État",
+          "document_kind": "Pièce",
+          "declared_status": "Situation déclarée",
+          "sex": "Sexe",
+          "age": "Âge",
+          "submitted_at": "Date du dernier dépôt",
+          "created_at": "Date d'ouverture du dossier",
+          "ready": "Dossier complet",
+          "has_selfie": "Selfie déposé"
+        },
+        "columns": {
+          "status": "État",
+          "dossier": "Dossier",
+          "declared": "Situation déclarée",
+          "age": "Âge",
+          "submitted": "Dernier dépôt"
+        },
+        "export": {
+          "member_number": "Numéro de membre",
+          "first_name": "Prénom",
+          "last_name": "Nom",
+          "sex": "Sexe",
+          "age": "Âge",
+          "status": "État",
+          "ready": "Dossier complet",
+          "document_kind": "Pièce",
+          "has_selfie": "Selfie",
+          "declared_status": "Situation déclarée",
+          "submitted": "Dernier dépôt",
+          "decided": "Décision"
+        }
+      },
+      "events": {
+        "sortDefault": "Date, plus récente d'abord",
+        "fields": {
+          "venue": "Lieu",
+          "theme": "Thème",
+          "status": "État",
+          "starts_at": "Date de la soirée",
+          "price": "Tarif (FCFA)",
+          "taken_women": "Places prises, femmes",
+          "taken_men": "Places prises, hommes",
+          "waiting": "Liste d'attente",
+          "matches": "Matchs",
+          "has_venue": "Lieu choisi"
+        },
+        "columns": {
+          "status": "État",
+          "women": "Femmes",
+          "men": "Hommes",
+          "price": "Tarif",
+          "matches": "Matchs"
+        },
+        "export": {
+          "date": "Date",
+          "status": "État",
+          "venue": "Lieu",
+          "theme": "Thème",
+          "price": "Tarif (FCFA)",
+          "capacity_women": "Places femmes",
+          "taken_women": "Prises femmes",
+          "waiting_women": "En attente femmes",
+          "capacity_men": "Places hommes",
+          "taken_men": "Prises hommes",
+          "waiting_men": "En attente hommes",
+          "matches": "Matchs"
         }
       }
     }

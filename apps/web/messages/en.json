@@ -1153,7 +1153,8 @@
         "all": "All",
         "ready": "Complete, to review",
         "pending": "Pending",
-        "to_correct": "To correct"
+        "to_correct": "To correct",
+        "processed": "Processed"
       },
       "empty": "No files in this list.",
       "columns": {
@@ -1174,7 +1175,8 @@
       "kinds": {
         "id_card": "Identity card",
         "driving_licence": "Driving licence",
-        "passport": "Passport"
+        "passport": "Passport",
+        "other": "Other document"
       },
       "openFailed": "Could not open. Please try again.",
       "back": "Back to the queue",
@@ -1459,6 +1461,20 @@
         "matches": "Matches",
         "announce": "Announcement to members: {date}.",
         "noNo": "No “no” is ever shown."
+      },
+      "composition": {
+        "title": "Assisted composition",
+        "help": "Every woman meets every man at the evening. Alerts when one participant's non-negotiable criterion does not match what a participant of the other sex declared. The decision stays with the team.",
+        "none": "No incompatibility between participants.",
+        "summary": "{people, plural, one {# participant is} other {# participants are}} involved in an incompatibility.",
+        "kinds": {
+          "incompatible": "Incompatibilities ({count})",
+          "unknown": "To check, missing answer ({count})"
+        },
+        "lines": {
+          "incompatible": "{holder} requires “{category}”: {sought}. {other} declared: {declared}.",
+          "unknown": "{holder} requires “{category}”: {sought}. {other} has not answered."
+        }
       }
     },
     "venues": {
@@ -1789,7 +1805,8 @@
       },
       "refunds": {
         "requested": "To refund",
-        "refunded": "Refunded"
+        "refunded": "Refunded",
+        "none": "None"
       },
       "providers": {
         "simulated": "Demo payment",
@@ -1864,6 +1881,126 @@
           "forbidden": "Your role does not allow this action.",
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment."
+        }
+      }
+    },
+    "lists": {
+      "count": "{count, plural, one {# result} other {# results}}",
+      "empty": "No conditions: the whole list.",
+      "declared": {
+        "single": "Single",
+        "divorced": "Divorced",
+        "widowed": "Widowed",
+        "other": "Other"
+      },
+      "payments": {
+        "sortDefault": "Date, newest first",
+        "fields": {
+          "member": "Member",
+          "member_number": "Member number",
+          "reference": "Provider reference",
+          "status": "Status",
+          "purpose": "Purpose",
+          "provider": "Provider",
+          "refund": "Refund",
+          "amount": "Amount (FCFA)",
+          "refunded_amount": "Refunded amount (FCFA)",
+          "created_at": "Payment date",
+          "event_date": "Evening date",
+          "reconciled": "Reconciled"
+        },
+        "columns": {
+          "date": "Date",
+          "purpose": "Purpose",
+          "status": "Status",
+          "provider": "Provider",
+          "amount": "Amount"
+        },
+        "export": {
+          "date": "Date",
+          "member_number": "Member number",
+          "first_name": "First name",
+          "last_name": "Last name",
+          "purpose": "Purpose",
+          "status": "Status",
+          "provider": "Provider",
+          "reference": "Reference",
+          "amount": "Amount (FCFA)",
+          "refunded_amount": "Refunded (FCFA)",
+          "event_date": "Evening date"
+        }
+      },
+      "verifications": {
+        "sortDefault": "Latest submission, oldest first",
+        "fields": {
+          "member": "Member",
+          "member_number": "Member number",
+          "status": "Status",
+          "document_kind": "Document",
+          "declared_status": "Declared status",
+          "sex": "Sex",
+          "age": "Age",
+          "submitted_at": "Latest submission date",
+          "created_at": "File opening date",
+          "ready": "Complete file",
+          "has_selfie": "Selfie submitted"
+        },
+        "columns": {
+          "status": "Status",
+          "dossier": "File",
+          "declared": "Declared status",
+          "age": "Age",
+          "submitted": "Latest submission"
+        },
+        "export": {
+          "member_number": "Member number",
+          "first_name": "First name",
+          "last_name": "Last name",
+          "sex": "Sex",
+          "age": "Age",
+          "status": "Status",
+          "ready": "Complete file",
+          "document_kind": "Document",
+          "has_selfie": "Selfie",
+          "declared_status": "Declared status",
+          "submitted": "Latest submission",
+          "decided": "Decision"
+        }
+      },
+      "events": {
+        "sortDefault": "Date, newest first",
+        "fields": {
+          "venue": "Venue",
+          "theme": "Theme",
+          "status": "Status",
+          "starts_at": "Evening date",
+          "price": "Price (FCFA)",
+          "taken_women": "Seats taken, women",
+          "taken_men": "Seats taken, men",
+          "waiting": "Waiting list",
+          "matches": "Matches",
+          "has_venue": "Venue chosen"
+        },
+        "columns": {
+          "status": "Status",
+          "women": "Women",
+          "men": "Men",
+          "price": "Price",
+          "matches": "Matches"
+        },
+        "export": {
+          "date": "Date",
+          "status": "Status",
+          "venue": "Venue",
+          "theme": "Theme",
+          "price": "Price (FCFA)",
+          "capacity_women": "Seats women",
+          "taken_women": "Taken women",
+          "waiting_women": "Waiting women",
+          "capacity_men": "Seats men",
+          "taken_men": "Taken men",
+          "waiting_men": "Waiting men",
+          "matches": "Matches"
         }
       }
     }

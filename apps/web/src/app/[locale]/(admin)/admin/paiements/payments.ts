@@ -1,3 +1,4 @@
+import type { ListNode } from "@/components/admin/listRules";
 import { PAGE_SIZE } from "../membres/members";
 
 /** États d'un paiement (enum app.payment_status). */
@@ -86,4 +87,72 @@ export function refundState(row: Pick<PaymentRow, "status" | "refund_requested_a
 const providers = ["simulated", "fedapay", "kkiapay", "feexpay"] as const;
 export function providerKey(provider: string): (typeof providers)[number] | "other" {
   return oneOf(providers, provider) ?? "other";
+}
+
+/**
+ * Filtres rapides (?q=, ?etat=, ?objet=, ?remboursement=) en conditions du filtre avancé
+ * (app.admin_list) : la recherche porte sur le nom, le numéro de membre ou la référence.
+ */
+export function paymentConditions(query: PaymentQuery): ListNode[] {
+  const items: ListNode[] = [];
+  if (query.search) {
+    items.push({
+      op: "or",
+      items: (["member", "member_number", "reference"] as const).map((field) => ({ field, cmp: "contains" as const, value: query.search })),
+    });
+  }
+  if (query.status) items.push({ field: "status", cmp: "in", value: [query.status] });
+  if (query.purpose) items.push({ field: "purpose", cmp: "in", value: [query.purpose] });
+  if (query.refund) items.push({ field: "refund", cmp: "in", value: [query.refund] });
+  return items;
+}
+
+/** Colonnes du fichier exporté (11.3) : toutes les informations de la ligne. */
+export const paymentExportColumns = [
+  "date",
+  "member_number",
+  "first_name",
+  "last_name",
+  "purpose",
+  "status",
+  "provider",
+  "reference",
+  "amount",
+  "refunded_amount",
+  "event_date",
+] as const;
+export type PaymentExportColumn = (typeof paymentExportColumns)[number];
+
+export type PaymentExportLabels = {
+  purpose: (p: PaymentPurpose) => string;
+  status: (s: PaymentStatus) => string;
+  provider: (p: string) => string;
+  date: (iso: string) => string;
+};
+
+export function paymentExportCell(row: PaymentRow, column: PaymentExportColumn, labels: PaymentExportLabels): string | number | null {
+  switch (column) {
+    case "date":
+      return labels.date(row.created_at);
+    case "member_number":
+      return row.member_number;
+    case "first_name":
+      return row.first_name;
+    case "last_name":
+      return row.last_name;
+    case "purpose":
+      return labels.purpose(row.purpose);
+    case "status":
+      return labels.status(row.status);
+    case "provider":
+      return labels.provider(row.provider);
+    case "reference":
+      return row.provider_transaction_id;
+    case "amount":
+      return row.amount_xof;
+    case "refunded_amount":
+      return row.refunded_amount_xof;
+    case "event_date":
+      return row.event_starts_at ? labels.date(row.event_starts_at) : null;
+  }
 }
