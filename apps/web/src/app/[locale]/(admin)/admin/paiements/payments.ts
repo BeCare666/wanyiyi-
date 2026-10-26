@@ -6,7 +6,7 @@ export const paymentStatuses = ["pending", "succeeded", "failed", "refunded", "c
 export type PaymentStatus = (typeof paymentStatuses)[number];
 
 /** Objets d'un paiement (enum app.payment_purpose). */
-export const paymentPurposes = ["registration_fee", "evening_booking", "contribution"] as const;
+export const paymentPurposes = ["registration_fee", "evening_booking", "contribution", "counselor_access"] as const;
 export type PaymentPurpose = (typeof paymentPurposes)[number];
 
 /** Filtre des remboursements de app.admin_payments() : demandé (pas encore effectué) ou effectué. */

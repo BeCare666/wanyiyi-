@@ -545,7 +545,8 @@
         "counselor_assigned": "Olùdámọ̀ràn kan ń darapọ̀ mọ́ ìfọ̀rọ̀wérọ̀ tọkọtaya yín.",
         "counselor_access_granted": "A ti fi tọkọtaya kan lé yín lọ́wọ́: ẹ lè ka àti kọ̀wé nínú ìfọ̀rọ̀wérọ̀ wọn.",
         "couple_blocked": "Ẹgbẹ́ ti dí ìfọ̀rọ̀wérọ̀ tọkọtaya yín.",
-        "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ tọkọtaya yín padà."
+        "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ tọkọtaya yín padà.",
+        "counselor_access_payment_due": "A ti gba ìpè olùdámọ̀ràn. Ẹ san owó ìwọlé kí ẹgbẹ́ lè yan olùdámọ̀ràn."
       }
     },
     "dashboard": {
@@ -1066,12 +1067,14 @@
       },
       "system": {
         "counselor_access_requested": "{name} ń pe olùdámọ̀ràn sínú ìfọ̀rọ̀wérọ̀ yìí.",
-        "counselor_access_accepted": "{name} ti gbà: ẹgbẹ́ yóò yan olùdámọ̀ràn.",
+        "counselor_access_accepted": "{name} ti gba ìpè olùdámọ̀ràn.",
         "counselor_access_refused": "{name} kọ ìpè olùdámọ̀ràn.",
         "counselor_access_revoked": "{name} ti yọ olùdámọ̀ràn kúrò nínú ìfọ̀rọ̀wérọ̀.",
         "counselor_access_granted": "Olùdámọ̀ràn tí ẹgbẹ́ yàn ti darapọ̀ mọ́ ìfọ̀rọ̀wérọ̀.",
         "couple_blocked": "Ẹgbẹ́ ti dí ìfọ̀rọ̀wérọ̀ yìí.",
-        "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ yìí padà."
+        "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ yìí padà.",
+        "counselor_access_payment_due": "Ń dúró de ìsanwó ìwọlé olùdámọ̀ràn láti ọ̀dọ̀ {name}.",
+        "counselor_access_awaiting_assignment": "A ti san owó ìwọlé: ẹgbẹ́ yóò yan olùdámọ̀ràn."
       }
     }
   },
@@ -1159,7 +1162,8 @@
     "phoneHelp": "Nọ́ńbà Benin oní-nọ́ńbà 10 tó bẹ̀rẹ̀ pẹ̀lú 01. Ìbéèrè ìsanwó yóò dé sórí fóònù yìí.",
     "purposes": {
       "evening_booking": "Àyè fún ìpàdé alẹ́ Ifedele",
-      "registration_fee": "Owó ìforúkọsílẹ̀"
+      "registration_fee": "Owó ìforúkọsílẹ̀",
+      "counselor_access": "Ìwọlé olùdámọ̀ràn"
     },
     "pay": "Gba ìbéèrè ìsanwó",
     "payCard": "Tẹ̀síwájú sí ìsanwó pẹ̀lú káàdì",
@@ -1914,7 +1918,8 @@
       "purposes": {
         "registration_fee": "Owó ìforúkọsílẹ̀",
         "evening_booking": "Ìpàdé alẹ́",
-        "contribution": "Ìdáwó"
+        "contribution": "Ìdáwó",
+        "counselor_access": "Ìwọlé olùdámọ̀ràn"
       },
       "refunds": {
         "requested": "A gbọ́dọ̀ dá a padà",
@@ -2340,7 +2345,7 @@
       "list": "Àwọn olùdámọ̀ràn",
       "requests": {
         "title": "Àwọn ìbéèrè olùdámọ̀ràn láti fi lélẹ̀",
-        "empty": "Kò sí ìbéèrè kankan tó ń dúró.",
+        "empty": "Kò sí ìbéèrè tí a ti san tó ń dúró de olùdámọ̀ràn.",
         "withHistory": "Àwọn méjèèjì gbà kí olùdámọ̀ràn ka àwọn ọ̀rọ̀ tí wọ́n ti kọ tẹ́lẹ̀.",
         "noHistory": "Olùdámọ̀ràn yóò ka àwọn ọ̀rọ̀ tí a kọ lẹ́yìn tí ó dé nìkan.",
         "choose": "Olùdámọ̀ràn",
@@ -2352,6 +2357,20 @@
           "couple_blocked": "A ti dí tọkọtaya yìí.",
           "not_pending": "Ìbéèrè yìí kò dúró mọ́.",
           "not_found": "A kò rí ìbéèrè tàbí olùdámọ̀ràn náà.",
+          "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
+          "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
+          "not_paid": "A kò tíì san owó ìwọlé."
+        }
+      },
+      "price": {
+        "title": "Iye owó ìwọlé olùdámọ̀ràn",
+        "label": "Iye owó ní FCFA",
+        "help": "Ọmọ ẹgbẹ́ tó pè é ló ń san án, lẹ́yìn tí ẹnìkejì bá gbà. 0: ìwọlé ọ̀fẹ́. Àyípadà yóò kan àwọn àdéhùn tó ń bọ̀.",
+        "save": "Fi iye owó pamọ́",
+        "saved": "A ti fi iye owó pamọ́.",
+        "errors": {
+          "invalid_price": "Ẹ kọ nọ́ńbà odidi láti 0 sí 10 000 000.",
           "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."

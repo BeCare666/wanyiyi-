@@ -137,7 +137,11 @@ describe("Conversations (9.4 à 9.6)", () => {
   it("acceptation de l'autre : en attente de l'attribution d'un conseiller par l'administration", async () => {
     const [{ s: status }] = await as<{ s: string }>(p.koffi!, "select app.answer_counselor_access($1, true, false) as s", [access]);
     expect(status).toBe("requested");
-    expect((await notices(p.afiwa!, coupleChat)).at(-1)).toEqual(["counselor_access.accepted", p.koffi]);
+    // Prix de départ 0 : rien à payer, la demande passe directement à l'administration
+    expect((await notices(p.afiwa!, coupleChat)).slice(-2)).toEqual([
+      ["counselor_access.accepted", p.koffi],
+      ["counselor_access.awaiting_assignment", null],
+    ]);
     expect(await read(p.conseillere!, coupleChat)).toEqual([]);
     const pending = await as<{ access_id: string }>(p.admin!, "select * from app.admin_counselor_requests()");
     expect(pending.map((r) => r.access_id)).toEqual([access]);
@@ -217,5 +221,50 @@ describe("Conversations (9.4 à 9.6)", () => {
     expect(rows.map((r) => r.status)).toEqual(["revoked", "revoked", "refused"]);
     const { rows: audit } = await db.query("select action from app.audit_log where action like 'counselor_access.%'");
     expect(audit.length).toBeGreaterThanOrEqual(7);
+  });
+});
+
+describe("Accès au conseiller payant (règles du 26 octobre 2026)", () => {
+  it("prix réglé par l'administration (0 accepté) ; payé par celui qui invite, après l'accord ; attribué une fois payé", async () => {
+    expect(await failure(as(p.moderateur!, "select app.admin_set_counselor_price(5000)"))).toMatch(/forbidden/);
+    expect(await failure(as(p.admin!, "select app.admin_set_counselor_price(-1)"))).toMatch(/invalid_price/);
+    expect(await failure(as(p.admin!, "select app.admin_set_counselor_price(5000)"))).toBeNull();
+    const [{ price }] = await as<{ price: number }>(p.afiwa!, "select app.counselor_access_price() as price");
+    expect(price).toBe(5000);
+
+    const [{ id }] = await as<{ id: string }>(p.koffi!, "select app.request_counselor_access($1, false) as id", [couple]);
+    // Rien à payer avant l'accord de l'autre
+    expect(await failure(as(p.koffi!, "select app.counselor_access_to_pay($1)", [id]))).toMatch(/not_pending/);
+    await as(p.afiwa!, "select app.answer_counselor_access($1, true, false)", [id]);
+    expect((await notices(p.afiwa!, coupleChat)).at(-1)).toEqual(["counselor_access.payment_due", p.koffi]);
+    const { rows: due } = await db.query<{ payload: { price_xof: number } }>(
+      "select payload from app.notifications where user_id = $1 and kind = 'counselor_access.payment_due'",
+      [p.koffi],
+    );
+    expect(due[0]!.payload.price_xof).toBe(5000);
+    // Seul celui qui invite paie ; le prix est celui du moment de l'accord
+    expect(await failure(as(p.afiwa!, "select app.counselor_access_to_pay($1)", [id]))).toMatch(/not_found/);
+    await as(p.admin!, "select app.admin_set_counselor_price(9000)");
+    const [{ amount }] = await as<{ amount: number }>(p.koffi!, "select app.counselor_access_to_pay($1) as amount", [id]);
+    expect(amount).toBe(5000);
+    // Non payé : invisible et non attribuable pour l'administration
+    expect(await as(p.admin!, "select * from app.admin_counselor_requests()")).toEqual([]);
+    expect(await failure(as(p.admin!, "select app.admin_assign_counselor($1, $2)", [id, p.conseillere]))).toMatch(/not_paid/);
+
+    // Paiement créé par l'API puis réglé chez le prestataire
+    const [{ id: payment }] = await db
+      .query<{ id: string }>("insert into app.payments (user_id, purpose, amount_xof, provider) values ($1, 'counselor_access', 5000, 'simulated') returning id", [p.koffi])
+      .then((r) => r.rows);
+    await db.query("update app.counselor_access set payment_id = $1 where id = $2", [payment, id]);
+    await db.query("update app.payments set status = 'succeeded' where id = $1", [payment]);
+    expect((await notices(p.koffi!, coupleChat)).at(-1)).toEqual(["counselor_access.awaiting_assignment", null]);
+    expect(await failure(as(p.koffi!, "select app.counselor_access_to_pay($1)", [id]))).toMatch(/nothing_to_pay/);
+    const pending = await as<{ access_id: string }>(p.admin!, "select * from app.admin_counselor_requests()");
+    expect(pending.map((r) => r.access_id)).toEqual([id]);
+    expect(await failure(as(p.admin!, "select app.admin_assign_counselor($1, $2)", [id, p.conseillere]))).toBeNull();
+    // Retrait après paiement : aucun remboursement
+    await as(p.afiwa!, "select app.revoke_counselor_access($1)", [id]);
+    const { rows } = await db.query<{ status: string }>("select status from app.payments where id = $1", [payment]);
+    expect(rows[0]!.status).toBe("succeeded");
   });
 });

@@ -38,6 +38,12 @@ export class PaymentsController {
     return this.payments.startEveningPayment(member.id, member.accessToken, eventId);
   }
 
+  @Post("counselor-access/:accessId")
+  @ApiOperation({ summary: "Payer l'accès au conseiller (membre qui a invité, après l'accord de l'autre)" })
+  startCounselor(@CurrentMember() member: AuthenticatedMember, @Param("accessId", ParseUUIDPipe) accessId: string) {
+    return this.payments.startCounselorPayment(member.id, member.accessToken, accessId);
+  }
+
   @Get(":paymentId")
   @ApiOperation({ summary: "Paiement du membre : montant, état et moyens de paiement proposés" })
   info(@CurrentMember() member: AuthenticatedMember, @Param("paymentId", ParseUUIDPipe) paymentId: string) {

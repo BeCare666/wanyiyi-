@@ -13,6 +13,8 @@ export type ChatMessage = { id: string; sender_id: string | null; body: string; 
 const systemCodes = [
   "counselor_access.requested",
   "counselor_access.accepted",
+  "counselor_access.payment_due",
+  "counselor_access.awaiting_assignment",
   "counselor_access.refused",
   "counselor_access.revoked",
   "counselor_access.granted",

@@ -545,7 +545,8 @@
         "counselor_assigned": "Un conseiller rejoint la conversation de votre couple.",
         "counselor_access_granted": "Un couple vous a été confié : vous pouvez lire et écrire dans sa conversation.",
         "couple_blocked": "L'équipe a bloqué la conversation de votre couple.",
-        "couple_unblocked": "L'équipe a débloqué la conversation de votre couple."
+        "couple_unblocked": "L'équipe a débloqué la conversation de votre couple.",
+        "counselor_access_payment_due": "L'invitation du conseiller est acceptée. Réglez l'accès pour que l'équipe désigne le conseiller."
       }
     },
     "dashboard": {
@@ -1066,12 +1067,14 @@
       },
       "system": {
         "counselor_access_requested": "{name} invite un conseiller dans la conversation.",
-        "counselor_access_accepted": "{name} a accepté : l'équipe va désigner le conseiller.",
+        "counselor_access_accepted": "{name} a accepté l'invitation d'un conseiller.",
         "counselor_access_refused": "{name} a refusé l'invitation d'un conseiller.",
         "counselor_access_revoked": "{name} a retiré le conseiller de la conversation.",
         "counselor_access_granted": "Le conseiller désigné par l'équipe a rejoint la conversation.",
         "couple_blocked": "L'équipe a bloqué cette conversation.",
-        "couple_unblocked": "L'équipe a débloqué cette conversation."
+        "couple_unblocked": "L'équipe a débloqué cette conversation.",
+        "counselor_access_payment_due": "En attente du paiement de l'accès au conseiller par {name}.",
+        "counselor_access_awaiting_assignment": "L'accès est réglé : l'équipe va désigner le conseiller."
       }
     }
   },
@@ -1159,7 +1162,8 @@
     "phoneHelp": "Numéro béninois à 10 chiffres commençant par 01. La demande de paiement arrive sur ce téléphone.",
     "purposes": {
       "evening_booking": "Place pour une soirée Ifedele",
-      "registration_fee": "Frais d'inscription"
+      "registration_fee": "Frais d'inscription",
+      "counselor_access": "Accès au conseiller"
     },
     "pay": "Recevoir la demande de paiement",
     "payCard": "Continuer vers le paiement par carte",
@@ -1914,7 +1918,8 @@
       "purposes": {
         "registration_fee": "Frais d'inscription",
         "evening_booking": "Soirée",
-        "contribution": "Contribution"
+        "contribution": "Contribution",
+        "counselor_access": "Accès au conseiller"
       },
       "refunds": {
         "requested": "À rembourser",
@@ -2340,7 +2345,7 @@
       "list": "Conseillers",
       "requests": {
         "title": "Demandes de conseiller à attribuer",
-        "empty": "Aucune demande en attente.",
+        "empty": "Aucune demande réglée en attente d'un conseiller.",
         "withHistory": "Les deux acceptent que le conseiller lise les messages déjà échangés.",
         "noHistory": "Le conseiller lira seulement les messages écrits après son arrivée.",
         "choose": "Conseiller",
@@ -2352,6 +2357,20 @@
           "couple_blocked": "Ce couple est bloqué.",
           "not_pending": "Cette demande n'est plus en attente.",
           "not_found": "Demande ou conseiller introuvable.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant.",
+          "not_paid": "L'accès n'est pas encore payé."
+        }
+      },
+      "price": {
+        "title": "Prix de l'accès au conseiller",
+        "label": "Prix en FCFA",
+        "help": "Payé par le membre qui invite, après l'accord de l'autre. 0 : accès gratuit. Un changement s'applique aux prochains accords.",
+        "save": "Enregistrer le prix",
+        "saved": "Prix enregistré.",
+        "errors": {
+          "invalid_price": "Indiquez un nombre entier de 0 à 10 000 000.",
           "forbidden": "Votre rôle ne permet pas cette action.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."

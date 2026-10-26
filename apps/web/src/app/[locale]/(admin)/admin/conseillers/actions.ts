@@ -47,3 +47,12 @@ export async function assignCounselor(accessId: string, counselorId: string): Pr
   const { error } = await supabase.rpc("admin_assign_counselor", { p_access: accessId, p_counselor: counselorId });
   return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
 }
+
+/** Prix de l'accès au conseiller, réglé librement par l'administration (0 accepté), journalisé. */
+export async function setCounselorPrice(priceXof: number): Promise<ApiResult<void>> {
+  if (!Number.isInteger(priceXof) || priceXof < 0 || priceXof > 10_000_000) return { ok: false, error: "invalid_price" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { error } = await supabase.rpc("admin_set_counselor_price", { p_price_xof: priceXof });
+  return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
+}

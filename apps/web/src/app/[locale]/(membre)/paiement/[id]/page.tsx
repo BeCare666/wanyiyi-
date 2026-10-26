@@ -55,7 +55,7 @@ export default async function PaymentPage({ params }: Props) {
             <p className="mt-6 font-serif text-4xl tabular-nums">
               {format.number(info.amountXof, { style: "currency", currency: "XOF", maximumFractionDigits: 0 })}
             </p>
-            <p className="mt-3 text-fg-muted">{t(`purposes.${info.purpose === "registration_fee" ? "registration_fee" : "evening_booking"}`)}</p>
+            <p className="mt-3 text-fg-muted">{t(`purposes.${info.purpose === "registration_fee" || info.purpose === "counselor_access" ? info.purpose : "evening_booking"}`)}</p>
             {methods && info.feexpay ? (
               <>
                 <p className="mt-6 text-fg-muted">{t("intro")}</p>

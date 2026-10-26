@@ -5,6 +5,7 @@ import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { AssignCounselor } from "./AssignCounselor";
 import { CounselorForm } from "./CounselorForm";
+import { CounselorPrice } from "./CounselorPrice";
 import { assignable, type CounselorRequest, type CounselorRow, isFull } from "./counselors";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,16 +18,17 @@ export async function generateMetadata(): Promise<Metadata> {
  * (couples en cours sur le maximum). Création à partir du compte d'un membre, désigné par son
  * numéro ; le compte devient « conseiller » (journalisé). Attribution du conseiller aux couples
  * dont les deux membres ont accepté l'invitation (question 9, 26 octobre 2026). Permission
- * counselors.manage.
+ * counselors.manage. Prix de l'accès au conseiller réglé ici (0 accepté) ; une demande n'apparaît
+ * qu'une fois l'accès payé par le membre qui a invité (ou gratuit).
  */
 export default async function AdminCounselorsPage() {
   const staff = await getStaffMember();
   if (!staff?.permissions.includes("counselors.manage")) notFound();
   const t = await getTranslations("Admin");
   const supabase = await createSupabaseServer();
-  const [result, requestsResult] = supabase
-    ? await Promise.all([supabase.rpc("admin_counselors"), supabase.rpc("admin_counselor_requests")])
-    : [null, null];
+  const [result, requestsResult, priceResult] = supabase
+    ? await Promise.all([supabase.rpc("admin_counselors"), supabase.rpc("admin_counselor_requests"), supabase.rpc("counselor_access_price")])
+    : [null, null, null];
   const rows = (result?.data ?? []) as CounselorRow[];
   const requests = (requestsResult?.data ?? []) as CounselorRequest[];
   const choices = assignable(rows).map((r) => ({ id: r.user_id, name: r.display_name }));
@@ -39,6 +41,15 @@ export default async function AdminCounselorsPage() {
         <h1 className="mt-4 text-4xl">{t("nav.counselors")}</h1>
         <p className="mt-4 max-w-measure text-fg-muted">{t("counselors.intro")}</p>
       </header>
+
+      <section aria-labelledby="prix" className="mt-10 border-t border-line pt-8">
+        <h2 id="prix" className="text-2xl">
+          {t("counselors.price.title")}
+        </h2>
+        <div className="mt-4">
+          <CounselorPrice current={typeof priceResult?.data === "number" ? priceResult.data : 0} />
+        </div>
+      </section>
 
       <section aria-labelledby="demandes" className="mt-10 border-t border-line pt-8">
         <h2 id="demandes" className="text-2xl">

@@ -279,7 +279,17 @@ QUESTIONS (je n'invente pas les réponses)
      - l'administration peut bloquer un couple : chat en lecture seule,
        conseiller retiré, motif obligatoire notifié aux deux, blocage levable
        par l'administration.
-     Encore ouvert : séances payantes (c) ; un couple peut-il rester sans
+     Accès au conseiller payant (réponses du 26 octobre 2026) : prix réglé dans
+     l'administration, librement, 0 compris ; payé par le membre qui invite,
+     après l'accord de l'autre ; chaque accès se paie ; aucun remboursement si
+     le conseiller est retiré ou le couple bloqué. FAIT : migrations
+     20261026001100 et 20261026001200 (objet de paiement counselor_access, prix
+     dans settings « counselor.access_price_xof », valeur de départ 0 tant que
+     l'administration ne l'a pas fixé ; prix figé à l'accord ; attribution
+     possible seulement une fois payé), route API POST
+     /api/payments/counselor-access/<accès>, réglage du prix dans
+     /admin/conseillers. Écran de paiement côté membre : avec l'espace du couple.
+     Encore ouvert : séances (c) ; un couple peut-il rester sans
      conseiller (b) ; avec quel conseiller s'ouvre le canal privé d'un membre
      (celui attribué à son couple ?).
 

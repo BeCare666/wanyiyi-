@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { assignCounselor } from "./actions";
 
-const knownErrors = new Set(["counselor_unavailable", "counselor_full", "couple_blocked", "not_pending", "not_found", "forbidden", "unavailable"]);
+const knownErrors = new Set(["counselor_unavailable", "counselor_full", "couple_blocked", "not_pending", "not_paid", "not_found", "forbidden", "unavailable"]);
 
 /** Choix du conseiller pour une demande acceptée par les deux membres du couple. */
 export function AssignCounselor({ accessId, counselors }: { accessId: string; counselors: { id: string; name: string }[] }) {

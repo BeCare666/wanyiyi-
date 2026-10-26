@@ -2,6 +2,8 @@ import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import { checkUpload, cotonouStamp, normalizePhoto, PHOTO_MAX_BYTES, renderForViewer, watermarkSvg, watermarkText } from "../src/photos/photo-image";
 import { PHOTO_LINK_SECONDS, PhotoLinks } from "../src/photos/photo-links";
+import { feexpayDescription } from "../src/payments/payments.service";
+import { toHttpError } from "../src/supabase/db-errors";
 
 /** Photos des membres (10.2, question 10 de la phase 3) : dépôt, filigrane, liens de 5 minutes. */
 
@@ -89,5 +91,19 @@ describe("Liens de 5 minutes", () => {
     now = PHOTO_LINK_SECONDS * 1000;
     expect(links.get(token)).toBeNull();
     expect(links.create(image).token).not.toBe(token);
+  });
+});
+
+describe("Codes d'erreur de la base (photos, accès au conseiller)", () => {
+  it("traduits en réponses HTTP avec leur code", () => {
+    expect(toHttpError({ message: "too_many_photos" }).getStatus()).toBe(409);
+    expect(toHttpError({ message: "invalid_photo" }).getStatus()).toBe(400);
+    expect(toHttpError({ message: "nothing_to_pay" }).getStatus()).toBe(409);
+    expect(toHttpError({ message: "couple_blocked" }).getStatus()).toBe(403);
+  });
+
+  it("libellé FeexPay selon l'objet du paiement", () => {
+    expect(feexpayDescription("counselor_access")).toBe("Conseiller ifedele");
+    expect(feexpayDescription("evening_booking")).toBe("Soiree ifedele");
   });
 });

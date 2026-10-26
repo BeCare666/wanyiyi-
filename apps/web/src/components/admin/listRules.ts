@@ -36,7 +36,7 @@ export const paymentsSpec: ListSpec = {
     member_number: { kind: "text" },
     reference: { kind: "text" },
     status: { kind: "list", options: ["pending", "succeeded", "failed", "refunded", "cancelled"], labels: "payments.status" },
-    purpose: { kind: "list", options: ["registration_fee", "evening_booking", "contribution"], labels: "payments.purposes" },
+    purpose: { kind: "list", options: ["registration_fee", "evening_booking", "contribution", "counselor_access"], labels: "payments.purposes" },
     provider: { kind: "list", options: ["simulated", "fedapay", "kkiapay", "feexpay"], labels: "payments.providers" },
     refund: { kind: "list", options: ["requested", "refunded", "none"], labels: "payments.refunds" },
     amount: { kind: "number" },

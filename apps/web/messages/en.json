@@ -545,7 +545,8 @@
         "counselor_assigned": "A counselor is joining your couple's conversation.",
         "counselor_access_granted": "A couple has been entrusted to you: you can read and write in their conversation.",
         "couple_blocked": "The team has blocked your couple's conversation.",
-        "couple_unblocked": "The team has unblocked your couple's conversation."
+        "couple_unblocked": "The team has unblocked your couple's conversation.",
+        "counselor_access_payment_due": "The counselor invitation was accepted. Pay for access so the team can choose the counselor."
       }
     },
     "dashboard": {
@@ -1066,12 +1067,14 @@
       },
       "system": {
         "counselor_access_requested": "{name} is inviting a counselor into the conversation.",
-        "counselor_access_accepted": "{name} accepted: the team will choose the counselor.",
+        "counselor_access_accepted": "{name} accepted the counselor invitation.",
         "counselor_access_refused": "{name} declined the counselor invitation.",
         "counselor_access_revoked": "{name} removed the counselor from the conversation.",
         "counselor_access_granted": "The counselor chosen by the team has joined the conversation.",
         "couple_blocked": "The team has blocked this conversation.",
-        "couple_unblocked": "The team has unblocked this conversation."
+        "couple_unblocked": "The team has unblocked this conversation.",
+        "counselor_access_payment_due": "Waiting for {name} to pay for counselor access.",
+        "counselor_access_awaiting_assignment": "Access is paid: the team will choose the counselor."
       }
     }
   },
@@ -1159,7 +1162,8 @@
     "phoneHelp": "10-digit Benin number starting with 01. The payment request is sent to this phone.",
     "purposes": {
       "evening_booking": "Seat for a Ifedele evening",
-      "registration_fee": "Registration fee"
+      "registration_fee": "Registration fee",
+      "counselor_access": "Counselor access"
     },
     "pay": "Receive the payment request",
     "payCard": "Continue to card payment",
@@ -1914,7 +1918,8 @@
       "purposes": {
         "registration_fee": "Registration fee",
         "evening_booking": "Evening",
-        "contribution": "Contribution"
+        "contribution": "Contribution",
+        "counselor_access": "Counselor access"
       },
       "refunds": {
         "requested": "To refund",
@@ -2340,7 +2345,7 @@
       "list": "Counselors",
       "requests": {
         "title": "Counselor requests to assign",
-        "empty": "No pending request.",
+        "empty": "No paid request waiting for a counselor.",
         "withHistory": "Both agree that the counselor may read the messages already exchanged.",
         "noHistory": "The counselor will only read messages written after joining.",
         "choose": "Counselor",
@@ -2352,6 +2357,20 @@
           "couple_blocked": "This couple is blocked.",
           "not_pending": "This request is no longer pending.",
           "not_found": "Request or counselor not found.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment.",
+          "not_paid": "Access is not paid yet."
+        }
+      },
+      "price": {
+        "title": "Counselor access price",
+        "label": "Price in FCFA",
+        "help": "Paid by the member who invites, after the other agrees. 0: free access. A change applies to the next agreements.",
+        "save": "Save the price",
+        "saved": "Price saved.",
+        "errors": {
+          "invalid_price": "Enter a whole number from 0 to 10,000,000.",
           "forbidden": "Your role does not allow this action.",
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment."

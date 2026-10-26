@@ -31,6 +31,13 @@ const BY_CODE: Record<string, (code: string) => HttpException> = {
   not_found: (c) => new NotFoundException(c),
   not_editable: (c) => new ConflictException(c),
   member_inactive: (c) => new ForbiddenException(c),
+  // Photos (phase 3, question 10)
+  invalid_photo: (c) => new BadRequestException(c),
+  too_many_photos: (c) => new ConflictException(c),
+  // Accès au conseiller payant (règles du 26 octobre 2026)
+  nothing_to_pay: (c) => new ConflictException(c),
+  not_pending: (c) => new ConflictException(c),
+  couple_blocked: (c) => new ForbiddenException(c),
 };
 
 export function toHttpError(error: { message?: string; code?: string } | null | undefined): HttpException {

@@ -29,6 +29,7 @@ const kinds = {
   couple_opened: { href: { pathname: memberNav.matches.href } },
   // Conseiller du couple et blocage (question 9, 26 octobre 2026) ; le motif d'un blocage est affiché
   counselor_access_requested: { href: null },
+  counselor_access_payment_due: { href: null },
   counselor_assigned: { href: null },
   counselor_access_granted: { href: null },
   couple_blocked: { href: null },

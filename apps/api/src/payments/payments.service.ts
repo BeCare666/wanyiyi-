@@ -61,10 +61,21 @@ export class FeexpayPaymentProvider implements PaymentProvider {
   }
 }
 
-/** Libellé envoyé à FeexPay : sans caractères spéciaux, 40 caractères au plus. */
-const FEEXPAY_DESCRIPTION = "Soiree ifedele";
+/** Libellés envoyés à FeexPay : sans caractères spéciaux, 40 caractères au plus. */
+const FEEXPAY_DESCRIPTIONS: Record<string, string> = { counselor_access: "Conseiller ifedele" };
+export function feexpayDescription(purpose: string): string {
+  return FEEXPAY_DESCRIPTIONS[purpose] ?? "Soiree ifedele";
+}
 
-type FeexpayPayment = { id: string; user_id: string; amount_xof: number; status: string; provider: string; provider_transaction_id: string | null };
+type FeexpayPayment = {
+  id: string;
+  user_id: string;
+  purpose: string;
+  amount_xof: number;
+  status: string;
+  provider: string;
+  provider_transaction_id: string | null;
+};
 
 @Injectable()
 export class PaymentsService {
@@ -99,6 +110,31 @@ export class PaymentsService {
     if (!payment) throw new ConflictException("payment_not_created");
     unwrap(await system.from("event_registrations").update({ payment_id: payment.id }).eq("id", registration.id));
     const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: event.price_xof, description: "Soirée Ifedele" });
+    if (checkout.providerTransactionId) {
+      unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
+    }
+    return { paymentId: payment.id, checkoutUrl: checkout.checkoutUrl };
+  }
+
+  /**
+   * Paiement de l'accès au conseiller (règles du 26 octobre 2026) : par le membre qui a invité,
+   * après l'accord de l'autre, au prix figé à ce moment. La base vérifie tout avec le jeton du
+   * membre (app.counselor_access_to_pay) ; aucun remboursement ensuite.
+   */
+  async startCounselorPayment(memberId: string, accessToken: string, accessId: string) {
+    const member = this.supabase.forMember(accessToken);
+    const amount = unwrap(await member.rpc("counselor_access_to_pay", { p_access: accessId })) as number;
+    const system = this.supabase.system(`création du paiement de l'accès au conseiller ${accessId} pour ${memberId}`);
+    const payment = unwrap(
+      await system
+        .from("payments")
+        .insert({ user_id: memberId, purpose: "counselor_access", amount_xof: amount, provider: this.provider.name })
+        .select("id")
+        .single(),
+    );
+    if (!payment) throw new ConflictException("payment_not_created");
+    unwrap(await system.from("counselor_access").update({ payment_id: payment.id }).eq("id", accessId));
+    const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: amount, description: "Conseiller Ifedele" });
     if (checkout.providerTransactionId) {
       unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
     }
@@ -150,7 +186,7 @@ export class PaymentsService {
   private async feexpayPayment(paymentId: string, reason: string): Promise<FeexpayPayment> {
     const system = this.supabase.system(reason);
     const payment = unwrap(
-      await system.from("payments").select("id, user_id, amount_xof, status, provider, provider_transaction_id").eq("id", paymentId).maybeSingle(),
+      await system.from("payments").select("id, user_id, purpose, amount_xof, status, provider, provider_transaction_id").eq("id", paymentId).maybeSingle(),
     ) as FeexpayPayment | null;
     if (!payment || payment.provider !== "feexpay") throw new NotFoundException("not_found");
     return payment;
@@ -200,7 +236,7 @@ export class PaymentsService {
     if ((await this.beforeNewAttempt(payment)) === "succeeded") return { status: "succeeded" as const };
 
     const transaction = await this.callFeexpay(paymentId, () =>
-      provider.client.requestMobile({ network, phoneNumber, amountXof: payment.amount_xof, description: FEEXPAY_DESCRIPTION, paymentId }),
+      provider.client.requestMobile({ network, phoneNumber, amountXof: payment.amount_xof, description: feexpayDescription(payment.purpose), paymentId }),
     );
     await this.keepReference(paymentId, transaction.reference);
     this.logger.log(`Paiement ${paymentId} : demande ${network} envoyée à FeexPay`);
@@ -222,7 +258,7 @@ export class PaymentsService {
       provider.client.initCard({
         holder: { ...holder, phoneNumber },
         amountXof: payment.amount_xof,
-        description: FEEXPAY_DESCRIPTION,
+        description: feexpayDescription(payment.purpose),
         paymentId,
         returnUrl: provider.pageOf(paymentId),
       }),
