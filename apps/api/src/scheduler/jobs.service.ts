@@ -10,6 +10,8 @@ import { SupabaseService } from "../supabase/supabase.service";
  * - limite des 48 h : libération des places non confirmées et promotion de la liste d'attente ;
  * - calcul des matchs des soirées terminées ;
  * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h ;
+ * - fin des découvertes à 14 jours (21 avec la prolongation) et des matchs non ouverts à 7 jours
+ *   (phase 3, 9.4), message neutre aux deux ;
  * - remboursement des soirées annulées (relance si un remboursement a échoué) ;
  * - envoi par SMS et e-mail des notifications des actions groupées (chaque minute) ;
  * - effacement des comptes supprimés depuis 30 jours (chaque nuit, question 17).
@@ -112,6 +114,16 @@ export class JobsService {
     const { data: count, error } = await db.rpc("announce_matches");
     if (error) return this.logger.error(`Annonce des matchs : ${error.message}`);
     if (count) this.logger.log(`${count} notification(s) de match créée(s)`);
+  }
+
+  /** Découvertes arrivées à échéance et matchs jamais ouverts après 7 jours (9.4, question 2). */
+  @Cron("*/15 * * * *", { name: "expire-discoveries", timeZone: "Africa/Porto-Novo" })
+  async expireDiscoveries() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("fin des découvertes et des matchs non ouverts");
+    const { data: count, error } = await db.rpc("expire_discoveries");
+    if (error) return this.logger.error(`Fin des découvertes : ${error.message}`);
+    if (count) this.logger.log(`${count} découverte(s) ou match(s) arrivé(s) à échéance`);
   }
 
   @Cron("*/5 * * * *", { name: "refund-cancelled-evenings", timeZone: "Africa/Porto-Novo" })

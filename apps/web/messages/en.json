@@ -534,7 +534,12 @@
         "member_excluded": "Your account has been excluded from Ifedele.",
         "profile_text_rejected": "A text in your profile was rejected. Please rewrite it: it will be reviewed again.",
         "discovery_partner_left": "The person you were in discovery with has deleted their account. The discovery has ended.",
-        "couple_partner_left": "The person you were in a couple with has deleted their account. The couple has ended."
+        "couple_partner_left": "The person you were in a couple with has deleted their account. The couple has ended.",
+        "discovery_opened": "A discovery opens with your match: 14 days to get to know each other.",
+        "discovery_extended": "Your discovery is extended by 7 days.",
+        "discovery_closed": "This introduction has ended.",
+        "match_expired": "This introduction has ended.",
+        "couple_opened": "You both chose to continue: your couple space is open."
       }
     },
     "dashboard": {

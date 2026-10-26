@@ -534,7 +534,12 @@
         "member_excluded": "A ti yọ àkọọ́lẹ̀ yín kúrò nínú Ifedele.",
         "profile_text_rejected": "A kọ ọ̀rọ̀ kan nínú àpèjúwe yín sílẹ̀. Ẹ tún un kọ: a ó tún un kà.",
         "discovery_partner_left": "Ẹni tí ẹ jọ wà nínú ìmọ̀ra ti pa àkọọ́lẹ̀ rẹ̀ rẹ́. Ìmọ̀ra náà ti parí.",
-        "couple_partner_left": "Ẹni tí ẹ jọ jẹ́ tọkọtaya ti pa àkọọ́lẹ̀ rẹ̀ rẹ́. Tọkọtaya náà ti parí."
+        "couple_partner_left": "Ẹni tí ẹ jọ jẹ́ tọkọtaya ti pa àkọọ́lẹ̀ rẹ̀ rẹ́. Tọkọtaya náà ti parí.",
+        "discovery_opened": "Ìmọ̀ra ẹni bẹ̀rẹ̀ pẹ̀lú ẹni tí ẹ bá ara yín mu: ọjọ́ 14 láti mọ ara yín.",
+        "discovery_extended": "A ti fi ọjọ́ 7 kún ìmọ̀ra ẹni yín.",
+        "discovery_closed": "Ìfìmọ̀ra ẹni yìí ti parí.",
+        "match_expired": "Ìfìmọ̀ra ẹni yìí ti parí.",
+        "couple_opened": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú: àyè tọkọtaya yín ti ṣí."
       }
     },
     "dashboard": {

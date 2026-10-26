@@ -19,6 +19,12 @@ const kinds = {
   // L'autre membre a demandé la suppression de son compte (24 octobre 2026) : découverte ou couple clôturé
   discovery_partner_left: { href: null },
   couple_partner_left: { href: null },
+  // Découvertes (phase 3, 9.4) : ouverture, prolongation, fin (message neutre), match non ouvert, couple
+  discovery_opened: { href: { pathname: memberNav.matches.href } },
+  discovery_extended: { href: { pathname: memberNav.matches.href } },
+  discovery_closed: { href: null },
+  match_expired: { href: null },
+  couple_opened: { href: { pathname: memberNav.matches.href } },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

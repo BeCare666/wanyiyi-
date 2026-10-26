@@ -49,6 +49,18 @@ reports, reported_messages, photos.
   - Exclusivité branchée sur la réservation (déjà prévue par app.book).
   - Politiques RLS : chacun ne voit que ses découvertes et son couple.
   - Tests PGlite de 9.4 et 9.5.
+  EN COURS (26 octobre 2026) : partie découverte faite, migration
+    20261026000400_decouvertes.sql : table match_choices, annonce de 8 h avec
+    attente de 7 jours et choix d'office, app.choose_match, ouverture à deux
+    (app.try_open_discovery, conversation de découverte créée),
+    app.decide_discovery (prolongation unique, couple, fermeture des autres
+    découvertes des deux, conversation du couple créée), app.expire_discoveries
+    (tâche « expire-discoveries » de l'API, toutes les 15 minutes),
+    app.my_discoveries (jamais le choix ni la décision de l'autre), politiques
+    RLS ; notifications discovery.opened, discovery.extended, discovery.closed,
+    match.expired, couple.opened (textes fr, en, yo). Tests :
+    supabase/tests/decouvertes.test.ts (7). Reste : inactivité et fins du
+    couple (questions 6 et 7).
 
 Étape 3. Base : conversations et chat en temps réel
   - Conversations de découverte, de couple, et canal privé avec le conseiller.
