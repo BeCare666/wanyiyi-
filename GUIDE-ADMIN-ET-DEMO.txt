@@ -32,8 +32,11 @@ update app.users set role = 'super_admin'
 where id = (select id from auth.users where email = 'ifedele03@gmail.com');
 
       Résultat attendu : 1 row affected (une ligne modifiée).
-7. Se déconnecter puis se reconnecter sur le site : le lien vers
-   l'administration apparaît.
+7. Se déconnecter puis se reconnecter sur le site, puis ouvrir directement
+   l'adresse https://VOTRE-SITE/admin (il n'y a pas de bouton dans l'espace
+   membre). Sans connexion, le site demande de se connecter et revient sur
+   /admin. « Page introuvable » : le compte n'est pas encore super
+   administrateur (refaire l'étape 6).
 
 
 =====================================================================
