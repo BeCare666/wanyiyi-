@@ -546,7 +546,13 @@
         "counselor_access_granted": "Un couple vous a été confié : vous pouvez lire et écrire dans sa conversation.",
         "couple_blocked": "L'équipe a bloqué la conversation de votre couple.",
         "couple_unblocked": "L'équipe a débloqué la conversation de votre couple.",
-        "counselor_access_payment_due": "L'invitation du conseiller est acceptée. Réglez l'accès pour que l'équipe désigne le conseiller."
+        "counselor_access_payment_due": "L'invitation du conseiller est acceptée. Réglez l'accès pour que l'équipe désigne le conseiller.",
+        "couple_inactive": "Un couple n'a montré aucune activité depuis 60 jours. Sans activité dans les 14 jours, il sera mis en pause.",
+        "couple_paused": "Votre couple est en pause faute d'activité. Pour reprendre, cliquez tous les deux sur « Reprendre » dans l'espace du couple.",
+        "couple_union_celebrated": "Félicitations : votre union est enregistrée.",
+        "couple_separated": "Votre séparation est enregistrée. Vous pourrez revenir aux soirées dans un mois.",
+        "couple_ended_by_partner": "Votre partenaire a mis fin au couple.",
+        "couple_ended_by_partner_counselor": "Votre partenaire a mis fin au couple."
       }
     },
     "dashboard": {
@@ -575,7 +581,12 @@
       },
       "rulesTitle": "Rappel du règlement",
       "rulesText": "Respect, ponctualité et discrétion. Aucune coordonnée ne s'échange avant un match, et personne ne sait jamais qui a dit non.",
-      "rulesLink": "Lire le règlement"
+      "rulesLink": "Lire le règlement",
+      "relations": "Mes relations",
+      "couple": "Votre couple avec {name}",
+      "discoveries": "{count, plural, =0 {Aucune découverte en cours} one {# découverte en cours} other {# découvertes en cours}}",
+      "toChoose": "{count, plural, one {# match à ouvrir} other {# matchs à ouvrir}}",
+      "unread": "{count, plural, one {# message non lu} other {# messages non lus}}"
     },
     "matches": {
       "title": "Mes matchs",
@@ -671,7 +682,8 @@
         "unread": "Non lues"
       },
       "noUnread": "Aucune notification non lue.",
-      "reason": "Motif : {reason}"
+      "reason": "Motif : {reason}",
+      "signedBy": "Message de votre conseiller ou conseillère : {name}"
     },
     "settings": {
       "title": "Mes paramètres",
@@ -1024,7 +1036,7 @@
       "waiting": "En attente",
       "waitingHelp": "Vous avez choisi d'ouvrir cette découverte. Elle s'ouvrira si l'autre personne la choisit aussi avant le {date}.",
       "couple": "Votre couple",
-      "coupleHelp": "Vous avez tous les deux choisi de continuer. Votre espace du couple arrive bientôt.",
+      "coupleHelp": "Vous avez tous les deux choisi de continuer : votre espace du couple est ouvert.",
       "ended": "Mises en relation terminées",
       "endedMessage": "Cette mise en relation est terminée.",
       "continue": "Je veux continuer avec cette personne",
@@ -1045,7 +1057,8 @@
         "not_active": "Cette découverte est terminée.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
-      }
+      },
+      "coupleOpen": "Ouvrir l'espace du couple"
     },
     "chat": {
       "label": "Conversation",
@@ -1074,7 +1087,113 @@
         "couple_blocked": "L'équipe a bloqué cette conversation.",
         "couple_unblocked": "L'équipe a débloqué cette conversation.",
         "counselor_access_payment_due": "En attente du paiement de l'accès au conseiller par {name}.",
-        "counselor_access_awaiting_assignment": "L'accès est réglé : l'équipe va désigner le conseiller."
+        "counselor_access_awaiting_assignment": "L'accès est réglé : l'équipe va désigner le conseiller.",
+        "couple_paused": "Le couple est en pause faute d'activité. Cliquez tous les deux sur « Reprendre » pour rouvrir la conversation.",
+        "couple_resumed": "Le couple a repris : la conversation est rouverte.",
+        "couple_resume_requested": "{name} souhaite reprendre.",
+        "couple_union_requested": "{name} a déclaré votre union.",
+        "couple_union_celebrated": "Votre union est enregistrée. Félicitations.",
+        "couple_separation_requested": "{name} a demandé la séparation."
+      },
+      "counselor": "Conseiller"
+    },
+    "couple": {
+      "title": "Espace du couple",
+      "with": "Avec {name}",
+      "none": "Vous n'avez pas de couple en cours. Il s'ouvre quand vous choisissez tous les deux de continuer une découverte.",
+      "status": {
+        "active": "Votre couple est en cours. Vous ne réservez plus de soirées tant qu'il dure.",
+        "paused": "Votre couple est en pause faute d'activité : la conversation est en lecture seule et les soirées vous sont de nouveau ouvertes. Cliquez tous les deux sur « Reprendre » pour rouvrir la conversation.",
+        "union_celebrated": "Votre union est enregistrée. Félicitations. La conversation reste lisible, sans nouveaux messages.",
+        "separated": "Votre couple s'est terminé par une séparation. La conversation est fermée. Vous pourrez réserver une soirée un mois après la séparation.",
+        "left": "Ce couple est terminé. La conversation est fermée."
+      },
+      "blocked": "L'équipe a bloqué ce couple : la conversation est en lecture seule et le conseiller est retiré. Motif :",
+      "counselorPresent": "{name}, votre conseiller, participe à la conversation.",
+      "keep": "Annuler",
+      "decisions": {
+        "title": "Décisions",
+        "recorded": "Votre choix est enregistré. Il prend effet quand l'autre personne fait le même.",
+        "confirm": "Je confirme",
+        "resume": "Reprendre",
+        "resumeHelp": "Le couple reprend quand vous cliquez tous les deux sur « Reprendre ».",
+        "union": "Déclarer notre union",
+        "unionHelp": "Quand vous la déclarez tous les deux, l'union est enregistrée et la conversation passe en lecture seule. Elle est effacée 12 mois plus tard, sauf si vous demandez tous les deux à la garder.",
+        "unionConfirm": "Déclarer votre union ? L'autre personne verra votre déclaration dans la conversation.",
+        "separation": "Demander la séparation",
+        "separationHelp": "Quand vous la demandez tous les deux, le couple se termine : la conversation est fermée puis effacée après 90 jours, et vous pourrez réserver une soirée un mois plus tard.",
+        "separationConfirm": "Demander la séparation ? L'autre personne verra votre demande dans la conversation.",
+        "keep_chat": "Garder notre conversation",
+        "keep_chatHelp": "Sans demande de vous deux, la conversation est effacée 12 mois après l'union.",
+        "leave": "Quitter le couple",
+        "leaveHelp": "Vous pouvez partir seul, à tout moment, sans justification. Le couple se termine aussitôt et l'autre personne est prévenue.",
+        "leaveConfirm": "Quitter le couple maintenant ? La conversation sera fermée tout de suite. Ce choix est définitif."
+      },
+      "phone": {
+        "title": "Numéros de téléphone",
+        "share": "Partager mon numéro",
+        "private": "Les numéros ne sont montrés que si vous cliquez tous les deux. L'autre personne ne sait pas si vous avez déjà cliqué.",
+        "waiting": "Vous avez accepté de partager votre numéro. Il sera montré quand l'autre personne le fera aussi.",
+        "disabled": "Le partage de votre numéro est désactivé dans vos paramètres, ou aucun numéro n'est enregistré sur votre compte.",
+        "partner": "Numéro de {name} :",
+        "blocked": "Le partage des numéros est suspendu pendant le blocage."
+      },
+      "dates": {
+        "title": "Rendez-vous",
+        "help": "Notez ici vos rendez-vous. Pour les premiers, choisissez un lieu public.",
+        "when": "Date et heure (heure de Cotonou)",
+        "declare": "Déclarer le rendez-vous",
+        "byMe": "Déclaré par vous",
+        "byPartner": "Déclaré par {name}"
+      },
+      "counselor": {
+        "title": "Conseiller",
+        "state": {
+          "none": "Vous pouvez inviter un conseiller dans votre conversation. L'autre personne doit accepter ; l'équipe désigne ensuite le conseiller.",
+          "waitingOther": "Vous avez invité un conseiller. L'autre personne doit accepter.",
+          "toAnswer": "L'autre personne invite un conseiller dans votre conversation. Acceptez-vous ?",
+          "toPay": "L'autre personne a accepté. Réglez l'accès au conseiller ({price}) pour que l'équipe le désigne.",
+          "waitingPayment": "Vous avez accepté. L'accès au conseiller attend le paiement de l'autre personne.",
+          "awaitingAssignment": "L'accès est réglé : l'équipe va désigner votre conseiller.",
+          "granted": "Votre conseiller lit et écrit dans votre conversation. Chacun de vous peut le retirer à tout moment."
+        },
+        "price": "Accès au conseiller : {price}, payé par la personne qui invite, après l'accord de l'autre.",
+        "history": "Montrer nos messages précédents au conseiller",
+        "historyHelp": "Seulement si vous l'acceptez tous les deux. Sinon, il ne lit que les messages écrits après son arrivée.",
+        "invite": "Inviter un conseiller",
+        "accept": "Accepter",
+        "refuse": "Refuser",
+        "pay": "Payer {price}",
+        "noRefund": "L'accès n'est pas remboursé si le conseiller est retiré.",
+        "remove": "Retirer le conseiller",
+        "removeConfirm": "Retirer le conseiller ? Il quitte la conversation tout de suite. Un nouvel accès devra être payé de nouveau.",
+        "cancel": "Annuler l'invitation",
+        "cancelConfirm": "Annuler l'invitation du conseiller ?"
+      },
+      "journey": {
+        "title": "Votre parcours",
+        "first_dates": "Premiers rendez-vous",
+        "counselor_sessions": "Séances avec le conseiller",
+        "family_introduction": "Présentation aux familles",
+        "dowry_or_wedding": "Dot ou mariage",
+        "celebration": "Célébration",
+        "reached": "Franchie le {date}",
+        "notYet": "À venir"
+      },
+      "errors": {
+        "not_member": "Vous ne faites pas partie de ce couple.",
+        "invalid_status": "Cette action n'est plus possible dans l'état actuel du couple.",
+        "couple_blocked": "Ce couple est bloqué par l'équipe.",
+        "couple_closed": "Ce couple est terminé.",
+        "phone_sharing_disabled": "Le partage de votre numéro est désactivé dans vos paramètres.",
+        "no_phone": "Aucun numéro n'est enregistré sur votre compte.",
+        "invalid_date": "Indiquez une date et une heure valides.",
+        "access_pending": "Une invitation de conseiller est déjà en cours.",
+        "not_pending": "Cette invitation n'est plus en attente.",
+        "own_request": "Vous ne pouvez pas répondre à votre propre invitation.",
+        "nothing_to_pay": "Il n'y a rien à payer pour cet accès.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
     }
   },
@@ -2624,5 +2743,49 @@
     "show": "Afficher la photo",
     "loading": "Chargement…",
     "error": "La photo ne peut pas être affichée. Réessayez."
+  },
+  "Counselor": {
+    "areaLabel": "Espace conseiller",
+    "home": "Accueil de l'espace conseiller",
+    "signOut": "Se déconnecter",
+    "nav": {
+      "couples": "Couples suivis"
+    },
+    "errors": {
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard."
+    },
+    "couples": {
+      "title": "Couples suivis",
+      "intro": "Les couples dont l'équipe vous a confié le suivi, tant que les deux membres vous gardent dans leur conversation. Vous ne voyez que leurs prénoms.",
+      "empty": "Aucun couple ne vous est confié pour l'instant.",
+      "pair": "{a} et {b}",
+      "status": {
+        "active": "Couple en cours",
+        "paused": "Couple en pause",
+        "union_celebrated": "Union célébrée",
+        "separated": "Séparé",
+        "left": "Terminé"
+      },
+      "blocked": "bloqué par l'équipe",
+      "since": "Suivi depuis le {date}",
+      "unread": "{count, plural, one {# message non lu} other {# messages non lus}}",
+      "upToDate": "À jour",
+      "back": "Retour aux couples suivis",
+      "history": "Les deux membres ont accepté que vous lisiez leurs messages précédents.",
+      "noHistory": "Vous lisez les messages écrits depuis votre arrivée dans la conversation."
+    },
+    "notes": {
+      "title": "Notes privées",
+      "private": "Vos notes ne sont jamais visibles par les membres. Elles ne sont plus lisibles si le conseiller est retiré.",
+      "label": "Nouvelle note",
+      "placeholder": "Votre note",
+      "add": "Ajouter la note",
+      "errors": {
+        "invalid_body": "Écrivez une note de 4 000 caractères au plus.",
+        "not_counselor": "Vous ne suivez plus ce couple.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
+    }
   }
 }

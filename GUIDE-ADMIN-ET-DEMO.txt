@@ -98,3 +98,19 @@ BREVO_SENDER_NAME. Si elle vaut encore Wanyiyi :
    crayon > Ifedele > « Save Changes » > « Save and deploy ».
 Le reste du nouveau nom (site, e-mails, application) arrive avec le
 prochain déploiement automatique de Vercel et de Render.
+
+=====================================================================
+PARTIE 4 : ESPACE CONSEILLER
+=====================================================================
+1. Le futur conseiller s'inscrit comme un membre (« Devenir membre »).
+2. Dans l'administration, menu « Relations » > « Conseillers » : créer
+   le conseiller à partir de son numéro de membre (nom affiché,
+   présentation, langues, nombre maximum de couples).
+3. Le conseiller se déconnecte, se reconnecte, puis ouvre directement
+   l'adresse du site suivie de /conseiller (par exemple
+   https://<votre-site>/conseiller). Il n'y a pas de bouton : un membre
+   qui tape cette adresse reçoit une page introuvable.
+4. Il y voit les couples que l'administration lui a confiés (prénoms
+   seulement), leur conversation (il lit et écrit) et ses notes
+   privées, jamais visibles par les membres. Un couple disparaît de sa
+   liste dès que l'un des deux membres retire le conseiller.

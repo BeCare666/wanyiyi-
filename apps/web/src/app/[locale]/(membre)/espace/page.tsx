@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { memberNav } from "@/components/member/memberNav";
+import { coupleSpace, memberNav } from "@/components/member/memberNav";
 import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { type CoupleRow, isLive } from "./couple/couple";
+import { type DiscoveryRow, groupBySection } from "./matchs/discoveries";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Member.dashboard");
@@ -33,6 +35,28 @@ async function nextEvening(): Promise<UpcomingEvening | null> {
   return all.sort((a, b) => a.startsAt.localeCompare(b.startsAt))[0] ?? null;
 }
 
+type Relations = { couple: CoupleRow | null; active: number; toChoose: number; unread: number };
+
+/** Relations du membre (phase 3) : couple en cours, découvertes ouvertes, matchs à ouvrir, messages non lus. */
+async function relations(): Promise<Relations | null> {
+  const supabase = await createSupabaseServer();
+  if (!supabase) return null;
+  const [couple, discoveries, unread] = await Promise.all([
+    supabase.rpc("my_couple"),
+    supabase.rpc("my_discoveries"),
+    supabase.rpc("my_unread_messages"),
+  ]);
+  if (couple.error || discoveries.error || unread.error) return null;
+  const sections = groupBySection((discoveries.data ?? []) as DiscoveryRow[], new Date());
+  const current = ((couple.data ?? []) as CoupleRow[])[0] ?? null;
+  return {
+    couple: current && isLive(current.status) ? current : null,
+    active: sections.active.length,
+    toChoose: sections.toChoose.length,
+    unread: ((unread.data ?? []) as { unread: number }[]).reduce((sum, row) => sum + row.unread, 0),
+  };
+}
+
 async function memberStatus(userId: string): Promise<MemberStatus | "none"> {
   const supabase = await createSupabaseServer();
   const { data } = (await supabase?.from("member_profiles").select("status").eq("user_id", userId).maybeSingle()) ?? { data: null };
@@ -41,15 +65,15 @@ async function memberStatus(userId: string): Promise<MemberStatus | "none"> {
 }
 
 /**
- * Tableau de bord (section 6.2-1) : vérification, prochaine soirée, rappel du règlement.
- * Les découvertes et messages non lus arriveront avec la phase 3.
+ * Tableau de bord (section 6.2-1) : vérification, prochaine soirée, couple ou découvertes en
+ * cours et messages non lus (phase 3), rappel du règlement.
  */
 export default async function DashboardPage() {
   const t = await getTranslations("Member.dashboard");
   const format = await getFormatter();
   const member = await getSessionMember();
   if (!member) return null;
-  const [status, evening] = await Promise.all([memberStatus(member.id), nextEvening()]);
+  const [status, evening, links] = await Promise.all([memberStatus(member.id), nextEvening(), relations()]);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -94,6 +118,25 @@ export default async function DashboardPage() {
             </ButtonLink>
           </dd>
         </div>
+
+        {links && (
+          <div className="grid gap-3 border-b border-line py-8 md:grid-cols-12 md:gap-8">
+            <dt className="eyebrow md:col-span-4">{t("relations")}</dt>
+            <dd className="md:col-span-8">
+              {links.couple ? (
+                <Link href={coupleSpace} className="font-serif text-2xl underline-offset-8 hover:underline">
+                  {t("couple", { name: links.couple.partner_first_name })}
+                </Link>
+              ) : (
+                <Link href={memberNav.matches.href} className="font-serif text-2xl underline-offset-8 hover:underline">
+                  {t("discoveries", { count: links.active })}
+                </Link>
+              )}
+              {!links.couple && links.toChoose > 0 && <p className="mt-2 text-fg-muted">{t("toChoose", { count: links.toChoose })}</p>}
+              {links.unread > 0 && <p className="mt-2 text-fg-muted">{t("unread", { count: links.unread })}</p>}
+            </dd>
+          </div>
+        )}
       </dl>
 
       <aside className="mt-14 border-l border-accent pl-6">

@@ -1,4 +1,4 @@
-import { memberNav } from "./memberNav";
+import { coupleSpace, memberNav } from "./memberNav";
 
 /** Types de notification connus, avec la page où ils mènent (les autres : texte générique). */
 const kinds = {
@@ -26,14 +26,21 @@ const kinds = {
   discovery_extended: { href: { pathname: memberNav.matches.href } },
   discovery_closed: { href: null },
   match_expired: { href: null },
-  couple_opened: { href: { pathname: memberNav.matches.href } },
+  couple_opened: { href: { pathname: coupleSpace } },
   // Conseiller du couple et blocage (question 9, 26 octobre 2026) ; le motif d'un blocage est affiché
-  counselor_access_requested: { href: null },
-  counselor_access_payment_due: { href: null },
-  counselor_assigned: { href: null },
+  counselor_access_requested: { href: { pathname: coupleSpace } },
+  counselor_access_payment_due: { href: { pathname: coupleSpace } },
+  counselor_assigned: { href: { pathname: coupleSpace } },
   counselor_access_granted: { href: null },
-  couple_blocked: { href: null },
-  couple_unblocked: { href: null },
+  couple_blocked: { href: { pathname: coupleSpace } },
+  couple_unblocked: { href: { pathname: coupleSpace } },
+  // Vie et fins du couple (questions 6 et 7, 26 octobre 2026)
+  couple_inactive: { href: null },
+  couple_paused: { href: { pathname: coupleSpace } },
+  couple_union_celebrated: { href: { pathname: coupleSpace } },
+  couple_separated: { href: null },
+  couple_ended_by_partner: { href: null },
+  couple_ended_by_partner_counselor: { href: null },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

@@ -20,6 +20,13 @@ const systemCodes = [
   "counselor_access.granted",
   "couple.blocked",
   "couple.unblocked",
+  // Vie et fins du couple (questions 6 et 7)
+  "couple.paused",
+  "couple.resumed",
+  "couple.resume_requested",
+  "couple.union_requested",
+  "couple.union_celebrated",
+  "couple.separation_requested",
 ] as const;
 
 export function systemKey(code: string): string | null {
@@ -40,6 +47,7 @@ export function ChatRoom({
   closed,
   send,
   names = {},
+  showNames = false,
 }: {
   conversationId: string;
   memberId: string;
@@ -48,6 +56,8 @@ export function ChatRoom({
   send: (conversationId: string, body: string) => Promise<ApiResult<string>>;
   /** Prénoms des participants, pour les messages système. */
   names?: Record<string, string>;
+  /** Conversation à trois (conseiller présent) : prénom au-dessus des messages des autres. */
+  showNames?: boolean;
 }) {
   const t = useTranslations("Member.chat");
   const [messages, setMessages] = useState(initial);
@@ -109,9 +119,14 @@ export function ChatRoom({
           }
           const mine = m.sender_id === memberId;
           return (
-            <li key={m.id} className={cn("flex", mine ? "justify-end" : "justify-start")}>
+            <li key={m.id} className={cn("flex flex-col", mine ? "items-end" : "items-start")}>
+              {showNames && !mine && (
+                <span aria-hidden="true" className="mb-1 text-xs text-fg-muted">
+                  {(m.sender_id && names[m.sender_id]) || t("them")}
+                </span>
+              )}
               <p className={cn("max-w-[80%] whitespace-pre-line rounded-sm px-4 py-2", mine ? "bg-fg text-bg" : "border border-line")}>
-                <span className="sr-only">{mine ? t("me") : t("them")} : </span>
+                <span className="sr-only">{mine ? t("me") : (showNames && m.sender_id && names[m.sender_id]) || t("them")} : </span>
                 {m.body}
               </p>
             </li>

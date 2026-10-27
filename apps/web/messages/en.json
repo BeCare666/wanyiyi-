@@ -546,7 +546,13 @@
         "counselor_access_granted": "A couple has been entrusted to you: you can read and write in their conversation.",
         "couple_blocked": "The team has blocked your couple's conversation.",
         "couple_unblocked": "The team has unblocked your couple's conversation.",
-        "counselor_access_payment_due": "The counselor invitation was accepted. Pay for access so the team can choose the counselor."
+        "counselor_access_payment_due": "The counselor invitation was accepted. Pay for access so the team can choose the counselor.",
+        "couple_inactive": "A couple has shown no activity for 60 days. Without activity within 14 days, it will be paused.",
+        "couple_paused": "Your couple is paused for lack of activity. To resume, both of you click “Resume” in the couple space.",
+        "couple_union_celebrated": "Congratulations: your union is recorded.",
+        "couple_separated": "Your separation is recorded. You can come back to the evenings in one month.",
+        "couple_ended_by_partner": "Your partner has ended the couple.",
+        "couple_ended_by_partner_counselor": "Your partner has ended the couple."
       }
     },
     "dashboard": {
@@ -575,7 +581,12 @@
       },
       "rulesTitle": "A reminder of the house rules",
       "rulesText": "Respect, punctuality and discretion. No contact details are exchanged before a match, and no one ever learns who said no.",
-      "rulesLink": "Read the house rules"
+      "rulesLink": "Read the house rules",
+      "relations": "My connections",
+      "couple": "Your couple with {name}",
+      "discoveries": "{count, plural, =0 {No discovery in progress} one {# discovery in progress} other {# discoveries in progress}}",
+      "toChoose": "{count, plural, one {# match to open} other {# matches to open}}",
+      "unread": "{count, plural, one {# unread message} other {# unread messages}}"
     },
     "matches": {
       "title": "My matches",
@@ -671,7 +682,8 @@
         "unread": "Unread"
       },
       "noUnread": "No unread notifications.",
-      "reason": "Reason: {reason}"
+      "reason": "Reason: {reason}",
+      "signedBy": "Message from your counselor: {name}"
     },
     "settings": {
       "title": "My settings",
@@ -1024,7 +1036,7 @@
       "waiting": "Waiting",
       "waitingHelp": "You chose to open this discovery. It will open if the other person also chooses it before {date}.",
       "couple": "Your couple",
-      "coupleHelp": "You both chose to continue. Your couple space is coming soon.",
+      "coupleHelp": "You both chose to continue: your couple space is open.",
       "ended": "Ended introductions",
       "endedMessage": "This introduction has ended.",
       "continue": "I want to continue with this person",
@@ -1045,7 +1057,8 @@
         "not_active": "This discovery has ended.",
         "unavailable": "This service is not available yet. Try again later.",
         "generic": "Something went wrong. Try again in a moment."
-      }
+      },
+      "coupleOpen": "Open the couple space"
     },
     "chat": {
       "label": "Conversation",
@@ -1074,7 +1087,113 @@
         "couple_blocked": "The team has blocked this conversation.",
         "couple_unblocked": "The team has unblocked this conversation.",
         "counselor_access_payment_due": "Waiting for {name} to pay for counselor access.",
-        "counselor_access_awaiting_assignment": "Access is paid: the team will choose the counselor."
+        "counselor_access_awaiting_assignment": "Access is paid: the team will choose the counselor.",
+        "couple_paused": "The couple is paused for lack of activity. Both of you click “Resume” to reopen the conversation.",
+        "couple_resumed": "The couple has resumed: the conversation is open again.",
+        "couple_resume_requested": "{name} wants to resume.",
+        "couple_union_requested": "{name} declared your union.",
+        "couple_union_celebrated": "Your union is recorded. Congratulations.",
+        "couple_separation_requested": "{name} asked for the separation."
+      },
+      "counselor": "Counselor"
+    },
+    "couple": {
+      "title": "Couple space",
+      "with": "With {name}",
+      "none": "You have no couple in progress. It opens when you both choose to continue a discovery.",
+      "status": {
+        "active": "Your couple is in progress. You no longer book evenings while it lasts.",
+        "paused": "Your couple is paused for lack of activity: the conversation is read-only and evenings are open to you again. Both of you click “Resume” to reopen the conversation.",
+        "union_celebrated": "Your union is recorded. Congratulations. The conversation stays readable, with no new messages.",
+        "separated": "Your couple ended in a separation. The conversation is closed. You can book an evening one month after the separation.",
+        "left": "This couple has ended. The conversation is closed."
+      },
+      "blocked": "The team has blocked this couple: the conversation is read-only and the counselor has been removed. Reason:",
+      "counselorPresent": "{name}, your counselor, takes part in the conversation.",
+      "keep": "Cancel",
+      "decisions": {
+        "title": "Decisions",
+        "recorded": "Your choice is recorded. It takes effect when the other person makes the same one.",
+        "confirm": "I confirm",
+        "resume": "Resume",
+        "resumeHelp": "The couple resumes when you both click “Resume”.",
+        "union": "Declare our union",
+        "unionHelp": "When you both declare it, the union is recorded and the conversation becomes read-only. It is erased 12 months later unless you both ask to keep it.",
+        "unionConfirm": "Declare your union? The other person will see your declaration in the conversation.",
+        "separation": "Ask for the separation",
+        "separationHelp": "When you both ask for it, the couple ends: the conversation is closed then erased after 90 days, and you can book an evening one month later.",
+        "separationConfirm": "Ask for the separation? The other person will see your request in the conversation.",
+        "keep_chat": "Keep our conversation",
+        "keep_chatHelp": "Unless you both ask, the conversation is erased 12 months after the union.",
+        "leave": "Leave the couple",
+        "leaveHelp": "You can leave on your own, at any time, without giving a reason. The couple ends at once and the other person is informed.",
+        "leaveConfirm": "Leave the couple now? The conversation will be closed immediately. This choice is final."
+      },
+      "phone": {
+        "title": "Phone numbers",
+        "share": "Share my number",
+        "private": "Numbers are shown only if you both click. The other person does not know whether you have already clicked.",
+        "waiting": "You agreed to share your number. It will be shown when the other person does too.",
+        "disabled": "Sharing your number is turned off in your settings, or no number is saved on your account.",
+        "partner": "{name}'s number:",
+        "blocked": "Number sharing is suspended during the block."
+      },
+      "dates": {
+        "title": "Dates",
+        "help": "Note your dates here. For the first ones, choose a public place.",
+        "when": "Date and time (Cotonou time)",
+        "declare": "Declare the date",
+        "byMe": "Declared by you",
+        "byPartner": "Declared by {name}"
+      },
+      "counselor": {
+        "title": "Counselor",
+        "state": {
+          "none": "You can invite a counselor into your conversation. The other person must agree; the team then chooses the counselor.",
+          "waitingOther": "You invited a counselor. The other person must agree.",
+          "toAnswer": "The other person is inviting a counselor into your conversation. Do you agree?",
+          "toPay": "The other person agreed. Pay for counselor access ({price}) so the team can choose the counselor.",
+          "waitingPayment": "You agreed. Counselor access is waiting for the other person's payment.",
+          "awaitingAssignment": "Access is paid: the team will choose your counselor.",
+          "granted": "Your counselor reads and writes in your conversation. Either of you can remove them at any time."
+        },
+        "price": "Counselor access: {price}, paid by the person who invites, after the other agrees.",
+        "history": "Show our earlier messages to the counselor",
+        "historyHelp": "Only if you both agree. Otherwise they only read messages written after they join.",
+        "invite": "Invite a counselor",
+        "accept": "Accept",
+        "refuse": "Decline",
+        "pay": "Pay {price}",
+        "noRefund": "Access is not refunded if the counselor is removed.",
+        "remove": "Remove the counselor",
+        "removeConfirm": "Remove the counselor? They leave the conversation at once. A new access will have to be paid again.",
+        "cancel": "Cancel the invitation",
+        "cancelConfirm": "Cancel the counselor invitation?"
+      },
+      "journey": {
+        "title": "Your journey",
+        "first_dates": "First dates",
+        "counselor_sessions": "Sessions with the counselor",
+        "family_introduction": "Meeting the families",
+        "dowry_or_wedding": "Dowry or wedding",
+        "celebration": "Celebration",
+        "reached": "Reached on {date}",
+        "notYet": "Ahead"
+      },
+      "errors": {
+        "not_member": "You are not part of this couple.",
+        "invalid_status": "This action is no longer possible in the couple's current state.",
+        "couple_blocked": "This couple is blocked by the team.",
+        "couple_closed": "This couple has ended.",
+        "phone_sharing_disabled": "Sharing your number is turned off in your settings.",
+        "no_phone": "No number is saved on your account.",
+        "invalid_date": "Enter a valid date and time.",
+        "access_pending": "A counselor invitation is already in progress.",
+        "not_pending": "This invitation is no longer pending.",
+        "own_request": "You cannot answer your own invitation.",
+        "nothing_to_pay": "There is nothing to pay for this access.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
       }
     }
   },
@@ -2624,5 +2743,49 @@
     "show": "Show the photo",
     "loading": "Loading…",
     "error": "The photo cannot be shown. Try again."
+  },
+  "Counselor": {
+    "areaLabel": "Counselor space",
+    "home": "Counselor space home",
+    "signOut": "Sign out",
+    "nav": {
+      "couples": "Couples followed"
+    },
+    "errors": {
+      "unavailable": "This service is not available yet. Try again later."
+    },
+    "couples": {
+      "title": "Couples followed",
+      "intro": "The couples the team has entrusted to you, as long as both members keep you in their conversation. You only see their first names.",
+      "empty": "No couple has been entrusted to you yet.",
+      "pair": "{a} and {b}",
+      "status": {
+        "active": "Couple in progress",
+        "paused": "Couple paused",
+        "union_celebrated": "Union celebrated",
+        "separated": "Separated",
+        "left": "Ended"
+      },
+      "blocked": "blocked by the team",
+      "since": "Followed since {date}",
+      "unread": "{count, plural, one {# unread message} other {# unread messages}}",
+      "upToDate": "Up to date",
+      "back": "Back to couples followed",
+      "history": "Both members agreed that you can read their earlier messages.",
+      "noHistory": "You read the messages written since you joined the conversation."
+    },
+    "notes": {
+      "title": "Private notes",
+      "private": "Your notes are never visible to members. They can no longer be read if the counselor is removed.",
+      "label": "New note",
+      "placeholder": "Your note",
+      "add": "Add the note",
+      "errors": {
+        "invalid_body": "Write a note of 4,000 characters at most.",
+        "not_counselor": "You no longer follow this couple.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
+      }
+    }
   }
 }

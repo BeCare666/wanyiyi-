@@ -19,6 +19,9 @@ export type MemberNavItem = {
 
 export const memberHome = "/espace";
 
+/** Espace du couple (9.5) : hors menu, ouvert depuis « Mes matchs », le tableau de bord et les notifications. */
+export const coupleSpace = "/espace/couple";
+
 const items = {
   dashboard: { key: "dashboard", href: memberHome, Icon: HouseLineIcon },
   evenings: { key: "evenings", href: "/espace/soirees", Icon: ChampagneIcon },

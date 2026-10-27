@@ -49,6 +49,18 @@ reports, reported_messages, photos.
   - Exclusivité branchée sur la réservation (déjà prévue par app.book).
   - Politiques RLS : chacun ne voit que ses découvertes et son couple.
   - Tests PGlite de 9.4 et 9.5.
+  Couple fait le 26 octobre 2026 (questions 6 et 7), migration
+    20261026001300_couple.sql : activité (message, étape, rendez-vous,
+    ouverture de l'espace), alerte à 60 jours (conseiller, sinon
+    administration), pause 14 jours plus tard (chat en lecture seule,
+    exclusivité levée), reprise quand les deux cliquent, union par les deux
+    (chat en lecture seule, effacé après 12 mois sauf si les deux le gardent),
+    séparation par les deux (chat fermé et illisible, effacé après 90 jours,
+    1 mois sans soirées), départ d'un seul (message signé du conseiller, sinon
+    neutre ; pas d'attente), conseiller retiré à toute fin. Tâches de l'API :
+    couple-inactivity (toutes les heures), purge-conversations (chaque nuit).
+    Tests : supabase/tests/couple.test.ts (7). Écran de l'espace du couple :
+    étape 5.
   EN COURS (26 octobre 2026) : partie découverte faite, migration
     20261026000400_decouvertes.sql : table match_choices, annonce de 8 h avec
     attente de 7 jours et choix d'office, app.choose_match, ouverture à deux
@@ -142,12 +154,45 @@ reports, reported_messages, photos.
     (question 4 encore ouverte pour les lieux partenaires). Composant commun
     ChatRoom. Reste : espace du couple (questions 6 et 7), signalement
     (question 11), tableau de bord.
+  Fait le 27 octobre 2026 : migration 20261026001400_espace_couple.sql
+    (app.share_my_phone et app.my_couple_phone : numéro de l'autre montré
+    seulement quand les deux ont cliqué, couple en cours ou en pause, jamais
+    pendant un blocage, bouton absent si le réglage est désactivé ou sans
+    numéro ; app.declare_date et app.my_couple_dates : rendez-vous déclarés
+    pendant le couple en cours, comptés comme activité ; étapes du parcours
+    lisibles par les deux ; messages non lus : app.conversation_reads,
+    app.mark_conversation_read, app.my_unread_messages). Page /espace/couple :
+    état (en cours, pause, union, séparation, départ, blocage avec motif),
+    conversation en temps réel (lecture seule en pause, bloquée ou après
+    l'union ; plus lisible après séparation ou départ), photos de l'autre,
+    parcours en 5 étapes (lecture), conseiller (inviter avec ou sans
+    historique, accepter ou refuser, payer, retirer ou annuler), rendez-vous,
+    numéros, décisions (reprendre, union, séparation, garder la conversation,
+    quitter, avec confirmation). Lien depuis « Mes matchs » ; notifications du
+    couple vers cette page ; tableau de bord : couple ou découvertes en cours,
+    matchs à ouvrir, messages non lus. Tests : base espace-couple (5), site
+    couple (6). Reste : marquer une étape du parcours (question 16),
+    « Bien rentré(e) ? » (question 5), lieux partenaires (question 4),
+    signalement (question 11).
 
 Étape 6. Espace conseiller (section 7)
   - Interface séparée de même qualité que l'administration : couples suivis,
     canaux privés, accès au chat d'un couple seulement avec les deux accords,
     agenda des séances, notes privées (jamais visibles des membres), suivi des
     étapes du couple.
+  EN COURS (27 octobre 2026), partie déjà décidée (question 9) : migration
+    20261027000000_espace_conseiller.sql (app.counselor_couples : couples
+    suivis tant que l'accès est accordé, prénoms seulement, messages non
+    lus ; notes privées app.add_counselor_note et app.counselor_couple_notes,
+    lisibles par leur auteur seul et seulement tant que son accès est en
+    cours ; lecture marquée aussi pour le conseiller). Espace séparé
+    /conseiller (coquille propre, page introuvable pour les autres rôles) :
+    couples suivis, conversation du couple (lecture et écriture, prénoms de
+    chacun au-dessus des messages), notes privées. Dans l'espace du couple,
+    les membres voient aussi qui écrit (l'autre ou le conseiller). Tests :
+    base espace-conseiller (2), site conseiller (1). Reste : agenda des
+    séances (question 9 c), canal privé (question 9 : avec quel
+    conseiller ?), suivi des étapes (question 16).
 
 Étape 7. Administration
   - Matchs et découvertes (11.2-6) : suivi, échéances, expirations.
@@ -240,6 +285,12 @@ QUESTIONS (je n'invente pas les réponses)
      connexion ?), et que change la pause (chat en lecture seule ?
      exclusivité levée, donc soirées de nouveau possibles ?). Et un couple
      sans conseiller ?
+     RÉPONSES (26 octobre 2026) : activité = message, étape du parcours,
+     rendez-vous déclaré ou ouverture de l'espace du couple ; à 60 jours sans
+     activité, alerte au conseiller (sans conseiller : à l'administration) ;
+     14 jours plus tard sans activité, pause : chat en lecture seule,
+     exclusivité levée (soirées de nouveau possibles) ; reprise quand les DEUX
+     cliquent « Reprendre ».
 
   7. Fins du couple (étape 2) :
      a) Union célébrée : qui la déclare (les deux membres, le conseiller,
@@ -250,6 +301,13 @@ QUESTIONS (je n'invente pas les réponses)
         membre ?
      c) Départ d'un seul : « l'autre est prévenu par le conseiller ». Sans
         conseiller, par un message neutre de la plateforme ?
+     RÉPONSES (26 octobre 2026) : union déclarée par les deux membres ;
+     séparation par les deux, départ par un seul ; retour aux soirées après
+     1 mois pour la séparation seulement ; départ d'un seul : l'autre reçoit un
+     message automatique signé du conseiller, ou sans conseiller un message
+     neutre de la plateforme ; conversation après un départ : comme la
+     séparation (fermée, gardée 90 jours pour la modération seulement, puis
+     effacée).
 
   8. Coordonnées dans le chat (étape 3) : faut-il bloquer les numéros, liens et
      e-mails dans le chat de découverte, comme dans les textes du profil
@@ -345,3 +403,22 @@ QUESTIONS (je n'invente pas les réponses)
      expiré ou la découverte fermée, l'autre personne ne voit plus les photos
      (règle codée, la plus protectrice). D'accord ? Et après une séparation du
      couple (question 7) : même règle ?
+
+ 16. Parcours du couple en 5 étapes (étape 5) : Premiers rendez-vous, Séances
+     avec le conseiller, Présentation aux familles, Dot ou mariage,
+     Célébration. Qui marque une étape comme franchie : l'un des deux, les
+     deux (comme l'union), le conseiller, ou l'équipe ? Une date et une note
+     sont-elles saisies ? Une étape peut-elle être annulée ? Pour l'instant,
+     les étapes sont seulement affichées (« À venir »).
+
+ 17. Partage des numéros (étape 5) : un membre peut-il retirer son accord
+     après avoir cliqué « Partager mon numéro » ? Et après l'union célébrée,
+     les numéros restent-ils affichés ? Pour l'instant : pas de retrait ;
+     numéros affichés seulement pendant le couple en cours ou en pause, et
+     jamais pendant un blocage (règle la plus protectrice).
+
+ 18. Notes privées du conseiller (étape 6) : une fois le conseiller retiré
+     par l'un des deux (ou le couple terminé), peut-il encore relire ses
+     propres notes sur ce couple ? Faut-il les effacer, et après combien de
+     temps ? Pour l'instant : plus lisibles dès le retrait (règle la plus
+     protectrice), gardées dans la base sans effacement programmé.

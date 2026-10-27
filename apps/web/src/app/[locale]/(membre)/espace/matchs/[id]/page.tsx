@@ -49,6 +49,8 @@ export default async function DiscoveryPage({ params }: Props) {
       ? supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", conversation.id).order("created_at").limit(500)
       : Promise.resolve({ data: [] as ChatMessage[] }),
   ]);
+  // Conversation affichée : elle ne compte plus dans les messages non lus du tableau de bord
+  if (conversation) await supabase.rpc("mark_conversation_read", { p_conversation: conversation.id });
   const active = row.discovery_status === "active" || row.discovery_status === "extended";
 
   return (

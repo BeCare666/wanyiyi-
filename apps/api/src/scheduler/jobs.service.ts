@@ -12,6 +12,7 @@ import { SupabaseService } from "../supabase/supabase.service";
  * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h ;
  * - fin des découvertes à 14 jours (21 avec la prolongation) et des matchs non ouverts à 7 jours
  *   (phase 3, 9.4), message neutre aux deux ;
+ * - couples : alerte d'inactivité, pause, effacement des conversations échues (9.5, phase 3) ;
  * - remboursement des soirées annulées (relance si un remboursement a échoué) ;
  * - envoi par SMS et e-mail des notifications des actions groupées (chaque minute) ;
  * - effacement des comptes supprimés depuis 30 jours (chaque nuit, question 17).
@@ -124,6 +125,26 @@ export class JobsService {
     const { data: count, error } = await db.rpc("expire_discoveries");
     if (error) return this.logger.error(`Fin des découvertes : ${error.message}`);
     if (count) this.logger.log(`${count} découverte(s) ou match(s) arrivé(s) à échéance`);
+  }
+
+  /** Couples sans activité : alerte à 60 jours, pause 14 jours plus tard (9.5, question 6). */
+  @Cron("0 * * * *", { name: "couple-inactivity", timeZone: "Africa/Porto-Novo" })
+  async coupleInactivity() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("inactivité des couples (alerte et pause)");
+    const { data: count, error } = await db.rpc("couple_inactivity");
+    if (error) return this.logger.error(`Inactivité des couples : ${error.message}`);
+    if (count) this.logger.log(`${count} couple(s) alerté(s) ou mis en pause`);
+  }
+
+  /** Conversations échues effacées : 90 jours après une séparation ou un départ, 12 mois après l'union (9.5). */
+  @Cron("30 3 * * *", { name: "purge-conversations", timeZone: "Africa/Porto-Novo" })
+  async purgeConversations() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("effacement des conversations échues");
+    const { data: count, error } = await db.rpc("purge_conversations");
+    if (error) return this.logger.error(`Effacement des conversations : ${error.message}`);
+    if (count) this.logger.log(`${count} message(s) effacé(s)`);
   }
 
   @Cron("*/5 * * * *", { name: "refund-cancelled-evenings", timeZone: "Africa/Porto-Novo" })

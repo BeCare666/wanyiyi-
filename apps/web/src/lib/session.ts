@@ -23,6 +23,8 @@ export type SessionNotification = {
   reason: string | null;
   /** Message de l'équipe (action groupée), dans la langue affichée. */
   message: string | null;
+  /** Conseiller qui signe le message (départ d'un membre du couple, question 7). */
+  signedBy: string | null;
 };
 
 function initialsOf(firstName: string | null, lastName: string | null): string {
@@ -78,6 +80,7 @@ export async function getRecentNotifications(
       read: n.read_at !== null,
       reason: typeof n.payload?.reason === "string" ? n.payload.reason : null,
       message: teamMessage(n.payload, locale),
+      signedBy: typeof n.payload?.counselor === "string" ? n.payload.counselor : null,
     })),
     unread: count ?? 0,
   };

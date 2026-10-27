@@ -546,7 +546,13 @@
         "counselor_access_granted": "A ti fi tọkọtaya kan lé yín lọ́wọ́: ẹ lè ka àti kọ̀wé nínú ìfọ̀rọ̀wérọ̀ wọn.",
         "couple_blocked": "Ẹgbẹ́ ti dí ìfọ̀rọ̀wérọ̀ tọkọtaya yín.",
         "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ tọkọtaya yín padà.",
-        "counselor_access_payment_due": "A ti gba ìpè olùdámọ̀ràn. Ẹ san owó ìwọlé kí ẹgbẹ́ lè yan olùdámọ̀ràn."
+        "counselor_access_payment_due": "A ti gba ìpè olùdámọ̀ràn. Ẹ san owó ìwọlé kí ẹgbẹ́ lè yan olùdámọ̀ràn.",
+        "couple_inactive": "Tọkọtaya kan kò ní ìgbòkègbodò kankan fún ọjọ́ 60. Tí kò bá sí ìgbòkègbodò láàrin ọjọ́ 14, a ó dá a dúró.",
+        "couple_paused": "A ti dá tọkọtaya yín dúró nítorí àìsí ìgbòkègbodò. Láti tẹ̀síwájú, ẹ̀yin méjèèjì ẹ tẹ « Tẹ̀síwájú » nínú àyè tọkọtaya.",
+        "couple_union_celebrated": "Ẹ kú oríire: a ti forúkọ ìgbéyàwó yín sílẹ̀.",
+        "couple_separated": "A ti forúkọ ìpínyà yín sílẹ̀. Ẹ lè padà sí àwọn ìpàdé alẹ́ lẹ́yìn oṣù kan.",
+        "couple_ended_by_partner": "Ẹnìkejì yín ti fòpin sí tọkọtaya náà.",
+        "couple_ended_by_partner_counselor": "Ẹnìkejì yín ti fòpin sí tọkọtaya náà."
       }
     },
     "dashboard": {
@@ -575,7 +581,12 @@
       },
       "rulesTitle": "Ìrántí òfin",
       "rulesText": "Ọ̀wọ̀, àsìkò àti àṣírí. A kì í pín nọ́mbà ẹnikẹ́ni ṣáájú ìfohùnṣọ̀kan, kò sì sí ẹni tí yóò mọ ẹni tó sọ pé rárá.",
-      "rulesLink": "Ka òfin"
+      "rulesLink": "Ka òfin",
+      "relations": "Àwọn ìbáṣepọ̀ mi",
+      "couple": "Tọkọtaya yín pẹ̀lú {name}",
+      "discoveries": "{count, plural, =0 {Kò sí ìmọ̀ra kankan tí ń lọ lọ́wọ́} other {Ìmọ̀ra # ń lọ lọ́wọ́}}",
+      "toChoose": "{count, plural, other {Ìfohùnṣọ̀kan # láti ṣí}}",
+      "unread": "{count, plural, other {Ọ̀rọ̀ # tí a kò tíì kà}}"
     },
     "matches": {
       "title": "Ìfohùnṣọ̀kan mi",
@@ -671,7 +682,8 @@
         "unread": "Èyí tí a kò tíì kà"
       },
       "noUnread": "Kò sí ìfitónilétí tí a kò tíì kà.",
-      "reason": "Ìdí: {reason}"
+      "reason": "Ìdí: {reason}",
+      "signedBy": "Ọ̀rọ̀ láti ọ̀dọ̀ olùdámọ̀ràn yín: {name}"
     },
     "settings": {
       "title": "Ètò mi",
@@ -1024,7 +1036,7 @@
       "waiting": "Ń dúró",
       "waitingHelp": "Ẹ ti yàn láti ṣí ìmọ̀ra ẹni yìí. Yóò ṣí tí ẹnìkejì bá yàn án pẹ̀lú kí {date} tó dé.",
       "couple": "Tọkọtaya yín",
-      "coupleHelp": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú. Àyè tọkọtaya yín ń bọ̀ láìpẹ́.",
+      "coupleHelp": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú: àyè tọkọtaya yín ti ṣí.",
       "ended": "Ìfìmọ̀ra ẹni tó ti parí",
       "endedMessage": "Ìfìmọ̀ra ẹni yìí ti parí.",
       "continue": "Mo fẹ́ tẹ̀síwájú pẹ̀lú ẹni yìí",
@@ -1045,7 +1057,8 @@
         "not_active": "Ìmọ̀ra ẹni yìí ti parí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
-      }
+      },
+      "coupleOpen": "Ṣí àyè tọkọtaya"
     },
     "chat": {
       "label": "Ìfọ̀rọ̀wérọ̀",
@@ -1074,7 +1087,113 @@
         "couple_blocked": "Ẹgbẹ́ ti dí ìfọ̀rọ̀wérọ̀ yìí.",
         "couple_unblocked": "Ẹgbẹ́ ti ṣí ìfọ̀rọ̀wérọ̀ yìí padà.",
         "counselor_access_payment_due": "Ń dúró de ìsanwó ìwọlé olùdámọ̀ràn láti ọ̀dọ̀ {name}.",
-        "counselor_access_awaiting_assignment": "A ti san owó ìwọlé: ẹgbẹ́ yóò yan olùdámọ̀ràn."
+        "counselor_access_awaiting_assignment": "A ti san owó ìwọlé: ẹgbẹ́ yóò yan olùdámọ̀ràn.",
+        "couple_paused": "A ti dá tọkọtaya dúró nítorí àìsí ìgbòkègbodò. Ẹ̀yin méjèèjì ẹ tẹ « Tẹ̀síwájú » láti ṣí ìfọ̀rọ̀wérọ̀ padà.",
+        "couple_resumed": "Tọkọtaya ti tẹ̀síwájú: ìfọ̀rọ̀wérọ̀ ti ṣí padà.",
+        "couple_resume_requested": "{name} fẹ́ tẹ̀síwájú.",
+        "couple_union_requested": "{name} ti kéde ìgbéyàwó yín.",
+        "couple_union_celebrated": "A ti forúkọ ìgbéyàwó yín sílẹ̀. Ẹ kú oríire.",
+        "couple_separation_requested": "{name} ti béèrè ìpínyà."
+      },
+      "counselor": "Olùdámọ̀ràn"
+    },
+    "couple": {
+      "title": "Àyè tọkọtaya",
+      "with": "Pẹ̀lú {name}",
+      "none": "Ẹ kò ní tọkọtaya kankan lọ́wọ́lọ́wọ́. Ó máa ń ṣí nígbà tí ẹ̀yin méjèèjì bá yàn láti tẹ̀síwájú nínú ìmọ̀ra kan.",
+      "status": {
+        "active": "Tọkọtaya yín ń lọ lọ́wọ́. Ẹ kò ní forúkọ sílẹ̀ fún ìrọ̀lẹ́ mọ́ nígbà tí ó bá ń lọ.",
+        "paused": "A ti dá tọkọtaya yín dúró nítorí àìsí ìgbòkègbodò: ìfọ̀rọ̀wérọ̀ wà fún kíkà nìkan, ìrọ̀lẹ́ sì ti ṣí sílẹ̀ fún yín padà. Ẹ̀yin méjèèjì ẹ tẹ « Tẹ̀síwájú » láti ṣí ìfọ̀rọ̀wérọ̀ padà.",
+        "union_celebrated": "A ti forúkọ ìgbéyàwó yín sílẹ̀. Ẹ kú oríire. Ẹ ṣì lè ka ìfọ̀rọ̀wérọ̀, ṣùgbọ́n kò sí ọ̀rọ̀ tuntun.",
+        "separated": "Tọkọtaya yín parí pẹ̀lú ìpínyà. A ti ti ìfọ̀rọ̀wérọ̀. Ẹ lè forúkọ sílẹ̀ fún ìrọ̀lẹ́ ní oṣù kan lẹ́yìn ìpínyà.",
+        "left": "Tọkọtaya yìí ti parí. A ti ti ìfọ̀rọ̀wérọ̀."
+      },
+      "blocked": "Ẹgbẹ́ ti dí tọkọtaya yìí: ìfọ̀rọ̀wérọ̀ wà fún kíkà nìkan, a sì ti yọ olùdámọ̀ràn kúrò. Ìdí:",
+      "counselorPresent": "{name}, olùdámọ̀ràn yín, ń kópa nínú ìfọ̀rọ̀wérọ̀.",
+      "keep": "Fagilé",
+      "decisions": {
+        "title": "Àwọn ìpinnu",
+        "recorded": "A ti gba ìpinnu yín sílẹ̀. Yóò ṣiṣẹ́ nígbà tí ẹnì kejì bá ṣe ìpinnu kan náà.",
+        "confirm": "Mo fọwọ́ sí i",
+        "resume": "Tẹ̀síwájú",
+        "resumeHelp": "Tọkọtaya yóò tẹ̀síwájú nígbà tí ẹ̀yin méjèèjì bá tẹ « Tẹ̀síwájú ».",
+        "union": "Kéde ìgbéyàwó wa",
+        "unionHelp": "Nígbà tí ẹ̀yin méjèèjì bá kéde rẹ̀, a ó forúkọ ìgbéyàwó sílẹ̀, ìfọ̀rọ̀wérọ̀ yóò sì wà fún kíkà nìkan. A ó pa á rẹ́ lẹ́yìn oṣù 12 àyàfi tí ẹ̀yin méjèèjì bá béèrè láti pa á mọ́.",
+        "unionConfirm": "Ṣé ẹ fẹ́ kéde ìgbéyàwó yín? Ẹnì kejì yóò rí ìkéde yín nínú ìfọ̀rọ̀wérọ̀.",
+        "separation": "Béèrè ìpínyà",
+        "separationHelp": "Nígbà tí ẹ̀yin méjèèjì bá béèrè rẹ̀, tọkọtaya yóò parí: a ó ti ìfọ̀rọ̀wérọ̀, a ó sì pa á rẹ́ lẹ́yìn ọjọ́ 90, ẹ ó sì lè forúkọ sílẹ̀ fún ìrọ̀lẹ́ ní oṣù kan lẹ́yìn náà.",
+        "separationConfirm": "Ṣé ẹ fẹ́ béèrè ìpínyà? Ẹnì kejì yóò rí ìbéèrè yín nínú ìfọ̀rọ̀wérọ̀.",
+        "keep_chat": "Pa ìfọ̀rọ̀wérọ̀ wa mọ́",
+        "keep_chatHelp": "Láìsí ìbéèrè ẹ̀yin méjèèjì, a ó pa ìfọ̀rọ̀wérọ̀ rẹ́ ní oṣù 12 lẹ́yìn ìgbéyàwó.",
+        "leave": "Kúrò nínú tọkọtaya",
+        "leaveHelp": "Ẹ lè kúrò fúnra yín, nígbàkígbà, láìsí àlàyé. Tọkọtaya yóò parí lẹ́sẹ̀kẹsẹ̀, a ó sì sọ fún ẹnì kejì.",
+        "leaveConfirm": "Ṣé ẹ fẹ́ kúrò nínú tọkọtaya báyìí? A ó ti ìfọ̀rọ̀wérọ̀ lẹ́sẹ̀kẹsẹ̀. Ìpinnu yìí kò ṣeé yípadà."
+      },
+      "phone": {
+        "title": "Nọ́mbà fóònù",
+        "share": "Pín nọ́mbà mi",
+        "private": "A ó fi nọ́mbà hàn kìkì tí ẹ̀yin méjèèjì bá tẹ̀ ẹ́. Ẹnì kejì kò mọ̀ bóyá ẹ ti tẹ̀ ẹ́.",
+        "waiting": "Ẹ ti gbà láti pín nọ́mbà yín. A ó fi hàn nígbà tí ẹnì kejì bá ṣe bẹ́ẹ̀ pẹ̀lú.",
+        "disabled": "Pípín nọ́mbà yín ti wà ní pípa nínú ètò yín, tàbí kò sí nọ́mbà kankan lórí àkọọ́lẹ̀ yín.",
+        "partner": "Nọ́mbà {name}:",
+        "blocked": "A ti dá pípín nọ́mbà dúró nígbà tí ìdènà bá wà."
+      },
+      "dates": {
+        "title": "Ìpàdé",
+        "help": "Ẹ kọ àwọn ìpàdé yín sílẹ̀ níbí. Fún àwọn àkọ́kọ́, ẹ yan ibi tí gbogbo ènìyàn ń lọ.",
+        "when": "Ọjọ́ àti àkókò (àkókò Cotonou)",
+        "declare": "Kéde ìpàdé",
+        "byMe": "Ẹ̀yin ni ẹ kéde rẹ̀",
+        "byPartner": "{name} ni ó kéde rẹ̀"
+      },
+      "counselor": {
+        "title": "Olùdámọ̀ràn",
+        "state": {
+          "none": "Ẹ lè pe olùdámọ̀ràn sínú ìfọ̀rọ̀wérọ̀ yín. Ẹnì kejì gbọ́dọ̀ gbà; lẹ́yìn náà ẹgbẹ́ yóò yan olùdámọ̀ràn.",
+          "waitingOther": "Ẹ ti pe olùdámọ̀ràn. Ẹnì kejì gbọ́dọ̀ gbà.",
+          "toAnswer": "Ẹnì kejì ń pe olùdámọ̀ràn sínú ìfọ̀rọ̀wérọ̀ yín. Ṣé ẹ gbà?",
+          "toPay": "Ẹnì kejì ti gbà. Ẹ san owó ìwọlé olùdámọ̀ràn ({price}) kí ẹgbẹ́ lè yàn án.",
+          "waitingPayment": "Ẹ ti gbà. Ìwọlé olùdámọ̀ràn ń dúró de ìsanwó ẹnì kejì.",
+          "awaitingAssignment": "A ti san owó ìwọlé: ẹgbẹ́ yóò yan olùdámọ̀ràn yín.",
+          "granted": "Olùdámọ̀ràn yín ń kà, ó sì ń kọ̀wé nínú ìfọ̀rọ̀wérọ̀ yín. Ẹnìkọ̀ọ̀kan yín lè yọ ọ́ kúrò nígbàkígbà."
+        },
+        "price": "Ìwọlé olùdámọ̀ràn: {price}, ẹni tí ó pè ni yóò san án, lẹ́yìn tí ẹnì kejì bá gbà.",
+        "history": "Fi àwọn ọ̀rọ̀ wa àtẹ̀yìnwá han olùdámọ̀ràn",
+        "historyHelp": "Kìkì tí ẹ̀yin méjèèjì bá gbà. Bí bẹ́ẹ̀ kọ́, yóò ka àwọn ọ̀rọ̀ tí a kọ lẹ́yìn tí ó dé nìkan.",
+        "invite": "Pe olùdámọ̀ràn",
+        "accept": "Gbà",
+        "refuse": "Kọ̀",
+        "pay": "San {price}",
+        "noRefund": "A kò ní dá owó ìwọlé padà bí a bá yọ olùdámọ̀ràn kúrò.",
+        "remove": "Yọ olùdámọ̀ràn kúrò",
+        "removeConfirm": "Ṣé ẹ fẹ́ yọ olùdámọ̀ràn kúrò? Yóò kúrò nínú ìfọ̀rọ̀wérọ̀ lẹ́sẹ̀kẹsẹ̀. Ìwọlé tuntun yóò nílò ìsanwó tuntun.",
+        "cancel": "Fagilé ìpè",
+        "cancelConfirm": "Ṣé ẹ fẹ́ fagilé ìpè olùdámọ̀ràn?"
+      },
+      "journey": {
+        "title": "Ìrìn àjò yín",
+        "first_dates": "Àwọn ìpàdé àkọ́kọ́",
+        "counselor_sessions": "Ìjókòó pẹ̀lú olùdámọ̀ràn",
+        "family_introduction": "Ìfihàn sí àwọn ẹbí",
+        "dowry_or_wedding": "Owó orí tàbí ìgbéyàwó",
+        "celebration": "Ayẹyẹ",
+        "reached": "A dé ibẹ̀ ní {date}",
+        "notYet": "Ó ń bọ̀"
+      },
+      "errors": {
+        "not_member": "Ẹ kì í ṣe ara tọkọtaya yìí.",
+        "invalid_status": "Iṣẹ́ yìí kò ṣeé ṣe mọ́ ní ipò tí tọkọtaya wà báyìí.",
+        "couple_blocked": "Ẹgbẹ́ ti dí tọkọtaya yìí.",
+        "couple_closed": "Tọkọtaya yìí ti parí.",
+        "phone_sharing_disabled": "Pípín nọ́mbà yín ti wà ní pípa nínú ètò yín.",
+        "no_phone": "Kò sí nọ́mbà kankan lórí àkọọ́lẹ̀ yín.",
+        "invalid_date": "Ẹ tẹ ọjọ́ àti àkókò tí ó tọ́.",
+        "access_pending": "Ìpè olùdámọ̀ràn kan ti ń lọ lọ́wọ́.",
+        "not_pending": "Ìpè yìí kò sí ní ìdúró mọ́.",
+        "own_request": "Ẹ kò lè dáhùn ìpè tí ẹ fúnra yín ṣe.",
+        "nothing_to_pay": "Kò sí nǹkan láti san fún ìwọlé yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
       }
     }
   },
@@ -2624,5 +2743,49 @@
     "show": "Fi fọ́tò hàn",
     "loading": "Ó ń bọ̀…",
     "error": "A kò lè fi fọ́tò náà hàn. Ẹ tún gbìyànjú."
+  },
+  "Counselor": {
+    "areaLabel": "Àyè olùdámọ̀ràn",
+    "home": "Ojú-ìwé àkọ́kọ́ àyè olùdámọ̀ràn",
+    "signOut": "Jáde",
+    "nav": {
+      "couples": "Àwọn tọkọtaya tí mo ń tọ́jú"
+    },
+    "errors": {
+      "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn."
+    },
+    "couples": {
+      "title": "Àwọn tọkọtaya tí mo ń tọ́jú",
+      "intro": "Àwọn tọkọtaya tí ẹgbẹ́ fi lé yín lọ́wọ́, níwọ̀n ìgbà tí àwọn méjèèjì bá ṣì fẹ́ yín nínú ìfọ̀rọ̀wérọ̀ wọn. Orúkọ àkọ́kọ́ wọn nìkan ni ẹ ń rí.",
+      "empty": "Kò sí tọkọtaya kankan tí a fi lé yín lọ́wọ́ báyìí.",
+      "pair": "{a} àti {b}",
+      "status": {
+        "active": "Tọkọtaya ń lọ lọ́wọ́",
+        "paused": "A ti dá tọkọtaya dúró",
+        "union_celebrated": "A ti ṣe ìgbéyàwó",
+        "separated": "Wọ́n ti pínyà",
+        "left": "Ó ti parí"
+      },
+      "blocked": "ẹgbẹ́ ti dí i",
+      "since": "Ẹ ti ń tọ́jú wọn láti {date}",
+      "unread": "{count, plural, other {Ọ̀rọ̀ # tí a kò tíì kà}}",
+      "upToDate": "Kò sí ọ̀rọ̀ tuntun",
+      "back": "Padà sí àwọn tọkọtaya tí mo ń tọ́jú",
+      "history": "Àwọn méjèèjì ti gbà kí ẹ ka àwọn ọ̀rọ̀ wọn àtẹ̀yìnwá.",
+      "noHistory": "Ẹ ń ka àwọn ọ̀rọ̀ tí a kọ láti ìgbà tí ẹ dé inú ìfọ̀rọ̀wérọ̀."
+    },
+    "notes": {
+      "title": "Àkọsílẹ̀ àdáni",
+      "private": "Àwọn ọmọ ẹgbẹ́ kò lè rí àkọsílẹ̀ yín láé. Ẹ kò ní lè kà wọ́n mọ́ bí a bá yọ olùdámọ̀ràn kúrò.",
+      "label": "Àkọsílẹ̀ tuntun",
+      "placeholder": "Àkọsílẹ̀ yín",
+      "add": "Fi àkọsílẹ̀ kún un",
+      "errors": {
+        "invalid_body": "Ẹ kọ àkọsílẹ̀ tí kò ju ẹgbẹ̀rún mẹ́rin lẹ́tà lọ.",
+        "not_counselor": "Ẹ kò tọ́jú tọkọtaya yìí mọ́.",
+        "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+      }
+    }
   }
 }

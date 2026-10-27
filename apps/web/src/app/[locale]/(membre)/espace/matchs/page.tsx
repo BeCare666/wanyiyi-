@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { coupleSpace } from "@/components/member/memberNav";
 import { Link } from "@/i18n/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { canAskExtension, canChoose, daysLeft, type DiscoveryRow, groupBySection } from "./discoveries";
@@ -127,6 +128,9 @@ export default async function MatchesPage() {
                   <li key={row.match_id} className="border-b border-line py-7">
                     <p className="font-serif text-3xl">{row.partner_first_name}</p>
                     <p className="mt-2 text-sm text-fg-muted">{t("discoveries.coupleHelp")}</p>
+                    <Link href={coupleSpace} className="mt-4 inline-flex min-h-12 items-center text-link underline-offset-4 hover:underline">
+                      {t("discoveries.coupleOpen")}
+                    </Link>
                   </li>
                 ))}
               </ol>
