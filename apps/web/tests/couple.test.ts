@@ -8,7 +8,9 @@ import {
   counselorState,
   cotonouToIso,
   isLive,
+  milestoneState,
 } from "../src/app/[locale]/(membre)/espace/couple/couple";
+import { systemMessage } from "../src/components/member/chatSystem";
 import { notificationHref } from "../src/components/member/notificationKinds";
 
 /** Espace du couple (9.5 ; questions 6, 7, 9 et 10 d de la phase 3) : ce que le membre voit et peut faire. */
@@ -84,5 +86,26 @@ describe("notifications du couple", () => {
       expect(notificationHref(kind)).toEqual({ pathname: "/espace/couple" });
     }
     expect(notificationHref("couple.separated")).toBeNull();
+    // « Bien rentré(e) ? » : réponse sur le tableau de bord
+    expect(notificationHref("date.checkin")).toEqual({ pathname: "/espace" });
+    expect(notificationHref("date.help_requested")).toBeNull();
+  });
+});
+
+describe("parcours (question 16)", () => {
+  const row = (over: object) => ({ kind: "first_dates" as const, reached_at: null, i_confirmed_reach: false, i_confirmed_remove: false, ...over });
+  it("confirmation à deux ; séances automatiques", () => {
+    expect(milestoneState(row({}))).toBe("reach");
+    expect(milestoneState(row({ i_confirmed_reach: true }))).toBe("waitingReach");
+    expect(milestoneState(row({ reached_at: "2026-10-20T11:00:00Z" }))).toBe("reached");
+    expect(milestoneState(row({ reached_at: "2026-10-20T11:00:00Z", i_confirmed_remove: true }))).toBe("waitingRemove");
+    expect(milestoneState(row({ kind: "counselor_sessions" }))).toBe("auto");
+  });
+
+  it("messages système avec l'étape", () => {
+    expect(systemMessage("milestone.reached:celebration")).toEqual({ key: "milestone_reached", step: "celebration" });
+    expect(systemMessage("couple.paused")).toEqual({ key: "couple_paused", step: null });
+    expect(systemMessage("milestone.reached:inconnue")).toBeNull();
+    expect(systemMessage("autre.code")).toBeNull();
   });
 });

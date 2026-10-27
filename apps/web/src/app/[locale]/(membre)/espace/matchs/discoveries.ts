@@ -59,6 +59,16 @@ export function canChoose(row: DiscoveryRow): boolean {
 }
 
 /** Prolongation encore possible : une seule, découverte pas encore prolongée. */
-export function canAskExtension(row: DiscoveryRow): boolean {
-  return row.discovery_status === "active" && !row.extended;
+/** La prolongation se demande pendant les 4 derniers jours seulement (question 3, 27 octobre 2026). */
+export const EXTENSION_WINDOW_DAYS = 4;
+
+/**
+ * Bouton de prolongation : découverte active, pas encore prolongée, pendant ses 4 derniers jours ;
+ * toujours affiché pour retirer une demande déjà faite.
+ */
+export function canAskExtension(row: DiscoveryRow, now: Date): boolean {
+  if (row.discovery_status !== "active" || row.extended || !row.ends_at) return false;
+  const end = new Date(row.ends_at).getTime();
+  if (now.getTime() >= end) return false;
+  return row.i_want_extension || now.getTime() >= end - EXTENSION_WINDOW_DAYS * 86_400_000;
 }

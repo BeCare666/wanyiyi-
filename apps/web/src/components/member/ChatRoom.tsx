@@ -6,32 +6,11 @@ import { Button, fieldClass } from "@/components/ui/Button";
 import type { ApiResult } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
+import { systemMessage } from "./chatSystem";
+import { ReportForm, type ReportReason } from "./ReportForm";
 
 export type ChatMessage = { id: string; sender_id: string | null; body: string; created_at: string; is_system?: boolean };
 
-/** Messages système du chat du couple (question 9) : code envoyé par la base, texte traduit ici. */
-const systemCodes = [
-  "counselor_access.requested",
-  "counselor_access.accepted",
-  "counselor_access.payment_due",
-  "counselor_access.awaiting_assignment",
-  "counselor_access.refused",
-  "counselor_access.revoked",
-  "counselor_access.granted",
-  "couple.blocked",
-  "couple.unblocked",
-  // Vie et fins du couple (questions 6 et 7)
-  "couple.paused",
-  "couple.resumed",
-  "couple.resume_requested",
-  "couple.union_requested",
-  "couple.union_celebrated",
-  "couple.separation_requested",
-] as const;
-
-export function systemKey(code: string): string | null {
-  return (systemCodes as readonly string[]).includes(code) ? code.replace(".", "_") : null;
-}
 
 const knownErrors = new Set(["contact_blocked", "conversation_closed", "invalid_body", "not_member", "unavailable"]);
 
@@ -48,6 +27,7 @@ export function ChatRoom({
   send,
   names = {},
   showNames = false,
+  report,
 }: {
   conversationId: string;
   memberId: string;
@@ -58,13 +38,18 @@ export function ChatRoom({
   names?: Record<string, string>;
   /** Conversation à trois (conseiller présent) : prénom au-dessus des messages des autres. */
   showNames?: boolean;
+  /** Signalement (question 11) : d'un message (son identifiant) ou de toute la conversation (null). */
+  report?: (conversationId: string, messageId: string | null, reason: ReportReason, details: string) => Promise<ApiResult<string>>;
 }) {
   const t = useTranslations("Member.chat");
+  const tj = useTranslations("Member.couple.journey");
   const [messages, setMessages] = useState(initial);
   const [draft, setDraft] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const end = useRef<HTMLDivElement>(null);
+  /** Signalement ouvert : identifiant du message, « conversation », ou rien. */
+  const [reporting, setReporting] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowser();
@@ -110,10 +95,12 @@ export function ChatRoom({
         {messages.length === 0 && <li className="text-sm text-fg-muted">{t("empty")}</li>}
         {messages.map((m) => {
           if (m.is_system) {
-            const key = systemKey(m.body);
+            const sys = systemMessage(m.body);
             return (
               <li key={m.id} className="text-center text-xs text-fg-muted">
-                {key ? t(`system.${key}`, { name: (m.sender_id && names[m.sender_id]) || t("them") }) : null}
+                {sys
+                  ? t(`system.${sys.key}`, { name: (m.sender_id && names[m.sender_id]) || t("them"), step: sys.step ? tj(sys.step) : "" })
+                  : null}
               </li>
             );
           }
@@ -129,11 +116,31 @@ export function ChatRoom({
                 <span className="sr-only">{mine ? t("me") : (showNames && m.sender_id && names[m.sender_id]) || t("them")} : </span>
                 {m.body}
               </p>
+              {report && !mine && reporting !== m.id && (
+                <button type="button" onClick={() => setReporting(m.id)} className="mt-1 min-h-8 text-xs text-fg-muted underline-offset-4 hover:underline">
+                  {t("reportMessage")}
+                </button>
+              )}
+              {report && reporting === m.id && (
+                <ReportForm onSubmit={(reason, details) => report(conversationId, m.id, reason, details)} onClose={() => setReporting(null)} />
+              )}
             </li>
           );
         })}
         <div ref={end} />
       </ol>
+
+      {report && (
+        <div className="mt-4">
+          {reporting === "conversation" ? (
+            <ReportForm onSubmit={(reason, details) => report(conversationId, null, reason, details)} onClose={() => setReporting(null)} />
+          ) : (
+            <button type="button" onClick={() => setReporting("conversation")} className="min-h-11 text-sm text-fg-muted underline-offset-4 hover:underline">
+              {t("reportConversation")}
+            </button>
+          )}
+        </div>
+      )}
 
       {closed ? (
         <p className="mt-6 border-l border-line pl-4 text-sm text-fg-muted">{t("closed")}</p>

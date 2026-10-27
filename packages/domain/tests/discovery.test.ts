@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   automaticChoices,
   canChooseMatch,
+  canRequestExtension,
   CLOSED_MESSAGE,
   type Discovery,
   discoveriesClosedByCouple,
@@ -86,6 +87,14 @@ describe("Découverte 9.4 : déroulement et fin", () => {
     { memberId: "afiwa", wantsToContinue: continueA, wantsExtension: extA },
     { memberId: "koffi", wantsToContinue: continueB, wantsExtension: extB },
   ];
+
+  it("prolongation demandable seulement pendant les 4 derniers jours (question 3)", () => {
+    expect(canRequestExtension(d, later(9))).toBe(false);
+    expect(canRequestExtension(d, later(10))).toBe(true);
+    expect(canRequestExtension(d, later(13.9))).toBe(true);
+    expect(canRequestExtension(d, later(14))).toBe(false);
+    expect(canRequestExtension({ ...d, extended: true }, later(12))).toBe(false);
+  });
 
   it("14 jours, 21 avec la prolongation", () => {
     expect(discoveryEndsAt(d).getTime()).toBe(later(14).getTime());

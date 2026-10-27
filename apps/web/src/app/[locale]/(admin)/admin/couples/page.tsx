@@ -9,6 +9,7 @@ import { cn } from "@/lib/cn";
 import { getStaffMember } from "@/lib/staff";
 import { type AdminCoupleRow, INACTIVITY_ALERT_DAYS, pairLabel } from "../decouvertes/relations";
 import { CoupleBlock } from "./CoupleBlock";
+import { CounselorNotes } from "./CounselorNotes";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Admin.nav");
@@ -95,6 +96,7 @@ export default async function AdminCouplesPage({ searchParams }: Props) {
                           </span>
                         )}
                         {canBlock && (row.status === "active" || row.status === "paused") && <CoupleBlock coupleId={row.id} blocked={row.blocked_at !== null} />}
+                        {canBlock && <CounselorNotes coupleId={row.id} />}
                       </td>
                     )}
                     {show("counselor") && <td className="md:py-4 md:pr-4">{row.counselor_name ?? t("couples.noCounselor")}</td>}

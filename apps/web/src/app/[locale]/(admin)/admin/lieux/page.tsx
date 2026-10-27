@@ -6,8 +6,10 @@ import { encodeListFilter, formatListSort, listFilterQuery, parseListPage, parse
 import { loadListPage } from "@/components/admin/listPage";
 import { ListPager, ListSummary } from "@/components/admin/ListTools";
 import { getStaffMember } from "@/lib/staff";
+import { createSupabaseServer } from "@/lib/supabase/server";
 import { VenueForm } from "./VenueForm";
-import type { VenueRow } from "./venues";
+import { FirstDateEditor } from "./FirstDateEditor";
+import type { FirstDateRow, VenueRow } from "./venues";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Admin.nav");
@@ -30,6 +32,12 @@ export default async function AdminVenuesPage({ searchParams }: Props) {
   const query = listFilterQuery(venuesSpec, {}, filter, sort, columns);
   const { rows, total, error, saved } = await loadListPage<VenueRow & { events: number; total: number }>(venuesSpec, filter, sort, page, staff.id);
   const show = (c: string) => columns.includes(c);
+  // Lieux conseillés pour un premier rendez-vous (question 4) : tous les lieux, réglage par lieu
+  const supabase = await createSupabaseServer();
+  const { data: firstDate } = supabase
+    ? await supabase.from("venues").select("id, name, city, first_date_partner, district, venue_kind, opening_hours").order("city").order("name")
+    : { data: [] };
+  const firstDateVenues = (firstDate ?? []) as FirstDateRow[];
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -88,6 +96,16 @@ export default async function AdminVenuesPage({ searchParams }: Props) {
           <ListPager pathname="/admin/lieux" query={query} page={page} total={total} />
         </>
       )}
+
+      <section aria-labelledby="premier-rendez-vous" className="mt-12 border-t border-line pt-8">
+        <h2 id="premier-rendez-vous" className="text-2xl">{t("venues.firstDate.title")}</h2>
+        <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("venues.firstDate.intro")}</p>
+        <div className="mt-4 border-t border-line">
+          {firstDateVenues.map((v) => (
+            <FirstDateEditor key={v.id} venue={v} />
+          ))}
+        </div>
+      </section>
 
       <section aria-labelledby="new-venue" className="mt-12 border-t border-line pt-8">
         <h2 id="new-venue" className="text-2xl">{t("venues.new")}</h2>

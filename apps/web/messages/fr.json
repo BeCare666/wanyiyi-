@@ -552,7 +552,15 @@
         "couple_union_celebrated": "Félicitations : votre union est enregistrée.",
         "couple_separated": "Votre séparation est enregistrée. Vous pourrez revenir aux soirées dans un mois.",
         "couple_ended_by_partner": "Votre partenaire a mis fin au couple.",
-        "couple_ended_by_partner_counselor": "Votre partenaire a mis fin au couple."
+        "couple_ended_by_partner_counselor": "Votre partenaire a mis fin au couple.",
+        "date_checkin": "Bien rentré(e) ? Répondez depuis votre tableau de bord.",
+        "date_checkin_reminder": "Rappel : êtes-vous bien rentré(e) ? Répondez depuis votre tableau de bord.",
+        "date_help_requested": "Alerte : un membre a demandé de l'aide après son rendez-vous.",
+        "date_checkin_no_answer": "Alerte : un membre n'a pas répondu 24 heures après son rendez-vous.",
+        "report_received": "Nouveau signalement à traiter sous 24 heures.",
+        "member_warned": "Vous avez reçu un avertissement de l'équipe.",
+        "session_proposed": "Votre conseiller propose une séance. Acceptez la date dans l'espace du couple.",
+        "session_confirmed": "Une séance est confirmée par les deux membres du couple."
       }
     },
     "dashboard": {
@@ -1056,9 +1064,12 @@
         "couple_exclusivity": "Vous êtes en couple : aucune nouvelle découverte ne s'ouvre.",
         "not_active": "Cette découverte est terminée.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-        "generic": "Une erreur est survenue. Réessayez dans un instant."
+        "generic": "Une erreur est survenue. Réessayez dans un instant.",
+        "extension_too_early": "La prolongation se demande pendant les 4 derniers jours de la découverte.",
+        "already_extended": "Cette découverte a déjà été prolongée une fois."
       },
-      "coupleOpen": "Ouvrir l'espace du couple"
+      "coupleOpen": "Ouvrir l'espace du couple",
+      "extendHint": "Il reste 4 jours au plus : vous pouvez demander 7 jours de plus, une seule fois."
     },
     "chat": {
       "label": "Conversation",
@@ -1093,9 +1104,19 @@
         "couple_resume_requested": "{name} souhaite reprendre.",
         "couple_union_requested": "{name} a déclaré votre union.",
         "couple_union_celebrated": "Votre union est enregistrée. Félicitations.",
-        "couple_separation_requested": "{name} a demandé la séparation."
+        "couple_separation_requested": "{name} a demandé la séparation.",
+        "milestone_reach_requested": "{name} propose de marquer l'étape « {step} » comme franchie.",
+        "milestone_remove_requested": "{name} propose de retirer l'étape « {step} ».",
+        "milestone_reached": "Étape franchie : « {step} ».",
+        "milestone_removed": "Étape retirée : « {step} ».",
+        "milestone_date_changed": "{name} a corrigé la date de l'étape « {step} ».",
+        "session_proposed": "{name} propose une séance. Retrouvez-la dans l'espace du couple.",
+        "session_confirmed": "Séance confirmée par vous deux.",
+        "session_cancelled": "{name} a annulé une séance."
       },
-      "counselor": "Conseiller"
+      "counselor": "Conseiller",
+      "reportMessage": "Signaler ce message",
+      "reportConversation": "Signaler cette conversation"
     },
     "couple": {
       "title": "Espace du couple",
@@ -1127,7 +1148,8 @@
         "keep_chatHelp": "Sans demande de vous deux, la conversation est effacée 12 mois après l'union.",
         "leave": "Quitter le couple",
         "leaveHelp": "Vous pouvez partir seul, à tout moment, sans justification. Le couple se termine aussitôt et l'autre personne est prévenue.",
-        "leaveConfirm": "Quitter le couple maintenant ? La conversation sera fermée tout de suite. Ce choix est définitif."
+        "leaveConfirm": "Quitter le couple maintenant ? La conversation sera fermée tout de suite. Ce choix est définitif.",
+        "unionInvite": "Vous avez franchi l'étape « Célébration ». Si vous le souhaitez, déclarez votre union."
       },
       "phone": {
         "title": "Numéros de téléphone",
@@ -1136,11 +1158,13 @@
         "waiting": "Vous avez accepté de partager votre numéro. Il sera montré quand l'autre personne le fera aussi.",
         "disabled": "Le partage de votre numéro est désactivé dans vos paramètres, ou aucun numéro n'est enregistré sur votre compte.",
         "partner": "Numéro de {name} :",
-        "blocked": "Le partage des numéros est suspendu pendant le blocage."
+        "blocked": "Le partage des numéros est suspendu pendant le blocage.",
+        "unshare": "Ne plus partager mon numéro",
+        "unshareConfirm": "L'autre personne ne verra plus votre numéro sur le site. Elle a pu le noter entre-temps."
       },
       "dates": {
         "title": "Rendez-vous",
-        "help": "Notez ici vos rendez-vous. Pour les premiers, choisissez un lieu public.",
+        "help": "Déclarez vos rendez-vous : 3 heures après, chacun de vous reçoit « Bien rentré(e) ? ». Pour les premiers, choisissez un lieu public.",
         "when": "Date et heure (heure de Cotonou)",
         "declare": "Déclarer le rendez-vous",
         "byMe": "Déclaré par vous",
@@ -1168,7 +1192,8 @@
         "remove": "Retirer le conseiller",
         "removeConfirm": "Retirer le conseiller ? Il quitte la conversation tout de suite. Un nouvel accès devra être payé de nouveau.",
         "cancel": "Annuler l'invitation",
-        "cancelConfirm": "Annuler l'invitation du conseiller ?"
+        "cancelConfirm": "Annuler l'invitation du conseiller ?",
+        "private": "Écrire en privé à {name}"
       },
       "journey": {
         "title": "Votre parcours",
@@ -1178,7 +1203,17 @@
         "dowry_or_wedding": "Dot ou mariage",
         "celebration": "Célébration",
         "reached": "Franchie le {date}",
-        "notYet": "À venir"
+        "notYet": "À venir",
+        "auto": "Franchie à la première séance faite avec le conseiller",
+        "confirmReach": "Nous avons franchi cette étape",
+        "waitingReach": "Vous l'avez confirmée : elle sera franchie quand l'autre personne la confirmera aussi.",
+        "waitingRemove": "Vous avez demandé à retirer cette étape : elle sera retirée quand l'autre personne le demandera aussi.",
+        "changeDate": "Corriger la date",
+        "confirmRemove": "Retirer cette étape",
+        "date": "Date",
+        "saveDate": "Enregistrer la date",
+        "cancel": "Annuler",
+        "help": "Une étape est franchie quand vous la confirmez tous les deux. L'autre personne est prévenue dans la conversation."
       },
       "errors": {
         "not_member": "Vous ne faites pas partie de ce couple.",
@@ -1192,6 +1227,76 @@
         "not_pending": "Cette invitation n'est plus en attente.",
         "own_request": "Vous ne pouvez pas répondre à votre propre invitation.",
         "nothing_to_pay": "Il n'y a rien à payer pour cet accès.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant.",
+        "automatic_milestone": "Cette étape se coche seule à la première séance faite avec le conseiller.",
+        "no_counselor": "Aucun conseiller n'est attribué à votre couple."
+      },
+      "discoveryChat": "Relire notre conversation de découverte",
+      "sessions": {
+        "title": "Séances avec le conseiller",
+        "none": "Aucune séance proposée pour l'instant.",
+        "online": "En ligne",
+        "place": "Lieu : {place}",
+        "status": {
+          "proposed": "Proposée",
+          "confirmed": "Confirmée",
+          "cancelled": "Annulée",
+          "done": "Faite"
+        },
+        "accept": "J'accepte cette date",
+        "waiting": "Vous avez accepté. La séance sera confirmée quand l'autre personne acceptera aussi."
+      },
+      "privateChannel": {
+        "title": "Échange privé avec le conseiller",
+        "back": "Retour à l'espace du couple",
+        "help": "Ce que vous écrivez ici n'est lu que par le conseiller. L'échange se ferme si le conseiller est retiré ou si le couple se termine.",
+        "unavailable": "L'échange privé n'est possible qu'avec le conseiller attribué à votre couple."
+      }
+    },
+    "venues": {
+      "title": "Lieux conseillés pour un rendez-vous",
+      "help": "Des lieux publics choisis par l'équipe, où vous retrouver en confiance.",
+      "kinds": {
+        "cafe": "Café",
+        "restaurant": "Restaurant",
+        "other": "Autre lieu"
+      }
+    },
+    "checkin": {
+      "title": "Bien rentré(e) ?",
+      "context": "Votre rendez-vous avec {name}, le {date}.",
+      "ok": "Oui, je suis bien rentré(e)",
+      "help": "J'ai besoin d'aide",
+      "private": "L'autre personne ne voit pas votre réponse.",
+      "helpSent": "L'équipe est prévenue et va vous contacter.",
+      "emergency": "En cas d'urgence, écrivez à l'équipe sur WhatsApp :",
+      "error": "Votre réponse n'a pas été enregistrée. Réessayez dans un instant."
+    },
+    "report": {
+      "why": "Pourquoi signalez-vous ?",
+      "reasons": {
+        "disrespect": "Comportement irrespectueux ou harcèlement",
+        "money": "Demande d'argent ou arnaque",
+        "fake_profile": "Faux profil ou fausse identité",
+        "sexual": "Propos ou contenu sexuel non souhaité",
+        "threat": "Menace ou danger",
+        "other": "Autre"
+      },
+      "details": "Précisions (facultatif)",
+      "detailsRequired": "Précisions (obligatoires)",
+      "private": "La personne signalée n'est pas prévenue. L'équipe examine chaque signalement sous 24 heures.",
+      "submit": "Envoyer le signalement",
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "sent": "Merci. L'équipe examine votre signalement sous 24 heures.",
+      "sentThreat": "Merci. La conversation est suspendue et l'équipe est prévenue. En cas de danger immédiat, contactez les secours.",
+      "errors": {
+        "details_required": "Précisez le motif.",
+        "details_too_long": "Précisions : 1 000 caractères au plus.",
+        "invalid_reason": "Choisissez un motif.",
+        "invalid_message": "Ce message ne peut pas être signalé.",
+        "not_member": "Vous ne faites pas partie de cette conversation.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
@@ -1363,7 +1468,9 @@
       "themes": "Thèmes",
       "discoveries": "Matchs et découvertes",
       "couples": "Couples",
-      "counselors": "Conseillers"
+      "counselors": "Conseillers",
+      "alerts": "Alertes de sécurité",
+      "reports": "Signalements"
     },
     "navHelp": {
       "verifications": "Dossiers en attente, selfies, décisions",
@@ -1731,6 +1838,31 @@
           "address": "Indiquez l'adresse.",
           "city": "Indiquez la ville.",
           "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "firstDate": {
+        "title": "Lieux conseillés pour un premier rendez-vous",
+        "intro": "Les lieux cochés sont montrés aux membres en découverte ou en couple, avec le quartier, le type et les horaires.",
+        "partner": "Conseillé pour un premier rendez-vous",
+        "district": "Quartier",
+        "kind": "Type",
+        "noKind": "Choisir",
+        "kinds": {
+          "cafe": "Café",
+          "restaurant": "Restaurant",
+          "other": "Autre lieu"
+        },
+        "hours": "Horaires",
+        "hoursPlaceholder": "8 h - 22 h, tous les jours",
+        "save": "Enregistrer",
+        "saved": "Enregistré.",
+        "errors": {
+          "district": "Indiquez le quartier (80 caractères au plus).",
+          "kind": "Choisissez le type de lieu.",
+          "hours": "Horaires : 120 caractères au plus.",
+          "forbidden": "Vous n'avez pas le droit de modifier les lieux.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
@@ -2422,6 +2554,14 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      },
+      "notes": {
+        "show": "Notes du conseiller",
+        "warning": "À lire seulement en cas de litige ou de signalement. Chaque lecture est enregistrée dans le journal.",
+        "confirm": "Lire les notes",
+        "cancel": "Annuler",
+        "empty": "Aucune note.",
+        "error": "Lecture impossible. Vérifiez vos droits ou réessayez."
       }
     },
     "counselors": {
@@ -2494,6 +2634,69 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      }
+    },
+    "alerts": {
+      "intro": "Membres qui ont répondu « J'ai besoin d'aide » à « Bien rentré(e) ? », ou qui n'ont pas répondu 24 heures après leur rendez-vous. Contactez-les, puis marquez l'alerte comme traitée.",
+      "empty": "Aucune alerte.",
+      "help": "A demandé de l'aide",
+      "noAnswer": "Pas de réponse 24 heures après le rendez-vous",
+      "dateAt": "Rendez-vous du {date}",
+      "handled": "Traitée le {date}",
+      "handle": "Marquer comme traitée",
+      "error": "Action impossible. Réessayez."
+    },
+    "reports": {
+      "intro": "Signalements des membres, à traiter sous 24 heures. Seuls les messages signalés sont lisibles, et chaque consultation est enregistrée. La personne signalée n'apprend que la décision, avec votre motif.",
+      "empty": "Aucun signalement à traiter.",
+      "showAll": "Voir aussi les signalements traités",
+      "showOpen": "Voir seulement les signalements à traiter",
+      "reasons": {
+        "disrespect": "Comportement irrespectueux ou harcèlement",
+        "money": "Demande d'argent ou arnaque",
+        "fake_profile": "Faux profil ou fausse identité",
+        "sexual": "Propos ou contenu sexuel non souhaité",
+        "threat": "Menace ou danger",
+        "other": "Autre"
+      },
+      "kinds": {
+        "discovery": "Conversation de découverte",
+        "couple": "Conversation de couple"
+      },
+      "reported": "Signalé : {name} ({number})",
+      "reporter": "Par : {name} ({number})",
+      "status": {
+        "open": "À traiter",
+        "in_review": "En cours d'examen",
+        "resolved": "Décision prise",
+        "dismissed": "Classé sans suite"
+      },
+      "createdAt": "Reçu le {date}",
+      "dueAt": "À traiter avant le {date}",
+      "late": "En retard : à traiter avant le {date}",
+      "messages": "{count, plural, =0 {Aucun message joint} one {# message signalé} other {# messages signalés}}",
+      "showMessages": "Lire les messages signalés",
+      "noMessages": "Aucun message.",
+      "logged": "Cette lecture est enregistrée dans le journal.",
+      "decision": "Décision",
+      "decisions": {
+        "dismissed": "Classer sans suite",
+        "warning": "Avertissement",
+        "suspension": "Suspension",
+        "exclusion": "Exclusion"
+      },
+      "reason": "Motif envoyé à la personne signalée",
+      "reasonHelp": "Rédigez un motif neutre : ne citez jamais la personne qui a signalé.",
+      "confirm": "Enregistrer la décision",
+      "errors": {
+        "reason_required": "Écrivez le motif envoyé à la personne signalée.",
+        "reason_too_long": "Motif : 1 000 caractères au plus.",
+        "already_resolved": "Ce signalement a déjà été traité.",
+        "not_found": "Signalement introuvable.",
+        "forbidden": "Vous n'avez pas le droit de décider.",
+        "invalid_status": "Ce membre est déjà suspendu ou exclu.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
     }
   },
@@ -2786,6 +2989,43 @@
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
+    },
+    "sessions": {
+      "title": "Séances",
+      "propose": "Proposer une séance",
+      "when": "Date et heure (heure de Cotonou)",
+      "mode": "Forme",
+      "modes": {
+        "online": "En ligne",
+        "place": "Dans un lieu"
+      },
+      "location": "Lieu",
+      "send": "Proposer",
+      "done": "Séance faite",
+      "cancel": "Annuler",
+      "errors": {
+        "invalid_date": "Choisissez une date à venir.",
+        "invalid_mode": "Choisissez la forme de la séance.",
+        "location_required": "Indiquez le lieu.",
+        "location_too_long": "Lieu : 200 caractères au plus.",
+        "not_counselor": "Vous ne suivez plus ce couple.",
+        "invalid_status": "Action impossible pour cette séance.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
+    },
+    "agenda": {
+      "title": "Agenda des séances",
+      "empty": "Aucune séance à venir.",
+      "status": {
+        "proposed": "En attente des deux accords",
+        "confirmed": "Confirmée"
+      }
+    },
+    "private": {
+      "title": "Échanges privés",
+      "empty": "Aucun échange privé ouvert.",
+      "help": "Seul ce membre lit cet échange ; l'autre membre du couple ne le voit pas."
     }
   }
 }

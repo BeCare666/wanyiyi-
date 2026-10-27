@@ -46,7 +46,11 @@ describe("Mes matchs et découvertes (9.4)", () => {
   it("choisir seulement avec une place ; une seule prolongation", () => {
     expect(canChoose(row({ free_slots: 0 }))).toBe(false);
     expect(canChoose(row({ free_slots: 1 }))).toBe(true);
-    expect(canAskExtension(row({ discovery_status: "active" }))).toBe(true);
-    expect(canAskExtension(row({ discovery_status: "extended", extended: true }))).toBe(false);
+    // Question 3 : seulement pendant les 4 derniers jours (ou pour retirer sa demande)
+    expect(canAskExtension(row({ discovery_status: "active", ends_at: "2026-11-05T10:00:00Z" }), now)).toBe(false);
+    expect(canAskExtension(row({ discovery_status: "active", ends_at: "2026-10-30T10:00:00Z" }), now)).toBe(true);
+    expect(canAskExtension(row({ discovery_status: "active", ends_at: "2026-11-05T10:00:00Z", i_want_extension: true }), now)).toBe(true);
+    expect(canAskExtension(row({ discovery_status: "active", ends_at: "2026-10-26T09:00:00Z" }), now)).toBe(false);
+    expect(canAskExtension(row({ discovery_status: "extended", extended: true, ends_at: "2026-10-28T10:00:00Z" }), now)).toBe(false);
   });
 });

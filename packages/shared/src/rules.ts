@@ -19,6 +19,8 @@ export const RULES = {
   discovery: {
     durationDays: 14,
     extensionDays: 7,
+    /** Prolongation demandable seulement pendant les derniers jours (question 3, 27 octobre 2026). */
+    extensionRequestWindowDays: 4,
     maxExtensions: 1,
     maxActivePerMember: 2,
     pendingMatchExpiryDays: 7,

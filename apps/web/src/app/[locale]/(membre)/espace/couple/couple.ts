@@ -31,6 +31,32 @@ export type CounselorAccess = {
 export const milestoneKinds = ["first_dates", "counselor_sessions", "family_introduction", "dowry_or_wedding", "celebration"] as const;
 export type MilestoneKind = (typeof milestoneKinds)[number];
 
+/** Ligne de app.my_milestones() : étape, date si franchie, et mes seules confirmations en attente. */
+export type MilestoneRow = { kind: MilestoneKind; reached_at: string | null; i_confirmed_reach: boolean; i_confirmed_remove: boolean };
+
+/**
+ * Ce que le membre peut faire sur une étape (question 16) :
+ *   - auto : « Séances avec le conseiller », franchie à la première séance faite ;
+ *   - reach / waitingReach : proposer de la marquer franchie, ou attendre l'autre ;
+ *   - reached / waitingRemove : franchie (date corrigeable, retrait à deux), ou retrait en attente.
+ */
+export function milestoneState(row: MilestoneRow): "auto" | "reach" | "waitingReach" | "reached" | "waitingRemove" {
+  if (row.kind === "counselor_sessions") return "auto";
+  if (row.reached_at === null) return row.i_confirmed_reach ? "waitingReach" : "reach";
+  return row.i_confirmed_remove ? "waitingRemove" : "reached";
+}
+
+/** Ligne de app.couple_sessions() (question 9) : séance proposée par le conseiller du couple. */
+export type SessionRow = {
+  id: string;
+  scheduled_at: string;
+  mode: "online" | "place";
+  location: string | null;
+  status: "proposed" | "confirmed" | "cancelled" | "done";
+  counselor_name: string | null;
+  i_accepted: boolean;
+};
+
 /** Couple en cours ou en pause : l'espace vit (photos, numéros, conseiller, fins possibles). */
 export function isLive(status: CoupleStatus): boolean {
   return status === "active" || status === "paused";

@@ -1,4 +1,4 @@
-import { coupleSpace, memberNav } from "./memberNav";
+import { coupleSpace, memberHome, memberNav } from "./memberNav";
 
 /** Types de notification connus, avec la page où ils mènent (les autres : texte générique). */
 const kinds = {
@@ -41,6 +41,17 @@ const kinds = {
   couple_separated: { href: null },
   couple_ended_by_partner: { href: null },
   couple_ended_by_partner_counselor: { href: null },
+  // « Bien rentré(e) ? » (question 5, 27 octobre 2026) : réponse sur le tableau de bord ; alertes à l'équipe
+  date_checkin: { href: { pathname: memberHome } },
+  date_checkin_reminder: { href: { pathname: memberHome } },
+  date_help_requested: { href: null },
+  date_checkin_no_answer: { href: null },
+  // Signalements (question 11) : nouveau signalement pour l'équipe ; avertissement avec son motif
+  report_received: { href: null },
+  member_warned: { href: null },
+  // Séances avec le conseiller (question 9) : proposée aux membres, confirmée pour le conseiller
+  session_proposed: { href: { pathname: coupleSpace } },
+  session_confirmed: { href: null },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

@@ -105,11 +105,17 @@ describe("Photos des membres (10.2, question 10)", () => {
     expect(await sees(p.dossou!, photo)).toBe(false);
     const [pending] = await as<{ photo_id: string; review_status: string }>(p.afiwa!, "select * from app.my_photos() where review_status = 'pending'");
     expect(await sees(p.koffi!, pending!.photo_id)).toBe(false); // pas encore approuvée
+    // Découverte ouverte : visible ; découverte terminée : plus visible (question 15)
     await db.query("update app.matches set status = 'discovery_open' where id = $1", [match]);
+    await db.query("insert into app.discoveries (match_id, opened_at, ends_at) values ($1, now(), now() + interval '14 days')", [match]);
     expect(await sees(p.koffi!, photo)).toBe(true);
+    await db.query("update app.discoveries set status = 'closed', closed_at = now() where match_id = $1", [match]);
+    expect(await sees(p.koffi!, photo)).toBe(false);
     await db.query("update app.matches set status = 'closed' where id = $1", [match]);
     expect(await sees(p.koffi!, photo)).toBe(false);
+    // Suite des tests : découverte de nouveau ouverte
     await db.query("update app.matches set status = 'discovery_open' where id = $1", [match]);
+    await db.query("update app.discoveries set status = 'active', closed_at = null where match_id = $1", [match]);
   });
 
   it("affichage : flou si le membre l'a choisi, jamais pour lui-même ; filigrane au nom de celui qui regarde", async () => {

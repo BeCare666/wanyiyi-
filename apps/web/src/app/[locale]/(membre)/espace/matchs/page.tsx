@@ -72,7 +72,7 @@ export default async function MatchesPage() {
                       discoveryId={row.discovery_id!}
                       wantsToContinue={row.i_want_to_continue}
                       wantsExtension={row.i_want_extension}
-                      canExtend={canAskExtension(row)}
+                      canExtend={canAskExtension(row, now)}
                     />
                   </li>
                 ))}

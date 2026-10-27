@@ -2,7 +2,7 @@
 
 import { type ApiResult, memberApi } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { cotonouToIso } from "./couple";
+import { cotonouToIso, type MilestoneKind, milestoneKinds } from "./couple";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -35,6 +35,12 @@ export async function sharePhone(coupleId: string): Promise<ApiResult<boolean>> 
   return call<boolean>("share_my_phone", { p_couple: coupleId });
 }
 
+/** Retrait de son accord au partage du numéro (question 17) : l'autre ne le voit plus sur le site. */
+export async function unsharePhone(coupleId: string): Promise<ApiResult<void>> {
+  if (!UUID.test(coupleId)) return { ok: false, error: "generic" };
+  return call<void>("unshare_my_phone", { p_couple: coupleId });
+}
+
 /** Rendez-vous déclaré : date et heure saisies (« AAAA-MM-JJTHH:MM ») à l'heure de Cotonou. */
 export async function declareDate(coupleId: string, localDateTime: string): Promise<ApiResult<string>> {
   if (!UUID.test(coupleId) || typeof localDateTime !== "string") return { ok: false, error: "generic" };
@@ -65,4 +71,25 @@ export async function revokeCounselor(accessId: string): Promise<ApiResult<void>
 export async function payCounselor(accessId: string): Promise<ApiResult<{ paymentId: string; checkoutUrl: string }>> {
   if (!UUID.test(accessId)) return { ok: false, error: "generic" };
   return memberApi(`/payments/counselor-access/${accessId}`, { method: "POST" });
+}
+
+/** Étape du parcours (question 16) : franchie ou retirée quand les deux l'ont confirmée. */
+export async function confirmMilestone(coupleId: string, kind: MilestoneKind, action: "reach" | "remove"): Promise<ApiResult<string>> {
+  if (!UUID.test(coupleId) || !milestoneKinds.includes(kind) || kind === "counselor_sessions" || !["reach", "remove"].includes(action)) {
+    return { ok: false, error: "generic" };
+  }
+  return call<string>("confirm_milestone", { p_couple: coupleId, p_kind: kind, p_action: action });
+}
+
+/** Correction de la date d'une étape franchie (AAAA-MM-JJ), par l'un ou l'autre. */
+export async function setMilestoneDate(coupleId: string, kind: MilestoneKind, date: string): Promise<ApiResult<void>> {
+  if (!UUID.test(coupleId) || !milestoneKinds.includes(kind)) return { ok: false, error: "generic" };
+  if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return { ok: false, error: "invalid_date" };
+  return call<void>("set_milestone_date", { p_couple: coupleId, p_kind: kind, p_date: date });
+}
+
+/** Accord du membre à une séance proposée par le conseiller (confirmée quand les deux ont accepté). */
+export async function acceptSession(sessionId: string): Promise<ApiResult<string>> {
+  if (!UUID.test(sessionId)) return { ok: false, error: "generic" };
+  return call<string>("accept_session", { p_session: sessionId });
 }

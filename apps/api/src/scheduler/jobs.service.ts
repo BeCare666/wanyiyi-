@@ -147,6 +147,19 @@ export class JobsService {
     if (count) this.logger.log(`${count} message(s) effacé(s)`);
   }
 
+  /**
+   * « Bien rentré(e) ? » (question 5) : message 3 heures après un rendez-vous déclaré, rappel à
+   * 12 heures, alerte à l'équipe sans réponse 24 heures après le rendez-vous.
+   */
+  @Cron("*/15 * * * *", { name: "date-checkins", timeZone: "Africa/Porto-Novo" })
+  async dateCheckins() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("messages « Bien rentré(e) ? » et alertes");
+    const { data: count, error } = await db.rpc("process_date_checkins");
+    if (error) return this.logger.error(`Bien rentré(e) : ${error.message}`);
+    if (count) this.logger.log(`${count} message(s) ou alerte(s) « Bien rentré(e) ? »`);
+  }
+
   @Cron("*/5 * * * *", { name: "refund-cancelled-evenings", timeZone: "Africa/Porto-Novo" })
   async refundCancelledEvenings() {
     if (!this.ready()) return;

@@ -552,7 +552,15 @@
         "couple_union_celebrated": "Congratulations: your union is recorded.",
         "couple_separated": "Your separation is recorded. You can come back to the evenings in one month.",
         "couple_ended_by_partner": "Your partner has ended the couple.",
-        "couple_ended_by_partner_counselor": "Your partner has ended the couple."
+        "couple_ended_by_partner_counselor": "Your partner has ended the couple.",
+        "date_checkin": "Did you get home safely? Answer from your dashboard.",
+        "date_checkin_reminder": "Reminder: did you get home safely? Answer from your dashboard.",
+        "date_help_requested": "Alert: a member asked for help after their date.",
+        "date_checkin_no_answer": "Alert: a member has not answered 24 hours after their date.",
+        "report_received": "New report to handle within 24 hours.",
+        "member_warned": "You have received a warning from the team.",
+        "session_proposed": "Your counselor proposes a session. Accept the date in the couple space.",
+        "session_confirmed": "A session is confirmed by both members of the couple."
       }
     },
     "dashboard": {
@@ -1056,9 +1064,12 @@
         "couple_exclusivity": "You are in a couple: no new discovery opens.",
         "not_active": "This discovery has ended.",
         "unavailable": "This service is not available yet. Try again later.",
-        "generic": "Something went wrong. Try again in a moment."
+        "generic": "Something went wrong. Try again in a moment.",
+        "extension_too_early": "The extension can be requested during the last 4 days of the discovery.",
+        "already_extended": "This discovery has already been extended once."
       },
-      "coupleOpen": "Open the couple space"
+      "coupleOpen": "Open the couple space",
+      "extendHint": "4 days or less remain: you can ask for 7 more days, once."
     },
     "chat": {
       "label": "Conversation",
@@ -1093,9 +1104,19 @@
         "couple_resume_requested": "{name} wants to resume.",
         "couple_union_requested": "{name} declared your union.",
         "couple_union_celebrated": "Your union is recorded. Congratulations.",
-        "couple_separation_requested": "{name} asked for the separation."
+        "couple_separation_requested": "{name} asked for the separation.",
+        "milestone_reach_requested": "{name} suggests marking the step “{step}” as reached.",
+        "milestone_remove_requested": "{name} suggests removing the step “{step}”.",
+        "milestone_reached": "Step reached: “{step}”.",
+        "milestone_removed": "Step removed: “{step}”.",
+        "milestone_date_changed": "{name} corrected the date of the step “{step}”.",
+        "session_proposed": "{name} proposes a session. Find it in the couple space.",
+        "session_confirmed": "Session confirmed by both of you.",
+        "session_cancelled": "{name} cancelled a session."
       },
-      "counselor": "Counselor"
+      "counselor": "Counselor",
+      "reportMessage": "Report this message",
+      "reportConversation": "Report this conversation"
     },
     "couple": {
       "title": "Couple space",
@@ -1127,7 +1148,8 @@
         "keep_chatHelp": "Unless you both ask, the conversation is erased 12 months after the union.",
         "leave": "Leave the couple",
         "leaveHelp": "You can leave on your own, at any time, without giving a reason. The couple ends at once and the other person is informed.",
-        "leaveConfirm": "Leave the couple now? The conversation will be closed immediately. This choice is final."
+        "leaveConfirm": "Leave the couple now? The conversation will be closed immediately. This choice is final.",
+        "unionInvite": "You have reached the “Celebration” step. If you wish, declare your union."
       },
       "phone": {
         "title": "Phone numbers",
@@ -1136,11 +1158,13 @@
         "waiting": "You agreed to share your number. It will be shown when the other person does too.",
         "disabled": "Sharing your number is turned off in your settings, or no number is saved on your account.",
         "partner": "{name}'s number:",
-        "blocked": "Number sharing is suspended during the block."
+        "blocked": "Number sharing is suspended during the block.",
+        "unshare": "Stop sharing my number",
+        "unshareConfirm": "The other person will no longer see your number on the site. They may have noted it in the meantime."
       },
       "dates": {
         "title": "Dates",
-        "help": "Note your dates here. For the first ones, choose a public place.",
+        "help": "Declare your dates: 3 hours after, each of you receives “Did you get home safely?”. For the first ones, choose a public place.",
         "when": "Date and time (Cotonou time)",
         "declare": "Declare the date",
         "byMe": "Declared by you",
@@ -1168,7 +1192,8 @@
         "remove": "Remove the counselor",
         "removeConfirm": "Remove the counselor? They leave the conversation at once. A new access will have to be paid again.",
         "cancel": "Cancel the invitation",
-        "cancelConfirm": "Cancel the counselor invitation?"
+        "cancelConfirm": "Cancel the counselor invitation?",
+        "private": "Write privately to {name}"
       },
       "journey": {
         "title": "Your journey",
@@ -1178,7 +1203,17 @@
         "dowry_or_wedding": "Dowry or wedding",
         "celebration": "Celebration",
         "reached": "Reached on {date}",
-        "notYet": "Ahead"
+        "notYet": "Ahead",
+        "auto": "Reached at the first session held with the counselor",
+        "confirmReach": "We have reached this step",
+        "waitingReach": "You confirmed it: it will be reached when the other person confirms it too.",
+        "waitingRemove": "You asked to remove this step: it will be removed when the other person asks too.",
+        "changeDate": "Correct the date",
+        "confirmRemove": "Remove this step",
+        "date": "Date",
+        "saveDate": "Save the date",
+        "cancel": "Cancel",
+        "help": "A step is reached when you both confirm it. The other person is informed in the conversation."
       },
       "errors": {
         "not_member": "You are not part of this couple.",
@@ -1192,6 +1227,76 @@
         "not_pending": "This invitation is no longer pending.",
         "own_request": "You cannot answer your own invitation.",
         "nothing_to_pay": "There is nothing to pay for this access.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment.",
+        "automatic_milestone": "This step is checked automatically at the first session held with the counselor.",
+        "no_counselor": "No counselor is assigned to your couple."
+      },
+      "discoveryChat": "Reread our discovery conversation",
+      "sessions": {
+        "title": "Sessions with the counselor",
+        "none": "No session proposed yet.",
+        "online": "Online",
+        "place": "Place: {place}",
+        "status": {
+          "proposed": "Proposed",
+          "confirmed": "Confirmed",
+          "cancelled": "Cancelled",
+          "done": "Held"
+        },
+        "accept": "I accept this date",
+        "waiting": "You accepted. The session will be confirmed when the other person accepts too."
+      },
+      "privateChannel": {
+        "title": "Private exchange with the counselor",
+        "back": "Back to the couple space",
+        "help": "What you write here is read only by the counselor. The exchange closes if the counselor is removed or the couple ends.",
+        "unavailable": "A private exchange is only possible with the counselor assigned to your couple."
+      }
+    },
+    "venues": {
+      "title": "Recommended places for a date",
+      "help": "Public places chosen by the team, where you can meet with confidence.",
+      "kinds": {
+        "cafe": "Café",
+        "restaurant": "Restaurant",
+        "other": "Other place"
+      }
+    },
+    "checkin": {
+      "title": "Did you get home safely?",
+      "context": "Your date with {name}, on {date}.",
+      "ok": "Yes, I got home safely",
+      "help": "I need help",
+      "private": "The other person does not see your answer.",
+      "helpSent": "The team has been informed and will contact you.",
+      "emergency": "In an emergency, write to the team on WhatsApp:",
+      "error": "Your answer was not saved. Try again in a moment."
+    },
+    "report": {
+      "why": "Why are you reporting?",
+      "reasons": {
+        "disrespect": "Disrespectful behaviour or harassment",
+        "money": "Request for money or scam",
+        "fake_profile": "Fake profile or false identity",
+        "sexual": "Unwanted sexual remarks or content",
+        "threat": "Threat or danger",
+        "other": "Other"
+      },
+      "details": "Details (optional)",
+      "detailsRequired": "Details (required)",
+      "private": "The reported person is not informed. The team reviews each report within 24 hours.",
+      "submit": "Send the report",
+      "cancel": "Cancel",
+      "close": "Close",
+      "sent": "Thank you. The team will review your report within 24 hours.",
+      "sentThreat": "Thank you. The conversation is suspended and the team has been informed. In immediate danger, call the emergency services.",
+      "errors": {
+        "details_required": "Please describe the reason.",
+        "details_too_long": "Details: 1,000 characters at most.",
+        "invalid_reason": "Choose a reason.",
+        "invalid_message": "This message cannot be reported.",
+        "not_member": "You are not part of this conversation.",
         "unavailable": "This service is not available yet. Try again later.",
         "generic": "Something went wrong. Try again in a moment."
       }
@@ -1363,7 +1468,9 @@
       "themes": "Themes",
       "discoveries": "Matches and discoveries",
       "couples": "Couples",
-      "counselors": "Counselors"
+      "counselors": "Counselors",
+      "alerts": "Safety alerts",
+      "reports": "Reports"
     },
     "navHelp": {
       "verifications": "Pending files, selfies, decisions",
@@ -1733,6 +1840,31 @@
           "forbidden": "Your role does not allow this action.",
           "unavailable": "This service is not available yet. Please try again later.",
           "generic": "Something went wrong. Please try again in a moment."
+        }
+      },
+      "firstDate": {
+        "title": "Recommended places for a first date",
+        "intro": "Checked places are shown to members in a discovery or a couple, with the district, type and opening hours.",
+        "partner": "Recommended for a first date",
+        "district": "District",
+        "kind": "Type",
+        "noKind": "Choose",
+        "kinds": {
+          "cafe": "Café",
+          "restaurant": "Restaurant",
+          "other": "Other place"
+        },
+        "hours": "Opening hours",
+        "hoursPlaceholder": "8 am - 10 pm, every day",
+        "save": "Save",
+        "saved": "Saved.",
+        "errors": {
+          "district": "Enter the district (80 characters at most).",
+          "kind": "Choose the type of place.",
+          "hours": "Opening hours: 120 characters at most.",
+          "forbidden": "You are not allowed to change places.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
         }
       }
     },
@@ -2422,6 +2554,14 @@
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment."
         }
+      },
+      "notes": {
+        "show": "Counselor's notes",
+        "warning": "Read only in case of a dispute or a report. Each reading is recorded in the log.",
+        "confirm": "Read the notes",
+        "cancel": "Cancel",
+        "empty": "No notes.",
+        "error": "Cannot read the notes. Check your rights or try again."
       }
     },
     "counselors": {
@@ -2494,6 +2634,69 @@
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment."
         }
+      }
+    },
+    "alerts": {
+      "intro": "Members who answered “I need help” to “Did you get home safely?”, or who did not answer 24 hours after their date. Contact them, then mark the alert as handled.",
+      "empty": "No alerts.",
+      "help": "Asked for help",
+      "noAnswer": "No answer 24 hours after the date",
+      "dateAt": "Date on {date}",
+      "handled": "Handled on {date}",
+      "handle": "Mark as handled",
+      "error": "Action failed. Try again."
+    },
+    "reports": {
+      "intro": "Reports from members, to handle within 24 hours. Only reported messages can be read, and each reading is recorded. The reported person only learns the decision, with your reason.",
+      "empty": "No reports to handle.",
+      "showAll": "Also show handled reports",
+      "showOpen": "Show only reports to handle",
+      "reasons": {
+        "disrespect": "Disrespectful behaviour or harassment",
+        "money": "Request for money or scam",
+        "fake_profile": "Fake profile or false identity",
+        "sexual": "Unwanted sexual remarks or content",
+        "threat": "Threat or danger",
+        "other": "Other"
+      },
+      "kinds": {
+        "discovery": "Discovery conversation",
+        "couple": "Couple conversation"
+      },
+      "reported": "Reported: {name} ({number})",
+      "reporter": "By: {name} ({number})",
+      "status": {
+        "open": "To handle",
+        "in_review": "Under review",
+        "resolved": "Decision made",
+        "dismissed": "Dismissed"
+      },
+      "createdAt": "Received on {date}",
+      "dueAt": "Handle before {date}",
+      "late": "Late: handle before {date}",
+      "messages": "{count, plural, =0 {No message attached} one {# reported message} other {# reported messages}}",
+      "showMessages": "Read the reported messages",
+      "noMessages": "No messages.",
+      "logged": "This reading is recorded in the log.",
+      "decision": "Decision",
+      "decisions": {
+        "dismissed": "Dismiss",
+        "warning": "Warning",
+        "suspension": "Suspension",
+        "exclusion": "Exclusion"
+      },
+      "reason": "Reason sent to the reported person",
+      "reasonHelp": "Write a neutral reason: never mention the person who reported.",
+      "confirm": "Save the decision",
+      "errors": {
+        "reason_required": "Write the reason sent to the reported person.",
+        "reason_too_long": "Reason: 1,000 characters at most.",
+        "already_resolved": "This report has already been handled.",
+        "not_found": "Report not found.",
+        "forbidden": "You are not allowed to decide.",
+        "invalid_status": "This member is already suspended or excluded.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
       }
     }
   },
@@ -2786,6 +2989,43 @@
         "unavailable": "This service is not available yet. Try again later.",
         "generic": "Something went wrong. Try again in a moment."
       }
+    },
+    "sessions": {
+      "title": "Sessions",
+      "propose": "Propose a session",
+      "when": "Date and time (Cotonou time)",
+      "mode": "Format",
+      "modes": {
+        "online": "Online",
+        "place": "In person"
+      },
+      "location": "Place",
+      "send": "Propose",
+      "done": "Session held",
+      "cancel": "Cancel",
+      "errors": {
+        "invalid_date": "Choose a future date.",
+        "invalid_mode": "Choose the session format.",
+        "location_required": "Enter the place.",
+        "location_too_long": "Place: 200 characters at most.",
+        "not_counselor": "You no longer follow this couple.",
+        "invalid_status": "This action is not possible for this session.",
+        "unavailable": "This service is not available yet. Try again later.",
+        "generic": "Something went wrong. Try again in a moment."
+      }
+    },
+    "agenda": {
+      "title": "Session agenda",
+      "empty": "No upcoming session.",
+      "status": {
+        "proposed": "Waiting for both agreements",
+        "confirmed": "Confirmed"
+      }
+    },
+    "private": {
+      "title": "Private exchanges",
+      "empty": "No private exchange open.",
+      "help": "Only this member reads this exchange; the other member of the couple does not see it."
     }
   }
 }

@@ -105,6 +105,16 @@ export function discoveryEndsAt(d: Pick<Discovery, "openedAt" | "extended">): Da
   return new Date(d.openedAt.getTime() + days * DAY);
 }
 
+/**
+ * Demande de prolongation possible (question 3, 27 octobre 2026) : découverte active, pas encore
+ * prolongée, pendant ses 4 derniers jours seulement.
+ */
+export function canRequestExtension(d: Pick<Discovery, "status" | "openedAt" | "extended">, now: Date): boolean {
+  if (d.status !== "active" || d.extended) return false;
+  const end = discoveryEndsAt(d).getTime();
+  return now.getTime() < end && now.getTime() >= end - RULES.discovery.extensionRequestWindowDays * DAY;
+}
+
 export type DiscoveryOutcome = "couple" | "extend" | "close" | "none";
 
 /**

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { CheckinCard, type PendingCheckin } from "@/components/member/CheckinCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { coupleSpace, memberNav } from "@/components/member/memberNav";
 import { Link } from "@/i18n/navigation";
@@ -57,6 +58,14 @@ async function relations(): Promise<Relations | null> {
   };
 }
 
+/** Messages « Bien rentré(e) ? » sans réponse du membre (question 5). */
+async function pendingCheckins(): Promise<PendingCheckin[]> {
+  const supabase = await createSupabaseServer();
+  if (!supabase) return [];
+  const { data } = await supabase.rpc("my_pending_checkins");
+  return (data ?? []) as PendingCheckin[];
+}
+
 async function memberStatus(userId: string): Promise<MemberStatus | "none"> {
   const supabase = await createSupabaseServer();
   const { data } = (await supabase?.from("member_profiles").select("status").eq("user_id", userId).maybeSingle()) ?? { data: null };
@@ -73,7 +82,7 @@ export default async function DashboardPage() {
   const format = await getFormatter();
   const member = await getSessionMember();
   if (!member) return null;
-  const [status, evening, links] = await Promise.all([memberStatus(member.id), nextEvening(), relations()]);
+  const [status, evening, links, checkins] = await Promise.all([memberStatus(member.id), nextEvening(), relations(), pendingCheckins()]);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -84,6 +93,15 @@ export default async function DashboardPage() {
         </p>
         <h1 className="mt-6 text-4xl">{member.firstName ? t("greeting", { name: member.firstName }) : t("greetingNoName")}</h1>
       </header>
+
+      {/* « Bien rentré(e) ? » (question 5) : en tête du tableau de bord tant qu'il n'a pas répondu */}
+      {checkins.length > 0 && (
+        <div className="mt-10 grid gap-4">
+          {checkins.map((c) => (
+            <CheckinCard key={c.checkin_id} checkin={c} />
+          ))}
+        </div>
+      )}
 
       <dl className="mt-14 border-t border-line">
         <div className="grid gap-3 border-b border-line py-8 md:grid-cols-12 md:gap-8">

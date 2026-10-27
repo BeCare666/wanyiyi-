@@ -329,6 +329,17 @@ describe("Envois des actions groupées (19 octobre 2026)", () => {
     expect(siteUrl("https://w.example/", "fr", "/espace")).toBe("https://w.example/espace");
   });
 
+  it("« Bien rentré(e) ? » (question 5) : message au membre, alertes à l'équipe avec prénom, numéro et téléphone", () => {
+    const checkin = deliveryContent("date.checkin", { checkin_id: "x" }, "fr", "https://w.example")!;
+    expect(checkin.email.subject).toBe("Bien rentré(e) ?");
+    expect(checkin.email.text).toContain("https://w.example/espace\n");
+    expect(deliveryContent("date.checkin_reminder", {}, "en", "https://w.example")!.email.subject).toContain("Reminder");
+    const help = deliveryContent("date.help_requested", { first_name: "Sena", member_number: "IF-0042", phone: "+22901970000" }, "fr", "https://w.example")!;
+    expect(help.email.subject).toContain("aide");
+    expect(help.sms).toContain("Sena, IF-0042, +22901970000");
+    expect(deliveryContent("date.checkin_no_answer", {}, "fr", "https://w.example")).toBeNull();
+  });
+
   it("file : envoyé, sans destinataire abandonné sans appel, échec du prestataire signalé pour relance", async () => {
     const calls: Array<[string, unknown]> = [];
     const pending = [

@@ -1,12 +1,24 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { type FormEvent, useState, useTransition } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import type { ApiResult } from "@/lib/api";
-import { answerCounselor, decideCouple, declareDate, inviteCounselor, leaveCouple, payCounselor, revokeCounselor, sharePhone } from "./actions";
-import type { CounselorState } from "./couple";
+import {
+  acceptSession,
+  answerCounselor,
+  confirmMilestone,
+  decideCouple,
+  inviteCounselor,
+  leaveCouple,
+  payCounselor,
+  revokeCounselor,
+  setMilestoneDate,
+  sharePhone,
+  unsharePhone,
+} from "./actions";
+import { type CounselorState, milestoneState, type MilestoneRow, type SessionRow } from "./couple";
 
 const knownErrors = new Set([
   "not_member",
@@ -20,6 +32,9 @@ const knownErrors = new Set([
   "not_pending",
   "own_request",
   "nothing_to_pay",
+  "automatic_milestone",
+  "not_active",
+  "no_counselor",
   "unavailable",
 ]);
 
@@ -102,20 +117,27 @@ export function CoupleDecisions({
   decisions,
   myRequests,
   canLeave,
+  highlightUnion = false,
 }: {
   coupleId: string;
   decisions: ("resume" | "union" | "separation" | "keep_chat")[];
   myRequests: string[];
   canLeave: boolean;
+  /** « Célébration » franchie : l'union est proposée en premier (question 16 e), jamais automatique. */
+  highlightUnion?: boolean;
 }) {
   const t = useTranslations("Member.couple.decisions");
   const { error, pending, run } = useAction();
   const done = (kind: string) => myRequests.includes(kind);
+  const ordered = highlightUnion ? [...decisions].sort((a, b) => Number(b === "union") - Number(a === "union")) : decisions;
 
   return (
     <div>
+      {highlightUnion && decisions.includes("union") && !done("union") && (
+        <p className="mb-4 max-w-measure border-l border-accent pl-5">{t("unionInvite")}</p>
+      )}
       <ul className="border-t border-line">
-        {decisions.map((kind) => (
+        {ordered.map((kind) => (
           <li key={kind} className="border-b border-line py-6">
             <p className="max-w-measure text-sm text-fg-muted">{t(`${kind}Help`)}</p>
             <div className="mt-4 flex flex-wrap gap-4">
@@ -157,33 +179,62 @@ export function CoupleDecisions({
   );
 }
 
-/** Partage des numéros (9.5) : le numéro de l'autre n'apparaît que quand les deux ont cliqué. */
+/**
+ * Partage des numéros (9.5) : le numéro de l'autre n'apparaît que quand les deux ont cliqué ;
+ * chacun peut retirer son accord à tout moment (question 17), discrètement.
+ */
 export function PhoneShare({
   coupleId,
   iShared,
   canShare,
   partnerPhone,
   partnerName,
+  canShareNow,
 }: {
   coupleId: string;
   iShared: boolean;
   canShare: boolean;
   partnerPhone: string | null;
   partnerName: string;
+  /** Nouveau partage possible (couple en cours ou en pause) ; après l'union, retrait seulement. */
+  canShareNow: boolean;
 }) {
   const t = useTranslations("Member.couple.phone");
   const { error, pending, run } = useAction();
+  const unshare = iShared && (
+    <div className="mt-4">
+      <ConfirmButton
+        label={t("unshare")}
+        confirmText={t("unshareConfirm")}
+        confirmLabel={t("unshare")}
+        disabled={pending}
+        onConfirm={() => run(() => unsharePhone(coupleId))}
+      />
+      <ErrorLine error={error} />
+    </div>
+  );
   if (partnerPhone) {
     return (
-      <p className="mt-4">
-        {t("partner", { name: partnerName })}{" "}
-        <a href={`tel:${partnerPhone}`} className="font-serif text-2xl text-link underline-offset-4 hover:underline">
-          {partnerPhone}
-        </a>
-      </p>
+      <>
+        <p className="mt-4">
+          {t("partner", { name: partnerName })}{" "}
+          <a href={`tel:${partnerPhone}`} className="font-serif text-2xl text-link underline-offset-4 hover:underline">
+            {partnerPhone}
+          </a>
+        </p>
+        {unshare}
+      </>
     );
   }
-  if (iShared) return <p className="mt-4 text-sm text-fg-muted">{t("waiting")}</p>;
+  if (iShared) {
+    return (
+      <>
+        <p className="mt-4 text-sm text-fg-muted">{t("waiting")}</p>
+        {unshare}
+      </>
+    );
+  }
+  if (!canShareNow) return null;
   if (!canShare) return <p className="mt-4 text-sm text-fg-muted">{t("disabled")}</p>;
   return (
     <div className="mt-4">
@@ -196,15 +247,19 @@ export function PhoneShare({
   );
 }
 
-/** Déclarer un rendez-vous (date et heure de Cotonou) : compté comme activité du couple. */
-export function DateForm({ coupleId }: { coupleId: string }) {
+/**
+ * Déclarer un rendez-vous (date et heure de Cotonou), pendant le couple ou la découverte : il
+ * déclenche « Bien rentré(e) ? » 3 heures après (question 5). `declare` : action liée au couple
+ * ou à la découverte.
+ */
+export function DateForm({ declare }: { declare: (localDateTime: string) => Promise<ApiResult<string>> }) {
   const t = useTranslations("Member.couple.dates");
   const [value, setValue] = useState("");
   const { error, pending, run } = useAction();
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (value === "") return;
-    run(() => declareDate(coupleId, value), () => setValue(""));
+    run(() => declare(value), () => setValue(""));
   };
   return (
     <form onSubmit={submit} className="mt-4 flex flex-wrap items-end gap-4">
@@ -317,6 +372,138 @@ export function CounselorPanel({
           />
         </div>
       )}
+      <ErrorLine error={error} />
+    </div>
+  );
+}
+
+/**
+ * Parcours en 5 étapes (question 16) : une étape est franchie, ou retirée, quand les deux l'ont
+ * confirmée ; l'autre est prévenu dans la conversation. Date corrigeable par l'un ou l'autre.
+ * « Séances avec le conseiller » se coche seule à la première séance faite.
+ */
+export function MilestoneList({ coupleId, rows, editable }: { coupleId: string; rows: MilestoneRow[]; editable: boolean }) {
+  const t = useTranslations("Member.couple.journey");
+  const format = useFormatter();
+  const { error, pending, run } = useAction();
+  const [editing, setEditing] = useState<string | null>(null);
+  const [date, setDate] = useState("");
+
+  return (
+    <div>
+      <ol className="mt-4 border-t border-line">
+        {rows.map((row, i) => {
+          const state = milestoneState(row);
+          return (
+            <li key={row.kind} className="border-b border-line py-5">
+              <div className="grid gap-2 md:grid-cols-12 md:items-baseline md:gap-8">
+                <p className="md:col-span-7">
+                  <span className="mr-3 text-sm text-fg-muted">{i + 1}.</span>
+                  {t(row.kind)}
+                </p>
+                <p className="text-sm text-fg-muted md:col-span-5 md:text-right">
+                  {row.reached_at
+                    ? t("reached", { date: format.dateTime(new Date(row.reached_at), { dateStyle: "long", timeZone: "Africa/Porto-Novo" }) })
+                    : state === "auto"
+                      ? t("auto")
+                      : t("notYet")}
+                </p>
+              </div>
+              {editable && state !== "auto" && (
+                <div className="mt-3 flex flex-wrap items-end gap-4 text-sm">
+                  {state === "reach" && (
+                    <Button type="button" variant="secondary" disabled={pending} onClick={() => run(() => confirmMilestone(coupleId, row.kind, "reach"))}>
+                      {t("confirmReach")}
+                    </Button>
+                  )}
+                  {state === "waitingReach" && <p className="text-fg-muted">{t("waitingReach")}</p>}
+                  {state === "waitingRemove" && <p className="text-fg-muted">{t("waitingRemove")}</p>}
+                  {state === "reached" &&
+                    (editing === row.kind ? (
+                      <form
+                        className="flex flex-wrap items-end gap-3"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          run(() => setMilestoneDate(coupleId, row.kind, date), () => setEditing(null));
+                        }}
+                      >
+                        <label className="block">
+                          <span>{t("date")}</span>
+                          <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className={`${fieldClass} mt-2`} />
+                        </label>
+                        <Button type="submit" disabled={pending || date === ""}>
+                          {t("saveDate")}
+                        </Button>
+                        <Button type="button" variant="secondary" onClick={() => setEditing(null)}>
+                          {t("cancel")}
+                        </Button>
+                      </form>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          className="min-h-11 text-link underline-offset-4 hover:underline"
+                          onClick={() => {
+                            setDate(row.reached_at!.slice(0, 10));
+                            setEditing(row.kind);
+                          }}
+                        >
+                          {t("changeDate")}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={pending}
+                          className="min-h-11 text-link underline-offset-4 hover:underline"
+                          onClick={() => run(() => confirmMilestone(coupleId, row.kind, "remove"))}
+                        >
+                          {t("confirmRemove")}
+                        </button>
+                      </>
+                    ))}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+      {editable && <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("help")}</p>}
+      <ErrorLine error={error} />
+    </div>
+  );
+}
+
+/**
+ * Séances avec le conseiller (question 9) : comprises dans l'accès déjà payé ; chacun des deux
+ * accepte la date proposée d'un clic, la séance est confirmée quand les deux l'ont fait.
+ */
+export function SessionList({ sessions }: { sessions: SessionRow[] }) {
+  const t = useTranslations("Member.couple.sessions");
+  const format = useFormatter();
+  const { error, pending, run } = useAction();
+  if (sessions.length === 0) return <p className="mt-4 text-sm text-fg-muted">{t("none")}</p>;
+  return (
+    <div>
+      <ol className="mt-4 border-t border-line">
+        {sessions.map((s) => (
+          <li key={s.id} className="grid gap-2 border-b border-line py-5 md:grid-cols-12 md:items-center md:gap-8">
+            <p className="md:col-span-5">
+              {format.dateTime(new Date(s.scheduled_at), { dateStyle: "full", timeStyle: "short", timeZone: "Africa/Porto-Novo" })}
+              <span className="block text-sm text-fg-muted">{s.mode === "online" ? t("online") : t("place", { place: s.location ?? "" })}</span>
+            </p>
+            <p className="text-sm md:col-span-3">{t(`status.${s.status}`)}</p>
+            <div className="text-sm md:col-span-4 md:text-right">
+              {s.status === "proposed" &&
+                (s.i_accepted ? (
+                  <span className="text-fg-muted">{t("waiting")}</span>
+                ) : (
+                  <Button type="button" disabled={pending} onClick={() => run(() => acceptSession(s.id))}>
+                    {t("accept")}
+                  </Button>
+                ))}
+            </div>
+          </li>
+        ))}
+      </ol>
       <ErrorLine error={error} />
     </div>
   );

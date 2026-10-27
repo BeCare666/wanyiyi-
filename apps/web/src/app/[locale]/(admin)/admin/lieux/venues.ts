@@ -34,3 +34,25 @@ export function venueExportCell(
       return labels.date(row.created_at);
   }
 }
+
+/** Lieu conseillé pour un premier rendez-vous (question 4, 27 octobre 2026). */
+export const venueKinds = ["cafe", "restaurant", "other"] as const;
+export type VenueKind = (typeof venueKinds)[number];
+export type FirstDateInput = { partner: boolean; district: string; kind: VenueKind | ""; hours: string };
+export type FirstDateRow = {
+  id: string;
+  name: string;
+  city: string;
+  first_date_partner: boolean;
+  district: string | null;
+  venue_kind: VenueKind | null;
+  opening_hours: string | null;
+};
+
+/** Contrôle : quartier 80 caractères, horaires 120 ; un lieu conseillé a un quartier et un type. */
+export function checkFirstDate(input: FirstDateInput): "district" | "kind" | "hours" | null {
+  if (input.district.length > 80 || (input.partner && input.district.trim() === "")) return "district";
+  if ((input.kind !== "" && !venueKinds.includes(input.kind)) || (input.partner && input.kind === "")) return "kind";
+  if (input.hours.length > 120) return "hours";
+  return null;
+}

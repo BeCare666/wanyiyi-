@@ -2,6 +2,7 @@ import type { Icon } from "@phosphor-icons/react";
 import {
   ChampagneIcon,
   ChatTextIcon,
+  FlagIcon,
   HandHeartIcon,
   HeartIcon,
   MapPinIcon,
@@ -10,12 +11,13 @@ import {
   TagIcon,
   UsersIcon,
   UsersThreeIcon,
+  WarningIcon,
 } from "@phosphor-icons/react/ssr";
 import type { StaffPermission } from "@/lib/staff";
 
 /** Entrée du menu de l'administration : clé de traduction (Admin.nav), adresse, icône, permission requise. */
 export type AdminNavItem = {
-  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "discoveries" | "couples" | "counselors" | "payments";
+  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "discoveries" | "couples" | "counselors" | "alerts" | "reports" | "payments";
   href: string;
   Icon: Icon;
   permission: StaffPermission;
@@ -34,6 +36,8 @@ export const adminNav: AdminNavGroup[] = [
       { key: "verifications", href: "/admin/verifications", Icon: ShieldCheckIcon, permission: "verifications.review" },
       // Modération des textes de profil (question 22, 22 octobre 2026)
       { key: "moderation", href: "/admin/moderation", Icon: ChatTextIcon, permission: "profile_texts.review" },
+      // Signalements des membres (question 11, 27 octobre 2026)
+      { key: "reports", href: "/admin/signalements", Icon: FlagIcon, permission: "reports.read" },
     ],
   },
   {
@@ -52,6 +56,8 @@ export const adminNav: AdminNavGroup[] = [
       { key: "discoveries", href: "/admin/decouvertes", Icon: HeartIcon, permission: "events.manage" },
       { key: "couples", href: "/admin/couples", Icon: UsersIcon, permission: "couples.read" },
       { key: "counselors", href: "/admin/conseillers", Icon: HandHeartIcon, permission: "counselors.manage" },
+      // « Bien rentré(e) ? » : demandes d'aide et absences de réponse (question 5, 27 octobre 2026)
+      { key: "alerts", href: "/admin/alertes", Icon: WarningIcon, permission: "couples.manage" },
     ],
   },
   {

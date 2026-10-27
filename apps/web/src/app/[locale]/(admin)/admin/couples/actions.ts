@@ -28,3 +28,17 @@ export async function unblockCouple(coupleId: string): Promise<ApiResult<void>> 
   if (!UUID.test(coupleId)) return { ok: false, error: "generic" };
   return call("admin_unblock_couple", { p_couple: coupleId });
 }
+
+export type AdminCounselorNote = { id: string; counselor_name: string | null; body: string; created_at: string };
+
+/**
+ * Notes privées du conseiller sur un couple (question 18) : lues par l'administration seulement en
+ * cas de litige ou de signalement ; chaque lecture est journalisée par la base (couples.manage).
+ */
+export async function readCounselorNotes(coupleId: string): Promise<ApiResult<AdminCounselorNote[]>> {
+  if (!UUID.test(coupleId)) return { ok: false, error: "generic" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { data, error } = await supabase.rpc("admin_counselor_notes", { p_couple: coupleId });
+  return error ? { ok: false, error: error.message } : { ok: true, data: (data ?? []) as AdminCounselorNote[] };
+}

@@ -1,0 +1,190 @@
+IFEDELE : MES PROPOSITIONS POUR LES QUESTIONS OUVERTES DE LA PHASE 3
+27 octobre 2026. Rien de ceci n'est codé : ce sont des propositions à valider,
+modifier ou refuser, question par question. Répondez par exemple
+« 3 OK, 4 OK, 5 : 4 heures au lieu de 3, ... ».
+
+Fil conducteur de mes choix : la sécurité et la discrétion des membres
+d'abord, des règles simples à expliquer, et le moins de travail manuel
+possible pour l'équipe.
+
+======================================================================
+ 3. PROLONGATION D'UNE DÉCOUVERTE
+======================================================================
+Proposition : la demande de prolongation (7 jours, une seule fois) n'est
+possible que pendant les 4 DERNIERS JOURS de la découverte (à partir du
+jour 10).
+Pourquoi : demander à J+2 n'a pas de sens, on ne se connaît pas encore ;
+à la fin, chacun sait s'il a besoin de plus de temps. Le bouton
+apparaît au jour 10 avec le message « Il reste 4 jours : vous pouvez
+demander 7 jours de plus ». Comme pour « Je veux continuer », l'autre ne
+voit jamais la demande ; elle ne prend effet que si les deux la font.
+
+======================================================================
+ 4. PREMIER RENDEZ-VOUS DANS UN LIEU PARTENAIRE
+======================================================================
+Proposition : une LISTE des lieux partenaires (ceux déjà saisis dans
+l'administration, menu Lieux, avec une case « partenaire pour un premier
+rendez-vous »), affichée dans la découverte et dans l'espace du couple :
+nom, quartier, adresse, type (café, restaurant), horaires. Pas de
+réservation par l'équipe pour l'instant.
+Pourquoi : simple, sans charge pour l'équipe, et cela encourage un lieu
+public et connu. La réservation par l'équipe pourra venir plus tard
+(phase 4, avec les prestataires) si les partenaires le demandent.
+
+======================================================================
+ 5. « BIEN RENTRÉ(E) ? »
+======================================================================
+Proposition :
+ a) Le membre déclare la date et l'heure du rendez-vous (déjà fait dans
+    l'espace du couple). Je propose de l'ouvrir AUSSI pendant la
+    découverte : c'est là que les premiers rendez-vous ont lieu, donc là
+    que le risque est le plus grand.
+ b) 3 heures après l'heure déclarée, le membre qui a déclaré ET l'autre
+    reçoivent chacun « Bien rentré(e) ? » avec deux boutons « Oui » et
+    « J'ai besoin d'aide ». Canaux : notification dans l'espace membre +
+    e-mail (le SMS plus tard, quand Brevo sera débloqué).
+ c) « J'ai besoin d'aide » : alerte immédiate à l'administration (et au
+    conseiller s'il y en a un), avec le prénom, le numéro de membre et le
+    numéro de téléphone déclaré ; le membre voit le numéro d'urgence de
+    l'équipe (WhatsApp +229 40 30 57 57).
+ d) Pas de réponse au bout de 12 heures : un rappel. Toujours rien
+    24 heures après le rendez-vous : alerte à l'administration, qui
+    décide de contacter ou non le membre.
+ e) L'autre personne ne voit jamais la réponse.
+
+======================================================================
+ 9. CONSEILLERS (points encore ouverts)
+======================================================================
+ b) Un couple peut-il rester sans conseiller ?
+    Proposition : OUI. Le conseiller reste un choix du couple (et il est
+    payant). Le couple sans conseiller garde tout le reste ; l'alerte
+    d'inactivité va alors à l'administration (déjà codé ainsi).
+
+ Canal privé membre-conseiller : avec quel conseiller ?
+    Proposition : seulement avec le conseiller ATTRIBUÉ au couple, et
+    seulement tant que son accès est en cours. Chacun des deux membres a
+    son propre canal privé avec lui ; l'autre membre ne le lit jamais. Le
+    canal se ferme quand le conseiller est retiré ou le couple terminé
+    (gardé 90 jours pour la modération, puis effacé, comme les autres
+    conversations).
+    Pourquoi : pas de conseiller « hors couple » à gérer, pas de
+    paiement supplémentaire, règles identiques à celles déjà validées.
+
+ c) Séances : payantes ? agenda ?
+    Proposition : les séances sont COMPRISES dans l'accès au conseiller
+    déjà payé (pas de second paiement). Le conseiller propose une date
+    (en ligne dans le chat, ou dans un lieu), les deux membres
+    l'acceptent chacun d'un clic ; elle apparaît dans l'espace du couple
+    et dans l'agenda du conseiller ; le conseiller la marque « faite »
+    ensuite. La médiation à trois se fait dans le chat du couple, où le
+    conseiller écrit déjà.
+    Pourquoi : un seul paiement, simple à comprendre ; l'administration
+    garde la main sur le prix de l'accès.
+
+======================================================================
+ 11. SIGNALEMENTS
+======================================================================
+Proposition :
+ a) Bouton « Signaler » sur chaque conversation (découverte, couple) et
+    sur chaque message. Motifs : comportement irrespectueux ou
+    harcèlement ; demande d'argent ou arnaque ; faux profil ou fausse
+    identité ; propos ou contenu sexuel non souhaité ; menace ou danger ;
+    autre (texte libre obligatoire).
+ b) Traitement : file « Signalements » dans l'administration (admin et
+    super admin, et la modération en lecture), délai cible 24 heures
+    (déjà prévu par la note). Seuls les messages signalés sont lisibles,
+    chaque consultation est journalisée.
+ c) Le membre signalé n'est PAS prévenu du signalement (protection de
+    celui qui signale). Il n'apprend que la décision éventuelle
+    (avertissement, suspension, exclusion), avec un motif neutre.
+ d) Le signalement NE ferme PAS automatiquement la découverte, sauf
+    « menace ou danger » : la conversation est alors mise en lecture
+    seule tout de suite, en attendant l'équipe. Le membre qui signale
+    peut toujours partir de lui-même (ne pas choisir « continuer »,
+    quitter le couple).
+
+======================================================================
+ 12. ESPACE SOUVENIR (UNION)
+======================================================================
+Proposition : OUI à ce qui est codé. En phase 3, l'union met la
+conversation en lecture seule et l'efface après 12 mois sauf si les deux
+demandent à la garder (déjà fait). L'espace souvenir (étapes, dates,
+photos) arrive en phase 4, comme prévu.
+
+======================================================================
+ 13. MATCHS EN ATTENTE QUAND UN COUPLE SE FORME
+======================================================================
+Proposition : quand deux membres forment un couple, tous leurs autres
+matchs encore en attente EXPIRENT tout de suite, avec le message neutre
+« Cette mise en relation est terminée. » envoyé aux deux personnes de
+chaque match.
+Pourquoi : l'exclusivité (9.5) est claire ; laisser des matchs en
+attente pendant 7 jours fait espérer l'autre personne pour rien.
+
+======================================================================
+ 14. DÉCOUVERTE FERMÉE : CONVERSATION RELISIBLE ?
+======================================================================
+Proposition : la conversation n'est plus visible des deux membres dès la
+fin de la découverte (fermée, expirée, ou partie d'un membre). Elle est
+gardée 90 jours pour la modération seulement (en cas de signalement),
+puis effacée.
+Pourquoi : même règle que la séparation et le départ (déjà validées) ;
+cela évite de relire en boucle une relation terminée et protège les
+messages de chacun. Exception : une découverte devenue couple garde sa
+conversation de découverte, lisible dans l'espace du couple.
+
+======================================================================
+ 15. PHOTOS APRÈS LA FIN D'UNE MISE EN RELATION
+======================================================================
+Proposition : OUI à la règle codée : dès qu'un match expire, qu'une
+découverte se ferme, ou qu'un couple se termine (séparation ou départ),
+l'autre personne ne voit plus les photos. Après une union, les photos
+restent visibles de l'autre (elles iront dans l'espace souvenir en
+phase 4).
+
+======================================================================
+ 16. PARCOURS DU COUPLE EN 5 ÉTAPES
+======================================================================
+Proposition :
+ a) Une étape est franchie quand LES DEUX membres la confirment (comme
+    l'union) : l'un clique « Nous avons franchi cette étape », l'autre
+    reçoit un message dans le chat et confirme. La date est celle de la
+    seconde confirmation (modifiable par les deux).
+ b) Exception : « Séances avec le conseiller » est franchie
+    automatiquement à la première séance marquée « faite » par le
+    conseiller (question 9 c).
+ c) Le conseiller voit les étapes du couple (suivi, section 7) mais ne
+    les marque pas lui-même.
+ d) Pas de note libre (rien à modérer) ; une étape peut être retirée par
+    les deux, de la même manière, en cas d'erreur.
+ e) « Célébration » franchie = l'union peut être proposée (le bouton
+    « Déclarer notre union » est mis en avant), sans être automatique.
+
+======================================================================
+ 17. PARTAGE DES NUMÉROS
+======================================================================
+Proposition :
+ a) Retrait possible à tout moment par chacun (« Ne plus partager mon
+    numéro ») : l'autre ne voit plus le numéro sur le site. Le retrait
+    est discret (aucun message dans le chat). Il faut savoir que l'autre
+    a pu le noter : le texte du bouton le dit.
+ b) Après l'union : les numéros restent affichés (ils sont un couple
+    établi). Après une séparation ou un départ : masqués (déjà codé).
+
+======================================================================
+ 18. NOTES PRIVÉES DU CONSEILLER
+======================================================================
+Proposition : OUI à la règle codée : plus lisibles par le conseiller dès
+son retrait ou la fin du couple. Elles sont gardées 90 jours (pour
+l'administration en cas de litige ou de signalement, consultation
+journalisée), puis effacées automatiquement, comme les conversations.
+
+======================================================================
+CE QUE JE CODERAI ENSUITE, DANS L'ORDRE, SI VOUS VALIDEZ
+======================================================================
+ 1. 13, 14, 15, 17, 18 (petites règles dans la base, rapides).
+ 2. 3 (prolongation), 16 (parcours), 4 (lieux partenaires).
+ 3. 5 (« Bien rentré(e) ? »), avec une tâche planifiée de l'API.
+ 4. 11 (signalements, côté membre et administration).
+ 5. 9 (canal privé et séances, dans l'espace conseiller).
+ 6. Étape 8 : tests de bout en bout de toute la phase 3.

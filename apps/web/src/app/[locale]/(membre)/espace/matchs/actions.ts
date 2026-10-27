@@ -2,6 +2,7 @@
 
 import { type ApiResult, memberApi } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { cotonouToIso } from "../couple/couple";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -44,4 +45,26 @@ export async function partnerPhotoLink(photoId: string): Promise<ApiResult<{ url
   const result = await memberApi<{ path: string }>(`/photos/${photoId}/link`, { method: "POST" });
   if (!result.ok) return result;
   return { ok: true, data: { url: `${process.env.NEXT_PUBLIC_API_URL}${result.data.path}` } };
+}
+
+/** Rendez-vous déclaré pendant la découverte (question 5) : « Bien rentré(e) ? » 3 heures après. */
+export async function declareDiscoveryDate(discoveryId: string, localDateTime: string): Promise<ApiResult<string>> {
+  if (!UUID.test(discoveryId) || typeof localDateTime !== "string") return { ok: false, error: "generic" };
+  const at = cotonouToIso(localDateTime);
+  if (!at) return { ok: false, error: "invalid_date" };
+  return call<string>("declare_discovery_date", { p_discovery: discoveryId, p_date_at: at });
+}
+
+const reportReasons = ["disrespect", "money", "fake_profile", "sexual", "threat", "other"];
+
+/**
+ * Signalement d'un message ou de toute la conversation (question 11) : la base vérifie que le
+ * membre en fait partie ; la personne signalée n'est pas prévenue.
+ */
+export async function reportConversation(conversationId: string, messageId: string | null, reason: string, details: string): Promise<ApiResult<string>> {
+  if (!UUID.test(conversationId) || (messageId !== null && !UUID.test(messageId)) || !reportReasons.includes(reason) || typeof details !== "string") {
+    return { ok: false, error: "generic" };
+  }
+  if (details.length > 1000) return { ok: false, error: "details_too_long" };
+  return call<string>("report_conversation", { p_conversation: conversationId, p_message: messageId, p_reason: reason, p_details: details.trim() || null });
 }

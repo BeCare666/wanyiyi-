@@ -6,7 +6,17 @@ import { Button } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import { chooseMatch, decideDiscovery } from "./actions";
 
-const knownErrors = new Set(["no_free_slot", "expired", "not_pending", "already_chosen", "couple_exclusivity", "not_active", "unavailable"]);
+const knownErrors = new Set([
+  "no_free_slot",
+  "expired",
+  "not_pending",
+  "already_chosen",
+  "couple_exclusivity",
+  "not_active",
+  "extension_too_early",
+  "already_extended",
+  "unavailable",
+]);
 
 function useAction() {
   const router = useRouter();
@@ -88,6 +98,7 @@ export function DiscoveryDecisions({
           </Button>
         )}
       </div>
+      {canExtend && !wantsExtension && <p className="mt-3 text-sm text-fg-muted">{t("extendHint")}</p>}
       {(wantsToContinue || wantsExtension) && <p className="mt-3 text-sm text-fg-muted">{t("decisionPrivate")}</p>}
       <ErrorLine error={error} />
     </div>

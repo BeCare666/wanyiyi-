@@ -122,14 +122,17 @@ describe("Découvertes (9.4, question 2)", () => {
   });
 
   it("prolongation : seulement si les deux la demandent, une seule fois, 7 jours", async () => {
+    // Question 3 : la demande n'est possible que pendant les 4 derniers jours
+    expect(await failure(as(p.afiwa!, "select app.decide_discovery($1, false, true)", [(await discoveryOf(m2))!.id]))).toMatch(/extension_too_early/);
+    await db.query("update app.discoveries set ends_at = now() + interval '3 days' where match_id = $1", [m2]);
     const d2 = (await discoveryOf(m2))!;
     expect(await decide(p.afiwa!, d2.id, false, true)).toBe("recorded");
     expect(await decide(p.dossou!, d2.id, false, true)).toBe("extended");
     const after = (await discoveryOf(m2))!;
     expect(after.status).toBe("extended");
     expect(after.ends_at.getTime() - d2.ends_at.getTime()).toBe(7 * 86_400_000);
-    expect(await decide(p.afiwa!, d2.id, false, true)).toBe("recorded");
-    expect(await decide(p.dossou!, d2.id, false, true)).toBe("recorded");
+    // Une seule fois : une nouvelle demande est refusée
+    expect(await failure(as(p.afiwa!, "select app.decide_discovery($1, false, true)", [d2.id]))).toMatch(/already_extended/);
     expect((await discoveryOf(m2))!.ends_at.getTime()).toBe(after.ends_at.getTime());
   });
 
@@ -150,8 +153,10 @@ describe("Découvertes (9.4, question 2)", () => {
     expect(closedChats).toHaveLength(1);
     const { rows: coupleChat } = await db.query("select * from app.conversations where couple_id = $1 and kind = 'couple'", [couples[0]!.id]);
     expect(coupleChat).toHaveLength(1);
-    // En couple : aucun nouveau match ne s'ouvre (question 13)
-    expect(await choose(p.afiwa!, m3)).toMatch(/couple_exclusivity/);
+    // Question 13 : les matchs encore en attente des deux expirent aussitôt, message neutre
+    expect(await choose(p.afiwa!, m3)).toMatch(/not_pending/);
+    expect((await db.query<{ status: string }>("select status from app.matches where id = $1", [m3])).rows[0]?.status).toBe("expired");
+    expect(await notices(p.yao!, "match.expired")).toBe(1);
     // Exclusivité : plus de réservation
     const soon = await createEvent(db, { startsInHours: 120 });
     expect(await failure(as(p.afiwa!, "select app.book_event($1)", [soon]))).toMatch(/couple_exclusivity/);
@@ -162,17 +167,23 @@ describe("Découvertes (9.4, question 2)", () => {
     await announce();
     const d = (await discoveryOf(md))!;
     await db.query("update app.discoveries set ends_at = now() - interval '1 minute' where id = $1", [d.id]);
-    // m3 (Afiwa et Yao) n'a jamais été ouvert : son attente de 7 jours se termine
-    await db.query("update app.matches set pending_expires_at = now() - interval '1 minute' where id = $1", [m3]);
+    // Match annoncé jamais ouvert (Ablavi et Yao) : son attente de 7 jours se termine
+    const { rows: pending } = await db.query<{ id: string }>(
+      `insert into app.matches (event_id, member_a, member_b, announced_at, notified_at, pending_expires_at)
+       values ($1, least($2::uuid, $3::uuid), greatest($2::uuid, $3::uuid), now() - interval '8 days', now() - interval '8 days', now() - interval '1 minute')
+       returning id`,
+      [event, p.ablavi, p.yao],
+    );
+    const mp = pending[0]!.id;
     const [{ n }] = await asSystem<{ n: number }>("select app.expire_discoveries() as n");
     expect(n).toBeGreaterThanOrEqual(2);
     expect((await discoveryOf(md))?.status).toBe("expired");
     expect(await notices(p.kodjo!, "discovery.closed")).toBe(1);
-    const { rows } = await db.query<{ status: string }>("select status from app.matches where id = $1", [m3]);
+    const { rows } = await db.query<{ status: string }>("select status from app.matches where id = $1", [mp]);
     expect(rows[0]?.status).toBe("expired");
-    expect(await notices(p.afiwa!, "match.expired")).toBe(1);
-    expect(await notices(p.yao!, "match.expired")).toBe(1);
-    expect(await choose(p.yao!, m3)).toMatch(/not_pending/);
+    expect(await notices(p.ablavi!, "match.expired")).toBe(1);
+    expect(await notices(p.yao!, "match.expired")).toBe(2);
+    expect(await choose(p.yao!, mp)).toMatch(/not_pending/);
   });
 
   it("tâche système réservée : un membre ne peut ni fermer ni expirer", async () => {

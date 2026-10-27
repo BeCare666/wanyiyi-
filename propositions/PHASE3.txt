@@ -229,6 +229,51 @@ reports, reported_messages, photos.
 Étape 8. Critère de fin : tests de bout en bout des règles 9.4 à 9.6 sur des
   données fictives (suite de la simulation de soirée de la phase 2 : matchs,
   découvertes, couple, conseiller, fin).
+  FAIT le 27 octobre 2026 : supabase/tests/parcours-phase3.test.ts (8 étapes :
+  trois matchs pour deux places, découverte sans coordonnées, photos, « Bien
+  rentré(e) ? », prolongation, couple et fins des autres mises en relation,
+  conseillère avec historique, séance et étapes, numéros, canal privé, retrait,
+  séparation et effacement).
+
+======================================================================
+PROPOSITIONS VALIDÉES LE 27 OCTOBRE 2026 (« tout est OK, applique tes
+propositions » : propositions/PROPOSITIONS-QUESTIONS-PHASE3.txt)
+======================================================================
+Questions 3, 4, 5, 9 (b, c, canal privé), 11 à 18 : réponses = ce fichier.
+Fait le 27 octobre 2026 :
+  - 20261027000100_regles_phase3.sql : prolongation les 4 derniers jours
+    (refus « extension_too_early », une seule fois « already_extended ») ;
+    matchs en attente expirés à la formation d'un couple ; découverte terminée
+    illisible, gardée 90 jours puis effacée (sauf devenue couple, relisible dans
+    l'espace du couple) ; photos visibles après l'union, plus après une fin (le
+    match d'un couple ne les montre plus) ; retrait du partage des numéros,
+    numéros affichés après l'union ; notes du conseiller effacées 90 jours après
+    son retrait, lisibles par l'administration (journalisé, /admin/couples).
+    Test regles-phase3 (6).
+  - 20261027000200_parcours_lieux.sql : étapes confirmées par les deux (message
+    dans la conversation), retrait à deux, date corrigeable par l'un ou l'autre,
+    « Séances avec le conseiller » automatique, lues par le conseiller ; union
+    mise en avant après « Célébration » ; lieux conseillés pour un premier
+    rendez-vous (case, quartier, type, horaires dans /admin/lieux ; liste dans
+    la découverte et l'espace du couple). Test parcours-lieux (4).
+  - 20261027000300_bien_rentre.sql : rendez-vous déclarés aussi en découverte ;
+    tâche API date-checkins (15 min) : message à 3 h, rappel à 12 h, alerte à
+    24 h ; « J'ai besoin d'aide » : alerte immédiate (équipe et conseiller,
+    prénom, numéro de membre, téléphone) et numéro WhatsApp de l'équipe affiché ;
+    e-mails dans l'API ; carte sur le tableau de bord ; /admin/alertes.
+    Test bien-rentre (3).
+  - 20261027000400_signalements.sql : six motifs, « Signaler » sur chaque
+    message et chaque conversation, file /admin/signalements (lecture :
+    reports.read, décision : reports.manage), messages signalés seuls lisibles et
+    journalisés (un signalement de conversation joint les 20 derniers messages
+    de la personne signalée), décision notifiée avec un motif neutre,
+    « menace » : lecture seule immédiate. Test signalements (5).
+  - 20261027000500_conseiller_seances.sql : canal privé avec le conseiller
+    attribué (/espace/couple/conseiller, /conseiller/prive/<id>), fermé au
+    retrait ; séances proposées par le conseiller, acceptées par les deux,
+    faites, agenda du conseiller. Test conseiller-seances (4).
+  Fichier à exécuter : supabase/a-executer-mise-a-jour-27-octobre-suite.sql
+  (après a-executer-mise-a-jour-27-octobre.sql).
 
 ======================================================================
 QUESTIONS (je n'invente pas les réponses)

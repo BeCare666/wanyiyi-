@@ -552,7 +552,15 @@
         "couple_union_celebrated": "Ẹ kú oríire: a ti forúkọ ìgbéyàwó yín sílẹ̀.",
         "couple_separated": "A ti forúkọ ìpínyà yín sílẹ̀. Ẹ lè padà sí àwọn ìpàdé alẹ́ lẹ́yìn oṣù kan.",
         "couple_ended_by_partner": "Ẹnìkejì yín ti fòpin sí tọkọtaya náà.",
-        "couple_ended_by_partner_counselor": "Ẹnìkejì yín ti fòpin sí tọkọtaya náà."
+        "couple_ended_by_partner_counselor": "Ẹnìkejì yín ti fòpin sí tọkọtaya náà.",
+        "date_checkin": "Ṣé ẹ dé ilé láìléwu? Ẹ dáhùn láti ojú-ìwé àkọ́kọ́ yín.",
+        "date_checkin_reminder": "Ìránnilétí: ṣé ẹ dé ilé láìléwu? Ẹ dáhùn láti ojú-ìwé àkọ́kọ́ yín.",
+        "date_help_requested": "Ìkìlọ̀: ọmọ ẹgbẹ́ kan béèrè ìrànlọ́wọ́ lẹ́yìn ìpàdé rẹ̀.",
+        "date_checkin_no_answer": "Ìkìlọ̀: ọmọ ẹgbẹ́ kan kò dáhùn ní wákàtí 24 lẹ́yìn ìpàdé rẹ̀.",
+        "report_received": "Ìfisùn tuntun láti bójú tó láàrin wákàtí 24.",
+        "member_warned": "Ẹ ti gba ìkìlọ̀ láti ọ̀dọ̀ ẹgbẹ́.",
+        "session_proposed": "Olùdámọ̀ràn yín dábàá ìjókòó kan. Ẹ gba ọjọ́ náà nínú àyè tọkọtaya.",
+        "session_confirmed": "Àwọn méjèèjì nínú tọkọtaya ti fìdí ìjókòó kan múlẹ̀."
       }
     },
     "dashboard": {
@@ -1056,9 +1064,12 @@
         "couple_exclusivity": "Ẹ wà ní tọkọtaya: kò sí ìmọ̀ra ẹni tuntun tí yóò ṣí.",
         "not_active": "Ìmọ̀ra ẹni yìí ti parí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
-        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
+        "extension_too_early": "Ọjọ́ mẹ́rin tí ó gbẹ̀yìn ìmọ̀ra ni a lè béèrè àfikún àkókò.",
+        "already_extended": "A ti fi àkókò kún ìmọ̀ra yìí lẹ́ẹ̀kan."
       },
-      "coupleOpen": "Ṣí àyè tọkọtaya"
+      "coupleOpen": "Ṣí àyè tọkọtaya",
+      "extendHint": "Ọjọ́ mẹ́rin tàbí kí ó dín ló kù: ẹ lè béèrè ọjọ́ méje sí i, lẹ́ẹ̀kan ṣoṣo."
     },
     "chat": {
       "label": "Ìfọ̀rọ̀wérọ̀",
@@ -1093,9 +1104,19 @@
         "couple_resume_requested": "{name} fẹ́ tẹ̀síwájú.",
         "couple_union_requested": "{name} ti kéde ìgbéyàwó yín.",
         "couple_union_celebrated": "A ti forúkọ ìgbéyàwó yín sílẹ̀. Ẹ kú oríire.",
-        "couple_separation_requested": "{name} ti béèrè ìpínyà."
+        "couple_separation_requested": "{name} ti béèrè ìpínyà.",
+        "milestone_reach_requested": "{name} dábàá pé kí a sàmì sí ìpele « {step} » gẹ́gẹ́ bí èyí tí a ti dé.",
+        "milestone_remove_requested": "{name} dábàá pé kí a yọ ìpele « {step} ».",
+        "milestone_reached": "A ti dé ìpele: « {step} ».",
+        "milestone_removed": "A ti yọ ìpele: « {step} ».",
+        "milestone_date_changed": "{name} ti ṣàtúnṣe ọjọ́ ìpele « {step} ».",
+        "session_proposed": "{name} dábàá ìjókòó kan. Ẹ wá a nínú àyè tọkọtaya.",
+        "session_confirmed": "Ẹ̀yin méjèèjì ti fìdí ìjókòó múlẹ̀.",
+        "session_cancelled": "{name} ti fagilé ìjókòó kan."
       },
-      "counselor": "Olùdámọ̀ràn"
+      "counselor": "Olùdámọ̀ràn",
+      "reportMessage": "Fi ọ̀rọ̀ yìí sùn",
+      "reportConversation": "Fi ìfọ̀rọ̀wérọ̀ yìí sùn"
     },
     "couple": {
       "title": "Àyè tọkọtaya",
@@ -1127,7 +1148,8 @@
         "keep_chatHelp": "Láìsí ìbéèrè ẹ̀yin méjèèjì, a ó pa ìfọ̀rọ̀wérọ̀ rẹ́ ní oṣù 12 lẹ́yìn ìgbéyàwó.",
         "leave": "Kúrò nínú tọkọtaya",
         "leaveHelp": "Ẹ lè kúrò fúnra yín, nígbàkígbà, láìsí àlàyé. Tọkọtaya yóò parí lẹ́sẹ̀kẹsẹ̀, a ó sì sọ fún ẹnì kejì.",
-        "leaveConfirm": "Ṣé ẹ fẹ́ kúrò nínú tọkọtaya báyìí? A ó ti ìfọ̀rọ̀wérọ̀ lẹ́sẹ̀kẹsẹ̀. Ìpinnu yìí kò ṣeé yípadà."
+        "leaveConfirm": "Ṣé ẹ fẹ́ kúrò nínú tọkọtaya báyìí? A ó ti ìfọ̀rọ̀wérọ̀ lẹ́sẹ̀kẹsẹ̀. Ìpinnu yìí kò ṣeé yípadà.",
+        "unionInvite": "Ẹ ti dé ìpele « Ayẹyẹ ». Bí ẹ bá fẹ́, ẹ kéde ìgbéyàwó yín."
       },
       "phone": {
         "title": "Nọ́mbà fóònù",
@@ -1136,11 +1158,13 @@
         "waiting": "Ẹ ti gbà láti pín nọ́mbà yín. A ó fi hàn nígbà tí ẹnì kejì bá ṣe bẹ́ẹ̀ pẹ̀lú.",
         "disabled": "Pípín nọ́mbà yín ti wà ní pípa nínú ètò yín, tàbí kò sí nọ́mbà kankan lórí àkọọ́lẹ̀ yín.",
         "partner": "Nọ́mbà {name}:",
-        "blocked": "A ti dá pípín nọ́mbà dúró nígbà tí ìdènà bá wà."
+        "blocked": "A ti dá pípín nọ́mbà dúró nígbà tí ìdènà bá wà.",
+        "unshare": "Má pín nọ́mbà mi mọ́",
+        "unshareConfirm": "Ẹnì kejì kò ní rí nọ́mbà yín lórí ojú-òpó mọ́. Ó ti lè kọ ọ́ sílẹ̀ ṣáájú."
       },
       "dates": {
         "title": "Ìpàdé",
-        "help": "Ẹ kọ àwọn ìpàdé yín sílẹ̀ níbí. Fún àwọn àkọ́kọ́, ẹ yan ibi tí gbogbo ènìyàn ń lọ.",
+        "help": "Ẹ kéde àwọn ìpàdé yín: wákàtí 3 lẹ́yìn náà, ẹnìkọ̀ọ̀kan yín yóò gba « Ṣé ẹ dé ilé láìléwu? ». Fún àwọn àkọ́kọ́, ẹ yan ibi tí gbogbo ènìyàn ń lọ.",
         "when": "Ọjọ́ àti àkókò (àkókò Cotonou)",
         "declare": "Kéde ìpàdé",
         "byMe": "Ẹ̀yin ni ẹ kéde rẹ̀",
@@ -1168,7 +1192,8 @@
         "remove": "Yọ olùdámọ̀ràn kúrò",
         "removeConfirm": "Ṣé ẹ fẹ́ yọ olùdámọ̀ràn kúrò? Yóò kúrò nínú ìfọ̀rọ̀wérọ̀ lẹ́sẹ̀kẹsẹ̀. Ìwọlé tuntun yóò nílò ìsanwó tuntun.",
         "cancel": "Fagilé ìpè",
-        "cancelConfirm": "Ṣé ẹ fẹ́ fagilé ìpè olùdámọ̀ràn?"
+        "cancelConfirm": "Ṣé ẹ fẹ́ fagilé ìpè olùdámọ̀ràn?",
+        "private": "Kọ̀wé ní ìkọ̀kọ̀ sí {name}"
       },
       "journey": {
         "title": "Ìrìn àjò yín",
@@ -1178,7 +1203,17 @@
         "dowry_or_wedding": "Owó orí tàbí ìgbéyàwó",
         "celebration": "Ayẹyẹ",
         "reached": "A dé ibẹ̀ ní {date}",
-        "notYet": "Ó ń bọ̀"
+        "notYet": "Ó ń bọ̀",
+        "auto": "A dé ibẹ̀ ní ìjókòó àkọ́kọ́ tí a ṣe pẹ̀lú olùdámọ̀ràn",
+        "confirmReach": "A ti dé ìpele yìí",
+        "waitingReach": "Ẹ ti fọwọ́ sí i: a ó kà á sí dídé nígbà tí ẹnì kejì bá fọwọ́ sí i pẹ̀lú.",
+        "waitingRemove": "Ẹ ti béèrè láti yọ ìpele yìí: a ó yọ ọ́ nígbà tí ẹnì kejì bá béèrè pẹ̀lú.",
+        "changeDate": "Ṣàtúnṣe ọjọ́",
+        "confirmRemove": "Yọ ìpele yìí",
+        "date": "Ọjọ́",
+        "saveDate": "Fi ọjọ́ pamọ́",
+        "cancel": "Fagilé",
+        "help": "A máa ń dé ìpele kan nígbà tí ẹ̀yin méjèèjì bá fọwọ́ sí i. A máa ń sọ fún ẹnì kejì nínú ìfọ̀rọ̀wérọ̀."
       },
       "errors": {
         "not_member": "Ẹ kì í ṣe ara tọkọtaya yìí.",
@@ -1192,6 +1227,76 @@
         "not_pending": "Ìpè yìí kò sí ní ìdúró mọ́.",
         "own_request": "Ẹ kò lè dáhùn ìpè tí ẹ fúnra yín ṣe.",
         "nothing_to_pay": "Kò sí nǹkan láti san fún ìwọlé yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
+        "automatic_milestone": "Ìpele yìí máa ń sàmì fúnra rẹ̀ ní ìjókòó àkọ́kọ́ tí a ṣe pẹ̀lú olùdámọ̀ràn.",
+        "no_counselor": "A kò tíì yan olùdámọ̀ràn fún tọkọtaya yín."
+      },
+      "discoveryChat": "Tún ka ìfọ̀rọ̀wérọ̀ ìmọ̀ra wa",
+      "sessions": {
+        "title": "Ìjókòó pẹ̀lú olùdámọ̀ràn",
+        "none": "Kò sí ìjókòó tí a dábàá báyìí.",
+        "online": "Lórí ẹ̀rọ ayélujára",
+        "place": "Ibi: {place}",
+        "status": {
+          "proposed": "A dábàá rẹ̀",
+          "confirmed": "A ti fìdí rẹ̀ múlẹ̀",
+          "cancelled": "A ti fagilé e",
+          "done": "A ti ṣe é"
+        },
+        "accept": "Mo gba ọjọ́ yìí",
+        "waiting": "Ẹ ti gbà. A ó fìdí ìjókòó múlẹ̀ nígbà tí ẹnì kejì bá gbà pẹ̀lú."
+      },
+      "privateChannel": {
+        "title": "Ìfọ̀rọ̀wérọ̀ ìkọ̀kọ̀ pẹ̀lú olùdámọ̀ràn",
+        "back": "Padà sí àyè tọkọtaya",
+        "help": "Olùdámọ̀ràn nìkan ni yóò ka ohun tí ẹ bá kọ síbí. Ìfọ̀rọ̀wérọ̀ yóò tì bí a bá yọ olùdámọ̀ràn kúrò tàbí bí tọkọtaya bá parí.",
+        "unavailable": "Ìfọ̀rọ̀wérọ̀ ìkọ̀kọ̀ ṣeé ṣe pẹ̀lú olùdámọ̀ràn tí a yàn fún tọkọtaya yín nìkan."
+      }
+    },
+    "venues": {
+      "title": "Àwọn ibi tí a gbà níyànjú fún ìpàdé",
+      "help": "Àwọn ibi tí gbogbo ènìyàn ń lọ tí ẹgbẹ́ yàn, níbi tí ẹ ti lè pàdé pẹ̀lú ìgbẹ́kẹ̀lé.",
+      "kinds": {
+        "cafe": "Ilé kọfí",
+        "restaurant": "Ilé oúnjẹ",
+        "other": "Ibòmíràn"
+      }
+    },
+    "checkin": {
+      "title": "Ṣé ẹ dé ilé láìléwu?",
+      "context": "Ìpàdé yín pẹ̀lú {name}, ní {date}.",
+      "ok": "Bẹ́ẹ̀ ni, mo dé ilé láìléwu",
+      "help": "Mo nílò ìrànlọ́wọ́",
+      "private": "Ẹnì kejì kò ní rí ìdáhùn yín.",
+      "helpSent": "A ti sọ fún ẹgbẹ́, wọn yóò kàn sí yín.",
+      "emergency": "Bí ọ̀ràn pàjáwìrì bá wà, ẹ kọ̀wé sí ẹgbẹ́ lórí WhatsApp:",
+      "error": "A kò gba ìdáhùn yín sílẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+    },
+    "report": {
+      "why": "Kí ló dé tí ẹ fi ń fi sùn?",
+      "reasons": {
+        "disrespect": "Ìwà àìbọ̀wọ̀ tàbí ìyọlẹ́nu",
+        "money": "Ìbéèrè owó tàbí jìbìtì",
+        "fake_profile": "Profaili èké tàbí ìdánimọ̀ èké",
+        "sexual": "Ọ̀rọ̀ tàbí àkóónú ìbálòpọ̀ tí a kò fẹ́",
+        "threat": "Ìhalẹ̀ tàbí ewu",
+        "other": "Òmíràn"
+      },
+      "details": "Àlàyé (kò pọn dandan)",
+      "detailsRequired": "Àlàyé (ó pọn dandan)",
+      "private": "A kò ní sọ fún ẹni tí a fi sùn. Ẹgbẹ́ máa ń wo ìfisùn kọ̀ọ̀kan láàrin wákàtí 24.",
+      "submit": "Fi ìfisùn ránṣẹ́",
+      "cancel": "Fagilé",
+      "close": "Pa á dé",
+      "sent": "Ẹ ṣé. Ẹgbẹ́ yóò wo ìfisùn yín láàrin wákàtí 24.",
+      "sentThreat": "Ẹ ṣé. A ti dá ìfọ̀rọ̀wérọ̀ dúró, a sì ti sọ fún ẹgbẹ́. Bí ewu bá wà lẹ́sẹ̀kẹsẹ̀, ẹ pe àwọn olùgbàlà.",
+      "errors": {
+        "details_required": "Ẹ ṣàlàyé ìdí rẹ̀.",
+        "details_too_long": "Àlàyé: kò ju lẹ́tà 1000 lọ.",
+        "invalid_reason": "Ẹ yan ìdí kan.",
+        "invalid_message": "A kò lè fi ọ̀rọ̀ yìí sùn.",
+        "not_member": "Ẹ kì í ṣe ara ìfọ̀rọ̀wérọ̀ yìí.",
         "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
       }
@@ -1363,7 +1468,9 @@
       "themes": "Àkòrí",
       "discoveries": "Ìbámu àti ìmọ̀ra ẹni",
       "couples": "Tọkọtaya",
-      "counselors": "Àwọn olùdámọ̀ràn"
+      "counselors": "Àwọn olùdámọ̀ràn",
+      "alerts": "Ìkìlọ̀ ààbò",
+      "reports": "Àwọn ìfisùn"
     },
     "navHelp": {
       "verifications": "Àwọn ìwé tó ń dúró, àwọn fọ́tò ojú, àwọn ìpinnu",
@@ -1733,6 +1840,31 @@
           "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        }
+      },
+      "firstDate": {
+        "title": "Àwọn ibi tí a gbà níyànjú fún ìpàdé àkọ́kọ́",
+        "intro": "A máa ń fi àwọn ibi tí a sàmì sí han àwọn ọmọ ẹgbẹ́ tí ó wà nínú ìmọ̀ra tàbí tọkọtaya, pẹ̀lú àdúgbò, irú ibi àti àkókò ìṣísílẹ̀.",
+        "partner": "A gbà á níyànjú fún ìpàdé àkọ́kọ́",
+        "district": "Àdúgbò",
+        "kind": "Irú ibi",
+        "noKind": "Yàn",
+        "kinds": {
+          "cafe": "Ilé kọfí",
+          "restaurant": "Ilé oúnjẹ",
+          "other": "Ibòmíràn"
+        },
+        "hours": "Àkókò ìṣísílẹ̀",
+        "hoursPlaceholder": "Aago 8 àárọ̀ - 10 alẹ́, ojoojúmọ́",
+        "save": "Fi pamọ́",
+        "saved": "A ti fi pamọ́.",
+        "errors": {
+          "district": "Ẹ tẹ àdúgbò (kò ju lẹ́tà 80 lọ).",
+          "kind": "Ẹ yan irú ibi.",
+          "hours": "Àkókò ìṣísílẹ̀: kò ju lẹ́tà 120 lọ.",
+          "forbidden": "Ẹ kò ní ẹ̀tọ́ láti yí àwọn ibi padà.",
+          "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
       }
     },
@@ -2422,6 +2554,14 @@
           "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
+      },
+      "notes": {
+        "show": "Àkọsílẹ̀ olùdámọ̀ràn",
+        "warning": "Ẹ kà á kìkì nígbà àríyànjiyàn tàbí ìfisùn. A ń kọ ìkàwé kọ̀ọ̀kan sínú ìwé àkọsílẹ̀.",
+        "confirm": "Ka àwọn àkọsílẹ̀",
+        "cancel": "Fagilé",
+        "empty": "Kò sí àkọsílẹ̀ kankan.",
+        "error": "A kò lè kà á. Ẹ ṣàyẹ̀wò ẹ̀tọ́ yín tàbí ẹ tún gbìyànjú."
       }
     },
     "counselors": {
@@ -2494,6 +2634,69 @@
           "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
+      }
+    },
+    "alerts": {
+      "intro": "Àwọn ọmọ ẹgbẹ́ tí ó dáhùn « Mo nílò ìrànlọ́wọ́ » sí « Ṣé ẹ dé ilé láìléwu? », tàbí tí kò dáhùn ní wákàtí 24 lẹ́yìn ìpàdé wọn. Ẹ kàn sí wọn, lẹ́yìn náà ẹ sàmì sí ìkìlọ̀ náà pé a ti bójú tó o.",
+      "empty": "Kò sí ìkìlọ̀ kankan.",
+      "help": "Ó béèrè ìrànlọ́wọ́",
+      "noAnswer": "Kò dáhùn ní wákàtí 24 lẹ́yìn ìpàdé",
+      "dateAt": "Ìpàdé ọjọ́ {date}",
+      "handled": "A bójú tó o ní {date}",
+      "handle": "Sàmì sí i pé a ti bójú tó o",
+      "error": "Iṣẹ́ náà kò ṣeé ṣe. Ẹ tún gbìyànjú."
+    },
+    "reports": {
+      "intro": "Àwọn ìfisùn àwọn ọmọ ẹgbẹ́, láti bójú tó láàrin wákàtí 24. Àwọn ọ̀rọ̀ tí a fi sùn nìkan ni a lè kà, a sì ń kọ ìkàwé kọ̀ọ̀kan sílẹ̀. Ẹni tí a fi sùn yóò mọ ìpinnu nìkan, pẹ̀lú ìdí yín.",
+      "empty": "Kò sí ìfisùn láti bójú tó.",
+      "showAll": "Wo àwọn ìfisùn tí a ti bójú tó pẹ̀lú",
+      "showOpen": "Wo àwọn ìfisùn láti bójú tó nìkan",
+      "reasons": {
+        "disrespect": "Ìwà àìbọ̀wọ̀ tàbí ìyọlẹ́nu",
+        "money": "Ìbéèrè owó tàbí jìbìtì",
+        "fake_profile": "Profaili èké tàbí ìdánimọ̀ èké",
+        "sexual": "Ọ̀rọ̀ tàbí àkóónú ìbálòpọ̀ tí a kò fẹ́",
+        "threat": "Ìhalẹ̀ tàbí ewu",
+        "other": "Òmíràn"
+      },
+      "kinds": {
+        "discovery": "Ìfọ̀rọ̀wérọ̀ ìmọ̀ra",
+        "couple": "Ìfọ̀rọ̀wérọ̀ tọkọtaya"
+      },
+      "reported": "Ẹni tí a fi sùn: {name} ({number})",
+      "reporter": "Láti ọ̀dọ̀: {name} ({number})",
+      "status": {
+        "open": "Láti bójú tó",
+        "in_review": "A ń wò ó",
+        "resolved": "A ti ṣe ìpinnu",
+        "dismissed": "A ti pa á tì"
+      },
+      "createdAt": "A gbà á ní {date}",
+      "dueAt": "Ẹ bójú tó o ṣáájú {date}",
+      "late": "Ó ti pẹ́: ẹ bójú tó o ṣáájú {date}",
+      "messages": "{count, plural, =0 {Kò sí ọ̀rọ̀ kankan} other {Ọ̀rọ̀ # tí a fi sùn}}",
+      "showMessages": "Ka àwọn ọ̀rọ̀ tí a fi sùn",
+      "noMessages": "Kò sí ọ̀rọ̀ kankan.",
+      "logged": "A ń kọ ìkàwé yìí sínú ìwé àkọsílẹ̀.",
+      "decision": "Ìpinnu",
+      "decisions": {
+        "dismissed": "Pa á tì",
+        "warning": "Ìkìlọ̀",
+        "suspension": "Ìdádúró",
+        "exclusion": "Ìyọkúrò"
+      },
+      "reason": "Ìdí tí a ó fi ránṣẹ́ sí ẹni tí a fi sùn",
+      "reasonHelp": "Ẹ kọ ìdí tí kò dá sí ẹnikẹ́ni: ẹ má ṣe dárúkọ ẹni tí ó fi sùn láé.",
+      "confirm": "Fi ìpinnu pamọ́",
+      "errors": {
+        "reason_required": "Ẹ kọ ìdí tí a ó fi ránṣẹ́ sí ẹni tí a fi sùn.",
+        "reason_too_long": "Ìdí: kò ju lẹ́tà 1000 lọ.",
+        "already_resolved": "A ti bójú tó ìfisùn yìí.",
+        "not_found": "A kò rí ìfisùn náà.",
+        "forbidden": "Ẹ kò ní ẹ̀tọ́ láti ṣe ìpinnu.",
+        "invalid_status": "A ti dá ọmọ ẹgbẹ́ yìí dúró tàbí yọ ọ́ kúrò tẹ́lẹ̀.",
+        "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
       }
     }
   },
@@ -2786,6 +2989,43 @@
         "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
       }
+    },
+    "sessions": {
+      "title": "Àwọn ìjókòó",
+      "propose": "Dábàá ìjókòó",
+      "when": "Ọjọ́ àti àkókò (àkókò Cotonou)",
+      "mode": "Ọ̀nà",
+      "modes": {
+        "online": "Lórí ẹ̀rọ ayélujára",
+        "place": "Ní ibì kan"
+      },
+      "location": "Ibi",
+      "send": "Dábàá",
+      "done": "A ti ṣe ìjókòó",
+      "cancel": "Fagilé",
+      "errors": {
+        "invalid_date": "Ẹ yan ọjọ́ tí ń bọ̀.",
+        "invalid_mode": "Ẹ yan ọ̀nà ìjókòó.",
+        "location_required": "Ẹ tẹ ibi náà.",
+        "location_too_long": "Ibi: kò ju lẹ́tà 200 lọ.",
+        "not_counselor": "Ẹ kò tọ́jú tọkọtaya yìí mọ́.",
+        "invalid_status": "Iṣẹ́ yìí kò ṣeé ṣe fún ìjókòó yìí.",
+        "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ tún gbìyànjú nígbà míràn.",
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+      }
+    },
+    "agenda": {
+      "title": "Ìwé ìjókòó",
+      "empty": "Kò sí ìjókòó tí ń bọ̀.",
+      "status": {
+        "proposed": "Ń dúró de ìfọwọ́sí àwọn méjèèjì",
+        "confirmed": "A ti fìdí rẹ̀ múlẹ̀"
+      }
+    },
+    "private": {
+      "title": "Àwọn ìfọ̀rọ̀wérọ̀ ìkọ̀kọ̀",
+      "empty": "Kò sí ìfọ̀rọ̀wérọ̀ ìkọ̀kọ̀ tí ó ṣí.",
+      "help": "Ọmọ ẹgbẹ́ yìí nìkan ló ń ka ìfọ̀rọ̀wérọ̀ yìí; ẹnì kejì nínú tọkọtaya kò rí i."
     }
   }
 }

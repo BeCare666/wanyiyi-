@@ -5,7 +5,8 @@ import { ProtectedPhoto } from "@/components/ui/ProtectedPhoto";
 import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { partnerPhotoLink, sendMessage } from "../matchs/actions";
+import { partnerPhotoLink, reportConversation, sendMessage } from "../matchs/actions";
+import { declareDate } from "./actions";
 import {
   availableDecisions,
   canInviteCounselor,
@@ -16,8 +17,11 @@ import {
   type CoupleRow,
   isLive,
   milestoneKinds,
+  type MilestoneRow,
+  type SessionRow,
 } from "./couple";
-import { CounselorPanel, CoupleDecisions, DateForm, PhoneShare } from "./CoupleActions";
+import { CounselorPanel, CoupleDecisions, DateForm, MilestoneList, PhoneShare, SessionList } from "./CoupleActions";
+import { FirstDateVenues, type FirstDateVenue } from "@/components/member/FirstDateVenues";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Member.couple");
@@ -71,12 +75,14 @@ export default async function CouplePage() {
 
   const id = couple.couple_id;
   const live = isLive(couple.status);
+  // Couple en cours, en pause ou union : photos et numéros restent partagés (questions 15 et 17)
+  const shared = chatReadable(couple.status);
   if (live) await supabase.rpc("touch_couple", { p_couple: id });
 
   const [{ data: pair }, { data: conversation }, { data: milestones }, { data: access }, phoneResult, datesResult, priceResult] = await Promise.all([
-    supabase.from("couples").select("member_a, member_b, blocked_reason").eq("id", id).maybeSingle(),
+    supabase.from("couples").select("member_a, member_b, blocked_reason, discovery_id").eq("id", id).maybeSingle(),
     supabase.from("conversations").select("id").eq("couple_id", id).eq("kind", "couple").maybeSingle(),
-    supabase.from("couple_milestones").select("kind, reached_at").eq("couple_id", id),
+    supabase.rpc("my_milestones", { p_couple: id }),
     supabase
       .from("counselor_access")
       .select("id, status, requested_by, accepted_at, price_xof, counselor_id")
@@ -84,14 +90,14 @@ export default async function CouplePage() {
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle(),
-    live ? supabase.rpc("my_couple_phone", { p_couple: id }) : Promise.resolve({ data: [] }),
+    shared ? supabase.rpc("my_couple_phone", { p_couple: id }) : Promise.resolve({ data: [] }),
     supabase.rpc("my_couple_dates", { p_couple: id }),
     supabase.rpc("counselor_access_price"),
   ]);
   const partnerId = pair ? (pair.member_a === member.id ? pair.member_b : pair.member_a) : null;
   const lastAccess = (access ?? null) as CounselorAccess | null;
-  const [{ data: photos }, { data: messages }, { data: paid }] = await Promise.all([
-    live && partnerId
+  const [{ data: photos }, { data: messages }, { data: paid }, { data: discoveryChat }] = await Promise.all([
+    shared && partnerId
       ? supabase.from("photos").select("id").eq("user_id", partnerId).eq("review_status", "approved").order("position")
       : Promise.resolve({ data: [] as { id: string }[] }),
     conversation && chatReadable(couple.status)
@@ -100,7 +106,14 @@ export default async function CouplePage() {
     lastAccess?.status === "requested" && lastAccess.accepted_at
       ? supabase.rpc("counselor_access_paid", { p_access: lastAccess.id })
       : Promise.resolve({ data: false }),
+    // Question 14 : la conversation de la découverte devenue couple reste lisible
+    shared && pair?.discovery_id
+      ? supabase.from("conversations").select("id").eq("discovery_id", pair.discovery_id).maybeSingle()
+      : Promise.resolve({ data: null }),
   ]);
+  const { data: discoveryMessages } = discoveryChat
+    ? await supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", discoveryChat.id).order("created_at").limit(500)
+    : { data: [] as ChatMessage[] };
 
   // Conversation affichée : elle ne compte plus dans les messages non lus du tableau de bord
   if (conversation && chatReadable(couple.status)) await supabase.rpc("mark_conversation_read", { p_conversation: conversation.id });
@@ -112,7 +125,14 @@ export default async function CouplePage() {
   const accessPrice = lastAccess?.price_xof ?? null;
   const currentPrice = typeof priceResult.data === "number" ? priceResult.data : null;
   const shownPrice = state === "none" ? (currentPrice && currentPrice > 0 ? amount(currentPrice) : null) : accessPrice ? amount(accessPrice) : null;
-  const reached = new Map(((milestones ?? []) as { kind: string; reached_at: string | null }[]).map((m) => [m.kind, m.reached_at]));
+  // Étapes dans l'ordre du parcours ; « Célébration » franchie met l'union en avant (question 16 e)
+  const journey = milestoneKinds.map(
+    (kind) => ((milestones ?? []) as MilestoneRow[]).find((m) => m.kind === kind) ?? { kind, reached_at: null, i_confirmed_reach: false, i_confirmed_remove: false },
+  );
+  const celebrated = journey.some((m) => m.kind === "celebration" && m.reached_at !== null);
+  const [{ data: venues }, { data: sessions }] = live
+    ? await Promise.all([supabase.rpc("first_date_venues"), supabase.rpc("couple_sessions", { p_couple: id })])
+    : [{ data: [] }, { data: [] }];
   const when = (iso: string) => format.dateTime(new Date(iso), { dateStyle: "long", timeStyle: "short", timeZone: "Africa/Porto-Novo" });
   // Prénoms dans la conversation : l'autre membre, et tout conseiller (actuel par son nom, ancien sous « Conseiller »)
   const names: Record<string, string> = { [member.id]: member.firstName ?? t("chat.me"), ...(partnerId ? { [partnerId]: couple.partner_first_name } : {}) };
@@ -140,12 +160,28 @@ export default async function CouplePage() {
           initial={(messages ?? []) as ChatMessage[]}
           closed={!chatOpen(couple)}
           send={sendMessage}
+          report={reportConversation}
           names={names}
           showNames
         />
       )}
 
-      {live && (photos ?? []).length > 0 && (
+      {discoveryChat && (discoveryMessages ?? []).length > 0 && (
+        <details className="mt-10 border-t border-line pt-6">
+          <summary className="cursor-pointer text-sm text-link underline-offset-4 hover:underline">{t("couple.discoveryChat")}</summary>
+          <ChatRoom
+            conversationId={discoveryChat.id}
+            memberId={member.id}
+            initial={(discoveryMessages ?? []) as ChatMessage[]}
+            closed
+            send={sendMessage}
+          report={reportConversation}
+            names={names}
+          />
+        </details>
+      )}
+
+      {shared && (photos ?? []).length > 0 && (
         <section aria-labelledby="photos" className="mt-14">
           <h2 id="photos" className="eyebrow">
             {t("discoveries.photos")}
@@ -165,24 +201,11 @@ export default async function CouplePage() {
           <h2 id="parcours" className="eyebrow">
             {t("couple.journey.title")}
           </h2>
-          <ol className="mt-4 border-t border-line">
-            {milestoneKinds.map((kind, i) => {
-              const at = reached.get(kind);
-              return (
-                <li key={kind} className="grid gap-2 border-b border-line py-5 md:grid-cols-12 md:items-baseline md:gap-8">
-                  <p className="md:col-span-7">
-                    <span className="mr-3 text-sm text-fg-muted">{i + 1}.</span>
-                    {t(`couple.journey.${kind}`)}
-                  </p>
-                  <p className="text-sm text-fg-muted md:col-span-5 md:text-right">
-                    {at ? t("couple.journey.reached", { date: format.dateTime(new Date(at), { dateStyle: "long" }) }) : t("couple.journey.notYet")}
-                  </p>
-                </li>
-              );
-            })}
-          </ol>
+          <MilestoneList coupleId={id} rows={journey} editable={live} />
         </section>
       )}
+
+      {live && <FirstDateVenues venues={(venues ?? []) as FirstDateVenue[]} />}
 
       {live && (
         <section aria-labelledby="conseiller" className="mt-14">
@@ -196,6 +219,18 @@ export default async function CouplePage() {
             canInvite={canInviteCounselor(couple, state)}
             price={shownPrice}
           />
+          {/* Canal privé avec le conseiller du couple, et séances (question 9) */}
+          {state === "granted" && (
+            <>
+              <p className="mt-6">
+                <Link href="/espace/couple/conseiller" className="text-link underline-offset-4 hover:underline">
+                  {t("couple.counselor.private", { name: couple.counselor_name ?? t("chat.counselor") })}
+                </Link>
+              </p>
+              <h3 className="mt-10 text-lg">{t("couple.sessions.title")}</h3>
+              <SessionList sessions={(sessions ?? []) as SessionRow[]} />
+            </>
+          )}
         </section>
       )}
 
@@ -205,7 +240,7 @@ export default async function CouplePage() {
             {t("couple.dates.title")}
           </h2>
           <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("couple.dates.help")}</p>
-          {couple.status === "active" && <DateForm coupleId={id} />}
+          {couple.status === "active" && <DateForm declare={declareDate.bind(null, id)} />}
           {dates.length > 0 && (
             <ul className="mt-6 border-t border-line">
               {dates.map((d) => (
@@ -219,7 +254,7 @@ export default async function CouplePage() {
         </section>
       )}
 
-      {live && phone && (
+      {shared && phone && (
         <section aria-labelledby="numeros" className="mt-14">
           <h2 id="numeros" className="eyebrow">
             {t("couple.phone.title")}
@@ -233,6 +268,7 @@ export default async function CouplePage() {
               canShare={phone.can_share}
               partnerPhone={phone.partner_phone}
               partnerName={couple.partner_first_name}
+              canShareNow={live}
             />
           )}
         </section>
@@ -244,7 +280,13 @@ export default async function CouplePage() {
             {t("couple.decisions.title")}
           </h2>
           <div className="mt-4">
-            <CoupleDecisions coupleId={id} decisions={availableDecisions(couple)} myRequests={couple.my_requests} canLeave={live} />
+            <CoupleDecisions
+              coupleId={id}
+              decisions={availableDecisions(couple)}
+              myRequests={couple.my_requests}
+              canLeave={live}
+              highlightUnion={celebrated && live}
+            />
           </div>
         </section>
       )}
