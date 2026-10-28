@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { CheckinCard, type PendingCheckin } from "@/components/member/CheckinCard";
+import { TrustBadges } from "@/components/member/TrustBadges";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { coupleSpace, memberNav } from "@/components/member/memberNav";
 import { Link } from "@/i18n/navigation";
@@ -73,6 +74,14 @@ async function memberStatus(userId: string): Promise<MemberStatus | "none"> {
   return memberStatuses.find((s) => s === status) ?? "none";
 }
 
+/** Ses propres badges de confiance (phase 4, question 5). */
+async function myBadges(memberId: string): Promise<unknown> {
+  const supabase = await createSupabaseServer();
+  if (!supabase) return [];
+  const { data } = await supabase.rpc("badges_of", { p_user: memberId });
+  return data ?? [];
+}
+
 /**
  * Tableau de bord (section 6.2-1) : vérification, prochaine soirée, couple ou découvertes en
  * cours et messages non lus (phase 3), rappel du règlement.
@@ -82,7 +91,13 @@ export default async function DashboardPage() {
   const format = await getFormatter();
   const member = await getSessionMember();
   if (!member) return null;
-  const [status, evening, links, checkins] = await Promise.all([memberStatus(member.id), nextEvening(), relations(), pendingCheckins()]);
+  const [status, evening, links, checkins, badges] = await Promise.all([
+    memberStatus(member.id),
+    nextEvening(),
+    relations(),
+    pendingCheckins(),
+    myBadges(member.id),
+  ]);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -92,6 +107,8 @@ export default async function DashboardPage() {
           {t("title")}
         </p>
         <h1 className="mt-6 text-4xl">{member.firstName ? t("greeting", { name: member.firstName }) : t("greetingNoName")}</h1>
+        {/* Badges de confiance (phase 4, question 5) */}
+        <TrustBadges badges={badges} label={t("myBadges")} />
       </header>
 
       {/* « Bien rentré(e) ? » (question 5) : en tête du tableau de bord tant qu'il n'a pas répondu */}
@@ -143,7 +160,7 @@ export default async function DashboardPage() {
             <dd className="md:col-span-8">
               {links.couple ? (
                 <Link href={coupleSpace} className="font-serif text-2xl underline-offset-8 hover:underline">
-                  {t("couple", { name: links.couple.partner_first_name })}
+                  {t("couple", { name: links.couple.partner_first_name ?? "" })}
                 </Link>
               ) : (
                 <Link href={memberNav.matches.href} className="font-serif text-2xl underline-offset-8 hover:underline">

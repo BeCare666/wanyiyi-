@@ -6,7 +6,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { AssignCounselor } from "./AssignCounselor";
 import { CounselorForm } from "./CounselorForm";
 import { CounselorPrice } from "./CounselorPrice";
-import { assignable, type CounselorRequest, type CounselorRow, isFull } from "./counselors";
+import { assignable, type CounselorRequest, type CounselorRow, isFull, preferredCounselor } from "./counselors";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Admin.nav");
@@ -65,7 +65,11 @@ export default async function AdminCounselorsPage() {
                   {pair(req.a_first_name, req.a_number)} · {pair(req.b_first_name, req.b_number)}
                 </p>
                 <p className="mt-1 text-sm text-fg-muted">{t(req.include_history ? "counselors.requests.withHistory" : "counselors.requests.noHistory")}</p>
-                <AssignCounselor accessId={req.access_id} counselors={choices} />
+                {req.couple_status === "union_celebrated" && <p className="mt-1 text-sm">{t("counselors.requests.followUp")}</p>}
+                {req.previous_counselor_name && (
+                  <p className="mt-1 text-sm text-fg-muted">{t("counselors.requests.previous", { name: req.previous_counselor_name })}</p>
+                )}
+                <AssignCounselor accessId={req.access_id} counselors={choices} preferred={preferredCounselor(req, choices)} />
               </li>
             ))}
           </ol>

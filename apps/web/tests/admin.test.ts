@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { deadlineOf, pairLabel } from "../src/app/[locale]/(admin)/admin/decouvertes/relations";
-import { checkCounselor, counselorParams, isFull } from "../src/app/[locale]/(admin)/admin/conseillers/counselors";
+import { checkCounselor, counselorParams, isFull, preferredCounselor } from "../src/app/[locale]/(admin)/admin/conseillers/counselors";
 import { couplesSpec, discoveriesSpec, isValidListFilter } from "../src/components/admin/listRules";
 import { ageOn, filterQueue, memberName, parseQueueFilter, type QueueRow } from "../src/app/[locale]/(admin)/admin/verifications/queue";
 import { checkVenue } from "../src/app/[locale]/(admin)/admin/lieux/venues";
@@ -519,6 +519,10 @@ describe("Administration de la phase 3 (11.2-6 à 11.2-8)", () => {
     expect(checkCounselor({ ...ok, maxCouples: 0 })).toBe("invalid_capacity");
     expect(counselorParams(ok)).toEqual({ p_display_name: "Mme C.", p_bio: null, p_languages: ["fr"], p_max_couples: 10 });
     expect(isFull({ active_couples: 10, max_couples: 10 })).toBe(true);
+    // Suivi post-union (phase 4) : l'ancien conseiller est choisi d'office s'il est proposable
+    expect(preferredCounselor({ previous_counselor_id: "b" }, [{ id: "a" }, { id: "b" }])).toBe("b");
+    expect(preferredCounselor({ previous_counselor_id: "z" }, [{ id: "a" }])).toBe("a");
+    expect(preferredCounselor({ previous_counselor_id: null }, [])).toBe("");
   });
 
   it("listes : champs propres à chacune", () => {

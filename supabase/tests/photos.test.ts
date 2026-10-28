@@ -118,9 +118,12 @@ describe("Photos des membres (10.2, question 10)", () => {
     await db.query("update app.discoveries set status = 'active', closed_at = null where match_id = $1", [match]);
   });
 
-  it("affichage : flou si le membre l'a choisi, jamais pour lui-même ; filigrane au nom de celui qui regarde", async () => {
+  it("affichage : floue par défaut, nette si le membre retire le flou, jamais floue pour lui-même ; filigrane au nom de celui qui regarde", async () => {
     const view = async (user: string) =>
       (await as<{ blurred: boolean; viewer_first_name: string; viewer_number: string }>(user, "select * from app.photo_for_view($1)", [photo]))[0]!;
+    // Décision du 28 octobre 2026 : floutée par défaut
+    expect((await view(p.koffi!)).blurred).toBe(true);
+    await db.query("update app.member_profiles set keep_photo_blurred = false where user_id = $1", [p.afiwa]);
     expect((await view(p.koffi!)).blurred).toBe(false);
     await db.query("update app.member_profiles set keep_photo_blurred = true where user_id = $1", [p.afiwa]);
     expect((await view(p.koffi!)).blurred).toBe(true);

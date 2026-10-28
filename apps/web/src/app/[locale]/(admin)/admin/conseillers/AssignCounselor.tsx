@@ -10,10 +10,10 @@ import { assignCounselor } from "./actions";
 const knownErrors = new Set(["counselor_unavailable", "counselor_full", "couple_blocked", "not_pending", "not_paid", "not_found", "forbidden", "unavailable"]);
 
 /** Choix du conseiller pour une demande acceptée par les deux membres du couple. */
-export function AssignCounselor({ accessId, counselors }: { accessId: string; counselors: { id: string; name: string }[] }) {
+export function AssignCounselor({ accessId, counselors, preferred }: { accessId: string; counselors: { id: string; name: string }[]; preferred?: string }) {
   const t = useTranslations("Admin.counselors.requests");
   const router = useRouter();
-  const [counselor, setCounselor] = useState(counselors[0]?.id ?? "");
+  const [counselor, setCounselor] = useState(preferred || (counselors[0]?.id ?? ""));
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 

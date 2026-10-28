@@ -5,6 +5,7 @@ import { type ChatMessage, ChatRoom } from "@/components/member/ChatRoom";
 import { type FirstDateVenue, FirstDateVenues } from "@/components/member/FirstDateVenues";
 import { ProtectedPhoto } from "@/components/ui/ProtectedPhoto";
 import { coupleSpace } from "@/components/member/memberNav";
+import { TrustBadges } from "@/components/member/TrustBadges";
 import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -44,13 +45,15 @@ export default async function DiscoveryPage({ params }: Props) {
     supabase.from("conversations").select("id, closed_at, read_only").eq("discovery_id", id).maybeSingle(),
   ]);
   const partner = match ? (match.member_a === member.id ? match.member_b : match.member_a) : null;
-  const [{ data: photos }, { data: messages }] = await Promise.all([
+  const [{ data: photos }, { data: messages }, { data: badges }] = await Promise.all([
     partner
       ? supabase.from("photos").select("id").eq("user_id", partner).eq("review_status", "approved").order("position")
       : Promise.resolve({ data: [] as { id: string }[] }),
     conversation
       ? supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", conversation.id).order("created_at").limit(500)
       : Promise.resolve({ data: [] as ChatMessage[] }),
+    // Badges de confiance de l'autre (phase 4, question 5 c)
+    partner ? supabase.rpc("badges_of", { p_user: partner }) : Promise.resolve({ data: [] }),
   ]);
   // Conversation affichée : elle ne compte plus dans les messages non lus du tableau de bord
   const active = row.discovery_status === "active" || row.discovery_status === "extended";
@@ -69,6 +72,7 @@ export default async function DiscoveryPage({ params }: Props) {
       <header className="mt-6">
         <p className="eyebrow">{t("discoveries.title")}</p>
         <h1 className="mt-4 font-serif text-4xl">{row.partner_first_name}</h1>
+        <TrustBadges badges={badges} label={t("badges.of", { name: row.partner_first_name })} />
         <p className="mt-3 text-sm text-fg-muted">
           {active
             ? t("discoveries.daysLeft", { count: daysLeft(row.ends_at!, new Date()), date: format.dateTime(new Date(row.ends_at!), "eventDay") })

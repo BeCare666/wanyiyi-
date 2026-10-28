@@ -1,0 +1,126 @@
+IFEDELE : MES PROPOSITIONS POUR LES QUESTIONS DE LA PHASE 4
+27 octobre 2026. Rien de ceci n'est codé : ce sont des propositions à valider,
+modifier ou refuser, question par question (questions de propositions/PHASE4.txt).
+Répondez par exemple « 1 OK, 2 OK, 3 : commission 3 % au lieu de 0, ... ».
+
+Fil conducteur de mes choix : la discrétion des membres d'abord, des règles
+simples à expliquer, le moins de travail manuel possible pour l'équipe, et
+rien qui mette en jeu de l'argent sans votre accord explicite. Les montants
+indiqués ci-dessous sont des PROPOSITIONS : ils ne seront codés que si vous
+les confirmez, et tous seront réglables dans l'administration (Paramètres),
+comme le prix du conseiller.
+
+======================================================================
+ 1. ESPACE SOUVENIR
+======================================================================
+ a) Contenu : les étapes du parcours et leurs dates, les photos de profil
+    déjà révélées, la date de l'union, et la conversation tant qu'elle est
+    gardée (12 mois, ou sans limite si les deux l'ont demandé : déjà fait).
+    En plus : jusqu'à 6 photos de l'union déposées par le couple (3 chacun),
+    relues par la modération comme les autres photos, visibles des deux
+    seulement, mêmes protections (URL de 5 minutes, filigrane).
+    Pourquoi : la note dit « étapes, dates, photos » ; quelques photos du
+    jour J font l'espace souvenir, sans en faire un album public.
+ b) Durée : sans limite, tant que les deux comptes existent.
+ c) Suppression d'un compte : l'espace reste visible de l'autre, sans les
+    photos ni le prénom de la personne partie (« votre conjoint(e) ») ; ses
+    propres photos de l'union sont effacées avec son compte (règle
+    d'effacement déjà en place).
+ d) Suivi post-union : demandé par le couple (les deux d'accord, comme
+    l'accès au conseiller aujourd'hui), avec le même conseiller s'il est
+    disponible ; même prix que l'accès au conseiller (réglé dans
+    l'administration, 0 accepté) ; séances proposées et acceptées comme
+    maintenant ; arrêt par l'un ou l'autre à tout moment.
+
+======================================================================
+ 2. PRESTATAIRES
+======================================================================
+ a) Catégories : celles de la vitrine (traiteurs, couturiers,
+    photographes, lieux de réception), plus « décoration » et « autre ».
+    Liste modifiable par l'administration.
+ b) Visibilité : vitrine publique (nom, catégorie, image, courte
+    description, ville) pour donner confiance ; coordonnées complètes
+    seulement aux membres en couple ou en union.
+ c) Informations : nom, catégorie, description en 3 langues, image
+    (Cloudinary), téléphone, WhatsApp, ville et quartier, fourchette de
+    prix indicative facultative.
+ d) Pas de réservation ni de paiement par Ifedele : la plateforme affiche
+    les coordonnées et le couple contacte le prestataire. Un bouton
+    « J'ai contacté ce prestataire » permet seulement de compter l'intérêt
+    (statistique pour l'équipe, rien n'est envoyé au prestataire).
+    Pourquoi : aucun contrat ni flux d'argent à gérer avec des tiers tant
+    que vous n'avez pas d'accords signés.
+ e) Démo : 8 prestataires fictifs (2 par catégorie de la vitrine), clairement
+    marqués « démo » comme les lieux, cachés quand SHOW_DEMO_DATA est faux.
+
+======================================================================
+ 3. CAGNOTTE
+======================================================================
+ a) Création : par le couple, LES DEUX d'accord (même principe que les
+    autres décisions du couple), à partir de l'étape « Dot ou mariage »
+    franchie, ou après l'union. Une seule cagnotte ouverte par couple.
+ b) Contribution : toute personne qui a le lien, sans compte. Prénom ou nom
+    affiché obligatoire (ou « Anonyme » coché), message facultatif de 300
+    caractères au plus, relu par le même filtre que les textes du profil.
+    La page publique ne montre ni les noms complets ni les photos du
+    couple : seulement le titre choisi par le couple et l'objectif.
+ c) Montants : minimum 1 000 FCFA par contribution, aucun maximum fixé par
+    nous (celui de FeexPay et de l'opérateur s'applique). Objectif
+    facultatif, affiché avec une barre de progression.
+ d) Frais : commission Ifedele de 0 % au lancement (réglable). Frais
+    FeexPay déduits du montant reversé au couple, indiqués clairement au
+    couple à la création. → À CONFIRMER par vous : je ne connais pas votre
+    modèle économique ni les conditions de votre contrat FeexPay pour
+    encaisser des fonds au profit de tiers (à vérifier avec FeexPay).
+ e) Reversement : manuel par l'équipe, comme les remboursements actuels,
+    vers UN numéro Mobile Money déclaré à la création et confirmé par les
+    deux membres ; demandé par le couple (les deux) à tout moment, ou
+    automatiquement proposé à la clôture. Chaque reversement journalisé.
+ f) Clôture : date choisie par le couple, au plus 90 jours après
+    l'ouverture ; fermeture possible plus tôt par les deux. Séparation
+    avant le reversement : cagnotte fermée aussitôt, l'équipe prend contact
+    avec les deux et rembourse les contributeurs (remboursement manuel,
+    comme pour une soirée annulée).
+ g) Le couple voit chaque contribution : nom affiché (ou « Anonyme »),
+    message et montant ; option « montant masqué » au choix du
+    contributeur.
+
+======================================================================
+ 4. PARRAINAGE
+======================================================================
+ a) Tout membre vérifié peut parrainer.
+ b) Lien personnel avec un code (table referrals déjà prévue), partageable
+    par WhatsApp ; le code peut aussi être saisi à l'inscription.
+ c) Acquis à la PREMIÈRE SOIRÉE PAYÉE ET PRÉSENTE du filleul (pointage à
+    l'entrée), pas à l'inscription : cela évite les faux comptes.
+ d) Récompense : une réduction sur la prochaine soirée du parrain
+    (proposition : 2 000 FCFA, soit 20 % de 10 000), plafond de 5
+    parrainages récompensés par an ; rien pour le filleul au lancement.
+    → À CONFIRMER : montant et plafond, ou « aucune récompense, badge
+    seulement ».
+ e) Le parrain ne voit que le prénom de ses filleuls et l'état « en
+    attente / acquis ». L'équipe voit le lien parrain/filleul dans la fiche
+    du membre (utile en cas d'abus).
+
+======================================================================
+ 5. BADGES DE CONFIANCE
+======================================================================
+ a) Quatre badges :
+    - « Identité vérifiée » : vérification validée par l'équipe ;
+    - « Présent(e) aux soirées » : au moins 2 soirées pointées à l'entrée ;
+    - « Profil complet » : toutes les sections du profil remplies et une
+      photo approuvée ;
+    - « Parrain(e) » : au moins un parrainage acquis.
+ b) Attribution automatique (tâche quotidienne de l'API), jamais à la main,
+    pour rester juste et sans charge pour l'équipe.
+ c) Visibles du membre lui-même, de ses matchs et découvertes, et de son
+    conseiller. Jamais sur la vitrine.
+ d) Retrait automatique si la condition n'est plus remplie ; retrait de
+    tous les badges pendant une suspension, rendus à la fin de celle-ci.
+
+======================================================================
+ 6. TABLEAU DE BORD DE L'ADMINISTRATION
+======================================================================
+Ajouter : cagnottes ouvertes et montant total collecté, reversements en
+attente, parrainages acquis dans le mois, prestataires actifs et nombre de
+« J'ai contacté ce prestataire » dans le mois.

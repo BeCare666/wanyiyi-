@@ -100,6 +100,9 @@ describe("Codes d'erreur de la base (photos, accès au conseiller)", () => {
     expect(toHttpError({ message: "invalid_photo" }).getStatus()).toBe(400);
     expect(toHttpError({ message: "nothing_to_pay" }).getStatus()).toBe(409);
     expect(toHttpError({ message: "couple_blocked" }).getStatus()).toBe(403);
+    // Photos de l'union (phase 4)
+    expect(toHttpError({ message: "not_union" }).getStatus()).toBe(409);
+    expect(toHttpError({ message: "not_member" }).getStatus()).toBe(403);
   });
 
   it("libellé FeexPay selon l'objet du paiement", () => {

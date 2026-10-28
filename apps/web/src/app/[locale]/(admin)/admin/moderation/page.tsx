@@ -39,8 +39,15 @@ export default async function ModerationPage({ searchParams }: Props) {
   const { rows, total, error, saved } = await loadListPage<ModerationRow>(moderationSpec, filter, sort, page, staff.id);
   const show = (c: string) => columns.includes(c);
   const supabase = await createSupabaseServer();
-  const photosResult = supabase ? await supabase.rpc("photo_moderation_queue") : null;
-  const photos = (photosResult?.data ?? []) as Array<{ photo_id: string; first_name: string | null; member_number: string | null; created_at: string }>;
+  type QueuedPhoto = { photo_id: string; first_name: string | null; member_number: string | null; created_at: string; union?: boolean };
+  // Photos de profil et photos de l'union (espace souvenir, phase 4), dans l'ordre d'arrivée
+  const [photosResult, unionResult] = supabase
+    ? await Promise.all([supabase.rpc("photo_moderation_queue"), supabase.rpc("union_photo_moderation_queue")])
+    : [null, null];
+  const photos = [
+    ...((photosResult?.data ?? []) as QueuedPhoto[]),
+    ...((unionResult?.data ?? []) as QueuedPhoto[]).map((ph) => ({ ...ph, union: true })),
+  ].sort((a, b) => a.created_at.localeCompare(b.created_at));
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -54,7 +61,7 @@ export default async function ModerationPage({ searchParams }: Props) {
         <h2 id="photos-a-relire" className="text-2xl">
           {t("moderation.photos.title")}
         </h2>
-        {!photosResult || photosResult.error ? (
+        {!photosResult || photosResult.error || !unionResult || unionResult.error ? (
           <p role="alert" className="mt-4 border-l border-accent pl-5 text-fg-muted">
             {t("errors.unavailable")}
           </p>
@@ -68,11 +75,12 @@ export default async function ModerationPage({ searchParams }: Props) {
                   <span className="font-medium text-fg">{ph.first_name ?? ph.member_number ?? t("verifications.noProfile")}</span>
                   {ph.member_number && ph.first_name ? ` · ${ph.member_number}` : ""} ·{" "}
                   {format.dateTime(new Date(ph.created_at), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                  {ph.union && ` · ${t("moderation.photos.union")}`}
                 </p>
                 <div className="mt-3">
-                  <ProtectedPhoto load={photoLink.bind(null, ph.photo_id)} alt={t("moderation.photos.alt", { name: ph.first_name ?? "" })} />
+                  <ProtectedPhoto load={photoLink.bind(null, ph.photo_id, ph.union === true)} alt={t("moderation.photos.alt", { name: ph.first_name ?? "" })} />
                 </div>
-                <TextReview textId={ph.photo_id} kind="photo" />
+                <TextReview textId={ph.photo_id} kind={ph.union ? "union_photo" : "photo"} />
               </li>
             ))}
           </ol>

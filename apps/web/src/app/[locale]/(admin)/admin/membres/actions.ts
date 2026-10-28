@@ -125,3 +125,16 @@ export async function bulkInvite(target: BulkTarget, eventId: string): Promise<A
   const [counts] = (data ?? []) as Array<{ invited: number; skipped: number }>;
   return { ok: true, data: counts ?? { invited: 0, skipped: 0 } };
 }
+
+/** Réglages du parrainage (phase 4, question 4 d) : réduction de 0 à 1 000 000 FCFA, plafond annuel de 0 à 100. */
+export async function saveReferralSettings(reward: string, max: string): Promise<ApiResult<void>> {
+  const rewardXof = Number(reward.replace(/\s/g, ""));
+  const maxPerYear = Number(max.replace(/\s/g, ""));
+  if (!Number.isInteger(rewardXof) || rewardXof < 0 || rewardXof > 1_000_000) return { ok: false, error: "invalid_amount" };
+  if (!Number.isInteger(maxPerYear) || maxPerYear < 0 || maxPerYear > 100) return { ok: false, error: "invalid_limit" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { error } = await supabase.rpc("admin_set_referral_settings", { p_reward_xof: rewardXof, p_max_per_year: maxPerYear });
+  if (error) return { ok: false, error: error.code === "42501" ? "forbidden" : error.message };
+  return { ok: true, data: undefined };
+}

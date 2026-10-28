@@ -1,0 +1,217 @@
+IFEDELE (WANYIYI) : FEUILLE DE ROUTE DE LA PHASE 4
+Version 1, 27 octobre 2026. Proposition : rien n'est codé avant vos réponses aux
+questions qui bloquent une étape (marquées « bloque l'étape N »).
+
+Périmètre (section 14 de la note) : parrainage et badges de confiance,
+prestataires, cagnotte, espace souvenir.
+Critère de fin : parcours complet jusqu'à l'espace souvenir.
+
+Ce que dit la note (rien d'autre n'est écrit sur ces sujets) :
+  - Parcours (section 2) : ... Union célébrée, Espace souvenir. « La plateforme
+    accompagne jusqu'à la célébration de l'union (prestataires partenaires,
+    cagnotte). »
+  - Fin du couple, union célébrée (9.5) : chat en lecture seule ; l'espace
+    « devient Espace souvenir (étapes, dates, photos) » ; « suivi post-union
+    facultatif » ; conversation supprimée après 12 mois sauf demande des deux.
+  - Administration (11.2-10) : module « Prestataires et cagnottes ».
+  - Modèle de données (12) : prestataires, cagnottes et contributions.
+  - Vitrine, section « La célébration » (déjà en ligne) : « Des prestataires
+    partenaires : traiteurs, couturiers, photographes, lieux de réception. Des
+    adresses sérieuses, recommandées par notre équipe. » et « Une cagnotte pour
+    vos proches : vos proches peuvent participer à votre union, simplement, par
+    Mobile Money. »
+  - PROPOSITIONS.txt : images des prestataires sur Cloudinary.
+  - Parrainage et badges de confiance : seulement leur nom dans le tableau des
+    phases. Aucune règle écrite.
+
+Déjà fait pendant la phase 3 :
+  - Union déclarée par les deux (app.couples.status = union_celebrated,
+    memory_space = vrai), chat en lecture seule, effacé après 12 mois sauf si
+    les deux demandent à le garder (keep_chat_after_union).
+  - Photos visibles après l'union (question 15), numéros affichés après l'union
+    (question 17), étapes du parcours datées (question 16).
+  - Union mise en avant après l'étape « Célébration ».
+Tables déjà prévues par le schéma initial, sans fonctions ni politiques :
+providers, cagnottes, contributions, referrals, trust_badges. L'objet de
+paiement « contribution » existe déjà dans app.payment_purpose.
+
+======================================================================
+ÉTAPES
+======================================================================
+
+Étape 1. Règles pures (packages/domain), comme aux phases 2 et 3
+  - Cagnotte : montant de contribution accepté, ouverture, clôture.
+  - Parrainage : qui peut parrainer, quand le parrainage est acquis.
+  - Badges : conditions d'attribution et de retrait.
+  - Espace souvenir : ce qui est visible, par qui, combien de temps.
+  Bloquée par les questions 1 à 5 selon le sujet.
+
+Étape 2. Espace souvenir (section 9.5)
+  - Base : fonctions et RLS de l'espace souvenir (étapes, dates, photos)
+    pour un couple dont l'union est célébrée.
+  - Site : /espace/couple devient « Espace souvenir » après l'union.
+  - Suivi post-union facultatif par le conseiller.
+  Bloquée par la question 1.
+
+Étape 3. Prestataires (11.2-10)
+  - Administration : liste, création, modification, désactivation, image
+    envoyée sur Cloudinary, filtres avancés et export comme les autres listes.
+  - Membres : liste des prestataires (où et pour qui : question 2).
+  Bloquée par la question 2.
+
+Étape 4. Cagnotte (11.2-10)
+  - Création par le couple, page publique par lien (public_token), contribution
+    par Mobile Money via FeexPay, demandée par notre API (même règle que les
+    autres paiements : la clé ne va jamais dans le navigateur).
+  - Suivi dans l'administration, rapprochement avec les paiements.
+  Bloquée par la question 3.
+
+Étape 5. Parrainage
+  Bloquée par la question 4.
+
+Étape 6. Badges de confiance
+  Bloquée par la question 5.
+
+Étape 7. Administration et tableau de bord
+  - Module « Prestataires et cagnottes » dans le menu, permissions.
+  - Indicateurs du tableau de bord concernés (question 6).
+  - Traductions des écrans en français, anglais et yoruba.
+
+Étape 8. Critère de fin : test de bout en bout sur des données fictives, suite
+  de la simulation des phases 2 et 3 : couple, étapes, union déclarée par les
+  deux, espace souvenir, cagnotte et contribution, et selon vos réponses
+  parrainage et badge.
+
+Étape 9. Qualité (section 13 de la note), avant la mise en ligne finale
+  - Lighthouse supérieur à 90 sur mobile, WCAG AA, affichage de 360 à
+    1920 px sur chaque page.
+  - Page interne du système de design : elle existe (/design-system) ; à
+    mettre à jour avec les composants des phases 3 et 4.
+  - Points de la phase 3 laissés en attente de votre décision : photo exigée
+    pour réserver (question 10 c de PHASE3.txt), notifications WhatsApp
+    (question 18 de la phase 2 : « plus tard »).
+
+======================================================================
+QUESTIONS (je n'invente pas les réponses)
+======================================================================
+
+  1. Espace souvenir (bloque l'étape 2) :
+     a) Contenu : seulement les étapes, leurs dates et les photos de profil
+        déjà révélées (note, 9.5), ou les deux peuvent-ils y ajouter des
+        photos de leur union ? Si oui : combien, et relues par la
+        modération comme les autres photos ?
+     b) Durée : l'espace souvenir reste-t-il ouvert sans limite ?
+     c) Si l'un des deux supprime son compte après l'union : l'espace reste-t-il
+        visible de l'autre ?
+     d) « Suivi post-union facultatif » : qui le demande (le couple, le
+        conseiller) ? Combien de temps ? Est-il payant (l'accès au conseiller
+        l'est pendant le couple) ?
+
+  2. Prestataires (bloque l'étape 3) :
+     a) Catégories : celles de la vitrine (traiteurs, couturiers,
+        photographes, lieux de réception) ; en ajoutez-vous d'autres ?
+     b) Qui voit la liste : tout le monde sur la vitrine, les membres
+        connectés, ou seulement les couples ?
+     c) Informations affichées : nom, catégorie, description, image, contact
+        (téléphone, WhatsApp, adresse ?), ville ou quartier, prix indicatifs ?
+     d) Les membres réservent-ils ou paient-ils un prestataire par Ifedele, ou
+        la plateforme affiche-t-elle seulement ses coordonnées ?
+     e) Avez-vous déjà des prestataires réels ? Sinon, des prestataires
+        fictifs pour la démo, comme pour les lieux ?
+
+  3. Cagnotte (bloque l'étape 4) :
+     a) Qui la crée : le couple (les deux d'accord, ou l'un seul) ? À partir
+        de quand : dès le couple formé, après une étape (laquelle), ou après
+        l'union déclarée ?
+     b) Qui contribue : n'importe qui avec le lien, sans compte ? Nom du
+        contributeur obligatoire, message possible ?
+     c) Montants : minimum et maximum par contribution ? Objectif affiché ?
+     d) Frais : Ifedele prend-il une commission ? Si oui, combien ? Les frais
+        FeexPay sont-ils à la charge du contributeur ou du couple ?
+     e) Reversement : comment l'argent arrive-t-il au couple (virement manuel
+        par l'équipe comme les remboursements, sur quel numéro, à qui des
+        deux) ? À quel moment (à la clôture, à la demande) ?
+     f) Clôture : date choisie par le couple, durée maximale ? Que se passe-t-il
+        si le couple se sépare avant le reversement ?
+     g) Le couple voit-il le nom et le montant de chaque contribution ?
+
+  4. Parrainage (bloque l'étape 5) :
+     a) Qui peut parrainer : tout membre vérifié ?
+     b) Comment : lien ou code personnel ?
+     c) Quand le parrainage est-il acquis : à l'inscription du filleul, à sa
+        vérification, à sa première soirée payée ?
+     d) Récompense : laquelle (réduction sur une soirée, soirée offerte,
+        badge, aucune), pour le parrain, le filleul, ou les deux ? Plafond ?
+     e) Le parrain apparaît-il quelque part pour le filleul ou l'équipe (par
+        exemple dans la fiche du membre en administration) ?
+
+  5. Badges de confiance (bloque l'étape 6) :
+     a) Quels badges : par exemple « Profil vérifié », « Membre parrainé »,
+        « Présent à N soirées » ? Donnez la liste.
+     b) Attribution : automatique selon une règle, ou par l'administration ?
+     c) Qui les voit : le membre seul, ses matchs, son conseiller ?
+     d) Retrait : un badge peut-il être retiré (sanction, signalement
+        confirmé) ?
+
+  6. Tableau de bord de l'administration (étape 7) : ajoutez-vous des
+     indicateurs pour la phase 4 (montant des cagnottes, parrainages,
+     prestataires actifs) ? Lesquels ?
+
+======================================================================
+ÉTAT AU 28 OCTOBRE 2026 (propositions validées le 27 octobre)
+======================================================================
+Fait et testé (base PGlite, domaine, API, site) :
+  - Étape 1 : règles pures (packages/domain/src/celebration.ts).
+  - Étape 2 : espace souvenir (migration 20261028000000) : photos de l'union
+    (3 par membre, relues, lien de 5 minutes et filigrane), espace gardé après
+    la suppression du compte de l'autre (sans prénom ni photos), suivi
+    post-union par le conseiller (même prix, séances, arrêt par l'un ou l'autre).
+  - Étape 3 : prestataires (migration 20261028000100) : vitrine /prestataires,
+    coordonnées dans /espace/prestataires pour les couples et unions,
+    « J'ai contacté », administration /admin/prestataires (liste filtrable,
+    export, image Cloudinary, catégories), 8 prestataires de démonstration
+    (supabase/demo/prestataires-demo.sql).
+  - Étape 4 : cagnotte (migration 20261028000200) : proposition et accord dans
+    l'espace du couple, page publique /cagnotte/<lien>, contribution sans
+    compte par Mobile Money (FeexPay, demandée par l'API), reversements faits
+    à la main dans /admin/cagnottes, clôture à la date (tâche close-cagnottes),
+    séparation : contributions à rembourser depuis Paiements.
+  - Étapes 5 et 6 : parrainage et badges (migration 20261028000300) :
+    /espace/parrainage, code à l'inscription, réduction au paiement d'une
+    soirée, badges calculés chaque nuit (tâche trust-badges), visibles du
+    membre, de ses matchs, de son couple et de son conseiller.
+  - Étape 7 : menu « Célébration », permissions providers.manage et
+    cagnottes.manage, indicateurs de l'accueil (migration 20261028000400),
+    textes en français, anglais et yoruba.
+  - Étape 8 : supabase/tests/parcours-phase4.test.ts (parcours complet
+    jusqu'à l'espace souvenir).
+  - Fichier à exécuter : supabase/a-executer-mise-a-jour-28-octobre-phase4.sql.
+
+Choix d'application faits pendant le codage (à confirmer ou corriger) :
+  A. Parrainage, « 5 par an » : année civile (1er janvier au 31 décembre,
+     heure de Cotonou).
+  B. Une seule réduction de parrainage par soirée ; si le prix d'une soirée
+     est inférieur ou égal à la réduction, elle n'est pas appliquée et reste
+     disponible (cas impossible avec 10 000 et 2 000 FCFA).
+  C. Cagnotte, reversement « à tout moment » : chaque demande des deux couvre
+     les contributions reçues pas encore reversées ; la cagnotte reste ouverte
+     jusqu'à sa date de fin et un nouveau reversement peut être demandé.
+  D. Cagnotte : proposée pendant le couple en cours (pas en pause) après
+     « Dot ou mariage », ou après l'union ; la date de fin est un jour (fin de
+     journée, heure de Cotonou) au plus 89 jours après la proposition.
+  E. Badge « Profil complet » : les 3 textes « Je me décris » (non refusés),
+     les 21 catégories des deux côtés (« Je me décris » et « Ce que je
+     recherche ») et une photo approuvée.
+  F. Suivi post-union : un couple suivi après l'union compte dans le nombre
+     maximal de couples du conseiller.
+  G. Coordonnées des prestataires cachées aussi aux membres suspendus ou
+     exclus.
+
+Points à vérifier de votre côté :
+  - FeexPay : encaisser des contributions pour le compte d'un couple
+    (conditions de votre contrat).
+  - Cloudinary : variables CLOUDINARY_* sur Render pour les images.
+
+Reste : étape 9 (qualité : Lighthouse, WCAG AA, page /design-system à
+compléter) et les deux points de la phase 3 en attente de votre décision
+(photo exigée pour réserver, notifications WhatsApp).

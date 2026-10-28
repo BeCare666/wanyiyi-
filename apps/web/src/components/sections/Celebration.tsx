@@ -3,6 +3,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 import { EditorialImage } from "@/components/ui/EditorialImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Link } from "@/i18n/navigation";
 import { vitrinePhotos } from "@/config/photos";
 import { sectionIds } from "@/config/site";
 
@@ -29,6 +30,12 @@ export async function Celebration() {
               </Reveal>
             ))}
           </ul>
+          {/* Prestataires partenaires (phase 4, question 2 b) */}
+          <p className="mt-8">
+            <Link href="/prestataires" className="text-link underline-offset-4 hover:underline">
+              {t("providersLink")}
+            </Link>
+          </p>
         </div>
 
         <EditorialImage

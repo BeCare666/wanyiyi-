@@ -114,3 +114,37 @@ PARTIE 4 : ESPACE CONSEILLER
    seulement), leur conversation (il lit et écrit) et ses notes
    privées, jamais visibles par les membres. Un couple disparaît de sa
    liste dès que l'un des deux membres retire le conseiller.
+
+=====================================================================
+PARTIE 5 : PHASE 4 (CÉLÉBRATION)
+=====================================================================
+Mise à jour de la base : exécuter une seule fois, dans Supabase >
+SQL Editor, le fichier supabase/a-executer-mise-a-jour-28-octobre-phase4.sql
+(après celui du 27 octobre « suite »). Déployer en même temps l'API
+(Render) et le site (Vercel).
+
+Prestataires de démonstration (facultatif) :
+1. SQL Editor > New query > coller supabase/demo/prestataires-demo.sql
+   > Run. Résultat : 8 prestataires « (démo) », 2 par catégorie.
+2. Pour les retirer : supabase/demo/supprimer-prestataires-demo.sql.
+Ils ne s'affichent sur le site en production que si la variable
+SHOW_DEMO_DATA=true est définie sur Vercel.
+
+Images des prestataires : l'API les envoie sur Cloudinary avec les
+variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY et
+CLOUDINARY_API_SECRET (fichier .env de l'API et Render). Sans elles,
+l'ajout d'une image affiche « service indisponible ».
+
+Menu « Célébration » de l'administration :
+- Prestataires : liste filtrable, ajout, fiche (image, désactivation),
+  catégories modifiables.
+- Cagnottes : suivi, reversements à faire. Pour un reversement :
+  envoyer l'argent à la main sur le numéro indiqué (montant maximum
+  affiché, frais FeexPay déduits), puis saisir le montant envoyé et la
+  référence et cliquer « Marquer comme reversé ». Après une séparation,
+  rembourser les contributions « à rembourser » depuis Paiements.
+  Réglages en bas de page : contribution minimale, commission.
+- Parrainage : réglages (réduction, plafond annuel) en bas du module
+  Membres ; parrain et filleuls dans la fiche de chaque membre.
+- Les indicateurs (cagnottes, reversements, parrainages, prestataires)
+  sont en haut de l'accueil de l'administration.

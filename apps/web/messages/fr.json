@@ -188,7 +188,8 @@
         "text": "Vos proches peuvent participer à votre union, simplement, par Mobile Money."
       }
     ],
-    "imageAlt": "Un couple en tenue traditionnelle dorée échange un regard complice."
+    "imageAlt": "Un couple en tenue traditionnelle dorée échange un regard complice.",
+    "providersLink": "Voir les prestataires partenaires"
   },
   "Testimonials": {
     "eyebrow": "Témoignages",
@@ -493,8 +494,11 @@
       "weak_password": "Le mot de passe doit compter 8 caractères au moins.",
       "password_mismatch": "Les deux mots de passe ne correspondent pas.",
       "email_exists": "Un compte existe déjà avec cette adresse. Connectez-vous.",
-      "generic": "Une erreur est survenue. Réessayez dans un instant."
-    }
+      "generic": "Une erreur est survenue. Réessayez dans un instant.",
+      "invalid_referral_code": "Ce code de parrainage n'existe pas ou n'est plus valable."
+    },
+    "referral": "Code de parrainage (facultatif)",
+    "referralHelp": "Si un membre vous a invité, indiquez son code de 8 caractères."
   },
   "Social": {
     "title": "Nous suivre",
@@ -510,7 +514,8 @@
       "verification": "Vérification",
       "notifications": "Notifications",
       "settings": "Paramètres",
-      "rules": "Règlement"
+      "rules": "Règlement",
+      "referral": "Parrainage"
     },
     "collapse": "Réduire le menu",
     "expand": "Afficher les libellés du menu",
@@ -560,7 +565,17 @@
         "report_received": "Nouveau signalement à traiter sous 24 heures.",
         "member_warned": "Vous avez reçu un avertissement de l'équipe.",
         "session_proposed": "Votre conseiller propose une séance. Acceptez la date dans l'espace du couple.",
-        "session_confirmed": "Une séance est confirmée par les deux membres du couple."
+        "session_confirmed": "Une séance est confirmée par les deux membres du couple.",
+        "couple_union_photo_rejected": "Une photo de votre union a été refusée. Déposez-en une autre : elle sera relue de nouveau.",
+        "cagnotte_proposed": "L'autre personne propose une cagnotte. Acceptez-la ou refusez-la dans votre espace.",
+        "cagnotte_refused": "Votre proposition de cagnotte a été refusée.",
+        "cagnotte_opened": "Votre cagnotte est ouverte : partagez le lien avec vos proches.",
+        "cagnotte_close_requested": "L'autre personne demande de clôturer la cagnotte.",
+        "cagnotte_payout_requested": "L'autre personne demande le reversement de la cagnotte.",
+        "cagnotte_contribution": "Nouvelle contribution à votre cagnotte.",
+        "cagnotte_closed": "Votre cagnotte est close. Demandez le reversement tous les deux.",
+        "cagnotte_paid_out": "L'équipe a reversé l'argent de votre cagnotte sur votre numéro.",
+        "referral_acquired": "Un de vos filleuls a participé à sa première soirée : votre parrainage est acquis."
       }
     },
     "dashboard": {
@@ -594,7 +609,8 @@
       "couple": "Votre couple avec {name}",
       "discoveries": "{count, plural, =0 {Aucune découverte en cours} one {# découverte en cours} other {# découvertes en cours}}",
       "toChoose": "{count, plural, one {# match à ouvrir} other {# matchs à ouvrir}}",
-      "unread": "{count, plural, one {# message non lu} other {# messages non lus}}"
+      "unread": "{count, plural, one {# message non lu} other {# messages non lus}}",
+      "myBadges": "Mes badges de confiance"
     },
     "matches": {
       "title": "Mes matchs",
@@ -742,7 +758,7 @@
         "sharePhone": "Numéro partagé après un match",
         "sharePhoneHelp": "Après un match, votre numéro est donné à la personne. Décochez pour le garder pour vous.",
         "keepBlurred": "Garder ma photo floutée",
-        "keepBlurredHelp": "Même après un match, l'autre personne voit votre photo floutée, jusqu'à ce que vous changiez ce réglage."
+        "keepBlurredHelp": "Activé par défaut : même après un match, l'autre personne voit votre photo floutée. Décochez pour la montrer nette."
       },
       "data": {
         "title": "Mes données",
@@ -1193,7 +1209,9 @@
         "removeConfirm": "Retirer le conseiller ? Il quitte la conversation tout de suite. Un nouvel accès devra être payé de nouveau.",
         "cancel": "Annuler l'invitation",
         "cancelConfirm": "Annuler l'invitation du conseiller ?",
-        "private": "Écrire en privé à {name}"
+        "private": "Écrire en privé à {name}",
+        "followUpTitle": "Suivi après l'union",
+        "followUpHelp": "Si vous le souhaitez tous les deux, un conseiller peut vous accompagner après votre union, au même prix que pendant le couple. Il vous propose des séances et vous écrit en privé ; votre conversation reste en lecture seule. Chacun de vous peut arrêter le suivi à tout moment."
       },
       "journey": {
         "title": "Votre parcours",
@@ -1252,6 +1270,97 @@
         "back": "Retour à l'espace du couple",
         "help": "Ce que vous écrivez ici n'est lu que par le conseiller. L'échange se ferme si le conseiller est retiré ou si le couple se termine.",
         "unavailable": "L'échange privé n'est possible qu'avec le conseiller attribué à votre couple."
+      },
+      "partnerGone": "votre conjoint(e)",
+      "memory": {
+        "title": "Espace souvenir",
+        "photosTitle": "Photos de notre union",
+        "photosHelp": "Chacun de vous peut déposer jusqu'à {max} photos de votre union. L'équipe les relit ; elles ne sont visibles que de vous deux, avec les mêmes protections que vos photos de profil.",
+        "photoAlt": "Photo de l'union {rank}",
+        "status": {
+          "pending": "En relecture par l'équipe.",
+          "approved": "Approuvée."
+        },
+        "rejected": "Refusée : {note}. Déposez-en une autre.",
+        "remove": "Retirer",
+        "byPartner": "Déposée par {name}",
+        "add": "Ajouter une photo de l'union",
+        "sending": "Envoi…",
+        "formats": "JPEG, PNG ou WebP, 8 Mo au plus.",
+        "full": "Vous avez déjà déposé {max} photos. Retirez-en une pour en ajouter une autre.",
+        "errors": {
+          "photo_type": "Ce format n'est pas accepté : JPEG, PNG ou WebP.",
+          "photo_too_large": "Cette photo dépasse 8 Mo.",
+          "photo_unreadable": "Cette image ne peut pas être lue. Essayez une autre photo.",
+          "too_many_photos": "Vous avez déjà le nombre maximal de photos de l'union.",
+          "not_union": "Les photos de l'union se déposent après la déclaration de votre union.",
+          "not_authenticated": "Votre session a expiré. Reconnectez-vous.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "providersLink": "Prestataires partenaires pour préparer votre union",
+      "cagnotte": {
+        "title": "Cagnotte",
+        "intro": "Vos proches peuvent participer à votre union par Mobile Money, sans créer de compte. Proposez la cagnotte : elle s'ouvre quand l'autre personne l'accepte.",
+        "notYet": "La cagnotte s'ouvre une fois l'étape « Dot ou mariage » franchie, ou après l'union.",
+        "titleLabel": "Titre",
+        "titleHelp": "Seul ce titre est montré à vos proches, avec l'objectif : ni vos noms ni vos photos.",
+        "goalLabel": "Objectif (facultatif)",
+        "goalHelp": "En FCFA. Une barre de progression est montrée à vos proches.",
+        "closesLabel": "Date de fin",
+        "closesHelp": "Au plus 90 jours après l'ouverture.",
+        "phoneLabel": "Numéro Mobile Money de reversement",
+        "phoneHelp": "Un seul numéro, confirmé par l'autre personne quand elle accepte. L'équipe y reverse l'argent.",
+        "fees": "Commission Ifedele : {percent} %. Les frais FeexPay sont déduits du montant reversé.",
+        "propose": "Proposer la cagnotte",
+        "toAnswer": "L'autre personne propose une cagnotte. En l'acceptant, vous confirmez aussi le numéro de reversement.",
+        "acceptHelp": "Vérifiez le numéro : l'équipe y reversera l'argent collecté.",
+        "accept": "Accepter",
+        "refuse": "Refuser",
+        "waitingOther": "Vous avez proposé une cagnotte. Elle s'ouvrira quand l'autre personne l'acceptera.",
+        "cancel": "Retirer ma proposition",
+        "status": {
+          "open": "La cagnotte est ouverte jusqu'au {date}.",
+          "closed": "La cagnotte est close. Demandez le reversement tous les deux.",
+          "paidOut": "La cagnotte a été entièrement reversée."
+        },
+        "separation": "La cagnotte a été fermée après la fin du couple. L'équipe vous contacte et rembourse les contributeurs.",
+        "collected": "reçus",
+        "progress": "{percent} % de l'objectif",
+        "paidOut": "Déjà reversé : {amount}.",
+        "payoutPending": "Reversement demandé : l'équipe l'effectue à la main sur votre numéro.",
+        "share": "Lien à partager avec vos proches",
+        "shareWhatsapp": "Partager par WhatsApp",
+        "shareText": "Participez à notre cagnotte « {title} » :",
+        "shareHelp": "Toute personne qui a ce lien peut participer. Ne le publiez pas sur un réseau social ouvert.",
+        "askPayout": "Demander le reversement",
+        "payoutAsked": "Reversement demandé de votre côté",
+        "askClose": "Clôturer maintenant",
+        "closeAsked": "Clôture demandée de votre côté",
+        "bothHelp": "Ces demandes prennent effet quand vous les faites tous les deux. Commission Ifedele : {percent} % ; frais FeexPay déduits.",
+        "recorded": "Votre demande est enregistrée. Elle prend effet quand l'autre personne fait la même.",
+        "contributions": "Contributions reçues",
+        "anonymous": "Anonyme",
+        "hiddenAmount": "Montant masqué",
+        "errors": {
+          "invalid_title": "Titre : 3 à 80 caractères.",
+          "invalid_goal": "Objectif : un montant entier d'au moins 1 000 FCFA, ou rien.",
+          "invalid_closing": "Choisissez une date de fin dans les 90 prochains jours.",
+          "invalid_phone": "Numéro Mobile Money du Bénin attendu : +229 suivi de 8 ou 10 chiffres.",
+          "contact_details": "Le titre ne doit contenir ni numéro, ni adresse, ni lien.",
+          "too_early": "La cagnotte s'ouvre une fois l'étape « Dot ou mariage » franchie, ou après l'union.",
+          "already_open": "Une cagnotte est déjà proposée ou ouverte.",
+          "not_member": "Vous ne faites pas partie de ce couple.",
+          "not_pending": "Cette proposition n'est plus en attente.",
+          "own_request": "Vous ne pouvez pas accepter votre propre proposition.",
+          "invalid_status": "Cette action n'est plus possible dans l'état actuel.",
+          "couple_blocked": "Ce couple est bloqué par l'équipe.",
+          "payout_pending": "Un reversement est déjà en cours.",
+          "nothing_to_pay_out": "Aucune contribution à reverser pour l'instant.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
       }
     },
     "venues": {
@@ -1300,6 +1409,35 @@
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
+    },
+    "referral": {
+      "eyebrow": "Parrainage",
+      "title": "Parrainer une personne",
+      "intro": "Invitez une personne de confiance. Quand elle participe à sa première soirée, payée et pointée à l'entrée, vous recevez une réduction de {amount} sur votre prochaine soirée ({max} parrainages récompensés par an au plus).",
+      "notVerified": "Le parrainage est ouvert aux membres vérifiés.",
+      "verify": "Terminer ma vérification",
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+      "myLink": "Mon code et mon lien",
+      "shareWhatsapp": "Partager par WhatsApp",
+      "shareText": "Je t'invite sur Ifedele, des soirées de rencontre sérieuses à Cotonou :",
+      "howItWorks": "La personne s'inscrit avec ce lien, ou saisit votre code à l'inscription. Vous ne voyez que son prénom et l'état de son parrainage.",
+      "credits": "Mes réductions",
+      "noCredit": "Aucune réduction disponible pour l'instant.",
+      "creditsAvailable": "{count, plural, one {Une réduction de {amount} sera appliquée à votre prochaine soirée.} other {# réductions disponibles : une par soirée, {amount} chacune.}}",
+      "creditsHelp": "Une réduction par soirée, appliquée automatiquement au paiement.",
+      "referrals": "Mes filleuls",
+      "none": "Aucun filleul pour l'instant.",
+      "gone": "Compte supprimé",
+      "pending": "En attente de sa première soirée",
+      "acquiredRewarded": "Acquis, réduction obtenue",
+      "acquiredLimit": "Acquis (plafond annuel atteint)"
+    },
+    "badges": {
+      "of": "Badges de confiance de {name}",
+      "identity_verified": "Identité vérifiée",
+      "evenings_attended": "Présent(e) aux soirées",
+      "profile_complete": "Profil complet",
+      "sponsor": "Parrain(e)"
     }
   },
   "SignIn": {
@@ -1456,7 +1594,8 @@
       "members": "Membres",
       "evenings": "Soirées",
       "payments": "Paiements",
-      "relations": "Relations"
+      "relations": "Relations",
+      "celebration": "Célébration"
     },
     "nav": {
       "verifications": "Vérifications",
@@ -1470,7 +1609,9 @@
       "couples": "Couples",
       "counselors": "Conseillers",
       "alerts": "Alertes de sécurité",
-      "reports": "Signalements"
+      "reports": "Signalements",
+      "providers": "Prestataires",
+      "cagnottes": "Cagnottes"
     },
     "navHelp": {
       "verifications": "Dossiers en attente, selfies, décisions",
@@ -1478,7 +1619,15 @@
       "evenings": "Création, inscriptions, pointage, déroulé, résultats",
       "venues": "Lieux des soirées et adresses",
       "members": "Liste, fiches, historique, sanctions",
-      "payments": "Transactions, soirées payées, remboursements"
+      "payments": "Transactions, soirées payées, remboursements",
+      "themes": "Thèmes des soirées, âges, confessions et secteurs",
+      "discoveries": "Matchs annoncés, découvertes et échéances",
+      "couples": "Couples, activité, conseiller, blocage",
+      "counselors": "Conseillers, demandes à attribuer, prix de l'accès",
+      "alerts": "« Bien rentré(e) ? » : demandes d'aide et absences de réponse",
+      "reports": "Signalements des membres et décisions",
+      "providers": "Prestataires partenaires, catégories, images",
+      "cagnottes": "Cagnottes des couples, reversements, réglages"
     },
     "errors": {
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard."
@@ -1603,7 +1752,8 @@
       "photos": {
         "title": "Photos à relire",
         "empty": "Aucune photo à relire.",
-        "alt": "Photo déposée par {name}"
+        "alt": "Photo déposée par {name}",
+        "union": "photo de l'union"
       },
       "texts": "Textes à relire"
     },
@@ -2142,6 +2292,30 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      },
+      "referral": {
+        "title": "Parrainage",
+        "none": "Ni parrain ni filleul.",
+        "referrer": "Parrain",
+        "referred": "Filleul",
+        "pending": "en attente",
+        "acquired": "acquis, sans réduction (plafond)",
+        "acquiredRewarded": "acquis, réduction donnée",
+        "settings": {
+          "title": "Parrainage : réglages",
+          "intro": "Réduction offerte au parrain sur sa prochaine soirée quand un filleul participe à sa première soirée payée et pointée, et nombre de parrainages récompensés par an.",
+          "reward": "Réduction (FCFA)",
+          "max": "Parrainages récompensés par an",
+          "save": "Enregistrer",
+          "saved": "Réglages enregistrés.",
+          "errors": {
+            "invalid_amount": "Réduction : nombre entier de 0 à 1 000 000 FCFA.",
+            "invalid_limit": "Plafond : nombre entier de 0 à 100.",
+            "forbidden": "Votre rôle ne permet pas cette action.",
+            "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+            "generic": "Une erreur est survenue. Réessayez dans un instant."
+          }
+        }
       }
     },
     "payments": {
@@ -2498,6 +2672,71 @@
           "last_activity_at": "Dernière activité",
           "inactive_days": "Jours sans activité"
         }
+      },
+      "providers": {
+        "sortDefault": "Catégorie, puis nom",
+        "fields": {
+          "name": "Nom",
+          "category": "Catégorie",
+          "city": "Ville ou quartier",
+          "is_active": "Visible",
+          "is_demo": "Démonstration",
+          "has_image": "Avec image",
+          "contacts": "Nombre de contacts",
+          "created_at": "Date d'ajout"
+        },
+        "columns": {
+          "category": "Catégorie",
+          "city": "Ville",
+          "contacts": "Contacts",
+          "status": "État"
+        },
+        "export": {
+          "name": "Nom",
+          "category": "Catégorie",
+          "city": "Ville",
+          "district": "Quartier",
+          "phone": "Téléphone",
+          "whatsapp": "WhatsApp",
+          "price_range": "Prix indicatifs",
+          "is_active": "Visible",
+          "is_demo": "Démonstration",
+          "contacts": "Contacts",
+          "created_at": "Ajouté le"
+        }
+      },
+      "cagnottes": {
+        "sortDefault": "Création, plus récente d'abord",
+        "fields": {
+          "member": "Membre",
+          "member_number": "Numéro de membre",
+          "title": "Titre",
+          "status": "État",
+          "collected": "Montant reçu",
+          "goal": "Objectif",
+          "payout_pending": "Reversement à faire",
+          "to_refund": "À rembourser",
+          "closes_at": "Date de fin",
+          "created_at": "Date de création"
+        },
+        "columns": {
+          "status": "État",
+          "collected": "Reçu",
+          "closes": "Fin",
+          "payout": "À faire"
+        },
+        "export": {
+          "title": "Titre",
+          "member_a": "Premier membre",
+          "member_b": "Second membre",
+          "status": "État",
+          "collected": "Reçu (FCFA)",
+          "goal": "Objectif (FCFA)",
+          "closes_at": "Fin",
+          "payout_pending": "Reversement à faire",
+          "to_refund": "À rembourser",
+          "created_at": "Création"
+        }
       }
     },
     "discoveries": {
@@ -2620,7 +2859,9 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant.",
           "not_paid": "L'accès n'est pas encore payé."
-        }
+        },
+        "followUp": "Suivi après l'union.",
+        "previous": "Ancien conseiller du couple : {name}."
       },
       "price": {
         "title": "Prix de l'accès au conseiller",
@@ -2698,6 +2939,190 @@
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
       }
+    },
+    "providers": {
+      "intro": "Les prestataires recommandés aux couples. La vitrine montre le nom, la catégorie, l'image, la description et la ville ; les coordonnées ne sont montrées qu'aux membres en couple ou unis.",
+      "empty": "Aucun prestataire enregistré.",
+      "demo": "Démo",
+      "active": "Visible",
+      "inactive": "Désactivé",
+      "contactsCount": "{count, plural, =0 {Aucun contact} one {# contact} other {# contacts}}",
+      "new": "Nouveau prestataire",
+      "back": "Retour aux prestataires",
+      "categoryNames": {
+        "caterer": "Traiteurs",
+        "tailor": "Couturiers",
+        "photographer": "Photographes",
+        "reception_venue": "Lieux de réception",
+        "decoration": "Décoration",
+        "other": "Autre"
+      },
+      "form": {
+        "name": "Nom",
+        "category": "Catégorie",
+        "chooseCategory": "Choisir",
+        "description": "Description",
+        "descriptionHelp": "En français obligatoirement ; en anglais et en yoruba si possible (sinon le français est montré). {max} caractères au plus.",
+        "languages": {
+          "fr": "Français",
+          "en": "Anglais",
+          "yo": "Yoruba"
+        },
+        "phone": "Téléphone",
+        "whatsapp": "WhatsApp",
+        "city": "Ville",
+        "district": "Quartier",
+        "priceRange": "Fourchette de prix indicative",
+        "priceRangeHelp": "Facultatif, par exemple « À partir de 150 000 FCFA ».",
+        "isDemo": "Prestataire de démonstration (caché quand les données de démonstration sont désactivées)",
+        "create": "Ajouter le prestataire",
+        "save": "Enregistrer",
+        "saved": "Enregistré.",
+        "image": "Image",
+        "imageHelp": "Montrée sur la vitrine. JPEG, PNG ou WebP, 8 Mo au plus ; réduite et sans métadonnées, puis hébergée par Cloudinary.",
+        "imageAlt": "Image de {name}",
+        "addImage": "Ajouter une image",
+        "replaceImage": "Remplacer l'image",
+        "visibility": "Visibilité",
+        "activeHelp": "Ce prestataire est montré sur la vitrine et aux couples.",
+        "inactiveHelp": "Ce prestataire est caché partout.",
+        "deactivate": "Désactiver",
+        "activate": "Réactiver",
+        "errors": {
+          "name": "Indiquez le nom (120 caractères au plus).",
+          "name_required": "Indiquez le nom (120 caractères au plus).",
+          "category": "Choisissez une catégorie.",
+          "invalid_category": "Choisissez une catégorie.",
+          "description": "Écrivez la description en français.",
+          "description_required": "Écrivez la description en français.",
+          "description_length": "Chaque description fait 600 caractères au plus.",
+          "description_too_long": "Chaque description fait 600 caractères au plus.",
+          "phone": "Numéro invalide : 8 à 15 chiffres, « + » permis au début.",
+          "invalid_phone": "Numéro invalide : 8 à 15 chiffres, « + » permis au début.",
+          "contact": "Indiquez un téléphone ou un numéro WhatsApp.",
+          "contact_required": "Indiquez un téléphone ou un numéro WhatsApp.",
+          "place": "Indiquez la ville (80 caractères au plus) ; quartier : 80 caractères au plus.",
+          "invalid_place": "Indiquez la ville (80 caractères au plus) ; quartier : 80 caractères au plus.",
+          "price_range": "Fourchette de prix : 80 caractères au plus.",
+          "price_range_too_long": "Fourchette de prix : 80 caractères au plus.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        },
+        "imageErrors": {
+          "photo_type": "Ce format n'est pas accepté : JPEG, PNG ou WebP.",
+          "photo_too_large": "Cette image dépasse 8 Mo.",
+          "photo_unreadable": "Cette image ne peut pas être lue.",
+          "image_storage": "L'envoi vers Cloudinary a échoué. Réessayez plus tard.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "not_authenticated": "Votre session a expiré. Reconnectez-vous.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "categories": {
+        "title": "Catégories",
+        "intro": "Modifiez les noms, l'ordre d'affichage, ou ajoutez une catégorie. Une catégorie désactivée cache ses prestataires.",
+        "key": "Clé (non modifiable)",
+        "name": {
+          "fr": "Nom en français",
+          "en": "Nom en anglais",
+          "yo": "Nom en yoruba"
+        },
+        "position": "Ordre",
+        "active": "Active",
+        "save": "Enregistrer",
+        "add": "Ajouter la catégorie",
+        "saved": "Enregistré.",
+        "errors": {
+          "invalid_key": "Clé : lettres minuscules sans accent, chiffres et « _ », 2 à 40 caractères.",
+          "name_required": "Indiquez le nom en français (60 caractères au plus).",
+          "invalid_position": "Ordre : nombre entier de 0 à 1000.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
+    },
+    "cagnottes": {
+      "intro": "Les cagnottes des couples. Les reversements sont faits à la main sur le numéro confirmé par les deux membres, puis enregistrés ici. Après une séparation, les contributions non reversées sont à rembourser depuis Paiements.",
+      "empty": "Aucune cagnotte.",
+      "couple": "Cagnotte et couple",
+      "status": {
+        "proposed": "Proposée",
+        "open": "Ouverte",
+        "closed": "Close",
+        "paid_out": "Reversée",
+        "refused": "Refusée",
+        "cancelled": "Annulée"
+      },
+      "reasons": {
+        "date": "date de fin atteinte",
+        "couple": "clôturée par le couple",
+        "separation": "fin du couple"
+      },
+      "payoutPending": "Reversement à faire",
+      "toRefund": "À rembourser",
+      "back": "Retour aux cagnottes",
+      "phone": "Numéro de reversement",
+      "commission": "Commission figée à l'ouverture",
+      "separationHelp": "Cagnotte fermée par la fin du couple : contactez les deux membres et remboursez les contributions marquées « à rembourser » depuis",
+      "payouts": "Reversements",
+      "noPayout": "Aucun reversement demandé.",
+      "payoutStatus": {
+        "requested": "Demandé",
+        "paid": "Fait",
+        "cancelled": "Annulé"
+      },
+      "payoutDetail": "Commission : {commission}. À envoyer au plus : {max}, frais FeexPay déduits, sur le {phone}.",
+      "paidDetail": "Envoyé : {sent}, référence {reference}, le {date}.",
+      "contributions": "Contributions",
+      "noContribution": "Aucune contribution reçue.",
+      "anonymous": "Anonyme",
+      "contribution": {
+        "received": "reçue",
+        "paidOut": "reversée",
+        "toRefund": "à rembourser",
+        "refunded": "remboursée"
+      },
+      "settings": {
+        "title": "Réglages",
+        "intro": "La commission s'applique aux cagnottes ouvertes après son changement ; chaque cagnotte garde celle de son ouverture.",
+        "min": "Contribution minimale (FCFA)",
+        "commission": "Commission Ifedele (%)",
+        "save": "Enregistrer",
+        "saved": "Réglages enregistrés.",
+        "errors": {
+          "invalid_amount": "Minimum : nombre entier de 100 à 10 000 000 FCFA.",
+          "invalid_commission": "Commission : de 0 à 50 %, deux décimales au plus.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      },
+      "payout": {
+        "sent": "Montant envoyé (FCFA)",
+        "reference": "Référence de l'envoi",
+        "markPaid": "Marquer comme reversé",
+        "errors": {
+          "invalid_amount": "Montant envoyé : entier positif, au plus le montant à envoyer.",
+          "reference_required": "Indiquez la référence de l'envoi (100 caractères au plus).",
+          "not_pending": "Ce reversement n'est plus en attente.",
+          "not_found": "Reversement introuvable.",
+          "forbidden": "Votre rôle ne permet pas cette action.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
+        }
+      }
+    },
+    "indicators": {
+      "title": "Indicateurs",
+      "openCagnottes": "Cagnottes ouvertes",
+      "collected": "Montant collecté (toutes les cagnottes)",
+      "pendingPayouts": "Reversements à faire",
+      "referrals": "Parrainages acquis ce mois-ci",
+      "activeProviders": "Prestataires actifs",
+      "providerContacts": "« J'ai contacté ce prestataire » ce mois-ci"
     }
   },
   "Password": {
@@ -3026,6 +3451,68 @@
       "title": "Échanges privés",
       "empty": "Aucun échange privé ouvert.",
       "help": "Seul ce membre lit cet échange ; l'autre membre du couple ne le voit pas."
+    }
+  },
+  "Providers": {
+    "eyebrow": "La célébration",
+    "title": "Prestataires partenaires",
+    "intro": "Traiteurs, couturiers, photographes, lieux de réception : des adresses sérieuses, recommandées par notre équipe pour préparer votre union.",
+    "contactsNotice": "Leurs coordonnées sont réservées aux membres en couple ou unis.",
+    "memberLink": "Voir les coordonnées dans mon espace",
+    "memberIntro": "Contactez directement les prestataires recommandés par notre équipe. Ifedele ne prend ni réservation ni paiement à leur place.",
+    "reserved": "Les coordonnées des prestataires sont réservées aux membres en couple ou unis.",
+    "publicLink": "Voir la liste des prestataires",
+    "unavailable": "La liste des prestataires n'est pas disponible pour le moment. Réessayez plus tard.",
+    "empty": "Aucun prestataire pour le moment.",
+    "imageAlt": "{name}",
+    "district": "Quartier :",
+    "priceRange": "Prix indicatifs :",
+    "phone": "Téléphone :",
+    "whatsapp": "WhatsApp :",
+    "contacted": "Vous avez indiqué avoir contacté ce prestataire.",
+    "markContacted": "J'ai contacté ce prestataire",
+    "markContactedHelp": "Cela aide notre équipe à savoir quels prestataires vous sont utiles. Rien n'est envoyé au prestataire.",
+    "error": "Une erreur est survenue. Réessayez dans un instant."
+  },
+  "Cagnotte": {
+    "eyebrow": "Cagnotte",
+    "intro": "Participez à cette union par Mobile Money, sans créer de compte. Votre contribution est transmise au couple par l'équipe Ifedele.",
+    "goal": "Objectif : {amount}",
+    "progress": "{percent} % de l'objectif",
+    "closes": "Ouverte jusqu'au {date}.",
+    "closed": "Cette cagnotte est close. Merci de votre attention.",
+    "unavailable": "Cette cagnotte n'est pas disponible pour le moment. Réessayez plus tard.",
+    "name": "Votre prénom ou votre nom",
+    "nameHelp": "Montré au couple avec votre contribution.",
+    "anonymous": "Rester anonyme",
+    "message": "Message au couple (facultatif)",
+    "messageHelp": "{max} caractères au plus, sans numéro de téléphone ni adresse.",
+    "amount": "Montant en FCFA",
+    "amountHelp": "Au moins {min}.",
+    "hideAmount": "Ne pas montrer le montant au couple",
+    "continue": "Continuer",
+    "toPay": "Montant à régler : {amount}",
+    "phone": "Numéro Mobile Money",
+    "pay": "Recevoir la demande de paiement",
+    "simulated": "Mode démonstration : aucun argent n'est débité.",
+    "payDemo": "Valider la contribution de démonstration",
+    "thanks": "Merci ! Votre contribution est bien reçue. Le couple la verra dans son espace.",
+    "privacy": "Ifedele ne garde que votre nom affiché, votre message et le montant. Votre numéro sert seulement au paiement par FeexPay.",
+    "errors": {
+      "name_required": "Indiquez votre nom (60 caractères au plus), ou cochez « Rester anonyme ».",
+      "message_too_long": "Message : 300 caractères au plus.",
+      "invalid_amount": "Montant trop faible ou invalide.",
+      "contact_details": "Le nom et le message ne doivent contenir ni numéro, ni adresse, ni lien.",
+      "cagnotte_closed": "Cette cagnotte est close.",
+      "not_found": "Cette cagnotte n'existe pas.",
+      "invalid_phone": "Numéro béninois à 10 chiffres commençant par 01.",
+      "payment_refused": "FeexPay a refusé la demande. Vérifiez le numéro et le réseau.",
+      "payment_in_progress": "Une demande de paiement est déjà en attente sur votre téléphone.",
+      "feexpay_unavailable": "Le paiement est momentanément indisponible. Réessayez plus tard.",
+      "simulated_payments_disabled": "Le paiement de démonstration est désactivé.",
+      "failed": "Le paiement n'a pas abouti. Vous pouvez réessayer.",
+      "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant."
     }
   }
 }

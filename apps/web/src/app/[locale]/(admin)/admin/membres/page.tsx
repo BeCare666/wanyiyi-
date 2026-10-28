@@ -10,6 +10,7 @@ import { ageOn, memberName } from "../verifications/queue";
 import { AdvancedFilters, type SavedFilterLink } from "./AdvancedFilters";
 import { BulkActions, type InvitableEvening, SelectAll } from "./BulkActions";
 import { BULK_FIELD, BULK_FORM, everyone } from "./bulk";
+import { ReferralSettings } from "./ReferralSettings";
 import { exportFormats } from "./exporting";
 import {
   combineFilters,
@@ -59,7 +60,7 @@ export default async function AdminMembersPage({ searchParams }: Props) {
 
   const supabase = await createSupabaseServer();
   const listFilter = combineFilters(query, advanced);
-  const [result, savedResult, eveningsResult] = supabase
+  const [result, savedResult, eveningsResult, referralResult] = supabase
     ? await Promise.all([
         supabase.rpc("admin_members_filtered", {
           p_filter: listFilter,
@@ -69,8 +70,10 @@ export default async function AdminMembersPage({ searchParams }: Props) {
         }),
         supabase.from("saved_filters").select("id, owner_id, name, shared, definition, sort, columns").eq("resource", "members").order("name"),
         supabase.rpc("invitable_events"),
+        supabase.rpc("referral_settings"),
       ])
-    : [null, null, null];
+    : [null, null, null, null];
+  const referralRules = ((referralResult?.data ?? []) as { reward_xof: number; max_rewarded_per_year: number }[])[0];
   // Soirées vers lesquelles inviter (action groupée)
   const evenings: InvitableEvening[] = ((eveningsResult?.data ?? []) as Array<{ event_id: string; starts_at: string; venue_name: string | null; status: string }>).map(
     (e) => ({ id: e.event_id, startsAt: e.starts_at, venue: e.venue_name, full: e.status === "full" }),
@@ -260,6 +263,17 @@ export default async function AdminMembersPage({ searchParams }: Props) {
             </nav>
           )}
         </>
+      )}
+
+      {/* Parrainage (phase 4, question 4 d) : montants réglables */}
+      {referralRules && (
+        <section aria-labelledby="parrainage" className="mt-12 border-t border-line pt-8">
+          <h2 id="parrainage" className="text-2xl">
+            {t("members.referral.settings.title")}
+          </h2>
+          <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("members.referral.settings.intro")}</p>
+          <ReferralSettings reward={referralRules.reward_xof} max={referralRules.max_rewarded_per_year} />
+        </section>
       )}
     </div>
   );

@@ -1,10 +1,11 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { type FormEvent, type ReactNode, useState } from "react";
+import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
 import { Link, useRouter } from "@/i18n/navigation";
 import { authErrorKey } from "@/lib/auth-errors";
+import { REFERRAL_PARAM, REFERRAL_STORAGE_KEY } from "@/lib/referral";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
 import { completeRegistration } from "./actions";
 import { type Account, checkAccount, checkIdentity, type Identity, latestBirthDate } from "./registration";
@@ -25,6 +26,7 @@ const knownErrors = new Set([
   "invalid_city",
   "consent_required",
   "forbidden",
+  "invalid_referral_code",
 ]);
 
 /**
@@ -43,6 +45,19 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
   const [error, setError] = useState<string | null>(null);
   const [resent, setResent] = useState(false);
   const [pending, setPending] = useState(false);
+  // Code de parrainage (phase 4) : lien /inscription?parrain=CODE, gardé jusqu'à l'étape identité
+  const [referral, setReferral] = useState("");
+  useEffect(() => {
+    let code = new URLSearchParams(window.location.search).get(REFERRAL_PARAM) ?? "";
+    try {
+      if (code) window.localStorage.setItem(REFERRAL_STORAGE_KEY, code);
+      else code = window.localStorage.getItem(REFERRAL_STORAGE_KEY) ?? "";
+    } catch {
+      // Stockage indisponible (navigation privée) : le code se saisit à la main
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture unique de l'adresse et du stockage du navigateur
+    if (code) setReferral(code);
+  }, []);
 
   const supabase = createSupabaseBrowser();
   if (!supabase) {
@@ -89,8 +104,13 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
     if (invalid) return fail(invalid);
     setPending(true);
     setError(null);
-    const result = await completeRegistration(identity);
+    const result = await completeRegistration(identity, referral);
     if (!result.ok && result.error !== "already_registered") return fail(result.error);
+    try {
+      window.localStorage.removeItem(REFERRAL_STORAGE_KEY);
+    } catch {
+      // rien à effacer
+    }
     router.replace("/espace/verification");
     router.refresh();
   }
@@ -102,11 +122,14 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
       {t(`errors.${error}`)}
     </p>
   );
-  const link = (href: string) => (chunks: ReactNode) => (
-    <Link href={href} target="_blank" className="text-link underline underline-offset-4">
-      {chunks}
-    </Link>
-  );
+  const link = (href: string) =>
+    function RuleLink(chunks: ReactNode) {
+      return (
+        <Link href={href} target="_blank" className="text-link underline underline-offset-4">
+          {chunks}
+        </Link>
+      );
+    };
 
   if (step === "account") {
     return (
@@ -247,6 +270,12 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
         </label>
       </div>
       <p className="mt-4 text-sm text-fg-muted">{t("identityHelp")}</p>
+
+      <label className="mt-8 block">
+        <span className="eyebrow">{t("referral")}</span>
+        <input type="text" maxLength={12} autoCapitalize="characters" value={referral} onChange={(e) => setReferral(e.target.value)} className={fieldClass} />
+        <span className="mt-2 block text-xs text-fg-muted">{t("referralHelp")}</span>
+      </label>
 
       <label className="mt-10 flex items-start gap-3">
         <input type="checkbox" checked={identity.consent} onChange={(e) => set("consent", e.target.checked)} className="mt-1.5" />

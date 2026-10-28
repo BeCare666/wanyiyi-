@@ -137,6 +137,26 @@ export class JobsService {
     if (count) this.logger.log(`${count} couple(s) alerté(s) ou mis en pause`);
   }
 
+  /** Badges de confiance attribués ou retirés selon leurs conditions (phase 4, question 5 b et d). */
+  @Cron("15 4 * * *", { name: "trust-badges", timeZone: "Africa/Porto-Novo" })
+  async refreshTrustBadges() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("attribution quotidienne des badges de confiance");
+    const { data: count, error } = await db.rpc("refresh_trust_badges");
+    if (error) return this.logger.error(`Badges de confiance : ${error.message}`);
+    if (count) this.logger.log(`${count} badge(s) attribué(s) ou retiré(s)`);
+  }
+
+  /** Cagnottes arrivées à leur date de fin : fermées, reversement proposé au couple (phase 4, question 3 f). */
+  @Cron("*/15 * * * *", { name: "close-cagnottes", timeZone: "Africa/Porto-Novo" })
+  async closeCagnottes() {
+    if (!this.ready()) return;
+    const db = this.supabase.system("clôture des cagnottes échues");
+    const { data: count, error } = await db.rpc("close_due_cagnottes");
+    if (error) return this.logger.error(`Clôture des cagnottes : ${error.message}`);
+    if (count) this.logger.log(`${count} cagnotte(s) clôturée(s)`);
+  }
+
   /** Conversations échues effacées : 90 jours après une séparation ou un départ, 12 mois après l'union (9.5). */
   @Cron("30 3 * * *", { name: "purge-conversations", timeZone: "Africa/Porto-Novo" })
   async purgeConversations() {

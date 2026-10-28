@@ -7,7 +7,9 @@ import {
   HeartIcon,
   MapPinIcon,
   ReceiptIcon,
+  PiggyBankIcon,
   ShieldCheckIcon,
+  StorefrontIcon,
   TagIcon,
   UsersIcon,
   UsersThreeIcon,
@@ -17,14 +19,14 @@ import type { StaffPermission } from "@/lib/staff";
 
 /** Entrée du menu de l'administration : clé de traduction (Admin.nav), adresse, icône, permission requise. */
 export type AdminNavItem = {
-  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "discoveries" | "couples" | "counselors" | "alerts" | "reports" | "payments";
+  key: "members" | "verifications" | "moderation" | "evenings" | "venues" | "themes" | "discoveries" | "couples" | "counselors" | "alerts" | "reports" | "payments" | "providers" | "cagnottes";
   href: string;
   Icon: Icon;
   permission: StaffPermission;
 };
 
 /** Groupe de menus (11.1). Seuls les modules déjà livrés y figurent : aucun lien vers une page absente. */
-export type AdminNavGroup = { key: "members" | "evenings" | "relations" | "payments"; items: AdminNavItem[] };
+export type AdminNavGroup = { key: "members" | "evenings" | "relations" | "celebration" | "payments"; items: AdminNavItem[] };
 
 export const adminHome = "/admin";
 
@@ -58,6 +60,14 @@ export const adminNav: AdminNavGroup[] = [
       { key: "counselors", href: "/admin/conseillers", Icon: HandHeartIcon, permission: "counselors.manage" },
       // « Bien rentré(e) ? » : demandes d'aide et absences de réponse (question 5, 27 octobre 2026)
       { key: "alerts", href: "/admin/alertes", Icon: WarningIcon, permission: "couples.manage" },
+    ],
+  },
+  // Phase 4 (11.2-10) : module « Prestataires et cagnottes »
+  {
+    key: "celebration",
+    items: [
+      { key: "providers", href: "/admin/prestataires", Icon: StorefrontIcon, permission: "providers.manage" },
+      { key: "cagnottes", href: "/admin/cagnottes", Icon: PiggyBankIcon, permission: "cagnottes.manage" },
     ],
   },
   {

@@ -55,7 +55,7 @@ export function isPrivacyField(value: unknown): value is PrivacyField {
 export function privacyFrom(
   row: { photo_blurred?: boolean | null; share_phone?: boolean | null; keep_photo_blurred?: boolean | null } | null | undefined,
 ): Privacy {
-  return { photoHidden: row?.photo_blurred ?? true, sharePhone: row?.share_phone ?? true, keepBlurred: row?.keep_photo_blurred ?? false };
+  return { photoHidden: row?.photo_blurred ?? true, sharePhone: row?.share_phone ?? true, keepBlurred: row?.keep_photo_blurred ?? true };
 }
 
 /** Demande de suppression en cours (question 17) : effacement prévu le purgeAfter, annulable avant. */

@@ -42,6 +42,24 @@ export const RULES = {
     signedPhotoUrlSeconds: 5 * 60,
     reportTargetHours: 24,
   },
+  /** Phase 4 (propositions validées le 27 octobre 2026, PROPOSITIONS-QUESTIONS-PHASE4.txt). */
+  memorySpace: {
+    unionPhotosPerMember: 3,
+  },
+  cagnotte: {
+    minContributionXof: 1000,
+    maxDurationDays: 90,
+    /** Commission Ifedele par défaut (réglable dans l'administration). */
+    commissionPercent: 0,
+    messageMaxLength: 300,
+  },
+  referral: {
+    rewardXof: 2000,
+    maxRewardedPerYear: 5,
+  },
+  badges: {
+    eveningsAttendedMin: 2,
+  },
   timeZone: "Africa/Porto-Novo",
 } as const;
 

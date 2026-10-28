@@ -52,6 +52,19 @@ const kinds = {
   // Séances avec le conseiller (question 9) : proposée aux membres, confirmée pour le conseiller
   session_proposed: { href: { pathname: coupleSpace } },
   session_confirmed: { href: null },
+  // Photo de l'union refusée par la modération (espace souvenir, phase 4) : le motif est affiché
+  couple_union_photo_rejected: { href: { pathname: coupleSpace } },
+  // Cagnotte (phase 4, question 3) : proposition, réponse, demandes de l'autre, contribution, clôture, reversement
+  cagnotte_proposed: { href: { pathname: coupleSpace } },
+  cagnotte_refused: { href: { pathname: coupleSpace } },
+  cagnotte_opened: { href: { pathname: coupleSpace } },
+  cagnotte_close_requested: { href: { pathname: coupleSpace } },
+  cagnotte_payout_requested: { href: { pathname: coupleSpace } },
+  cagnotte_contribution: { href: { pathname: coupleSpace } },
+  cagnotte_closed: { href: { pathname: coupleSpace } },
+  cagnotte_paid_out: { href: { pathname: coupleSpace } },
+  // Parrainage acquis (phase 4, question 4)
+  referral_acquired: { href: { pathname: memberNav.referral.href } },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

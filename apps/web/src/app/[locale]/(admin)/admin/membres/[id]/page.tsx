@@ -30,13 +30,23 @@ export default async function AdminMemberPage({ params }: Props) {
   if (!staff?.permissions.includes("members.manage")) notFound();
   const supabase = await createSupabaseServer();
   if (!supabase) notFound();
-  const [cardResult, historyResult] = await Promise.all([
+  const [cardResult, historyResult, referralsResult] = await Promise.all([
     supabase.rpc("admin_member", { p_user: id }),
     supabase.rpc("member_history", { p_user: id }),
+    // Parrain et filleuls (phase 4, question 4 e)
+    supabase.rpc("admin_member_referrals", { p_user: id }),
   ]);
   const card = ((cardResult.data as MemberCard[] | null) ?? [])[0];
   if (!card) notFound();
   const history = (historyResult.data as HistoryRow[] | null) ?? [];
+  const referrals = (referralsResult.data ?? []) as Array<{
+    role: "referrer" | "referred";
+    user_id: string;
+    first_name: string | null;
+    member_number: string | null;
+    acquired: boolean;
+    rewarded: boolean;
+  }>;
 
   const t = await getTranslations("Admin");
   const format = await getFormatter();
@@ -153,6 +163,29 @@ export default async function AdminMemberPage({ params }: Props) {
           )}
         </div>
         {!Object.values(actions).some(Boolean) && <p className="mt-4 text-fg-muted">{t("members.actions.none")}</p>}
+      </section>
+
+      <section aria-labelledby="parrainage" className="mt-12 border-t border-line pt-8">
+        <h2 id="parrainage" className="text-2xl">{t("members.referral.title")}</h2>
+        {referrals.length === 0 ? (
+          <p className="mt-4 text-fg-muted">{t("members.referral.none")}</p>
+        ) : (
+          <ul className="mt-4 border-t border-line text-sm">
+            {referrals.map((r) => (
+              <li key={`${r.role}-${r.user_id}`} className="flex flex-wrap justify-between gap-4 border-b border-line py-3">
+                <span>
+                  {t(`members.referral.${r.role}`)} :{" "}
+                  <Link href={`/admin/membres/${r.user_id}`} className="text-link underline-offset-4 hover:underline">
+                    {[r.first_name, r.member_number].filter(Boolean).join(" · ") || t("verifications.noProfile")}
+                  </Link>
+                </span>
+                <span className="text-fg-muted">
+                  {r.acquired ? (r.rewarded ? t("members.referral.acquiredRewarded") : t("members.referral.acquired")) : t("members.referral.pending")}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <section aria-labelledby="history" className="mt-12 border-t border-line pt-8">

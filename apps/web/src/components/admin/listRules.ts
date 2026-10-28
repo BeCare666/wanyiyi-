@@ -7,14 +7,14 @@ import { encodeFilter, type FilterNode } from "../../app/[locale]/(admin)/admin/
  * L'arbre ET / OU et son encodage dans l'adresse sont ceux de la liste des membres.
  */
 
-export type ListName = "payments" | "verifications" | "events" | "venues" | "themes" | "moderation" | "discoveries" | "couples";
+export type ListName = "payments" | "verifications" | "events" | "venues" | "themes" | "moderation" | "discoveries" | "couples" | "providers" | "cagnottes";
 export type FieldKind = "text" | "list" | "number" | "date" | "boolean";
 /** labels : préfixe des libellés des options dans l'espace de traduction « Admin ». */
 export type FieldSpec = { kind: FieldKind; options?: readonly string[]; labels?: string };
 
 export type ListSpec = {
   list: ListName;
-  pathname: "/admin/paiements" | "/admin/verifications" | "/admin/soirees" | "/admin/lieux" | "/admin/themes" | "/admin/moderation" | "/admin/decouvertes" | "/admin/couples";
+  pathname: "/admin/paiements" | "/admin/verifications" | "/admin/soirees" | "/admin/lieux" | "/admin/themes" | "/admin/moderation" | "/admin/decouvertes" | "/admin/couples" | "/admin/prestataires" | "/admin/cagnottes";
   /** Champs filtrables, dans l'ordre du sélecteur. */
   fields: Readonly<Record<string, FieldSpec>>;
   sortFields: readonly string[];
@@ -179,6 +179,46 @@ export const couplesSpec: ListSpec = {
   defaultColumns: ["status", "counselor", "activity", "created"],
 };
 
+/** Prestataires (phase 4, question 2) : catégories de départ ; une catégorie ajoutée se retrouve par le nom. */
+export const providersSpec: ListSpec = {
+  list: "providers",
+  pathname: "/admin/prestataires",
+  fields: {
+    name: { kind: "text" },
+    category: { kind: "list", options: ["caterer", "tailor", "photographer", "reception_venue", "decoration", "other"], labels: "providers.categoryNames" },
+    city: { kind: "text" },
+    is_active: { kind: "boolean" },
+    is_demo: { kind: "boolean" },
+    has_image: { kind: "boolean" },
+    contacts: { kind: "number" },
+    created_at: { kind: "date" },
+  },
+  sortFields: ["name", "category", "contacts", "created_at"],
+  columns: ["category", "city", "contacts", "status"],
+  defaultColumns: ["category", "city", "contacts", "status"],
+};
+
+/** Cagnottes (phase 4, question 3) : état, montants, reversements en attente, remboursements. */
+export const cagnottesSpec: ListSpec = {
+  list: "cagnottes",
+  pathname: "/admin/cagnottes",
+  fields: {
+    member: { kind: "text" },
+    member_number: { kind: "text" },
+    title: { kind: "text" },
+    status: { kind: "list", options: ["proposed", "open", "closed", "paid_out", "refused", "cancelled"], labels: "cagnottes.status" },
+    collected: { kind: "number" },
+    goal: { kind: "number" },
+    payout_pending: { kind: "boolean" },
+    to_refund: { kind: "boolean" },
+    closes_at: { kind: "date" },
+    created_at: { kind: "date" },
+  },
+  sortFields: ["created_at", "closes_at", "collected"],
+  columns: ["status", "collected", "closes", "payout"],
+  defaultColumns: ["status", "collected", "closes", "payout"],
+};
+
 export const listSpecs: Record<ListName, ListSpec> = {
   payments: paymentsSpec,
   verifications: verificationsSpec,
@@ -188,6 +228,8 @@ export const listSpecs: Record<ListName, ListSpec> = {
   moderation: moderationSpec,
   discoveries: discoveriesSpec,
   couples: couplesSpec,
+  providers: providersSpec,
+  cagnottes: cagnottesSpec,
 };
 
 /** Limites de la base (3 niveaux, 20 conditions) et du constructeur (un niveau de sous-groupes, 14 conditions). */

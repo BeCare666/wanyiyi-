@@ -50,7 +50,17 @@ export type CounselorRequest = {
   a_number: string | null;
   b_first_name: string | null;
   b_number: string | null;
+  /** Couple uni : suivi post-union (phase 4, question 1 d). */
+  couple_status: "active" | "paused" | "union_celebrated" | "separated" | "left";
+  /** Conseiller qui a déjà suivi le couple, à reprendre s'il est disponible. */
+  previous_counselor_id: string | null;
+  previous_counselor_name: string | null;
 };
+
+/** Conseiller choisi d'office : l'ancien conseiller du couple s'il est proposable, sinon le premier. */
+export function preferredCounselor(request: Pick<CounselorRequest, "previous_counselor_id">, choices: readonly { id: string }[]): string {
+  return choices.find((c) => c.id === request.previous_counselor_id)?.id ?? choices[0]?.id ?? "";
+}
 
 /** Conseillers proposés pour une attribution : disponibles et pas complets. */
 export function assignable(rows: readonly CounselorRow[]): CounselorRow[] {

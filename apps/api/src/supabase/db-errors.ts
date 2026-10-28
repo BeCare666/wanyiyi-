@@ -34,6 +34,16 @@ const BY_CODE: Record<string, (code: string) => HttpException> = {
   // Photos (phase 3, question 10)
   invalid_photo: (c) => new BadRequestException(c),
   too_many_photos: (c) => new ConflictException(c),
+  // Photos de l'union (phase 4, question 1)
+  not_member: (c) => new ForbiddenException(c),
+  not_union: (c) => new ConflictException(c),
+  // Cagnotte (phase 4, question 3) : contribution sans compte
+  cagnotte_closed: (c) => new ConflictException(c),
+  invalid_amount: (c) => new BadRequestException(c),
+  name_required: (c) => new BadRequestException(c),
+  message_too_long: (c) => new BadRequestException(c),
+  contact_details: (c) => new BadRequestException(c),
+  price_not_set: (c) => new ConflictException(c),
   // Accès au conseiller payant (règles du 26 octobre 2026)
   nothing_to_pay: (c) => new ConflictException(c),
   not_pending: (c) => new ConflictException(c),

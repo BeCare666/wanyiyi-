@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { type ChatMessage, ChatRoom } from "@/components/member/ChatRoom";
+import { TrustBadges } from "@/components/member/TrustBadges";
 import { Link } from "@/i18n/navigation";
 import { getCounselor } from "@/lib/counselor";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -39,7 +40,7 @@ export default async function FollowedCouplePage({ params }: Props) {
   const couple = ((rows ?? []) as FollowedCouple[]).find((c) => c.couple_id === id);
   if (!couple) notFound();
 
-  const [{ data: messages }, { data: notes }, { data: conversation }, { data: milestones }, { data: sessions }] = await Promise.all([
+  const [{ data: messages }, { data: notes }, { data: conversation }, { data: milestones }, { data: sessions }, { data: badgesA }, { data: badgesB }] = await Promise.all([
     couple.conversation_id
       ? supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", couple.conversation_id).order("created_at").limit(500)
       : Promise.resolve({ data: [] as ChatMessage[] }),
@@ -49,8 +50,11 @@ export default async function FollowedCouplePage({ params }: Props) {
       : Promise.resolve({ data: null }),
     supabase.from("couple_milestones").select("kind, reached_at").eq("couple_id", id),
     supabase.rpc("couple_sessions", { p_couple: id }),
+    supabase.rpc("badges_of", { p_user: couple.member_a }),
+    supabase.rpc("badges_of", { p_user: couple.member_b }),
   ]);
   const tj = await getTranslations("Member.couple.journey");
+  const tb = await getTranslations("Member.badges");
   const reached = new Map(((milestones ?? []) as { kind: string; reached_at: string | null }[]).map((m) => [m.kind, m.reached_at]));
   if (couple.conversation_id) await supabase.rpc("mark_conversation_read", { p_conversation: couple.conversation_id });
 
@@ -76,6 +80,9 @@ export default async function FollowedCouplePage({ params }: Props) {
           {couple.blocked && ` · ${t("couples.blocked")}`}
         </p>
         <p className="mt-3 max-w-measure text-sm text-fg-muted">{couple.include_history ? t("couples.history") : t("couples.noHistory")}</p>
+        {/* Badges de confiance des deux membres (phase 4, question 5 c) */}
+        <TrustBadges badges={badgesA} label={tb("of", { name: couple.a_first_name })} />
+        <TrustBadges badges={badgesB} label={tb("of", { name: couple.b_first_name })} />
       </header>
 
       {couple.conversation_id ? (

@@ -7,7 +7,8 @@ import { notificationKey } from "../src/components/member/notificationKinds";
 
 describe("Confidentialité (question 15)", () => {
   it("par défaut : photo cachée jusqu'au match, numéro partagé, photo non floutée (10.2)", () => {
-    expect(privacyFrom(null)).toEqual({ photoHidden: true, sharePhone: true, keepBlurred: false });
+    // Photo floutée par défaut (décision du 28 octobre 2026)
+    expect(privacyFrom(null)).toEqual({ photoHidden: true, sharePhone: true, keepBlurred: true });
     expect(privacyFrom({ photo_blurred: false, share_phone: false, keep_photo_blurred: true })).toEqual({ photoHidden: false, sharePhone: false, keepBlurred: true });
   });
 

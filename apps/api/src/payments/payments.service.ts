@@ -62,14 +62,14 @@ export class FeexpayPaymentProvider implements PaymentProvider {
 }
 
 /** Libellés envoyés à FeexPay : sans caractères spéciaux, 40 caractères au plus. */
-const FEEXPAY_DESCRIPTIONS: Record<string, string> = { counselor_access: "Conseiller ifedele" };
+const FEEXPAY_DESCRIPTIONS: Record<string, string> = { counselor_access: "Conseiller ifedele", contribution: "Cagnotte ifedele" };
 export function feexpayDescription(purpose: string): string {
   return FEEXPAY_DESCRIPTIONS[purpose] ?? "Soiree ifedele";
 }
 
 type FeexpayPayment = {
   id: string;
-  user_id: string;
+  user_id: string | null;
   purpose: string;
   amount_xof: number;
   status: string;
@@ -87,7 +87,11 @@ export class PaymentsService {
     @Inject(PAYMENT_PROVIDER) private readonly provider: PaymentProvider,
   ) {}
 
-  /** Paiement d'une soirée réservée par le membre. */
+  /**
+   * Paiement d'une soirée réservée par le membre. Montant calculé par la base avec son jeton
+   * (app.evening_payment_quote) : prix de la soirée, moins une réduction de parrainage disponible
+   * (phase 4, question 4), utilisée quand le paiement réussit.
+   */
   async startEveningPayment(memberId: string, accessToken: string, eventId: string) {
     const member = this.supabase.forMember(accessToken);
     // Lecture avec le jeton du membre : il ne voit que sa propre inscription
@@ -95,21 +99,32 @@ export class PaymentsService {
       await member.from("event_registrations").select("id, status, payment_id").eq("event_id", eventId).maybeSingle(),
     );
     if (!registration || !["booked", "confirmed"].includes(registration.status)) throw new NotFoundException("not_registered");
-    const event = unwrap(await member.from("events").select("price_xof").eq("id", eventId).maybeSingle());
-    if (!event) throw new NotFoundException("not_found");
-    if (!event.price_xof) throw new ConflictException("price_not_set");
+    const [quote] = (unwrap(await member.rpc("evening_payment_quote", { p_event: eventId })) ?? []) as Array<{
+      price_xof: number;
+      credit_id: string | null;
+      credit_xof: number;
+      amount_xof: number;
+    }>;
+    if (!quote) throw new NotFoundException("not_found");
 
     const system = this.supabase.system(`création du paiement de soirée ${eventId} pour ${memberId}`);
     const payment = unwrap(
       await system
         .from("payments")
-        .insert({ user_id: memberId, purpose: "evening_booking", amount_xof: event.price_xof, provider: this.provider.name })
+        .insert({
+          user_id: memberId,
+          purpose: "evening_booking",
+          amount_xof: quote.amount_xof,
+          provider: this.provider.name,
+          credit_id: quote.credit_id,
+          credit_xof: quote.credit_xof,
+        })
         .select("id")
         .single(),
     );
     if (!payment) throw new ConflictException("payment_not_created");
     unwrap(await system.from("event_registrations").update({ payment_id: payment.id }).eq("id", registration.id));
-    const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: event.price_xof, description: "Soirée Ifedele" });
+    const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: quote.amount_xof, description: "Soirée Ifedele" });
     if (checkout.providerTransactionId) {
       unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
     }
@@ -139,6 +154,71 @@ export class PaymentsService {
       unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
     }
     return { paymentId: payment.id, checkoutUrl: checkout.checkoutUrl };
+  }
+
+  /**
+   * Contribution à une cagnotte (phase 4, question 3), sans compte : la base vérifie la cagnotte,
+   * le montant, le nom et le message (app.create_contribution, clé service role journalisée) et
+   * crée le paiement « contribution » sans membre. Le contributeur paie ensuite par Mobile Money.
+   */
+  async startContribution(
+    token: string,
+    input: { name: string | null; anonymous: boolean; message: string | null; amountXof: number; hideAmount: boolean },
+  ) {
+    const system = this.supabase.system("contribution à une cagnotte (visiteur sans compte)");
+    const paymentId = unwrap(
+      await system.rpc("create_contribution", {
+        p_token: token,
+        p_name: input.name,
+        p_anonymous: input.anonymous,
+        p_message: input.message,
+        p_amount_xof: input.amountXof,
+        p_hide_amount: input.hideAmount,
+        p_provider: this.provider.name,
+      }),
+    ) as string;
+    return { paymentId, provider: this.provider.name };
+  }
+
+  /** Contribution : montant, état et réseaux proposés (page publique de la cagnotte). */
+  async contributionInfo(paymentId: string) {
+    const system = this.supabase.system(`lecture de la contribution ${paymentId}`);
+    const payment = unwrap(
+      await system.from("payments").select("id, user_id, purpose, amount_xof, status, provider, provider_transaction_id").eq("id", paymentId).maybeSingle(),
+    ) as FeexpayPayment | null;
+    if (!payment) throw new NotFoundException("not_found");
+    this.owner(payment, null);
+    return {
+      paymentId: payment.id,
+      amountXof: payment.amount_xof,
+      status: payment.status,
+      provider: payment.provider,
+      networks: payment.provider === "feexpay" ? (Object.keys(FEEXPAY_NETWORKS) as FeexpayNetwork[]) : [],
+      awaiting: payment.status === "pending" && payment.provider_transaction_id !== null,
+    };
+  }
+
+  /** Démonstration uniquement : contribution simulée marquée réussie (interdit en production). */
+  async succeedSimulatedContribution(paymentId: string) {
+    if (this.provider.name !== "simulated" || this.config.get("NODE_ENV", { infer: true }) === "production") {
+      throw new ForbiddenException("simulated_payments_disabled");
+    }
+    const system = this.supabase.system(`contribution simulée ${paymentId} validée`);
+    const payment = unwrap(await system.from("payments").select("id, user_id, purpose, status, provider").eq("id", paymentId).maybeSingle());
+    if (!payment || payment.provider !== "simulated") throw new NotFoundException("not_found");
+    this.owner(payment as FeexpayPayment, null);
+    if (payment.status !== "pending") throw new ConflictException("invalid_status");
+    unwrap(await system.from("payments").update({ status: "succeeded" }).eq("id", paymentId));
+    unwrap(await system.from("audit_log").insert({ action: "payment.simulated_succeeded", target_table: "payments", target_id: paymentId }));
+  }
+
+  /**
+   * Paiement du membre (memberId), ou contribution sans compte (null) : seule une contribution,
+   * sans membre, se règle sans connexion.
+   */
+  private owner(payment: Pick<FeexpayPayment, "user_id" | "purpose">, memberId: string | null) {
+    const allowed = memberId === null ? payment.purpose === "contribution" && payment.user_id === null : payment.user_id === memberId;
+    if (!allowed) throw new NotFoundException("not_found");
   }
 
   /** Démonstration uniquement : marque un paiement simulé comme réussi. */
@@ -227,10 +307,10 @@ export class PaymentsService {
   }
 
   /** Paiement Mobile Money : la demande arrive sur le téléphone du membre, qui la valide. */
-  async payByMobile(memberId: string, paymentId: string, network: FeexpayNetwork, phone: string) {
+  async payByMobile(memberId: string | null, paymentId: string, network: FeexpayNetwork, phone: string) {
     const provider = this.feexpay();
     const payment = await this.feexpayPayment(paymentId, `paiement Mobile Money ${paymentId}`);
-    if (payment.user_id !== memberId) throw new NotFoundException("not_found");
+    this.owner(payment, memberId);
     const phoneNumber = beninPhone(phone);
     if (!phoneNumber) throw new ConflictException("invalid_phone");
     if ((await this.beforeNewAttempt(payment)) === "succeeded") return { status: "succeeded" as const };
@@ -269,10 +349,10 @@ export class PaymentsService {
   }
 
   /** Le membre vérifie sa demande en cours (retour de la page carte, validation sur le téléphone). */
-  async refreshFeexpay(memberId: string, paymentId: string) {
+  async refreshFeexpay(memberId: string | null, paymentId: string) {
     this.feexpay();
     const payment = await this.feexpayPayment(paymentId, `vérification FeexPay du paiement ${paymentId}`);
-    if (payment.user_id !== memberId) throw new NotFoundException("not_found");
+    this.owner(payment, memberId);
     if (payment.status === "succeeded") return { status: "succeeded" as const };
     if (payment.status !== "pending" || !payment.provider_transaction_id) throw new ConflictException("invalid_status");
     return this.settle(payment);

@@ -5,10 +5,13 @@
 
 export type CoupleStatus = "active" | "paused" | "union_celebrated" | "separated" | "left";
 
-/** Ligne de app.my_couple() : ses propres demandes seulement, jamais celles de l'autre. */
+/**
+ * Ligne de app.my_couple() : ses propres demandes seulement, jamais celles de l'autre. Prénom de
+ * l'autre absent quand son compte est supprimé (phase 4, question 1 c : « votre conjoint(e) »).
+ */
 export type CoupleRow = {
   couple_id: string;
-  partner_first_name: string;
+  partner_first_name: string | null;
   status: CoupleStatus;
   created_at: string;
   paused_at: string | null;
@@ -93,9 +96,33 @@ export function counselorState(access: CounselorAccess | null, memberId: string,
   return mine ? "toPay" : "waitingPayment";
 }
 
-/** Inviter un conseiller : couple vivant, non bloqué, sans accès en cours. */
+/** Conseiller possible pendant le couple, et après l'union pour le suivi post-union (phase 4, question 1 d). */
+export function counselorAvailable(status: CoupleStatus): boolean {
+  return isLive(status) || status === "union_celebrated";
+}
+
+/** Inviter un conseiller : couple vivant ou uni, non bloqué, sans accès en cours. */
 export function canInviteCounselor(couple: Pick<CoupleRow, "status" | "blocked">, state: CounselorState): boolean {
-  return isLive(couple.status) && !couple.blocked && state === "none";
+  return counselorAvailable(couple.status) && !couple.blocked && state === "none";
+}
+
+/**
+ * Photos de l'union dans l'espace souvenir (phase 4, question 1 a) : 3 par membre, relues par
+ * l'équipe ; une photo refusée libère sa place. Mêmes limites que app.add_union_photo.
+ */
+export const UNION_PHOTOS_PER_MEMBER = 3;
+
+/** Ligne de app.memory_space_photos() : les miennes (avec le motif d'un refus) et celles de l'autre déjà approuvées. */
+export type MemoryPhotoRow = {
+  photo_id: string;
+  mine: boolean;
+  review_status: "pending" | "approved" | "rejected";
+  review_note: string | null;
+  created_at: string;
+};
+
+export function canAddUnionPhoto(status: CoupleStatus, rows: readonly MemoryPhotoRow[]): boolean {
+  return status === "union_celebrated" && rows.filter((r) => r.mine && r.review_status !== "rejected").length < UNION_PHOTOS_PER_MEMBER;
 }
 
 /**

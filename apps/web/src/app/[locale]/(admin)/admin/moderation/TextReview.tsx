@@ -5,7 +5,7 @@ import { type FormEvent, useState, useTransition } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
-import { reviewPhoto, reviewText } from "./actions";
+import { reviewPhoto, reviewText, reviewUnionPhoto } from "./actions";
 
 const knownErrors = new Set(["note_required", "note_too_long", "already_reviewed", "not_found", "forbidden", "unavailable"]);
 
@@ -14,7 +14,7 @@ const knownErrors = new Set(["note_required", "note_too_long", "already_reviewed
  * lit dans sa notification. Le texte refusé reste masqué jusqu'à ce que le membre le réécrive ;
  * la photo refusée n'est jamais montrée et libère une place (phase 3, question 10).
  */
-export function TextReview({ textId, kind = "text" }: { textId: string; kind?: "text" | "photo" }) {
+export function TextReview({ textId, kind = "text" }: { textId: string; kind?: "text" | "photo" | "union_photo" }) {
   const t = useTranslations("Admin.moderation");
   const router = useRouter();
   const [rejecting, setRejecting] = useState(false);
@@ -25,7 +25,7 @@ export function TextReview({ textId, kind = "text" }: { textId: string; kind?: "
   function run(decision: "approved" | "rejected") {
     setError(null);
     startTransition(async () => {
-      const result = await (kind === "photo" ? reviewPhoto : reviewText)(textId, decision, note);
+      const result = await (kind === "photo" ? reviewPhoto : kind === "union_photo" ? reviewUnionPhoto : reviewText)(textId, decision, note);
       if (!result.ok) return setError(knownErrors.has(result.error) ? result.error : "generic");
       router.refresh();
     });

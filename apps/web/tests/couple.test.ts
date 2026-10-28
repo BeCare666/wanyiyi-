@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   availableDecisions,
+  canAddUnionPhoto,
   canInviteCounselor,
   chatOpen,
   chatReadable,
@@ -8,6 +9,7 @@ import {
   counselorState,
   cotonouToIso,
   isLive,
+  type MemoryPhotoRow,
   milestoneState,
 } from "../src/app/[locale]/(membre)/espace/couple/couple";
 import { systemMessage } from "../src/components/member/chatSystem";
@@ -66,7 +68,9 @@ describe("conseiller (question 9)", () => {
     expect(canInviteCounselor({ status: "paused", blocked: false }, "none")).toBe(true);
     expect(canInviteCounselor({ status: "active", blocked: true }, "none")).toBe(false);
     expect(canInviteCounselor({ status: "active", blocked: false }, "granted")).toBe(false);
-    expect(canInviteCounselor({ status: "union_celebrated", blocked: false }, "none")).toBe(false);
+    // Suivi post-union (phase 4, question 1 d) ; pas après une séparation
+    expect(canInviteCounselor({ status: "union_celebrated", blocked: false }, "none")).toBe(true);
+    expect(canInviteCounselor({ status: "separated", blocked: false }, "none")).toBe(false);
   });
 });
 
@@ -107,5 +111,26 @@ describe("parcours (question 16)", () => {
     expect(systemMessage("couple.paused")).toEqual({ key: "couple_paused", step: null });
     expect(systemMessage("milestone.reached:inconnue")).toBeNull();
     expect(systemMessage("autre.code")).toBeNull();
+  });
+});
+
+describe("espace souvenir (phase 4, question 1)", () => {
+  const photo = (mine: boolean, review_status: MemoryPhotoRow["review_status"]): MemoryPhotoRow => ({
+    photo_id: Math.random().toString(),
+    mine,
+    review_status,
+    review_note: null,
+    created_at: "2026-11-01T10:00:00Z",
+  });
+
+  it("photos de l'union : après l'union, 3 par membre, une photo refusée libère sa place", () => {
+    expect(canAddUnionPhoto("active", [])).toBe(false);
+    expect(canAddUnionPhoto("union_celebrated", [photo(true, "approved"), photo(true, "pending"), photo(false, "approved")])).toBe(true);
+    expect(canAddUnionPhoto("union_celebrated", [photo(true, "approved"), photo(true, "pending"), photo(true, "pending")])).toBe(false);
+    expect(canAddUnionPhoto("union_celebrated", [photo(true, "approved"), photo(true, "pending"), photo(true, "rejected")])).toBe(true);
+  });
+
+  it("photo de l'union refusée : la notification mène à l'espace", () => {
+    expect(notificationHref("couple.union_photo_rejected")).toEqual({ pathname: "/espace/couple" });
   });
 });

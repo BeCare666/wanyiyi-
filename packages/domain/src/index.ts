@@ -7,3 +7,4 @@ export * from "./votes";
 export * from "./counselor";
 export * from "./discovery";
 export * from "./couple";
+export * from "./celebration";

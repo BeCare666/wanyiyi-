@@ -102,7 +102,7 @@ describe("Client FeexPay (API v2)", () => {
   });
 });
 
-type Payment = { id: string; user_id: string; amount_xof: number; status: string; provider: string; provider_transaction_id: string | null; purpose?: string };
+type Payment = { id: string; user_id: string | null; amount_xof: number; status: string; provider: string; provider_transaction_id: string | null; purpose?: string };
 
 /** Base simulée : lecture du paiement, mises à jour conditionnelles, journal. */
 function fakeSupabase(payment: Payment | null, update: { data: unknown; error: { code?: string; message?: string } | null } = { data: [{ id: "p1" }], error: null }) {
@@ -233,6 +233,19 @@ describe("Paiement d'une soirée par FeexPay", () => {
     const wrongAmount = serviceWith({ ...pending, provider_transaction_id: "ref1" }, { status: async () => ({ ...(await successful()), amount: 100 }) });
     await expect(wrongAmount.service.refreshFeexpay("m1", "p1")).rejects.toMatchObject({ response: { message: "amount_mismatch" } });
     expect(wrongAmount.writes).toEqual([]);
+  });
+
+  it("contribution à une cagnotte sans compte (phase 4) : seulement un paiement « contribution » sans membre", async () => {
+    const contribution: Payment = { ...pending, user_id: null, purpose: "contribution" };
+    const visitor = serviceWith(contribution, {});
+    expect(await visitor.service.payByMobile(null, "p1", "mtn", "0197000005")).toEqual({ status: "pending" });
+    expect(visitor.client.requestMobile).toHaveBeenCalledWith(expect.objectContaining({ description: "Cagnotte ifedele", amountXof: 10000 }));
+    // Paiement d'un membre : jamais sans connexion ; contribution : jamais au nom d'un membre
+    await expect(serviceWith(pending, {}).service.payByMobile(null, "p1", "mtn", "0197000005")).rejects.toMatchObject({ status: 404 });
+    await expect(serviceWith(contribution, {}).service.payByMobile("m1", "p1", "mtn", "0197000005")).rejects.toMatchObject({ status: 404 });
+    await expect(serviceWith({ ...contribution, user_id: "m1" }, {}).service.refreshFeexpay(null, "p1")).rejects.toMatchObject({ status: 404 });
+    const info = await serviceWith(contribution, {}).service.contributionInfo("p1");
+    expect(info).toMatchObject({ amountXof: 10000, status: "pending", networks: ["mtn", "moov", "celtiis"], awaiting: false });
   });
 
   it("FeexPay : demande refusée (409) ou prestataire injoignable, clé refusée (503)", async () => {

@@ -188,7 +188,8 @@
         "text": "Your family and friends can contribute to your union, simply, by Mobile Money."
       }
     ],
-    "imageAlt": "A couple in golden traditional attire share a knowing look."
+    "imageAlt": "A couple in golden traditional attire share a knowing look.",
+    "providersLink": "See our partner providers"
   },
   "Testimonials": {
     "eyebrow": "Testimonials",
@@ -493,8 +494,11 @@
       "weak_password": "The password must have at least 8 characters.",
       "password_mismatch": "The two passwords do not match.",
       "email_exists": "An account already exists with this address. Please sign in.",
-      "generic": "Something went wrong. Please try again in a moment."
-    }
+      "generic": "Something went wrong. Please try again in a moment.",
+      "invalid_referral_code": "This referral code does not exist or is no longer valid."
+    },
+    "referral": "Referral code (optional)",
+    "referralHelp": "If a member invited you, enter their 8-character code."
   },
   "Social": {
     "title": "Follow us",
@@ -510,7 +514,8 @@
       "verification": "Verification",
       "notifications": "Notifications",
       "settings": "Settings",
-      "rules": "House rules"
+      "rules": "House rules",
+      "referral": "Referral"
     },
     "collapse": "Collapse the menu",
     "expand": "Show menu labels",
@@ -560,7 +565,17 @@
         "report_received": "New report to handle within 24 hours.",
         "member_warned": "You have received a warning from the team.",
         "session_proposed": "Your counselor proposes a session. Accept the date in the couple space.",
-        "session_confirmed": "A session is confirmed by both members of the couple."
+        "session_confirmed": "A session is confirmed by both members of the couple.",
+        "couple_union_photo_rejected": "A photo of your union was declined. Upload another one: it will be reviewed again.",
+        "cagnotte_proposed": "The other person proposes a fund. Accept or decline it in your space.",
+        "cagnotte_refused": "Your fund proposal was declined.",
+        "cagnotte_opened": "Your fund is open: share the link with your loved ones.",
+        "cagnotte_close_requested": "The other person asks to close the fund.",
+        "cagnotte_payout_requested": "The other person asks for the fund payout.",
+        "cagnotte_contribution": "New contribution to your fund.",
+        "cagnotte_closed": "Your fund is closed. Both of you, ask for the payout.",
+        "cagnotte_paid_out": "The team has paid your fund out to your number.",
+        "referral_acquired": "One of the people you referred attended their first evening: your referral is confirmed."
       }
     },
     "dashboard": {
@@ -594,7 +609,8 @@
       "couple": "Your couple with {name}",
       "discoveries": "{count, plural, =0 {No discovery in progress} one {# discovery in progress} other {# discoveries in progress}}",
       "toChoose": "{count, plural, one {# match to open} other {# matches to open}}",
-      "unread": "{count, plural, one {# unread message} other {# unread messages}}"
+      "unread": "{count, plural, one {# unread message} other {# unread messages}}",
+      "myBadges": "My trust badges"
     },
     "matches": {
       "title": "My matches",
@@ -742,7 +758,7 @@
         "sharePhone": "Number shared after a match",
         "sharePhoneHelp": "After a match, your number is given to the other person. Untick to keep it to yourself.",
         "keepBlurred": "Keep my photo blurred",
-        "keepBlurredHelp": "Even after a match, the other person sees your photo blurred until you change this setting."
+        "keepBlurredHelp": "On by default: even after a match, the other person sees your photo blurred. Untick to show it clearly."
       },
       "data": {
         "title": "My data",
@@ -1193,7 +1209,9 @@
         "removeConfirm": "Remove the counselor? They leave the conversation at once. A new access will have to be paid again.",
         "cancel": "Cancel the invitation",
         "cancelConfirm": "Cancel the counselor invitation?",
-        "private": "Write privately to {name}"
+        "private": "Write privately to {name}",
+        "followUpTitle": "Support after the union",
+        "followUpHelp": "If you both wish, a counselor can support you after your union, at the same price as during the couple. They propose sessions and write to you privately; your conversation stays read-only. Either of you can stop the support at any time."
       },
       "journey": {
         "title": "Your journey",
@@ -1252,6 +1270,97 @@
         "back": "Back to the couple space",
         "help": "What you write here is read only by the counselor. The exchange closes if the counselor is removed or the couple ends.",
         "unavailable": "A private exchange is only possible with the counselor assigned to your couple."
+      },
+      "partnerGone": "your spouse",
+      "memory": {
+        "title": "Memory space",
+        "photosTitle": "Photos of our union",
+        "photosHelp": "Each of you can upload up to {max} photos of your union. The team reviews them; only the two of you can see them, with the same protections as your profile photos.",
+        "photoAlt": "Union photo {rank}",
+        "status": {
+          "pending": "Being reviewed by the team.",
+          "approved": "Approved."
+        },
+        "rejected": "Declined: {note}. Upload another one.",
+        "remove": "Remove",
+        "byPartner": "Uploaded by {name}",
+        "add": "Add a photo of the union",
+        "sending": "Sending…",
+        "formats": "JPEG, PNG or WebP, 8 MB at most.",
+        "full": "You have already uploaded {max} photos. Remove one to add another.",
+        "errors": {
+          "photo_type": "This format is not accepted: JPEG, PNG or WebP.",
+          "photo_too_large": "This photo is larger than 8 MB.",
+          "photo_unreadable": "This image cannot be read. Try another photo.",
+          "too_many_photos": "You already have the maximum number of union photos.",
+          "not_union": "Union photos can be uploaded once your union is declared.",
+          "not_authenticated": "Your session has expired. Please sign in again.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      },
+      "providersLink": "Partner providers to prepare your union",
+      "cagnotte": {
+        "title": "Fund",
+        "intro": "Your loved ones can take part in your union by Mobile Money, without an account. Propose the fund: it opens when the other person accepts it.",
+        "notYet": "The fund opens once the “Dowry or wedding” step is reached, or after the union.",
+        "titleLabel": "Title",
+        "titleHelp": "Only this title is shown to your loved ones, with the goal: neither your names nor your photos.",
+        "goalLabel": "Goal (optional)",
+        "goalHelp": "In FCFA. A progress bar is shown to your loved ones.",
+        "closesLabel": "End date",
+        "closesHelp": "At most 90 days after opening.",
+        "phoneLabel": "Mobile Money number for the payout",
+        "phoneHelp": "A single number, confirmed by the other person when they accept. The team pays the money out to it.",
+        "fees": "Ifedele commission: {percent}%. FeexPay fees are deducted from the amount paid out.",
+        "propose": "Propose the fund",
+        "toAnswer": "The other person proposes a fund. By accepting it, you also confirm the payout number.",
+        "acceptHelp": "Check the number: the team will pay the collected money out to it.",
+        "accept": "Accept",
+        "refuse": "Decline",
+        "waitingOther": "You proposed a fund. It will open when the other person accepts it.",
+        "cancel": "Withdraw my proposal",
+        "status": {
+          "open": "The fund is open until {date}.",
+          "closed": "The fund is closed. Both of you, ask for the payout.",
+          "paidOut": "The fund has been fully paid out."
+        },
+        "separation": "The fund was closed after the couple ended. The team will contact you and refund the contributors.",
+        "collected": "received",
+        "progress": "{percent}% of the goal",
+        "paidOut": "Already paid out: {amount}.",
+        "payoutPending": "Payout requested: the team makes it by hand to your number.",
+        "share": "Link to share with your loved ones",
+        "shareWhatsapp": "Share on WhatsApp",
+        "shareText": "Take part in our fund “{title}”:",
+        "shareHelp": "Anyone with this link can take part. Do not post it on an open social network.",
+        "askPayout": "Ask for the payout",
+        "payoutAsked": "Payout requested on your side",
+        "askClose": "Close now",
+        "closeAsked": "Closing requested on your side",
+        "bothHelp": "These requests take effect when both of you make them. Ifedele commission: {percent}%; FeexPay fees deducted.",
+        "recorded": "Your request is recorded. It takes effect when the other person makes the same one.",
+        "contributions": "Contributions received",
+        "anonymous": "Anonymous",
+        "hiddenAmount": "Amount hidden",
+        "errors": {
+          "invalid_title": "Title: 3 to 80 characters.",
+          "invalid_goal": "Goal: a whole amount of at least 1,000 FCFA, or nothing.",
+          "invalid_closing": "Choose an end date within the next 90 days.",
+          "invalid_phone": "A Benin Mobile Money number is expected: +229 followed by 8 or 10 digits.",
+          "contact_details": "The title must not contain a number, an address or a link.",
+          "too_early": "The fund opens once the “Dowry or wedding” step is reached, or after the union.",
+          "already_open": "A fund is already proposed or open.",
+          "not_member": "You are not part of this couple.",
+          "not_pending": "This proposal is no longer pending.",
+          "own_request": "You cannot accept your own proposal.",
+          "invalid_status": "This action is no longer possible in the current state.",
+          "couple_blocked": "This couple is blocked by the team.",
+          "payout_pending": "A payout is already in progress.",
+          "nothing_to_pay_out": "No contribution to pay out for now.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
       }
     },
     "venues": {
@@ -1300,6 +1409,35 @@
         "unavailable": "This service is not available yet. Try again later.",
         "generic": "Something went wrong. Try again in a moment."
       }
+    },
+    "referral": {
+      "eyebrow": "Referral",
+      "title": "Refer someone",
+      "intro": "Invite someone you trust. When they attend their first evening, paid and checked in at the door, you get a {amount} discount on your next evening (at most {max} rewarded referrals per year).",
+      "notVerified": "Referral is open to verified members.",
+      "verify": "Finish my verification",
+      "unavailable": "This service is not available yet. Try again later.",
+      "myLink": "My code and link",
+      "shareWhatsapp": "Share on WhatsApp",
+      "shareText": "I invite you to Ifedele, serious dating evenings in Cotonou:",
+      "howItWorks": "They sign up with this link, or enter your code when signing up. You only see their first name and the state of the referral.",
+      "credits": "My discounts",
+      "noCredit": "No discount available for now.",
+      "creditsAvailable": "{count, plural, one {A {amount} discount will be applied to your next evening.} other {# discounts available: one per evening, {amount} each.}}",
+      "creditsHelp": "One discount per evening, applied automatically at payment.",
+      "referrals": "My referrals",
+      "none": "No referral yet.",
+      "gone": "Account deleted",
+      "pending": "Waiting for their first evening",
+      "acquiredRewarded": "Confirmed, discount received",
+      "acquiredLimit": "Confirmed (yearly limit reached)"
+    },
+    "badges": {
+      "of": "{name}'s trust badges",
+      "identity_verified": "Identity verified",
+      "evenings_attended": "Attends evenings",
+      "profile_complete": "Complete profile",
+      "sponsor": "Sponsor"
     }
   },
   "SignIn": {
@@ -1456,7 +1594,8 @@
       "members": "Members",
       "evenings": "Evenings",
       "payments": "Payments",
-      "relations": "Relationships"
+      "relations": "Relationships",
+      "celebration": "Celebration"
     },
     "nav": {
       "verifications": "Verifications",
@@ -1470,7 +1609,9 @@
       "couples": "Couples",
       "counselors": "Counselors",
       "alerts": "Safety alerts",
-      "reports": "Reports"
+      "reports": "Reports",
+      "providers": "Providers",
+      "cagnottes": "Funds"
     },
     "navHelp": {
       "verifications": "Pending files, selfies, decisions",
@@ -1478,7 +1619,15 @@
       "evenings": "Creation, bookings, check-in, running order, results",
       "venues": "Evening venues and addresses",
       "members": "List, profiles, history, sanctions",
-      "payments": "Transactions, paid evenings, refunds"
+      "payments": "Transactions, paid evenings, refunds",
+      "themes": "Evening themes, ages, faiths and sectors",
+      "discoveries": "Announced matches, discoveries and deadlines",
+      "couples": "Couples, activity, counselor, blocking",
+      "counselors": "Counselors, requests to assign, access price",
+      "alerts": "“Home safe?”: help requests and missing answers",
+      "reports": "Member reports and decisions",
+      "providers": "Partner providers, categories, images",
+      "cagnottes": "Couples' funds, payouts, settings"
     },
     "errors": {
       "unavailable": "This service is not available yet. Please try again later."
@@ -1603,7 +1752,8 @@
       "photos": {
         "title": "Photos to review",
         "empty": "No photo to review.",
-        "alt": "Photo uploaded by {name}"
+        "alt": "Photo uploaded by {name}",
+        "union": "union photo"
       },
       "texts": "Texts to review"
     },
@@ -2142,6 +2292,30 @@
           "unavailable": "This service is not available yet. Please try again later.",
           "generic": "Something went wrong. Please try again in a moment."
         }
+      },
+      "referral": {
+        "title": "Referral",
+        "none": "No sponsor and no referral.",
+        "referrer": "Sponsor",
+        "referred": "Referred",
+        "pending": "pending",
+        "acquired": "confirmed, no discount (limit)",
+        "acquiredRewarded": "confirmed, discount given",
+        "settings": {
+          "title": "Referral: settings",
+          "intro": "Discount given to the sponsor on their next evening when a referred person attends their first paid and checked-in evening, and number of rewarded referrals per year.",
+          "reward": "Discount (FCFA)",
+          "max": "Rewarded referrals per year",
+          "save": "Save",
+          "saved": "Settings saved.",
+          "errors": {
+            "invalid_amount": "Discount: whole number from 0 to 1,000,000 FCFA.",
+            "invalid_limit": "Limit: whole number from 0 to 100.",
+            "forbidden": "Your role does not allow this action.",
+            "unavailable": "This service is not available yet. Try again later.",
+            "generic": "Something went wrong. Try again in a moment."
+          }
+        }
       }
     },
     "payments": {
@@ -2498,6 +2672,71 @@
           "last_activity_at": "Last activity",
           "inactive_days": "Days without activity"
         }
+      },
+      "providers": {
+        "sortDefault": "Category, then name",
+        "fields": {
+          "name": "Name",
+          "category": "Category",
+          "city": "City or area",
+          "is_active": "Visible",
+          "is_demo": "Demo",
+          "has_image": "With image",
+          "contacts": "Number of contacts",
+          "created_at": "Date added"
+        },
+        "columns": {
+          "category": "Category",
+          "city": "City",
+          "contacts": "Contacts",
+          "status": "Status"
+        },
+        "export": {
+          "name": "Name",
+          "category": "Category",
+          "city": "City",
+          "district": "Area",
+          "phone": "Phone",
+          "whatsapp": "WhatsApp",
+          "price_range": "Indicative prices",
+          "is_active": "Visible",
+          "is_demo": "Demo",
+          "contacts": "Contacts",
+          "created_at": "Added on"
+        }
+      },
+      "cagnottes": {
+        "sortDefault": "Creation, newest first",
+        "fields": {
+          "member": "Member",
+          "member_number": "Member number",
+          "title": "Title",
+          "status": "Status",
+          "collected": "Amount received",
+          "goal": "Goal",
+          "payout_pending": "Payout to make",
+          "to_refund": "To refund",
+          "closes_at": "End date",
+          "created_at": "Creation date"
+        },
+        "columns": {
+          "status": "Status",
+          "collected": "Received",
+          "closes": "End",
+          "payout": "To do"
+        },
+        "export": {
+          "title": "Title",
+          "member_a": "First member",
+          "member_b": "Second member",
+          "status": "Status",
+          "collected": "Received (FCFA)",
+          "goal": "Goal (FCFA)",
+          "closes_at": "End",
+          "payout_pending": "Payout to make",
+          "to_refund": "To refund",
+          "created_at": "Creation"
+        }
       }
     },
     "discoveries": {
@@ -2620,7 +2859,9 @@
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment.",
           "not_paid": "Access is not paid yet."
-        }
+        },
+        "followUp": "Support after the union.",
+        "previous": "The couple's previous counselor: {name}."
       },
       "price": {
         "title": "Counselor access price",
@@ -2698,6 +2939,190 @@
         "unavailable": "This service is not available yet. Try again later.",
         "generic": "Something went wrong. Try again in a moment."
       }
+    },
+    "providers": {
+      "intro": "Providers recommended to couples. The public site shows the name, category, image, description and city; contact details are only shown to members in a couple or united.",
+      "empty": "No provider recorded.",
+      "demo": "Demo",
+      "active": "Visible",
+      "inactive": "Deactivated",
+      "contactsCount": "{count, plural, =0 {No contact} one {# contact} other {# contacts}}",
+      "new": "New provider",
+      "back": "Back to providers",
+      "categoryNames": {
+        "caterer": "Caterers",
+        "tailor": "Tailors",
+        "photographer": "Photographers",
+        "reception_venue": "Reception venues",
+        "decoration": "Decoration",
+        "other": "Other"
+      },
+      "form": {
+        "name": "Name",
+        "category": "Category",
+        "chooseCategory": "Choose",
+        "description": "Description",
+        "descriptionHelp": "French is required; English and Yoruba if possible (French is shown otherwise). {max} characters at most.",
+        "languages": {
+          "fr": "French",
+          "en": "English",
+          "yo": "Yoruba"
+        },
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "city": "City",
+        "district": "Area",
+        "priceRange": "Indicative price range",
+        "priceRangeHelp": "Optional, for example “From 150,000 FCFA”.",
+        "isDemo": "Demo provider (hidden when demo data is turned off)",
+        "create": "Add the provider",
+        "save": "Save",
+        "saved": "Saved.",
+        "image": "Image",
+        "imageHelp": "Shown on the public site. JPEG, PNG or WebP, 8 MB at most; resized and stripped of metadata, then hosted by Cloudinary.",
+        "imageAlt": "Image of {name}",
+        "addImage": "Add an image",
+        "replaceImage": "Replace the image",
+        "visibility": "Visibility",
+        "activeHelp": "This provider is shown on the public site and to couples.",
+        "inactiveHelp": "This provider is hidden everywhere.",
+        "deactivate": "Deactivate",
+        "activate": "Reactivate",
+        "errors": {
+          "name": "Enter the name (120 characters at most).",
+          "name_required": "Enter the name (120 characters at most).",
+          "category": "Choose a category.",
+          "invalid_category": "Choose a category.",
+          "description": "Write the description in French.",
+          "description_required": "Write the description in French.",
+          "description_length": "Each description is 600 characters at most.",
+          "description_too_long": "Each description is 600 characters at most.",
+          "phone": "Invalid number: 8 to 15 digits, a leading “+” is allowed.",
+          "invalid_phone": "Invalid number: 8 to 15 digits, a leading “+” is allowed.",
+          "contact": "Enter a phone or WhatsApp number.",
+          "contact_required": "Enter a phone or WhatsApp number.",
+          "place": "Enter the city (80 characters at most); area: 80 characters at most.",
+          "invalid_place": "Enter the city (80 characters at most); area: 80 characters at most.",
+          "price_range": "Price range: 80 characters at most.",
+          "price_range_too_long": "Price range: 80 characters at most.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        },
+        "imageErrors": {
+          "photo_type": "This format is not accepted: JPEG, PNG or WebP.",
+          "photo_too_large": "This image is larger than 8 MB.",
+          "photo_unreadable": "This image cannot be read.",
+          "image_storage": "Upload to Cloudinary failed. Try again later.",
+          "forbidden": "Your role does not allow this action.",
+          "not_authenticated": "Your session has expired. Please sign in again.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      },
+      "categories": {
+        "title": "Categories",
+        "intro": "Edit names and display order, or add a category. A deactivated category hides its providers.",
+        "key": "Key (cannot be changed)",
+        "name": {
+          "fr": "Name in French",
+          "en": "Name in English",
+          "yo": "Name in Yoruba"
+        },
+        "position": "Order",
+        "active": "Active",
+        "save": "Save",
+        "add": "Add the category",
+        "saved": "Saved.",
+        "errors": {
+          "invalid_key": "Key: lowercase letters without accents, digits and “_”, 2 to 40 characters.",
+          "name_required": "Enter the name in French (60 characters at most).",
+          "invalid_position": "Order: whole number from 0 to 1000.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      }
+    },
+    "cagnottes": {
+      "intro": "Couples' funds. Payouts are made by hand to the number confirmed by both members, then recorded here. After a separation, contributions not paid out must be refunded from Payments.",
+      "empty": "No fund.",
+      "couple": "Fund and couple",
+      "status": {
+        "proposed": "Proposed",
+        "open": "Open",
+        "closed": "Closed",
+        "paid_out": "Paid out",
+        "refused": "Declined",
+        "cancelled": "Cancelled"
+      },
+      "reasons": {
+        "date": "end date reached",
+        "couple": "closed by the couple",
+        "separation": "couple ended"
+      },
+      "payoutPending": "Payout to make",
+      "toRefund": "To refund",
+      "back": "Back to funds",
+      "phone": "Payout number",
+      "commission": "Commission set at opening",
+      "separationHelp": "Fund closed because the couple ended: contact both members and refund the contributions marked “to refund” from",
+      "payouts": "Payouts",
+      "noPayout": "No payout requested.",
+      "payoutStatus": {
+        "requested": "Requested",
+        "paid": "Done",
+        "cancelled": "Cancelled"
+      },
+      "payoutDetail": "Commission: {commission}. To send at most: {max}, FeexPay fees deducted, to {phone}.",
+      "paidDetail": "Sent: {sent}, reference {reference}, on {date}.",
+      "contributions": "Contributions",
+      "noContribution": "No contribution received.",
+      "anonymous": "Anonymous",
+      "contribution": {
+        "received": "received",
+        "paidOut": "paid out",
+        "toRefund": "to refund",
+        "refunded": "refunded"
+      },
+      "settings": {
+        "title": "Settings",
+        "intro": "The commission applies to funds opened after it changes; each fund keeps the one in force when it opened.",
+        "min": "Minimum contribution (FCFA)",
+        "commission": "Ifedele commission (%)",
+        "save": "Save",
+        "saved": "Settings saved.",
+        "errors": {
+          "invalid_amount": "Minimum: whole number from 100 to 10,000,000 FCFA.",
+          "invalid_commission": "Commission: from 0 to 50%, two decimals at most.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      },
+      "payout": {
+        "sent": "Amount sent (FCFA)",
+        "reference": "Transfer reference",
+        "markPaid": "Mark as paid out",
+        "errors": {
+          "invalid_amount": "Amount sent: positive whole number, at most the amount to send.",
+          "reference_required": "Enter the transfer reference (100 characters at most).",
+          "not_pending": "This payout is no longer pending.",
+          "not_found": "Payout not found.",
+          "forbidden": "Your role does not allow this action.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
+        }
+      }
+    },
+    "indicators": {
+      "title": "Indicators",
+      "openCagnottes": "Open funds",
+      "collected": "Amount collected (all funds)",
+      "pendingPayouts": "Payouts to make",
+      "referrals": "Referrals confirmed this month",
+      "activeProviders": "Active providers",
+      "providerContacts": "“I contacted this provider” this month"
     }
   },
   "Password": {
@@ -3026,6 +3451,68 @@
       "title": "Private exchanges",
       "empty": "No private exchange open.",
       "help": "Only this member reads this exchange; the other member of the couple does not see it."
+    }
+  },
+  "Providers": {
+    "eyebrow": "The celebration",
+    "title": "Partner providers",
+    "intro": "Caterers, tailors, photographers, reception venues: reliable names, recommended by our team to prepare your union.",
+    "contactsNotice": "Their contact details are reserved for members in a couple or united.",
+    "memberLink": "See the contact details in my space",
+    "memberIntro": "Contact the providers recommended by our team directly. Ifedele takes no booking or payment on their behalf.",
+    "reserved": "Providers' contact details are reserved for members in a couple or united.",
+    "publicLink": "See the list of providers",
+    "unavailable": "The list of providers is not available right now. Try again later.",
+    "empty": "No provider yet.",
+    "imageAlt": "{name}",
+    "district": "Area:",
+    "priceRange": "Indicative prices:",
+    "phone": "Phone:",
+    "whatsapp": "WhatsApp:",
+    "contacted": "You said you contacted this provider.",
+    "markContacted": "I contacted this provider",
+    "markContactedHelp": "This helps our team know which providers are useful to you. Nothing is sent to the provider.",
+    "error": "Something went wrong. Try again in a moment."
+  },
+  "Cagnotte": {
+    "eyebrow": "Fund",
+    "intro": "Take part in this union by Mobile Money, without creating an account. Your contribution is passed on to the couple by the Ifedele team.",
+    "goal": "Goal: {amount}",
+    "progress": "{percent}% of the goal",
+    "closes": "Open until {date}.",
+    "closed": "This fund is closed. Thank you for your interest.",
+    "unavailable": "This fund is not available right now. Try again later.",
+    "name": "Your first name or name",
+    "nameHelp": "Shown to the couple with your contribution.",
+    "anonymous": "Stay anonymous",
+    "message": "Message to the couple (optional)",
+    "messageHelp": "{max} characters at most, without a phone number or address.",
+    "amount": "Amount in FCFA",
+    "amountHelp": "At least {min}.",
+    "hideAmount": "Do not show the amount to the couple",
+    "continue": "Continue",
+    "toPay": "Amount to pay: {amount}",
+    "phone": "Mobile Money number",
+    "pay": "Receive the payment request",
+    "simulated": "Demo mode: no money is taken.",
+    "payDemo": "Confirm the demo contribution",
+    "thanks": "Thank you! Your contribution has been received. The couple will see it in their space.",
+    "privacy": "Ifedele only keeps your displayed name, your message and the amount. Your number is only used for the FeexPay payment.",
+    "errors": {
+      "name_required": "Enter your name (60 characters at most), or tick “Stay anonymous”.",
+      "message_too_long": "Message: 300 characters at most.",
+      "invalid_amount": "Amount too low or invalid.",
+      "contact_details": "The name and message must not contain a number, an address or a link.",
+      "cagnotte_closed": "This fund is closed.",
+      "not_found": "This fund does not exist.",
+      "invalid_phone": "A 10-digit Benin number starting with 01.",
+      "payment_refused": "FeexPay refused the request. Check the number and the network.",
+      "payment_in_progress": "A payment request is already waiting on your phone.",
+      "feexpay_unavailable": "Payment is temporarily unavailable. Try again later.",
+      "simulated_payments_disabled": "Demo payment is turned off.",
+      "failed": "The payment did not go through. You can try again.",
+      "unavailable": "This service is not available yet. Try again later.",
+      "generic": "Something went wrong. Try again in a moment."
     }
   }
 }

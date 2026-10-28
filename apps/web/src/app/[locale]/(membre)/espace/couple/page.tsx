@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { type ChatMessage, ChatRoom } from "@/components/member/ChatRoom";
+import { TrustBadges } from "@/components/member/TrustBadges";
 import { ProtectedPhoto } from "@/components/ui/ProtectedPhoto";
 import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
@@ -11,15 +12,20 @@ import {
   availableDecisions,
   canInviteCounselor,
   chatOpen,
+  counselorAvailable,
   chatReadable,
   type CounselorAccess,
   counselorState,
   type CoupleRow,
   isLive,
   milestoneKinds,
+  type MemoryPhotoRow,
   type MilestoneRow,
   type SessionRow,
 } from "./couple";
+import { MemoryPhotos } from "./MemoryPhotos";
+import { CagnottePanel } from "./CagnottePanel";
+import { cagnotteView, canProposeCagnotte, type ContributionRow, type MyCagnotte } from "@/lib/cagnotte";
 import { CounselorPanel, CoupleDecisions, DateForm, MilestoneList, PhoneShare, SessionList } from "./CoupleActions";
 import { FirstDateVenues, type FirstDateVenue } from "@/components/member/FirstDateVenues";
 
@@ -46,14 +52,18 @@ export default async function CouplePage() {
 
   const { data: rows, error } = await supabase.rpc("my_couple");
   const couple = ((rows ?? []) as CoupleRow[])[0];
+  // Compte de l'autre supprimé : ni prénom ni photos (phase 4, question 1 c)
+  const partnerName = couple?.partner_first_name ?? t("couple.partnerGone");
+  // Après l'union, l'espace devient « Espace souvenir » (9.5)
+  const memory = couple?.status === "union_celebrated";
 
   const header = (
     <header>
       <p className="eyebrow flex items-center gap-4">
         <span aria-hidden="true" className="block h-px w-10 bg-accent" />
-        {t("couple.title")}
+        {memory ? t("couple.memory.title") : t("couple.title")}
       </p>
-      {couple && <h1 className="mt-6 font-serif text-4xl">{t("couple.with", { name: couple.partner_first_name })}</h1>}
+      {couple && <h1 className="mt-6 font-serif text-4xl">{t("couple.with", { name: partnerName })}</h1>}
     </header>
   );
 
@@ -96,7 +106,7 @@ export default async function CouplePage() {
   ]);
   const partnerId = pair ? (pair.member_a === member.id ? pair.member_b : pair.member_a) : null;
   const lastAccess = (access ?? null) as CounselorAccess | null;
-  const [{ data: photos }, { data: messages }, { data: paid }, { data: discoveryChat }] = await Promise.all([
+  const [{ data: photos }, { data: messages }, { data: paid }, { data: discoveryChat }, { data: partnerBadges }] = await Promise.all([
     shared && partnerId
       ? supabase.from("photos").select("id").eq("user_id", partnerId).eq("review_status", "approved").order("position")
       : Promise.resolve({ data: [] as { id: string }[] }),
@@ -110,6 +120,8 @@ export default async function CouplePage() {
     shared && pair?.discovery_id
       ? supabase.from("conversations").select("id").eq("discovery_id", pair.discovery_id).maybeSingle()
       : Promise.resolve({ data: null }),
+    // Badges de confiance de l'autre (phase 4, question 5 c)
+    shared && partnerId ? supabase.rpc("badges_of", { p_user: partnerId }) : Promise.resolve({ data: [] }),
   ]);
   const { data: discoveryMessages } = discoveryChat
     ? await supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", discoveryChat.id).order("created_at").limit(500)
@@ -130,12 +142,22 @@ export default async function CouplePage() {
     (kind) => ((milestones ?? []) as MilestoneRow[]).find((m) => m.kind === kind) ?? { kind, reached_at: null, i_confirmed_reach: false, i_confirmed_remove: false },
   );
   const celebrated = journey.some((m) => m.kind === "celebration" && m.reached_at !== null);
-  const [{ data: venues }, { data: sessions }] = live
-    ? await Promise.all([supabase.rpc("first_date_venues"), supabase.rpc("couple_sessions", { p_couple: id })])
-    : [{ data: [] }, { data: [] }];
+  const [{ data: venues }, { data: sessions }, { data: memoryPhotos }, { data: cagnotteRows }, { data: commission }] = await Promise.all([
+    live ? supabase.rpc("first_date_venues") : Promise.resolve({ data: [] }),
+    counselorAvailable(couple.status) ? supabase.rpc("couple_sessions", { p_couple: id }) : Promise.resolve({ data: [] }),
+    memory ? supabase.rpc("memory_space_photos", { p_couple: id }) : Promise.resolve({ data: [] }),
+    counselorAvailable(couple.status) ? supabase.rpc("my_cagnotte", { p_couple: id }) : Promise.resolve({ data: [] }),
+    supabase.rpc("cagnotte_commission_percent"),
+  ]);
+  // Cagnotte (phase 4, question 3) : dès « Dot ou mariage » franchie, ou après l'union
+  const cagnotte = ((cagnotteRows ?? []) as MyCagnotte[])[0] ?? null;
+  const { data: contributions } = cagnotte && cagnotte.status !== "proposed"
+    ? await supabase.rpc("cagnotte_contributions", { p_cagnotte: cagnotte.id })
+    : { data: [] };
+  const dowryReached = journey.some((m) => m.kind === "dowry_or_wedding" && m.reached_at !== null);
   const when = (iso: string) => format.dateTime(new Date(iso), { dateStyle: "long", timeStyle: "short", timeZone: "Africa/Porto-Novo" });
   // Prénoms dans la conversation : l'autre membre, et tout conseiller (actuel par son nom, ancien sous « Conseiller »)
-  const names: Record<string, string> = { [member.id]: member.firstName ?? t("chat.me"), ...(partnerId ? { [partnerId]: couple.partner_first_name } : {}) };
+  const names: Record<string, string> = { [member.id]: member.firstName ?? t("chat.me"), ...(partnerId ? { [partnerId]: partnerName } : {}) };
   for (const m of (messages ?? []) as ChatMessage[]) {
     if (m.sender_id && !(m.sender_id in names)) names[m.sender_id] = t("chat.counselor");
   }
@@ -144,6 +166,7 @@ export default async function CouplePage() {
   return (
     <div className="mx-auto max-w-4xl">
       {header}
+      <TrustBadges badges={partnerBadges} label={t("badges.of", { name: partnerName })} />
       <p className="mt-6 max-w-measure text-lg text-fg-muted">{t(`couple.status.${couple.status}`)}</p>
       {couple.blocked && (
         <p role="status" className="mt-6 max-w-measure border-l border-accent pl-5">
@@ -189,7 +212,7 @@ export default async function CouplePage() {
           <ul className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {(photos ?? []).map((p, i) => (
               <li key={p.id}>
-                <ProtectedPhoto load={partnerPhotoLink.bind(null, p.id)} alt={t("discoveries.photoAlt", { name: couple.partner_first_name, rank: i + 1 })} />
+                <ProtectedPhoto load={partnerPhotoLink.bind(null, p.id)} alt={t("discoveries.photoAlt", { name: partnerName, rank: i + 1 })} />
               </li>
             ))}
           </ul>
@@ -205,13 +228,43 @@ export default async function CouplePage() {
         </section>
       )}
 
+      {memory && <MemoryPhotos coupleId={id} status={couple.status} rows={(memoryPhotos ?? []) as MemoryPhotoRow[]} partnerName={partnerName} />}
+
       {live && <FirstDateVenues venues={(venues ?? []) as FirstDateVenue[]} />}
 
-      {live && (
+      {counselorAvailable(couple.status) && (
+        <section aria-labelledby="cagnotte" className="mt-14">
+          <h2 id="cagnotte" className="eyebrow">
+            {t("couple.cagnotte.title")}
+          </h2>
+          <CagnottePanel
+            coupleId={id}
+            view={cagnotteView(cagnotte)}
+            cagnotte={cagnotte}
+            contributions={(contributions ?? []) as ContributionRow[]}
+            canPropose={canProposeCagnotte({ status: couple.status, blocked: couple.blocked, dowryOrWeddingReached: dowryReached, view: cagnotteView(cagnotte) })}
+            commissionPercent={Number(commission ?? 0)}
+            siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}
+          />
+        </section>
+      )}
+
+      {/* Prestataires partenaires : coordonnées réservées aux couples et unions (phase 4, question 2) */}
+      {counselorAvailable(couple.status) && (
+        <p className="mt-14 border-t border-line pt-8">
+          <Link href="/espace/prestataires" className="text-link underline-offset-4 hover:underline">
+            {t("couple.providersLink")}
+          </Link>
+        </p>
+      )}
+
+      {counselorAvailable(couple.status) && (
         <section aria-labelledby="conseiller" className="mt-14">
           <h2 id="conseiller" className="eyebrow">
-            {t("couple.counselor.title")}
+            {memory ? t("couple.counselor.followUpTitle") : t("couple.counselor.title")}
           </h2>
+          {/* Suivi post-union (phase 4, question 1 d) : même accès, séances et canal privé ; la conversation reste en lecture seule */}
+          {memory && <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("couple.counselor.followUpHelp")}</p>}
           <CounselorPanel
             coupleId={id}
             accessId={state === "none" ? null : (lastAccess?.id ?? null)}
@@ -246,7 +299,7 @@ export default async function CouplePage() {
               {dates.map((d) => (
                 <li key={d.id} className="flex flex-wrap justify-between gap-4 border-b border-line py-4">
                   <span>{when(d.date_at)}</span>
-                  <span className="text-sm text-fg-muted">{d.declared_by_me ? t("couple.dates.byMe") : t("couple.dates.byPartner", { name: couple.partner_first_name })}</span>
+                  <span className="text-sm text-fg-muted">{d.declared_by_me ? t("couple.dates.byMe") : t("couple.dates.byPartner", { name: partnerName })}</span>
                 </li>
               ))}
             </ul>
@@ -267,7 +320,7 @@ export default async function CouplePage() {
               iShared={phone.i_shared}
               canShare={phone.can_share}
               partnerPhone={phone.partner_phone}
-              partnerName={couple.partner_first_name}
+              partnerName={partnerName}
               canShareNow={live}
             />
           )}

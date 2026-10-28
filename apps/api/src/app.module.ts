@@ -20,11 +20,13 @@ import {
   SMS_SENDER,
 } from "./notifications/senders";
 import { DeliveriesService } from "./notifications/deliveries.service";
+import { CagnottesController } from "./payments/cagnottes.controller";
 import { FeexpayWebhookController, PaymentsController } from "./payments/payments.controller";
 import { FeexpayClient } from "./payments/feexpay";
 import { FeexpayPaymentProvider, PAYMENT_PROVIDER, PaymentsService, SimulatedPaymentProvider } from "./payments/payments.service";
 import { PhotosController, PhotoViewController } from "./photos/photos.controller";
 import { ProfileController } from "./profile/profile.controller";
+import { AdminProvidersController } from "./providers/admin-providers.controller";
 import { JobsService } from "./scheduler/jobs.service";
 import { SupabaseService } from "./supabase/supabase.service";
 import { AdminVerificationsController } from "./verifications/admin-verifications.controller";
@@ -33,12 +35,13 @@ import { AdminVerificationsController } from "./verifications/admin-verification
  * Module racine. Phase 2 : authentification (hooks SMS et e-mail via Brevo), profil,
  * soirées, vote QR, matchs, paiements (FeexPay ou adaptateur simulé), tâches planifiées,
  * vérifications côté équipe (liens signés vers les pièces). Phase 3 : photos des membres
- * (dépôt réduit et sans métadonnées, affichage filigrané par lien de 5 minutes).
+ * (dépôt réduit et sans métadonnées, affichage filigrané par lien de 5 minutes). Phase 4 :
+ * photos de l'union (même module), images des prestataires envoyées sur Cloudinary.
  * Les adaptateurs (SMS, e-mail, paiement) sont choisis par la configuration.
  */
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true, cache: true, validate: validateEnv }), ScheduleModule.forRoot()],
-  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, FeexpayWebhookController, PaymentsController, ProfileController, PhotosController, PhotoViewController],
+  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, FeexpayWebhookController, PaymentsController, ProfileController, PhotosController, PhotoViewController, AdminProvidersController, CagnottesController],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: RequestLoggingInterceptor },
     SupabaseService,
