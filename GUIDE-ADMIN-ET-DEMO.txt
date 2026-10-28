@@ -130,6 +130,14 @@ Prestataires de démonstration (facultatif) :
 Ils ne s'affichent sur le site en production que si la variable
 SHOW_DEMO_DATA=true est définie sur Vercel.
 
+Parcours de démonstration des phases 3 et 4 (facultatif) :
+supabase/demo/parcours-demo.sql, après la soirée de démonstration et
+l'annonce des matchs. Deux membres de démonstration forment un couple,
+franchissent les étapes, ouvrent la cagnotte « Notre mariage (démo) »
+(aucun paiement), contactent un prestataire et déclarent leur union.
+La photo de l'union est ajoutée si le fichier <membre>/union-demo.jpg
+a été déposé avant. supprimer-membres-demo.sql retire aussi tout cela.
+
 Images des prestataires : l'API les envoie sur Cloudinary avec les
 variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY et
 CLOUDINARY_API_SECRET (fichier .env de l'API et Render). Sans elles,

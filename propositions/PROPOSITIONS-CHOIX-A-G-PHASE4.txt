@@ -1,0 +1,80 @@
+IFEDELE : MES PROPOSITIONS POUR LES CHOIX A À G DE LA PHASE 4
+28 octobre 2026. Ces choix ont été faits pendant le codage (fin de propositions/PHASE4.txt).
+Après relecture du code existant, voici pour chacun ce qui est en place, ce que j'en pense, et ma
+proposition. Répondez par exemple « A OK, B OK, E OK, ... » ou corrigez un point.
+Rien n'est changé avant votre réponse.
+
+======================================================================
+ A. Parrainage : « 5 parrainages récompensés par an »
+======================================================================
+En place : année civile (1er janvier au 31 décembre, heure de Cotonou). Le compteur repart à
+zéro le 1er janvier.
+Analyse : simple à expliquer (« 5 par an ») et à suivre pour l'équipe (bilan annuel). Une
+fenêtre glissante de 12 mois éviterait l'effet « remise à zéro » mais serait plus difficile à
+comprendre pour le membre.
+PROPOSITION : garder l'année civile.
+
+======================================================================
+ B. Une réduction de parrainage par soirée
+======================================================================
+En place : une seule réduction (2 000 FCFA) par soirée payée ; si le membre en a plusieurs, elles
+servent aux soirées suivantes. Si le prix d'une soirée est inférieur ou égal à la réduction, elle
+n'est pas appliquée et reste disponible.
+Analyse : le paiement exige un montant positif (FeexPay refuse 0 FCFA) et une place n'est
+confirmée que par un paiement reçu. Une soirée « gratuite » demanderait un circuit à part. Avec
+10 000 et 2 000 FCFA, le cas ne se produit jamais ; il ne peut venir que d'un réglage extrême.
+PROPOSITION : garder ; et, dans Membres > réglages du parrainage, refuser une réduction
+supérieure ou égale au prix par défaut d'une soirée (10 000 FCFA), avec un message clair.
+
+======================================================================
+ C. Cagnotte : reversement « à tout moment »
+======================================================================
+En place : chaque demande des deux couvre les contributions reçues pas encore reversées ; la
+cagnotte reste ouverte jusqu'à sa date de fin ; un nouveau reversement peut être demandé ensuite.
+Analyse : souple pour le couple (frais de la cérémonie à payer avant la fin), et chaque
+reversement est journalisé. Revers : chaque envoi Mobile Money coûte des frais et du travail à
+l'équipe ; des demandes très petites et répétées seraient coûteuses.
+PROPOSITION : garder, en ajoutant un minimum de 10 000 FCFA par demande de reversement tant que
+la cagnotte est ouverte (aucun minimum une fois close, pour solder). Montant réglable dans
+Cagnottes > Réglages.
+
+======================================================================
+ D. Cagnotte : quand la proposer, durée
+======================================================================
+En place : proposition pendant le couple en cours (pas en pause) après « Dot ou mariage », ou
+après l'union ; date de fin au plus 90 jours après l'ouverture (contrôlée à la proposition puis
+de nouveau à l'acceptation). Une cagnotte déjà ouverte continue pendant une pause.
+Analyse : la pause vient d'une inactivité de 60 jours ; ouvrir une collecte à ce moment-là
+n'aurait pas de sens, mais couper une collecte en cours pénaliserait les proches.
+PROPOSITION : garder.
+
+======================================================================
+ E. Badge « Profil complet »  (CORRECTION PROPOSÉE)
+======================================================================
+En place : les 3 textes de « Je me décris » (non refusés), les 21 catégories des deux côtés
+(« Je me décris » et « Ce que je recherche ») et une photo approuvée.
+Analyse : écart avec l'éditeur de profil. Trois catégories y sont facultatives (taille,
+silhouette, revenus) et « Personnalité » demande au moins 3 choix pour « Je me décris ». Un
+membre qui voit sa barre de progression à 100 % peut donc ne pas recevoir le badge (catégories
+facultatives vides), ou l'obtenir avec une seule personnalité cochée.
+PROPOSITION : aligner le badge sur la barre de progression de l'éditeur : les deux côtés à
+100 % (catégories obligatoires seulement, au moins 3 personnalités pour « Je me décris », les
+3 textes écrits) et une photo approuvée.
+
+======================================================================
+ F. Suivi post-union et nombre maximal de couples du conseiller
+======================================================================
+En place : un couple suivi après l'union compte dans le nombre maximal de couples du conseiller
+(affiché dans Conseillers).
+Analyse : c'est la même charge de travail (séances, canal privé) ; ne pas le compter
+surchargerait les conseillers sans que l'équipe le voie.
+PROPOSITION : garder.
+
+======================================================================
+ G. Coordonnées des prestataires et membres suspendus
+======================================================================
+En place : un membre suspendu ou exclu ne voit plus les coordonnées des prestataires (la liste
+publique reste visible).
+Analyse : cohérent avec la suspension, qui coupe déjà les soirées et les badges ; les
+coordonnées reviennent à la fin de la suspension.
+PROPOSITION : garder.
