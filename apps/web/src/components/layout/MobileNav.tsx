@@ -1,15 +1,15 @@
 "use client";
 
 import { CaretRightIcon, ListIcon, XIcon } from "@phosphor-icons/react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
-import { durations, easeSoft } from "@/lib/motion";
+import { durations } from "@/lib/motion";
 import type { SessionMember } from "@/lib/session";
+import { usePresence } from "@/lib/usePresence";
 import { LanguageList } from "./LanguageSwitcher";
 import { MemberAvatar } from "./MemberAvatar";
 import { drawerItems, isNavActive, memberSpaceHref, mobileTabs } from "./navItems";
@@ -23,8 +23,8 @@ type Props = { member: SessionMember | null; pathname: string; activeSection: st
  */
 export function MobileNav({ member, pathname, activeSection }: Props) {
   const t = useTranslations();
-  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
+  const { mounted, visible } = usePresence(open, durations.base * 1000);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
 
@@ -71,8 +71,6 @@ export function MobileNav({ member, pathname, activeSection }: Props) {
     return () => query.removeEventListener("change", onChange);
   }, [open]);
 
-  const transition = { duration: reduce ? 0 : durations.base, ease: easeSoft };
-
   return (
     <>
       <nav
@@ -117,31 +115,27 @@ export function MobileNav({ member, pathname, activeSection }: Props) {
         </ul>
       </nav>
 
-      <AnimatePresence>
-        {open && (
+      {mounted && (
           <div className="lg:hidden">
-            <motion.div
-              key="overlay"
+            <div
               aria-hidden="true"
-              className="fixed inset-0 z-50 bg-ink/50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={transition}
+              className={cn(
+                "fixed inset-0 z-50 bg-ink/50 transition-opacity duration-500 ease-soft",
+                visible ? "opacity-100" : "opacity-0",
+              )}
               onClick={close}
             />
-            <motion.div
-              key="sheet"
+            <div
               id="menu-mobile"
               ref={sheetRef}
               role="dialog"
               aria-modal="true"
               aria-label={t("Common.menu")}
-              className="fixed inset-x-0 bottom-0 z-50 flex max-h-[92svh] flex-col rounded-t-[4px] bg-bg pb-[env(safe-area-inset-bottom)]"
-              initial={{ y: reduce ? 0 : "100%", opacity: reduce ? 0 : 1 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: reduce ? 0 : "100%", opacity: reduce ? 0 : 1 }}
-              transition={transition}
+              className={cn(
+                // Le tiroir monte du bas de l'écran (transform seulement)
+                "fixed inset-x-0 bottom-0 z-50 flex max-h-[92svh] flex-col rounded-t-[4px] bg-bg pb-[env(safe-area-inset-bottom)] transition-transform duration-500 ease-soft",
+                visible ? "translate-y-0" : "translate-y-full",
+              )}
             >
               <div className="flex items-center justify-between border-b border-line px-gutter py-3">
                 <Logo />
@@ -219,10 +213,9 @@ export function MobileNav({ member, pathname, activeSection }: Props) {
                 <p className="eyebrow text-fg-inverse-muted">{t("Social.title")}</p>
                 <SocialLinks size="sm" />
               </div>
-            </motion.div>
+            </div>
           </div>
-        )}
-      </AnimatePresence>
+      )}
     </>
   );
 }

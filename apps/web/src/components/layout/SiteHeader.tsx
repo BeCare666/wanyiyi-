@@ -1,19 +1,19 @@
 "use client";
 
 import { ArrowRightIcon, CaretDownIcon } from "@phosphor-icons/react";
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useCallback, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { sectionIds } from "@/config/site";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
-import { durations, easeSoft } from "@/lib/motion";
+import { durations } from "@/lib/motion";
 import type { SessionMember } from "@/lib/session";
 import { useActiveSection } from "@/lib/useActiveSection";
 import { useDismiss } from "@/lib/useDismiss";
+import { usePresence } from "@/lib/usePresence";
 import { LanguageMenu } from "./LanguageSwitcher";
 import { MemberAvatar } from "./MemberAvatar";
 import { MobileNav } from "./MobileNav";
@@ -27,39 +27,40 @@ import { desktopMore, desktopPrimary, isNavActive, memberSpaceHref, type NavItem
  */
 export function SiteHeader({ member }: { member: SessionMember | null }) {
   const t = useTranslations();
-  const reduce = useReducedMotion();
   const pathname = usePathname();
   const activeSection = useActiveSection(trackedSections, pathname === "/");
-  const { scrollY } = useScroll();
   const [compact, setCompact] = useState(false);
 
-  useMotionValueEvent(scrollY, "change", (y) => setCompact(y > 24));
-
-  const transition = { duration: reduce ? 0 : durations.base, ease: easeSoft };
+  // En-tête compact après 24 px de défilement (écouteur passif, sans bibliothèque d'animation)
+  useEffect(() => {
+    const update = () => setCompact(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-40">
         {/* Fond qui apparaît au défilement : opacité uniquement */}
-        <motion.div
+        <div
           aria-hidden="true"
-          className="absolute inset-0 border-b border-line bg-bg/94 backdrop-blur-md"
-          initial={false}
-          animate={{ opacity: compact ? 1 : 0 }}
-          transition={transition}
+          className={cn(
+            "absolute inset-0 border-b border-line bg-bg/94 backdrop-blur-md transition-opacity duration-500 ease-soft",
+            compact ? "opacity-100" : "opacity-0",
+          )}
         />
         <div className="relative mx-auto flex h-16 max-w-[90rem] items-center justify-between gap-4 px-gutter lg:h-24 lg:gap-8">
-          <motion.div
-            className="shrink-0"
-            initial={false}
-            animate={{ scale: compact ? 0.92 : 1 }}
-            transition={transition}
-            style={{ originX: 0 }}
+          <div
+            className={cn(
+              "shrink-0 origin-left transition-transform duration-500 ease-soft",
+              compact ? "scale-[0.92]" : "scale-100",
+            )}
           >
             <Link href="/" aria-label={t("Common.logoAlt")} className="inline-flex text-fg">
               <Logo />
             </Link>
-          </motion.div>
+          </div>
 
           <nav aria-label={t("Common.menu")} className="hidden lg:block">
             <ul className="flex items-center gap-5 xl:gap-9">
@@ -122,8 +123,8 @@ function DesktopLink({ item, active }: { item: NavItem; active: boolean }) {
 /** Menu « La maison » : les autres rubriques, avec une courte description, et la prochaine soirée. */
 function MoreMenu({ pathname, activeSection }: { pathname: string; activeSection: string | null }) {
   const t = useTranslations();
-  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
+  const { mounted, visible } = usePresence(open, durations.fast * 1000);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
@@ -161,15 +162,13 @@ function MoreMenu({ pathname, activeSection }: { pathname: string; activeSection
         />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
+      {mounted && (
+          <div
             id={panelId}
-            initial={{ opacity: 0, y: reduce ? 0 : -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: reduce ? 0 : -8 }}
-            transition={{ duration: reduce ? 0 : durations.fast, ease: easeSoft }}
-            className="absolute inset-x-0 top-full z-50 flex justify-center px-gutter"
+            className={cn(
+              "absolute inset-x-0 top-full z-50 flex justify-center px-gutter transition-[opacity,translate] duration-300 ease-soft",
+              visible ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
+            )}
           >
             <div className="grid w-full max-w-[52rem] grid-cols-[1fr_16rem] border border-line-strong/40 bg-bg-elevated shadow-[0_40px_80px_-40px_rgb(14_13_16/0.4)]">
             <ul className="grid grid-cols-2 gap-x-2 p-4">
@@ -224,9 +223,8 @@ function MoreMenu({ pathname, activeSection }: { pathname: string; activeSection
               </span>
             </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+      )}
     </div>
   );
 }

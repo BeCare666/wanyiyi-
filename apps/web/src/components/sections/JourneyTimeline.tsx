@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 
 type Step = { title: string; text: string };
@@ -12,17 +11,48 @@ type Step = { title: string; text: string };
  */
 export function JourneyTimeline({ steps }: { steps: Step[] }) {
   const ref = useRef<HTMLOListElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 60%"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 80, damping: 30, restDelta: 0.001 });
+  const lineRef = useRef<HTMLSpanElement>(null);
+
+  // Progression : 0 quand le haut de la liste atteint 75 % de l'écran, 1 quand son bas atteint 60 %.
+  // Le style est posé directement (pas de nouveau rendu React à chaque défilement).
+  useEffect(() => {
+    const list = ref.current;
+    const line = lineRef.current;
+    if (!list || !line) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      line.style.transform = "scaleY(1)";
+      return;
+    }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const vh = window.innerHeight;
+      const { top, height } = list.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (0.75 * vh - top) / (height + 0.15 * vh)));
+      line.style.transform = `scaleY(${progress})`;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
 
   return (
     <ol ref={ref} className="relative mt-16 lg:mt-24">
       <span aria-hidden="true" className="absolute left-[0.6875rem] top-2 bottom-2 w-px bg-line md:left-1/2" />
-      <motion.span
+      {/* Lissage du suivi du défilement : courte transition sur transform */}
+      <span
+        ref={lineRef}
         aria-hidden="true"
-        className="absolute left-[0.6875rem] top-2 bottom-2 w-px origin-top bg-accent md:left-1/2"
-        style={{ scaleY: reduce ? 1 : progress }}
+        className="absolute left-[0.6875rem] top-2 bottom-2 w-px origin-top bg-accent transition-transform duration-300 ease-soft md:left-1/2"
+        style={{ transform: "scaleY(0)" }}
       />
       {steps.map((step, i) => {
         const right = i % 2 === 1;

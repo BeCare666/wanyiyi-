@@ -1,15 +1,15 @@
 "use client";
 
 import { CaretDownIcon, CheckIcon } from "@phosphor-icons/react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useId, useRef, useState } from "react";
 import { Flag } from "@/components/brand/Flag";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
-import { durations, easeSoft } from "@/lib/motion";
+import { durations } from "@/lib/motion";
 import { useDismiss } from "@/lib/useDismiss";
+import { usePresence } from "@/lib/usePresence";
 
 type Tone = "default" | "inverse";
 
@@ -32,8 +32,8 @@ export function LanguageMenu({
   const t = useTranslations("Language");
   const locale = useLocale();
   const pathname = usePathname();
-  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
+  const { mounted, visible } = usePresence(open, durations.fast * 1000);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
@@ -43,8 +43,6 @@ export function LanguageMenu({
     if (fromKeyboard) buttonRef.current?.focus();
   }, []);
   useDismiss(rootRef, open, close);
-
-  const offset = direction === "down" ? -6 : 6;
 
   return (
     <div ref={rootRef} className={cn("relative", className)}>
@@ -72,15 +70,13 @@ export function LanguageMenu({
         />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.ul
+      {mounted && (
+          <ul
             id={listId}
-            initial={{ opacity: 0, y: reduce ? 0 : offset }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: reduce ? 0 : offset }}
-            transition={{ duration: reduce ? 0 : durations.fast, ease: easeSoft }}
             className={cn(
+              // Fermé : décalé de 6 px vers le bouton et transparent (transform et opacity seulement)
+              "transition-[opacity,translate] duration-300 ease-soft",
+              visible ? "translate-y-0 opacity-100" : cn("pointer-events-none opacity-0", direction === "down" ? "-translate-y-1.5" : "translate-y-1.5"),
               "absolute z-50 w-56 border border-line-strong/40 bg-bg-elevated py-2 text-fg shadow-[0_28px_60px_-28px_rgb(14_13_16/0.35)]",
               direction === "down" ? "top-full mt-2" : "bottom-full mb-2",
               align === "end" ? "right-0" : "left-0",
@@ -117,9 +113,8 @@ export function LanguageMenu({
                 </li>
               );
             })}
-          </motion.ul>
-        )}
-      </AnimatePresence>
+          </ul>
+      )}
     </div>
   );
 }
