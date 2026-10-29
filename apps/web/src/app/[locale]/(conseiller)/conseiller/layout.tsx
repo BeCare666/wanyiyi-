@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -21,9 +22,12 @@ export default async function CounselorLayout({ children }: { children: ReactNod
   const counselor = await getCounselor();
   if (!counselor) notFound();
 
+  // Tous les textes, y compris ceux des espaces privés (la racine n'envoie que les publics)
   return (
-    <div data-theme={counselor.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
-      <CounselorShell counselor={counselor}>{children}</CounselorShell>
-    </div>
+    <NextIntlClientProvider>
+      <div data-theme={counselor.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
+        <CounselorShell counselor={counselor}>{children}</CounselorShell>
+      </div>
+    </NextIntlClientProvider>
   );
 }

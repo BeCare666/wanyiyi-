@@ -212,6 +212,29 @@ Points à vérifier de votre côté :
     (conditions de votre contrat).
   - Cloudinary : variables CLOUDINARY_* sur Render pour les images.
 
-Reste : étape 9 (qualité : Lighthouse, WCAG AA, page /design-system à
-compléter) et les deux points de la phase 3 en attente de votre décision
-(photo exigée pour réserver, notifications WhatsApp).
+======================================================================
+ÉTAT AU 29 OCTOBRE 2026
+======================================================================
+  - Choix A à G validés et codés (migration 20261028000600).
+  - Étape 9, qualité :
+    - Lighthouse sur la production : accessibilité, bonnes pratiques et SEO
+      à 100 sur l'accueil, /prestataires, /contact et /a-propos. Corrigé :
+      adresse canonique propre à chaque page (src/lib/seo.ts), liste de
+      /contact, première image de /prestataires chargée en priorité.
+    - Performance : mesurée sur un poste lent (accueil 60, prestataires 86,
+      contact 69, à-propos 77), donc peu fiable. framer-motion retiré de la
+      vitrine (JavaScript de l'accueil : 269 à 220 Ko compressés), zoom de la
+      photo d'ouverture passé en CSS. Mesure de référence à faire sur
+      pagespeed.web.dev.
+    - Largeurs de 360 à 1920 px : aucun débordement (ligne de soirée de
+      l'accueil corrigée à 768 px).
+    - /design-system : composants des phases 3 et 4 ajoutés (badges, barre de
+      progression, encart, fiche prestataire).
+  - Sécurité : Next.js 16.4.3 ; alertes npm élevées et modérées corrigées.
+    Restent 3 alertes faibles (deepmerge, outil de compilation @nestjs/cli,
+    sans version corrigée).
+  - Photo exigée pour réserver (question 10 c de PHASE3.txt) : fait le 29
+    octobre (voir PHASE3.txt, étape 4).
+
+Reste : mesure PageSpeed de référence sur mobile (objectif supérieur à 90) ;
+notifications WhatsApp (question 18 de la phase 2 : « plus tard »).

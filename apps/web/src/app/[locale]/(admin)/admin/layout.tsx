@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -21,9 +22,12 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   const staff = await getStaffMember();
   if (!staff) notFound();
 
+  // Tous les textes, y compris ceux des espaces privés (la racine n'envoie que les publics)
   return (
-    <div data-theme={staff.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
-      <AdminShell staff={staff}>{children}</AdminShell>
-    </div>
+    <NextIntlClientProvider>
+      <div data-theme={staff.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
+        <AdminShell staff={staff}>{children}</AdminShell>
+      </div>
+    </NextIntlClientProvider>
   );
 }

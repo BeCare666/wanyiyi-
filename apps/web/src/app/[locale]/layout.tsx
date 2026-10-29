@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { RevealScript } from "@/components/motion/RevealScript";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import { publicMessages } from "@/i18n/client-messages";
 import { routing } from "@/i18n/routing";
 import { display, text } from "@/lib/fonts";
 import "../globals.css";
@@ -52,6 +53,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   const t = await getTranslations({ locale, namespace: "Common" });
+  const messages = await getMessages({ locale });
 
   return (
     <html
@@ -70,7 +72,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         >
           {t("skipToContent")}
         </a>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        {/* Textes des espaces privés : fournis par leur propre mise en page */}
+        <NextIntlClientProvider messages={publicMessages(messages)}>{children}</NextIntlClientProvider>
         <ServiceWorkerRegister />
       </body>
     </html>

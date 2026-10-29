@@ -131,10 +131,12 @@ reports, reported_messages, photos.
     relecture que les textes ; motif sous « reason », migration
     20261026000800_photos_motif.sql). Composant commun ProtectedPhoto (clic
     droit, appui long et glisser désactivés : dissuasion seulement).
-    Reste : photo exigée pour réserver (question 10 c). Elle bloquerait les
-    24 membres de démonstration et la soirée de démonstration, qui n'ont pas de
-    photo : à activer quand vous le direz (après le dépôt de vraies photos, ou
-    en dispensant les comptes de démonstration).
+    Photo exigée pour réserver (question 10 c), décidée le 29 octobre 2026 :
+    une photo approuvée est exigée (place et liste d'attente), les comptes de
+    démonstration en sont dispensés, les inscriptions déjà enregistrées sont
+    conservées. Migration 20261029000000_photo_reservation.sql, message
+    « photo_required » en trois langues, tests
+    supabase/tests/photo-reservation.test.ts (5).
 
 Étape 5. Espace membre
   - Mes matchs et découvertes (6.2-6) : choix des découvertes, compte à

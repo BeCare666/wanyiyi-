@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import { MemberShell } from "@/components/member/MemberShell";
@@ -15,11 +16,14 @@ export default async function MemberLayout({ children }: { children: ReactNode }
   if (!member) return redirect({ href: signInHref("/espace"), locale: await getLocale() });
   const notifications = await getRecentNotifications();
 
+  // Tous les textes, y compris ceux des espaces privés (la racine n'envoie que les publics)
   return (
-    <div data-theme={member.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
-      <MemberShell member={member} notifications={notifications}>
-        {children}
-      </MemberShell>
-    </div>
+    <NextIntlClientProvider>
+      <div data-theme={member.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
+        <MemberShell member={member} notifications={notifications}>
+          {children}
+        </MemberShell>
+      </div>
+    </NextIntlClientProvider>
   );
 }
