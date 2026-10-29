@@ -1359,8 +1359,10 @@
           "payout_pending": "Ìsanpadà kan ti ń lọ lọ́wọ́.",
           "nothing_to_pay_out": "Kò sí ìdáwó kankan láti san padà báyìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
-          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
-        }
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
+          "payout_too_small": "Owó láti san padà kò tíì tó iye tó kéré jù. Ẹ lè béèrè rẹ̀ nígbà mìíràn, tàbí nígbà tí àpò bá tì."
+        },
+        "minPayoutHelp": "Nígbà tí àpò owó ṣí, a lè béèrè ìsanpadà láti {amount}; tí ó bá ti tì, a ó san gbogbo rẹ̀ padà."
       }
     },
     "venues": {
@@ -2313,7 +2315,8 @@
             "invalid_limit": "Òpin: nọ́ńbà odidi láti 0 sí 100.",
             "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
             "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
-            "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
+            "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
+            "reward_too_high": "Ẹ̀dínwó gbọdọ̀ kéré sí owó ìrọ̀lẹ́ kan (10 000 FCFA)."
           }
         }
       }
@@ -3097,8 +3100,10 @@
           "invalid_commission": "Ìpín: láti 0 sí 50 %, tí kò ju ẹ̀sẹ̀ méjì lẹ́yìn kọ́mà lọ.",
           "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
-          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
-        }
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
+          "invalid_min_payout": "Ìsanpadà tó kéré jù: nọ́ńbà odidi láti 0 sí 10 000 000 FCFA."
+        },
+        "minPayout": "Ìsanpadà tó kéré jù, nígbà tí àpò ṣí (FCFA)"
       },
       "payout": {
         "sent": "Iye tí a fi ránṣẹ́ (FCFA)",

@@ -11,6 +11,8 @@ import { Flag } from "@/components/brand/Flag";
 import { Logo } from "@/components/brand/Logo";
 import { MemberAvatar } from "@/components/layout/MemberAvatar";
 import { SocialLinks } from "@/components/layout/SocialLinks";
+import { TrustBadges, trustBadges } from "@/components/member/TrustBadges";
+import { ProviderCards } from "@/components/sections/ProviderCards";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 
@@ -45,6 +47,17 @@ const typeScale = [
   ["text-sm", "Texte secondaire"],
   ["text-xs", "Mentions, surtitres"],
 ] as const;
+
+/* Prestataire fictif (aucune donnée réelle), pour montrer la fiche de /prestataires */
+const sampleCategory = { key: "exemple", name: { fr: "Catégorie d'exemple" }, position: 1, is_active: true };
+const sampleProvider = {
+  id: "exemple",
+  name: "Prestataire fictif",
+  category: "exemple",
+  description: { fr: "Courte description du prestataire, dans la langue de la page." },
+  image_url: null,
+  city: "Cotonou",
+};
 
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -199,6 +212,43 @@ export default async function DesignSystemPage() {
               <SealCheckIcon size={48} weight="thin" aria-hidden="true" />
             </li>
           </ul>
+        </Block>
+
+        <Block title="Phases 3 et 4">
+          <h3 className="text-xl">Badges de confiance</h3>
+          <p className="mt-2 text-sm text-fg-muted">
+            Attribués par la base, montrés au membre, à ses matchs, à son couple et à son conseiller (jamais sur la
+            vitrine).
+          </p>
+          <TrustBadges badges={trustBadges} label="Badges de confiance" />
+
+          <h3 className="mt-12 text-xl">Barre de progression</h3>
+          <p className="mt-2 text-sm text-fg-muted">
+            Profil, cagnotte : filet de 1,5 px, rôle progressbar et pourcentage repris en texte.
+          </p>
+          <div className="mt-4 max-w-md">
+            <div
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={60}
+              aria-label="Progression : 60 %"
+              className="h-1.5 w-full bg-line"
+            >
+              <div className="h-full bg-fg" style={{ width: "60%" }} />
+            </div>
+            <p className="mt-2 text-sm text-fg-muted">60 %</p>
+          </div>
+
+          <h3 className="mt-12 text-xl">Encart d&apos;attention</h3>
+          <p className="mt-2 text-sm text-fg-muted">« Bien rentré(e) ? » au tableau de bord : filet d&apos;accent à gauche.</p>
+          <div className="mt-4 border-l-2 border-accent bg-bg-soft px-6 py-6">
+            <p className="font-serif text-2xl">Titre de l&apos;encart</p>
+            <p className="mt-2 text-fg-muted">Texte de contexte, suivi des actions.</p>
+          </div>
+
+          <h3 className="mt-12 text-xl">Fiche prestataire</h3>
+          <ProviderCards rows={[sampleProvider]} categories={[sampleCategory]} />
         </Block>
 
         <Block title="Formes et animations">

@@ -62,12 +62,17 @@ export function checkPayout(input: { sent: string; reference: string }, maxXof: 
   return null;
 }
 
-/** Réglages : minimum de 100 à 10 000 000 FCFA, commission de 0 à 50 % avec 2 décimales au plus. */
-export function checkSettings(input: { min: string; commission: string }): "invalid_amount" | "invalid_commission" | null {
+/**
+ * Réglages : minimum de 100 à 10 000 000 FCFA, commission de 0 à 50 % avec 2 décimales au plus,
+ * minimum par reversement tant que la cagnotte est ouverte, de 0 à 10 000 000 FCFA (choix C).
+ */
+export function checkSettings(input: { min: string; commission: string; minPayout: string }): "invalid_amount" | "invalid_commission" | "invalid_min_payout" | null {
   const min = Number(input.min.replace(/\s/g, ""));
   if (!Number.isInteger(min) || min < 100 || min > 10_000_000) return "invalid_amount";
   const commission = Number(input.commission.replace(",", "."));
   if (!Number.isFinite(commission) || commission < 0 || commission > 50 || Math.round(commission * 100) !== commission * 100) return "invalid_commission";
+  const minPayout = Number(input.minPayout.replace(/\s/g, ""));
+  if (!Number.isInteger(minPayout) || minPayout < 0 || minPayout > 10_000_000) return "invalid_min_payout";
   return null;
 }
 

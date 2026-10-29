@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { saveReferralSettings } from "./actions";
 
-const knownErrors = new Set(["invalid_amount", "invalid_limit", "forbidden", "unavailable"]);
+const knownErrors = new Set(["invalid_amount", "invalid_limit", "reward_too_high", "forbidden", "unavailable"]);
 
 /** Réglages du parrainage (phase 4, question 4 d) : réduction offerte au parrain et plafond annuel. */
 export function ReferralSettings({ reward, max }: { reward: number; max: number }) {

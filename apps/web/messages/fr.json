@@ -1359,8 +1359,10 @@
           "payout_pending": "Un reversement est déjà en cours.",
           "nothing_to_pay_out": "Aucune contribution à reverser pour l'instant.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-          "generic": "Une erreur est survenue. Réessayez dans un instant."
-        }
+          "generic": "Une erreur est survenue. Réessayez dans un instant.",
+          "payout_too_small": "Le montant à reverser est encore sous le minimum. Vous pourrez le demander plus tard, ou à la clôture."
+        },
+        "minPayoutHelp": "Tant que la cagnotte est ouverte, un reversement se demande à partir de {amount} ; une fois close, tout est reversé."
       }
     },
     "venues": {
@@ -2313,7 +2315,8 @@
             "invalid_limit": "Plafond : nombre entier de 0 à 100.",
             "forbidden": "Votre rôle ne permet pas cette action.",
             "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-            "generic": "Une erreur est survenue. Réessayez dans un instant."
+            "generic": "Une erreur est survenue. Réessayez dans un instant.",
+            "reward_too_high": "La réduction doit rester inférieure au prix d'une soirée (10 000 FCFA)."
           }
         }
       }
@@ -3097,8 +3100,10 @@
           "invalid_commission": "Commission : de 0 à 50 %, deux décimales au plus.",
           "forbidden": "Votre rôle ne permet pas cette action.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-          "generic": "Une erreur est survenue. Réessayez dans un instant."
-        }
+          "generic": "Une erreur est survenue. Réessayez dans un instant.",
+          "invalid_min_payout": "Reversement minimum : nombre entier de 0 à 10 000 000 FCFA."
+        },
+        "minPayout": "Reversement minimum, cagnotte ouverte (FCFA)"
       },
       "payout": {
         "sent": "Montant envoyé (FCFA)",

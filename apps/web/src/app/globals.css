@@ -270,6 +270,19 @@ html[data-js] [data-reveal]:not([data-revealed]) .reveal-zoom {
   transform: scale(1.08);
 }
 
+/* Photo d'ouverture : même rapprochement, joué dès le premier affichage (components/motion/SlowZoomImage.tsx) */
+@keyframes slow-zoom {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.slow-zoom {
+  animation: slow-zoom 1600ms var(--ease-soft) both;
+}
+
 /* Tonalité des photos : couleurs à peine adoucies, sans effet visible */
 .photo-tone {
   filter: saturate(0.92) contrast(1.03);

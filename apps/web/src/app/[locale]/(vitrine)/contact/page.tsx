@@ -3,13 +3,14 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/Container";
 import { siteContact } from "@/config/site";
+import { pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Contact" });
-  return { title: t("eyebrow") };
+  return { title: t("eyebrow"), alternates: pageAlternates(locale, "/contact") };
 }
 
 export default async function ContactPage() {
@@ -39,24 +40,31 @@ export default async function ContactPage() {
           <p className="mt-8 max-w-measure text-lg text-fg-muted">{t("Contact.intro")}</p>
         </header>
 
-        <dl className="border-t border-line lg:col-span-5 lg:col-start-8 lg:mt-24">
-          {rows.map(({ key, Icon, value, href }) => (
-            <div key={key} className="grid grid-cols-[2rem_8rem_1fr] items-center gap-4 border-b border-line py-6">
-              <Icon size={22} weight="light" aria-hidden="true" className="text-accent" />
-              <dt className="eyebrow text-fg">{t(`Footer.${key}`)}</dt>
-              <dd>
-                {value && href ? (
-                  <a href={href} className="link-rule">
-                    {value}
-                  </a>
-                ) : (
-                  <span className="text-fg-muted">{toComplete}</span>
-                )}
-              </dd>
-            </div>
-          ))}
+        {/* Un <dl> ne contient que des groupes dt/dd : l'icône va dans le dt, la mention des horaires après la liste */}
+        <div className="lg:col-span-5 lg:col-start-8 lg:mt-24">
+          <dl className="border-t border-line">
+            {rows.map(({ key, Icon, value, href }) => (
+              <div key={key} className="grid grid-cols-[11rem_1fr] items-center gap-4 border-b border-line py-6">
+                <dt className="eyebrow flex items-center gap-4 text-fg">
+                  <span className="w-8 shrink-0">
+                    <Icon size={22} weight="light" aria-hidden="true" className="text-accent" />
+                  </span>
+                  {t(`Footer.${key}`)}
+                </dt>
+                <dd>
+                  {value && href ? (
+                    <a href={href} className="link-rule">
+                      {value}
+                    </a>
+                  ) : (
+                    <span className="text-fg-muted">{toComplete}</span>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
           <p className="pt-6 text-sm text-fg-muted">{t("Contact.hours")}</p>
-        </dl>
+        </div>
       </Container>
     </section>
   );

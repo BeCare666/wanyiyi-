@@ -35,7 +35,7 @@ export default async function AdminCagnottesPage({ searchParams }: Props) {
   const show = (c: string) => columns.includes(c);
   const supabase = await createSupabaseServer();
   const { data: settings } = supabase ? await supabase.rpc("cagnotte_settings") : { data: null };
-  const current = ((settings ?? []) as { min_contribution_xof: number; commission_percent: number | string }[])[0];
+  const current = ((settings ?? []) as { min_contribution_xof: number; commission_percent: number | string; min_payout_xof: number }[])[0];
   const amount = (xof: number) => format.number(xof, { style: "currency", currency: "XOF", maximumFractionDigits: 0 });
   const day = (iso: string) => format.dateTime(new Date(iso), { day: "numeric", month: "short", year: "numeric", timeZone: "Africa/Porto-Novo" });
 
@@ -110,7 +110,7 @@ export default async function AdminCagnottesPage({ searchParams }: Props) {
           {t("cagnottes.settings.title")}
         </h2>
         <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("cagnottes.settings.intro")}</p>
-        {current && <CagnotteSettings min={current.min_contribution_xof} commission={Number(current.commission_percent)} />}
+        {current && <CagnotteSettings min={current.min_contribution_xof} commission={Number(current.commission_percent)} minPayout={current.min_payout_xof} />}
       </section>
     </div>
   );

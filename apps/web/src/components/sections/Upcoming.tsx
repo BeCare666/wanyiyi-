@@ -38,16 +38,16 @@ export async function Upcoming() {
                     as="li"
                     key={evening.id}
                     delay={i * 0.06}
-                    className="grid gap-6 border-b border-line py-8 md:grid-cols-12 md:items-center md:gap-8"
+                    className="grid gap-6 border-b border-line py-8 lg:grid-cols-[4fr_3fr_3fr_auto] lg:items-center lg:gap-8"
                   >
-                    <div className="md:col-span-4">
+                    <div>
                       <p className="font-serif text-3xl first-letter:uppercase">
                         {format.dateTime(date, "eventDay")}
                       </p>
                       <p className="mt-1 text-sm text-fg-muted">{format.dateTime(date, "eventTime")}</p>
                     </div>
-                    <p className="eyebrow text-fg md:col-span-3">{t(`themes.${evening.theme}`)}</p>
-                    <dl className="flex gap-10 text-sm md:col-span-3">
+                    <p className="eyebrow text-fg">{t(`themes.${evening.theme}`)}</p>
+                    <dl className="flex gap-10 text-sm">
                       <div>
                         <dt className="text-fg-muted">{t("women")}</dt>
                         <dd className="mt-1 font-medium">{t("seatsLeft", { count: women })}</dd>
@@ -57,8 +57,9 @@ export async function Upcoming() {
                         <dd className="mt-1 font-medium">{t("seatsLeft", { count: men })}</dd>
                       </div>
                     </dl>
-                    <div className="md:col-span-2 md:text-right">
-                      <ButtonLink href="/inscription" variant="secondary" className="w-full md:w-auto">
+                    {/* Colonne du bouton à sa largeur naturelle : aucun libellé (3 langues) ne déborde */}
+                    <div className="lg:text-right">
+                      <ButtonLink href="/inscription" variant="secondary" className="w-full lg:w-auto">
                         {full ? t("waitlist") : t("book")}
                       </ButtonLink>
                     </div>

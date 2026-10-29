@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import { markPayoutPaid, saveCagnotteSettings } from "./actions";
 import { checkPayout, checkSettings } from "./cagnottes";
 
-const knownErrors = new Set(["invalid_amount", "invalid_commission", "reference_required", "not_pending", "not_found", "forbidden", "unavailable"]);
+const knownErrors = new Set(["invalid_amount", "invalid_commission", "invalid_min_payout", "reference_required", "not_pending", "not_found", "forbidden", "unavailable"]);
 
 function useSubmit() {
   const router = useRouter();
@@ -67,21 +67,22 @@ export function PayoutForm({ payoutId, maxXof }: { payoutId: string; maxXof: num
 }
 
 /** Réglages (montants réglables, question 3 c et d) : contribution minimale et commission. */
-export function CagnotteSettings({ min, commission }: { min: number; commission: number }) {
+export function CagnotteSettings({ min, commission, minPayout }: { min: number; commission: number; minPayout: number }) {
   const t = useTranslations("Admin.cagnottes.settings");
   const { error, setError, saved, pending, run } = useSubmit();
   const [minDraft, setMin] = useState(String(min));
   const [commissionDraft, setCommission] = useState(String(commission));
+  const [minPayoutDraft, setMinPayout] = useState(String(minPayout));
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const invalid = checkSettings({ min: minDraft, commission: commissionDraft });
+    const invalid = checkSettings({ min: minDraft, commission: commissionDraft, minPayout: minPayoutDraft });
     if (invalid) return setError(invalid);
-    run(() => saveCagnotteSettings(minDraft, commissionDraft));
+    run(() => saveCagnotteSettings(minDraft, commissionDraft, minPayoutDraft));
   };
 
   return (
-    <form onSubmit={submit} noValidate className="mt-6 grid gap-6 md:grid-cols-3 md:items-end">
+    <form onSubmit={submit} noValidate className="mt-6 grid gap-6 md:grid-cols-4 md:items-end">
       <label className="block">
         <span className="text-sm font-medium">{t("min")}</span>
         <input value={minDraft} onChange={(e) => setMin(e.target.value)} inputMode="numeric" maxLength={10} className={cn(fieldClass, "text-base")} />
@@ -89,6 +90,10 @@ export function CagnotteSettings({ min, commission }: { min: number; commission:
       <label className="block">
         <span className="text-sm font-medium">{t("commission")}</span>
         <input value={commissionDraft} onChange={(e) => setCommission(e.target.value)} inputMode="decimal" maxLength={6} className={cn(fieldClass, "text-base")} />
+      </label>
+      <label className="block">
+        <span className="text-sm font-medium">{t("minPayout")}</span>
+        <input value={minPayoutDraft} onChange={(e) => setMinPayout(e.target.value)} inputMode="numeric" maxLength={10} className={cn(fieldClass, "text-base")} />
       </label>
       <div>
         <Button type="submit" variant="secondary" disabled={pending}>

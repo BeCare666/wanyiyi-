@@ -142,18 +142,19 @@ export default async function CouplePage() {
     (kind) => ((milestones ?? []) as MilestoneRow[]).find((m) => m.kind === kind) ?? { kind, reached_at: null, i_confirmed_reach: false, i_confirmed_remove: false },
   );
   const celebrated = journey.some((m) => m.kind === "celebration" && m.reached_at !== null);
-  const [{ data: venues }, { data: sessions }, { data: memoryPhotos }, { data: cagnotteRows }, { data: commission }] = await Promise.all([
+  const [{ data: venues }, { data: sessions }, { data: memoryPhotos }, { data: cagnotteRows }, { data: settingsRows }] = await Promise.all([
     live ? supabase.rpc("first_date_venues") : Promise.resolve({ data: [] }),
     counselorAvailable(couple.status) ? supabase.rpc("couple_sessions", { p_couple: id }) : Promise.resolve({ data: [] }),
     memory ? supabase.rpc("memory_space_photos", { p_couple: id }) : Promise.resolve({ data: [] }),
     counselorAvailable(couple.status) ? supabase.rpc("my_cagnotte", { p_couple: id }) : Promise.resolve({ data: [] }),
-    supabase.rpc("cagnotte_commission_percent"),
+    supabase.rpc("cagnotte_settings"),
   ]);
   // Cagnotte (phase 4, question 3) : dès « Dot ou mariage » franchie, ou après l'union
   const cagnotte = ((cagnotteRows ?? []) as MyCagnotte[])[0] ?? null;
   const { data: contributions } = cagnotte && cagnotte.status !== "proposed"
     ? await supabase.rpc("cagnotte_contributions", { p_cagnotte: cagnotte.id })
     : { data: [] };
+  const cagnotteRules = ((settingsRows ?? []) as { commission_percent: number | string; min_payout_xof: number }[])[0];
   const dowryReached = journey.some((m) => m.kind === "dowry_or_wedding" && m.reached_at !== null);
   const when = (iso: string) => format.dateTime(new Date(iso), { dateStyle: "long", timeStyle: "short", timeZone: "Africa/Porto-Novo" });
   // Prénoms dans la conversation : l'autre membre, et tout conseiller (actuel par son nom, ancien sous « Conseiller »)
@@ -243,7 +244,8 @@ export default async function CouplePage() {
             cagnotte={cagnotte}
             contributions={(contributions ?? []) as ContributionRow[]}
             canPropose={canProposeCagnotte({ status: couple.status, blocked: couple.blocked, dowryOrWeddingReached: dowryReached, view: cagnotteView(cagnotte) })}
-            commissionPercent={Number(commission ?? 0)}
+            commissionPercent={Number(cagnotteRules?.commission_percent ?? 0)}
+            minPayout={cagnotteRules?.min_payout_xof ?? 0}
             siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}
           />
         </section>

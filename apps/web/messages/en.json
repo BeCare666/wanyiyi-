@@ -1359,8 +1359,10 @@
           "payout_pending": "A payout is already in progress.",
           "nothing_to_pay_out": "No contribution to pay out for now.",
           "unavailable": "This service is not available yet. Try again later.",
-          "generic": "Something went wrong. Try again in a moment."
-        }
+          "generic": "Something went wrong. Try again in a moment.",
+          "payout_too_small": "The amount to pay out is still below the minimum. You can ask later, or when the fund closes."
+        },
+        "minPayoutHelp": "While the fund is open, a payout can be requested from {amount}; once closed, everything is paid out."
       }
     },
     "venues": {
@@ -2313,7 +2315,8 @@
             "invalid_limit": "Limit: whole number from 0 to 100.",
             "forbidden": "Your role does not allow this action.",
             "unavailable": "This service is not available yet. Try again later.",
-            "generic": "Something went wrong. Try again in a moment."
+            "generic": "Something went wrong. Try again in a moment.",
+            "reward_too_high": "The discount must stay below the price of an evening (10,000 FCFA)."
           }
         }
       }
@@ -3097,8 +3100,10 @@
           "invalid_commission": "Commission: from 0 to 50%, two decimals at most.",
           "forbidden": "Your role does not allow this action.",
           "unavailable": "This service is not available yet. Try again later.",
-          "generic": "Something went wrong. Try again in a moment."
-        }
+          "generic": "Something went wrong. Try again in a moment.",
+          "invalid_min_payout": "Minimum payout: whole number from 0 to 10,000,000 FCFA."
+        },
+        "minPayout": "Minimum payout while open (FCFA)"
       },
       "payout": {
         "sent": "Amount sent (FCFA)",

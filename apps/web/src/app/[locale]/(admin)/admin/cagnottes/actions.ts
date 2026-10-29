@@ -26,11 +26,12 @@ export async function markPayoutPaid(payoutId: string, sent: string, reference: 
 }
 
 /** Réglages des cagnottes : contribution minimale et commission Ifedele (figée à l'ouverture de chaque cagnotte). */
-export async function saveCagnotteSettings(min: string, commission: string): Promise<ApiResult<void>> {
-  const invalid = checkSettings({ min, commission });
+export async function saveCagnotteSettings(min: string, commission: string, minPayout: string): Promise<ApiResult<void>> {
+  const invalid = checkSettings({ min, commission, minPayout });
   if (invalid) return { ok: false, error: invalid };
   return call<void>("admin_set_cagnotte_settings", {
     p_min_contribution_xof: Number(min.replace(/\s/g, "")),
     p_commission_percent: Number(commission.replace(",", ".")),
+    p_min_payout_xof: Number(minPayout.replace(/\s/g, "")),
   });
 }

@@ -24,6 +24,7 @@ const knownErrors = new Set([
   "couple_blocked",
   "payout_pending",
   "nothing_to_pay_out",
+  "payout_too_small",
   "unavailable",
 ]);
 
@@ -59,6 +60,7 @@ export function CagnottePanel({
   contributions,
   canPropose,
   commissionPercent,
+  minPayout,
   siteUrl,
 }: {
   coupleId: string;
@@ -67,6 +69,7 @@ export function CagnottePanel({
   contributions: ContributionRow[];
   canPropose: boolean;
   commissionPercent: number;
+  minPayout: number;
   siteUrl: string;
 }) {
   const t = useTranslations("Member.couple.cagnotte");
@@ -217,6 +220,7 @@ export function CagnottePanel({
           </div>
         )}
         {view !== "paidOut" && <p className="mt-3 max-w-measure text-xs text-fg-muted">{t("bothHelp", { percent: commissionPercent })}</p>}
+        {view === "open" && minPayout > 0 && <p className="mt-1 max-w-measure text-xs text-fg-muted">{t("minPayoutHelp", { amount: amount(minPayout) })}</p>}
         {messages}
 
         {contributions.length > 0 && (

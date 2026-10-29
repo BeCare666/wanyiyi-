@@ -104,11 +104,13 @@ describe("administration", () => {
   });
 
   it("réglages : minimum entier, commission de 0 à 50 % avec deux décimales", () => {
-    expect(checkSettings({ min: "1000", commission: "0" })).toBeNull();
-    expect(checkSettings({ min: "1000", commission: "2,5" })).toBeNull();
-    expect(checkSettings({ min: "50", commission: "0" })).toBe("invalid_amount");
-    expect(checkSettings({ min: "1000", commission: "51" })).toBe("invalid_commission");
-    expect(checkSettings({ min: "1000", commission: "1.255" })).toBe("invalid_commission");
+    expect(checkSettings({ min: "1000", commission: "0", minPayout: "10000" })).toBeNull();
+    expect(checkSettings({ min: "1000", commission: "2,5", minPayout: "0" })).toBeNull();
+    expect(checkSettings({ min: "50", commission: "0", minPayout: "10000" })).toBe("invalid_amount");
+    expect(checkSettings({ min: "1000", commission: "51", minPayout: "10000" })).toBe("invalid_commission");
+    expect(checkSettings({ min: "1000", commission: "1.255", minPayout: "10000" })).toBe("invalid_commission");
+    // Choix C : minimum de reversement tant que la cagnotte est ouverte
+    expect(checkSettings({ min: "1000", commission: "0", minPayout: "-1" })).toBe("invalid_min_payout");
   });
 
   it("liste « cagnottes », menu « Célébration » et notifications vers l'espace du couple", () => {

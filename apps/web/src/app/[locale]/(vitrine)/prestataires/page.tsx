@@ -6,13 +6,14 @@ import { Link } from "@/i18n/navigation";
 import { shouldShowDemoData } from "@/lib/evenings";
 import type { ProviderCategory, PublicProvider } from "@/lib/providers";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Providers" });
-  return { title: t("title") };
+  return { title: t("title"), alternates: pageAlternates(locale, "/prestataires") };
 }
 
 /**

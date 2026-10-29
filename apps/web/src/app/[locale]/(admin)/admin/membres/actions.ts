@@ -2,7 +2,7 @@
 
 import type { ApiResult } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { fromCotonouInput } from "../soirees/evenings";
+import { DEFAULT_PRICE_XOF, fromCotonouInput } from "../soirees/evenings";
 import { type BulkMessage, type BulkTarget, checkMessage, targetArgs } from "./bulk";
 import { type FilterGroup, formatSort, isBuilderFilter, type MemberColumn, parseColumns, parseSort, type SortKey } from "./filters";
 import { type Role, roles } from "./members";
@@ -131,6 +131,8 @@ export async function saveReferralSettings(reward: string, max: string): Promise
   const rewardXof = Number(reward.replace(/\s/g, ""));
   const maxPerYear = Number(max.replace(/\s/g, ""));
   if (!Number.isInteger(rewardXof) || rewardXof < 0 || rewardXof > 1_000_000) return { ok: false, error: "invalid_amount" };
+  // Choix B (28 octobre 2026) : toujours inférieure au prix par défaut d'une soirée
+  if (rewardXof >= DEFAULT_PRICE_XOF) return { ok: false, error: "reward_too_high" };
   if (!Number.isInteger(maxPerYear) || maxPerYear < 0 || maxPerYear > 100) return { ok: false, error: "invalid_limit" };
   const supabase = await createSupabaseServer();
   if (!supabase) return { ok: false, error: "unavailable" };

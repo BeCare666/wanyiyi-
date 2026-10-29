@@ -164,22 +164,26 @@ describe("Cagnotte (question 3)", () => {
     const [row] = await as<{ status: string; paid_out_xof: number; payout_pending: boolean }>(p.afiwa!, "select * from app.my_cagnotte($1)", [c]);
     expect(row).toMatchObject({ status: "open", paid_out_xof: 144000, payout_pending: false });
     // La cagnotte reste ouverte : une contribution suivante pourra être reversée à son tour
-    expect(await failure(as(p.afiwa!, "select app.cagnotte_decide($1, 'payout')", [cagnotte]))).toBeNull();
-    expect(await failure(as(p.koffi!, "select app.cagnotte_decide($1, 'payout')", [cagnotte]))).toMatch(/nothing_to_pay_out/);
+    expect(await failure(as(p.afiwa!, "select app.cagnotte_decide($1, 'payout')", [cagnotte]))).toMatch(/nothing_to_pay_out/);
+    // Choix C : moins de 10 000 FCFA à reverser tant qu'elle est ouverte : demande refusée
+    await contribute(token, 5000);
+    expect(await failure(as(p.afiwa!, "select app.cagnotte_decide($1, 'payout')", [cagnotte]))).toMatch(/payout_too_small/);
   });
 
   it("clôture à la date par la tâche de l'API, reversement proposé ; entièrement reversée ensuite", async () => {
-    await contribute(token, 10000);
+    await contribute(token, 3000);
     await db.query("update app.cagnottes set closes_at = now() - interval '1 minute' where id = $1", [cagnotte]);
     expect((await asApi<{ n: number }>("select app.close_due_cagnottes() as n"))[0]!.n).toBe(1);
     expect(await failure(contribute(token, 5000))).toMatch(/cagnotte_closed/);
     const closed = await one<{ n: number }>("select count(*)::int as n from app.notifications where user_id = $1 and kind = 'cagnotte.closed'", [p.koffi]);
     expect(closed.n).toBe(1);
+    await as(p.afiwa!, "select app.cagnotte_decide($1, 'payout')", [cagnotte]);
     await as(p.koffi!, "select app.cagnotte_decide($1, 'payout')", [cagnotte]);
     const [admin] = await as<{ payouts: Array<{ id: string; status: string; gross_xof: number }> }>(p.admin!, "select * from app.admin_cagnotte($1)", [cagnotte]);
     const pending = admin!.payouts.find((o) => o.status === "requested")!;
-    expect(pending.gross_xof).toBe(10000);
-    await as(p.admin!, "select app.admin_mark_payout_paid($1, 9500, 'MP124')", [pending.id]);
+    // Close : aucun minimum (choix C), 5 000 + 3 000 FCFA reversés
+    expect(pending.gross_xof).toBe(8000);
+    await as(p.admin!, "select app.admin_mark_payout_paid($1, 7500, 'MP124')", [pending.id]);
     expect((await as<{ status: string }>(p.afiwa!, "select * from app.my_cagnotte($1)", [c]))[0]!.status).toBe("paid_out");
   });
 
@@ -199,9 +203,11 @@ describe("Cagnotte (question 3)", () => {
   });
 
   it("réglages de l'administration : minimum et commission", async () => {
-    expect(await failure(as(p.afiwa!, "select app.admin_set_cagnotte_settings(2000, 1)"))).toMatch(/forbidden/);
-    expect(await failure(as(p.admin!, "select app.admin_set_cagnotte_settings(2000, 60)"))).toMatch(/invalid_commission/);
-    await as(p.admin!, "select app.admin_set_cagnotte_settings(2000, 1.5)");
+    expect(await failure(as(p.afiwa!, "select app.admin_set_cagnotte_settings(2000, 1, 10000)"))).toMatch(/forbidden/);
+    expect(await failure(as(p.admin!, "select app.admin_set_cagnotte_settings(2000, 60, 10000)"))).toMatch(/invalid_commission/);
+    expect(await failure(as(p.admin!, "select app.admin_set_cagnotte_settings(2000, 1, -1)"))).toMatch(/invalid_min_payout/);
+    await as(p.admin!, "select app.admin_set_cagnotte_settings(2000, 1.5, 20000)");
+    expect((await as<{ min_payout_xof: number }>(p.admin!, "select * from app.cagnotte_settings()"))[0]!.min_payout_xof).toBe(20000);
     expect(Number((await one<{ v: string }>("select app.cagnotte_commission_percent() as v")).v)).toBe(1.5);
     expect((await one<{ v: number }>("select app.setting_int('cagnotte.min_contribution_xof', 0) as v")).v).toBe(2000);
   });
@@ -221,7 +227,7 @@ describe("Indicateurs du tableau de bord (phase 4, question 6)", () => {
   it("chacun réservé à la permission de son module", async () => {
     const [row] = await as<Record<string, number | string | null>>(p.admin!, "select * from app.admin_phase4_indicators()");
     expect(row!.open_cagnottes).toBe(0);
-    expect(Number(row!.collected_xof)).toBe(190000);
+    expect(Number(row!.collected_xof)).toBe(188000);
     expect(row!.pending_payouts).toBe(0);
     expect(row!.referrals_this_month).toBe(0);
     expect(row!.active_providers).toBe(0);

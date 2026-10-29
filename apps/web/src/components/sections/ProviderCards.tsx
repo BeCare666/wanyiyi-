@@ -23,13 +23,13 @@ export async function ProviderCards<T extends PublicProvider>({
   if (groups.length === 0) return <p className="mt-14 border-t border-line pt-8 text-fg-muted">{t("empty")}</p>;
   return (
     <div className="mt-14">
-      {groups.map(({ category, rows: items }) => (
+      {groups.map(({ category, rows: items }, g) => (
         <section key={category.key} aria-labelledby={`categorie-${category.key}`} className="border-t border-line py-10">
           <h2 id={`categorie-${category.key}`} className="text-2xl">
             {localized(category.name, locale)}
           </h2>
           <ul className="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((p) => (
+            {items.map((p, i) => (
               <li key={p.id}>
                 {p.image_url ? (
                   <Image
@@ -39,6 +39,8 @@ export async function ProviderCards<T extends PublicProvider>({
                     height={480}
                     sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
                     className="aspect-[4/3] w-full object-cover"
+                    // Première image, visible à l'ouverture : chargée en priorité (LCP), les autres en différé
+                    priority={g === 0 && i === 0}
                   />
                 ) : (
                   <div aria-hidden="true" className="aspect-[4/3] w-full bg-bg-soft" />

@@ -130,6 +130,8 @@ describe("Parrainage (question 4)", () => {
     const [referral] = await as<{ acquired: boolean; rewarded: boolean }>(p.marraine!, "select * from app.my_referrals() where first_name = 'filleul'");
     expect(referral).toMatchObject({ acquired: true, rewarded: false });
     expect(await failure(as(p.filleul!, "select app.admin_set_referral_settings(2000, 5)"))).toMatch(/forbidden/);
+    // Choix B : jamais une réduction égale ou supérieure au prix par défaut d'une soirée
+    expect(await failure(as(p.admin!, "select app.admin_set_referral_settings(10000, 5)"))).toMatch(/reward_too_high/);
     await as(p.admin!, "select app.admin_set_referral_settings(2000, 5)");
   });
 
@@ -177,5 +179,28 @@ describe("Badges de confiance (question 5)", () => {
     expect(await badges(p.filleul!, p.marraine!)).toHaveLength(3);
     expect(await badges(p.admin!, p.marraine!)).toHaveLength(3);
     expect(await badges(p.nouveau!, p.marraine!)).toEqual([]);
+  });
+
+  it("« Profil complet » : barre de progression de l'éditeur à 100 % des deux côtés et photo approuvée (choix E)", async () => {
+    const m = await createMember(db, { firstName: "complete", sex: "female" });
+    const required = ["marital_status", "children", "wants_children", "intention", "timeline", "religion", "religious_practice", "education", "sector",
+      "languages", "personality", "tobacco", "alcohol", "going_out", "interests", "money_management", "extended_family", "desired_location"];
+    for (const side of ["self", "seeking"]) {
+      for (const category of required) {
+        const values = category === "personality" && side === "self" ? ["calm", "joyful", "patient"] : ["x"];
+        await db.query("insert into app.profile_answers (user_id, side, category, \"values\") values ($1, $2::app.answer_side, $3, $4)", [m, side, category, values]);
+      }
+    }
+    for (const field of ["who_i_am", "what_matters", "evening_topic"]) {
+      await db.query("insert into app.profile_texts (user_id, field, body) values ($1, $2, 'Un texte de présentation')", [m, field]);
+    }
+    await db.query("insert into app.photos (user_id, storage_path, review_status) values ($1, 'c.jpg', 'approved')", [m]);
+    // Taille, silhouette et revenus sont facultatives : non remplies, le badge est quand même donné
+    await refresh();
+    expect(await badges(m, m)).toContain("profile_complete");
+    // Deux personnalités seulement pour soi : barre incomplète, badge retiré
+    await db.query("update app.profile_answers set \"values\" = array['calm', 'joyful'] where user_id = $1 and side = 'self' and category = 'personality'", [m]);
+    await refresh();
+    expect(await badges(m, m)).not.toContain("profile_complete");
   });
 });
