@@ -694,7 +694,8 @@
         "not_registered": "There is no registration to cancel for this evening.",
         "price_not_set": "The price of this evening has not been set yet.",
         "unavailable": "This service is not available yet. Please try again later.",
-        "generic": "Something went wrong. Please try again in a moment."
+        "generic": "Something went wrong. Please try again in a moment.",
+        "code": "Code: {code}"
       }
     },
     "notifications": {
@@ -1726,7 +1727,9 @@
           "unavailable": "This service is not available yet. Please try again later.",
           "generic": "Something went wrong. Please try again in a moment."
         }
-      }
+      },
+      "examine": "Review",
+      "examineOne": "Review {name}'s file"
     },
     "moderation": {
       "intro": "Profile texts awaiting review, oldest first. A text is visible to other members only once approved. A rejection requires a reason, which the member reads in their notification; the text stays hidden until they rewrite it.",
@@ -2114,7 +2117,18 @@
           "not_found": "This account no longer exists.",
           "forbidden": "Your role does not allow this action.",
           "unavailable": "This service is not available yet. Please try again later.",
-          "generic": "Something went wrong. Please try again in a moment."
+          "generic": "Something went wrong. Please try again in a moment.",
+          "staff_account": "This is a team account: first change its role to “member”.",
+          "upcoming_evening": "This member has an upcoming evening: cancel their registration first."
+        },
+        "delete": {
+          "title": "Delete the account",
+          "help": "Immediate and permanent deletion, with no delay and no way back: profile, answers, texts, photos, selfie, declaration and sign-in account are erased. Payments and the log are kept, without a name.",
+          "reason": "Reason for deletion (required)",
+          "reasonHelp": "The reason is recorded in the administration log.",
+          "button": "Delete the account",
+          "confirm": "Deletion is immediate and permanent. Do you confirm?",
+          "confirmButton": "Confirm deletion"
         }
       },
       "history": {
@@ -2320,7 +2334,10 @@
             "reward_too_high": "The discount must stay below the price of an evening (10,000 FCFA)."
           }
         }
-      }
+      },
+      "actionsColumn": "Actions",
+      "manage": "Manage",
+      "manageOne": "Manage {name}"
     },
     "payments": {
       "intro": "All transactions, most recent first. Cancelling an evening marks its payments \"to refund\": refund them in the FeexPay dashboard, then mark them refunded here.",
@@ -3129,6 +3146,25 @@
       "referrals": "Referrals confirmed this month",
       "activeProviders": "Active providers",
       "providerContacts": "“I contacted this provider” this month"
+    },
+    "details": {
+      "title": "Full profile",
+      "unavailable": "The full profile could not be loaded. Try again later.",
+      "email": "Email address",
+      "noEmail": "No email address",
+      "answers": "Profile answers",
+      "noAnswers": "No answers.",
+      "texts": "Profile texts",
+      "noTexts": "No texts.",
+      "photos": "Profile photos",
+      "noPhotos": "No photos.",
+      "status": {
+        "pending": "Under review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "rejectedNote": "reason: {note}",
+      "photoAlt": "Photo {rank} of {name}"
     }
   },
   "Password": {

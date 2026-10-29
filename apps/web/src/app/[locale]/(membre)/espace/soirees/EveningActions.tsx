@@ -97,6 +97,10 @@ export function EveningActions({ eventId, actions }: { eventId: string; actions:
           {notice.kind === "error"
             ? t(`errors.${knownEveningErrors.has(notice.code) ? notice.code : "generic"}`)
             : t(`done.${notice.key}`)}
+          {/* Erreur sans texte dédié : le code reste lisible, pour que l'équipe trouve la cause */}
+          {notice.kind === "error" && !knownEveningErrors.has(notice.code) && (
+            <span className="mt-1 block text-xs text-fg-muted">{t("errors.code", { code: notice.code })}</span>
+          )}
         </p>
       )}
     </div>

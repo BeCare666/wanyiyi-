@@ -694,7 +694,8 @@
         "not_registered": "Kò sí ìforúkọsílẹ̀ láti fagi lé fún ìpàdé alẹ́ yìí.",
         "price_not_set": "A kò tíì pinnu owó ìpàdé alẹ́ yìí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
-        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
+        "code": "Kóòdù: {code}"
       }
     },
     "notifications": {
@@ -1726,7 +1727,9 @@
           "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
         }
-      }
+      },
+      "examine": "Ṣàyẹ̀wò",
+      "examineOne": "Ṣàyẹ̀wò ìwé {name}"
     },
     "moderation": {
       "intro": "Àwọn ọ̀rọ̀ àpèjúwe tó ń dúró, àwọn tó pẹ́ jùlọ ló kọ́kọ́ wà. Àwọn ọmọ ẹgbẹ́ mìíràn kò ní rí ọ̀rọ̀ kan àfi tí a bá fọwọ́ sí i. Ìkọ̀sílẹ̀ gbọ́dọ̀ ní ìdí, tí ọmọ ẹgbẹ́ náà yóò kà nínú ìfitónilétí rẹ̀; ọ̀rọ̀ náà yóò wà ní ìpamọ́ títí yóò fi tún un kọ.",
@@ -2114,7 +2117,18 @@
           "not_found": "Àkọọ́lẹ̀ yìí kò sí mọ́.",
           "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
-          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
+          "staff_account": "Àkáǹtì ẹgbẹ́ ni èyí: ẹ kọ́kọ́ yí ipa rẹ̀ padà sí « ọmọ ẹgbẹ́ ».",
+          "upcoming_evening": "Ọmọ ẹgbẹ́ yìí ní ìpàdé alẹ́ tó ń bọ̀: ẹ kọ́kọ́ fagilé ìforúkọsílẹ̀ rẹ̀."
+        },
+        "delete": {
+          "title": "Pa àkáǹtì rẹ́",
+          "help": "Píparẹ́ lẹ́sẹ̀kẹsẹ̀ àti títí láé, láìsí ìdádúró tàbí ìpadàbọ̀: àpèjúwe, àwọn ìdáhùn, àwọn ọ̀rọ̀, àwọn fọ́tò, selfie, ìkéde àti àkáǹtì ìwọlé ni a ó pa rẹ́. Àwọn ìsanwó àti ìwé àkọsílẹ̀ yóò wà, láìsí orúkọ.",
+          "reason": "Ìdí píparẹ́ (dandan)",
+          "reasonHelp": "A ó kọ ìdí náà sínú ìwé àkọsílẹ̀ ìṣàkóso.",
+          "button": "Pa àkáǹtì rẹ́",
+          "confirm": "Píparẹ́ náà jẹ́ lẹ́sẹ̀kẹsẹ̀ àti títí láé. Ṣé ẹ fọwọ́ sí i?",
+          "confirmButton": "Fọwọ́ sí píparẹ́"
         }
       },
       "history": {
@@ -2320,7 +2334,10 @@
             "reward_too_high": "Ẹ̀dínwó gbọdọ̀ kéré sí owó ìrọ̀lẹ́ kan (10 000 FCFA)."
           }
         }
-      }
+      },
+      "actionsColumn": "Àwọn ìgbésẹ̀",
+      "manage": "Ṣàkóso",
+      "manageOne": "Ṣàkóso {name}"
     },
     "payments": {
       "intro": "Gbogbo ìdúnàádúrà, èyí tó ṣẹ̀ṣẹ̀ jù ló kọ́kọ́ hàn. Ìfagilé ìpàdé máa ń sàmì sí àwọn ìsanwó rẹ̀ pé « a gbọ́dọ̀ dá a padà »: ẹ dá owó náà padà nínú pátákó FeexPay, lẹ́yìn náà ẹ sàmì sí i níbí pé a ti dá a padà.",
@@ -3129,6 +3146,25 @@
       "referrals": "Ìfinilọ́lẹ̀ tó múlẹ̀ lóṣù yìí",
       "activeProviders": "Àwọn olùpèsè tó ń ṣiṣẹ́",
       "providerContacts": "« Mo ti kàn sí olùpèsè yìí » lóṣù yìí"
+    },
+    "details": {
+      "title": "Àpèjúwe kíkún",
+      "unavailable": "A kò lè ṣí àpèjúwe kíkún náà. Ẹ tún gbìyànjú lẹ́yìn náà.",
+      "email": "Àdírẹ́sì ímeèlì",
+      "noEmail": "Kò sí àdírẹ́sì ímeèlì",
+      "answers": "Àwọn ìdáhùn àpèjúwe",
+      "noAnswers": "Kò sí ìdáhùn.",
+      "texts": "Àwọn ọ̀rọ̀ àpèjúwe",
+      "noTexts": "Kò sí ọ̀rọ̀.",
+      "photos": "Àwọn fọ́tò àpèjúwe",
+      "noPhotos": "Kò sí fọ́tò.",
+      "status": {
+        "pending": "Ẹgbẹ́ ń ṣàyẹ̀wò rẹ̀",
+        "approved": "A ti fọwọ́ sí i",
+        "rejected": "A kọ̀ ọ́"
+      },
+      "rejectedNote": "ìdí: {note}",
+      "photoAlt": "Fọ́tò {rank} ti {name}"
     }
   },
   "Password": {

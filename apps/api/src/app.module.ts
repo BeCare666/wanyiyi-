@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ScheduleModule } from "@nestjs/schedule";
+import { AdminAccountsController } from "./accounts/admin-accounts.controller";
 import { MemberGuard } from "./auth/member.guard";
 import { RequestLoggingInterceptor } from "./common/request-logging.interceptor";
 import { type Env, validateEnv } from "./config/env";
@@ -41,7 +42,7 @@ import { AdminVerificationsController } from "./verifications/admin-verification
  */
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true, cache: true, validate: validateEnv }), ScheduleModule.forRoot()],
-  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, FeexpayWebhookController, PaymentsController, ProfileController, PhotosController, PhotoViewController, AdminProvidersController, CagnottesController],
+  controllers: [HealthController, AuthHooksController, EventsController, AdminEventsController, AdminVerificationsController, FeexpayWebhookController, PaymentsController, ProfileController, PhotosController, PhotoViewController, AdminProvidersController, CagnottesController, AdminAccountsController],
   providers: [
     { provide: APP_INTERCEPTOR, useClass: RequestLoggingInterceptor },
     SupabaseService,

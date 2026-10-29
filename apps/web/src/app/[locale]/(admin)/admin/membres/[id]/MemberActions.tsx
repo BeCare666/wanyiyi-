@@ -6,7 +6,7 @@ import { Button, fieldClass } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { toCotonouInput } from "../../soirees/evenings";
-import { blockEvenings, excludeMember, reactivateMember, setRole, suspendMember } from "../actions";
+import { blockEvenings, deleteAccount, excludeMember, reactivateMember, setRole, suspendMember } from "../actions";
 import { type Role, roles } from "../members";
 
 const knownErrors = new Set([
@@ -17,6 +17,8 @@ const knownErrors = new Set([
   "date_in_past",
   "date_invalid",
   "not_found",
+  "staff_account",
+  "upcoming_evening",
   "forbidden",
   "unavailable",
 ]);
@@ -92,6 +94,52 @@ export function SanctionForm({ userId, kind }: { userId: string; kind: "suspend"
       <Feedback error={error} done={done} />
       <Button type="submit" variant={kind === "exclude" ? "primary" : "secondary"} disabled={pending} className="mt-6">
         {confirming ? t("exclude.confirmButton") : t(`${kind}.button`)}
+      </Button>
+    </form>
+  );
+}
+
+/**
+ * Suppression immédiate du compte (super administration) : motif obligatoire, seconde
+ * confirmation, sans délai ni retour. La fiche n'existe plus ensuite : retour à la liste.
+ */
+export function DeleteAccountForm({ userId }: { userId: string }) {
+  const t = useTranslations("Admin.members.actions");
+  const router = useRouter();
+  const [reason, setReason] = useState("");
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    setError(null);
+    if (reason.trim() === "") return setError("reason_required");
+    if (!confirming) return setConfirming(true);
+    setConfirming(false);
+    startTransition(async () => {
+      const result = await deleteAccount(userId, reason);
+      if (!result.ok) return setError(knownErrors.has(result.error) ? result.error : "generic");
+      router.push("/admin/membres");
+    });
+  }
+
+  return (
+    <form onSubmit={submit} noValidate>
+      <p className="text-fg-muted">{t("delete.help")}</p>
+      <label className="mt-4 block">
+        <span className="text-sm font-medium">{t("delete.reason")}</span>
+        <span className="mt-1 block text-xs text-fg-muted">{t("delete.reasonHelp")}</span>
+        <textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={2} maxLength={1000} className={cn(fieldClass, "resize-y text-base")} />
+      </label>
+      {confirming && (
+        <p role="alert" className="mt-4 border-l border-accent pl-5">
+          {t("delete.confirm")}
+        </p>
+      )}
+      <Feedback error={error} done={false} />
+      <Button type="submit" disabled={pending} className="mt-6">
+        {confirming ? t("delete.confirmButton") : t("delete.button")}
       </Button>
     </form>
   );

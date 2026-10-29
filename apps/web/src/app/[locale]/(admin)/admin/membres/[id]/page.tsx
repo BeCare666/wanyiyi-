@@ -6,7 +6,8 @@ import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { ageOn, memberName } from "../../verifications/queue";
 import { availableActions, type HistoryRow, historyKey, type MemberCard } from "../members";
-import { BlockEveningsForm, ReactivateButton, RoleForm, SanctionForm } from "./MemberActions";
+import { MemberDetails } from "@/components/admin/MemberDetails";
+import { BlockEveningsForm, DeleteAccountForm, ReactivateButton, RoleForm, SanctionForm } from "./MemberActions";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Admin.nav");
@@ -55,6 +56,8 @@ export default async function AdminMemberPage({ params }: Props) {
   const date = (iso: string) => format.dateTime(new Date(iso), { day: "numeric", month: "long", year: "numeric" });
   const blockedUntil = card.evenings_blocked_until && new Date(card.evenings_blocked_until) > now ? card.evenings_blocked_until : null;
   const actions = availableActions(card, staff.id, staff.permissions.includes("roles.manage"));
+  // Suppression immédiate (décision du 29 octobre 2026) : super administration, compte d'un membre
+  const canDelete = staff.permissions.includes("accounts.delete") && card.user_id !== staff.id && card.role === "member";
 
   /** Précision d'une ligne d'historique, selon son type. */
   const detailOf = (row: HistoryRow) => {
@@ -118,6 +121,8 @@ export default async function AdminMemberPage({ params }: Props) {
         </p>
       )}
 
+      <MemberDetails userId={card.user_id} name={memberName(card) ?? card.member_number ?? ""} />
+
       <section aria-labelledby="actions" className="mt-12 border-t border-line pt-8">
         <h2 id="actions" className="text-2xl">{t("members.actions.title")}</h2>
         <div className="mt-6 grid gap-12 lg:grid-cols-2">
@@ -161,8 +166,16 @@ export default async function AdminMemberPage({ params }: Props) {
               </div>
             </div>
           )}
+          {canDelete && (
+            <div>
+              <h3 className="eyebrow">{t("members.actions.delete.title")}</h3>
+              <div className="mt-4">
+                <DeleteAccountForm userId={card.user_id} />
+              </div>
+            </div>
+          )}
         </div>
-        {!Object.values(actions).some(Boolean) && <p className="mt-4 text-fg-muted">{t("members.actions.none")}</p>}
+        {!Object.values(actions).some(Boolean) && !canDelete && <p className="mt-4 text-fg-muted">{t("members.actions.none")}</p>}
       </section>
 
       <section aria-labelledby="parrainage" className="mt-12 border-t border-line pt-8">

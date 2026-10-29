@@ -1,6 +1,6 @@
 "use server";
 
-import type { ApiResult } from "@/lib/api";
+import { type ApiResult, memberApi } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { DEFAULT_PRICE_XOF, fromCotonouInput } from "../soirees/evenings";
 import { type BulkMessage, type BulkTarget, checkMessage, targetArgs } from "./bulk";
@@ -43,6 +43,21 @@ export async function blockEvenings(userId: string, until: string): Promise<ApiR
   const date = fromCotonouInput(until);
   if (!date) return { ok: false, error: "date_invalid" };
   return call("block_member_evenings", { p_user: userId, p_until: date.toISOString() });
+}
+
+/**
+ * Suppression immédiate du compte (super administration, décision du 29 octobre 2026) : par
+ * l'API, qui fait effacer la base avec le jeton de la personne, puis les fichiers et le compte
+ * de connexion. Sans délai ni retour ; motif obligatoire, journalisé.
+ */
+export async function deleteAccount(userId: string, reason: string): Promise<ApiResult<void>> {
+  if (!UUID.test(userId)) return { ok: false, error: "generic" };
+  if (reason.trim() === "") return { ok: false, error: "reason_required" };
+  const result = await memberApi<{ cleaned: boolean }>(`/admin/accounts/${userId}/delete`, {
+    method: "POST",
+    body: { reason: reason.trim().slice(0, 1000) },
+  });
+  return result.ok ? { ok: true, data: undefined } : result;
 }
 
 /** Changement de rôle (super administration ; jamais le sien). */

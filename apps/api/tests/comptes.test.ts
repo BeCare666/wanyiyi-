@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
+import { AdminAccountsController } from "../src/accounts/admin-accounts.controller";
 import { purgeDeletedAccounts } from "../src/accounts/purge";
-import type { AppClient } from "../src/supabase/supabase.service";
+import type { AppClient, SupabaseService } from "../src/supabase/supabase.service";
 
 /** Effacement des comptes supprimés depuis 30 jours (question 17, 24 octobre 2026). */
 
@@ -57,5 +58,32 @@ describe("Effacement des comptes supprimés (question 17)", () => {
     expect(await purgeDeletedAccounts({ rpc, storage } as unknown as AppClient, log)).toBe(0);
     expect(storage.from).not.toHaveBeenCalled();
     expect(log.error).toHaveBeenCalledWith(expect.stringContaining("forbidden"));
+  });
+});
+
+describe("Suppression immédiate par la super administration (29 octobre 2026)", () => {
+  const member = { id: "admin-1", accessToken: "jeton" };
+
+  function controller(dbError: { message: string } | null, files: Files = {}) {
+    const memberRpc = vi.fn(async () => ({ data: null, error: dbError }));
+    const system = systemClient([], files);
+    const supabase = { forMember: vi.fn(() => ({ rpc: memberRpc })), system: vi.fn(() => system.client) } as unknown as SupabaseService;
+    return { ctrl: new AdminAccountsController(supabase), memberRpc, system, supabase };
+  }
+
+  it("la base efface avec le jeton de la personne, puis fichiers et compte Auth effacés tout de suite", async () => {
+    const { ctrl, memberRpc, system, supabase } = controller(null, { u1: ["s.jpg"] });
+    expect(await ctrl.remove(member, "u1", { reason: "Faux profil" })).toEqual({ cleaned: true });
+    expect(supabase.forMember).toHaveBeenCalledWith("jeton");
+    expect(memberRpc).toHaveBeenCalledWith("admin_delete_account", { p_user: "u1", p_reason: "Faux profil" });
+    expect(system.remove).toHaveBeenCalledWith(["u1/s.jpg"]);
+    expect(system.deleteUser).toHaveBeenCalledWith("u1", true);
+    expect(system.rpc).toHaveBeenCalledWith("mark_account_cleaned", { p_user: "u1" });
+  });
+
+  it("refus de la base (permission, motif, compte de l'équipe) : rien n'est effacé, clé service role jamais utilisée", async () => {
+    const { ctrl, supabase } = controller({ message: "staff_account" });
+    await expect(ctrl.remove(member, "u1", { reason: "Faux profil" })).rejects.toThrow("staff_account");
+    expect(supabase.system).not.toHaveBeenCalled();
   });
 });

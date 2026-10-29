@@ -30,11 +30,7 @@ export async function purgeDeletedAccounts(db: AppClient, logger: Log): Promise<
   let cleaned = 0;
   for (const userId of (data ?? []) as string[]) {
     try {
-      for (const bucket of [ID_DOCUMENTS_BUCKET, "member-photos"]) await removeFolder(db, bucket, userId);
-      const { error: authError } = await db.auth.admin.deleteUser(userId, true);
-      if (authError && authError.status !== 404) throw new Error(`Auth : ${authError.message}`);
-      const { error: markError } = await db.rpc("mark_account_cleaned", { p_user: userId });
-      if (markError) throw new Error(`marquage : ${markError.message}`);
+      await cleanAccount(db, userId);
       cleaned += 1;
     } catch (e) {
       logger.error(`Compte ${userId} : ${(e as Error).message}`);
@@ -42,6 +38,19 @@ export async function purgeDeletedAccounts(db: AppClient, logger: Log): Promise<
   }
   if (cleaned) logger.log(`${cleaned} compte(s) effacé(s) (fichiers et compte Auth)`);
   return cleaned;
+}
+
+/**
+ * Fichiers d'un compte déjà effacé en base (selfie et photos), puis compte Supabase Auth en
+ * suppression « douce », puis app.mark_account_cleaned. Lève une erreur en cas d'échec : le
+ * compte reste dans app.accounts_to_clean et sera repris par la tâche de nuit.
+ */
+export async function cleanAccount(db: AppClient, userId: string): Promise<void> {
+  for (const bucket of [ID_DOCUMENTS_BUCKET, "member-photos"]) await removeFolder(db, bucket, userId);
+  const { error: authError } = await db.auth.admin.deleteUser(userId, true);
+  if (authError && authError.status !== 404) throw new Error(`Auth : ${authError.message}`);
+  const { error: markError } = await db.rpc("mark_account_cleaned", { p_user: userId });
+  if (markError) throw new Error(`marquage : ${markError.message}`);
 }
 
 /** Tous les fichiers du dossier du membre dans un compartiment privé. */

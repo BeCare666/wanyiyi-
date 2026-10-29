@@ -694,7 +694,8 @@
         "not_registered": "Aucune inscription à annuler pour cette soirée.",
         "price_not_set": "Le tarif de cette soirée n'est pas encore fixé.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-        "generic": "Une erreur est survenue. Réessayez dans un instant."
+        "generic": "Une erreur est survenue. Réessayez dans un instant.",
+        "code": "Code : {code}"
       }
     },
     "notifications": {
@@ -1726,7 +1727,9 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
-      }
+      },
+      "examine": "Examiner",
+      "examineOne": "Examiner le dossier de {name}"
     },
     "moderation": {
       "intro": "Les textes de profil en attente, les plus anciens d'abord. Un texte n'est visible des autres membres qu'une fois approuvé. Un refus exige un motif, que le membre lit dans sa notification ; le texte reste masqué jusqu'à ce qu'il le réécrive.",
@@ -2114,7 +2117,18 @@
           "not_found": "Ce compte n'existe plus.",
           "forbidden": "Votre rôle ne permet pas cette action.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-          "generic": "Une erreur est survenue. Réessayez dans un instant."
+          "generic": "Une erreur est survenue. Réessayez dans un instant.",
+          "staff_account": "C'est un compte de l'équipe : changez d'abord son rôle en « membre ».",
+          "upcoming_evening": "Ce membre a une soirée à venir : annulez d'abord son inscription."
+        },
+        "delete": {
+          "title": "Supprimer le compte",
+          "help": "Suppression immédiate et définitive, sans délai ni retour : profil, réponses, textes, photos, selfie, déclaration et compte de connexion sont effacés. Les paiements et le journal restent, sans nom.",
+          "reason": "Motif de la suppression (obligatoire)",
+          "reasonHelp": "Le motif est enregistré dans le journal de l'administration.",
+          "button": "Supprimer le compte",
+          "confirm": "La suppression est immédiate et définitive. Confirmez-vous ?",
+          "confirmButton": "Confirmer la suppression"
         }
       },
       "history": {
@@ -2320,7 +2334,10 @@
             "reward_too_high": "La réduction doit rester inférieure au prix d'une soirée (10 000 FCFA)."
           }
         }
-      }
+      },
+      "actionsColumn": "Actions",
+      "manage": "Gérer",
+      "manageOne": "Gérer {name}"
     },
     "payments": {
       "intro": "Toutes les transactions, les plus récentes d'abord. L'annulation d'une soirée marque ses paiements « à rembourser » : remboursez-les dans le tableau de bord FeexPay, puis marquez-les remboursés ici.",
@@ -3129,6 +3146,25 @@
       "referrals": "Parrainages acquis ce mois-ci",
       "activeProviders": "Prestataires actifs",
       "providerContacts": "« J'ai contacté ce prestataire » ce mois-ci"
+    },
+    "details": {
+      "title": "Profil complet",
+      "unavailable": "Le profil complet n'a pas pu être chargé. Réessayez plus tard.",
+      "email": "Adresse e-mail",
+      "noEmail": "Aucune adresse e-mail",
+      "answers": "Réponses du profil",
+      "noAnswers": "Aucune réponse.",
+      "texts": "Textes du profil",
+      "noTexts": "Aucun texte.",
+      "photos": "Photos du profil",
+      "noPhotos": "Aucune photo.",
+      "status": {
+        "pending": "En relecture",
+        "approved": "Approuvé(e)",
+        "rejected": "Refusé(e)"
+      },
+      "rejectedNote": "motif : {note}",
+      "photoAlt": "Photo {rank} de {name}"
     }
   },
   "Password": {

@@ -32,6 +32,11 @@ const BY_CODE: Record<string, (code: string) => HttpException> = {
   not_found: (c) => new NotFoundException(c),
   not_editable: (c) => new ConflictException(c),
   member_inactive: (c) => new ForbiddenException(c),
+  // Suppression d'un compte par la super administration (29 octobre 2026)
+  self_action: (c) => new ForbiddenException(c),
+  reason_required: (c) => new BadRequestException(c),
+  staff_account: (c) => new ConflictException(c),
+  upcoming_evening: (c) => new ConflictException(c),
   // Photos (phase 3, question 10)
   invalid_photo: (c) => new BadRequestException(c),
   too_many_photos: (c) => new ConflictException(c),

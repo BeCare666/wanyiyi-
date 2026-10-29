@@ -204,6 +204,9 @@ export default async function AdminMembersPage({ searchParams }: Props) {
                     {t(`members.advanced.columnNames.${c}`)}
                   </th>
                 ))}
+                <th scope="col" className="py-3 font-medium md:text-right">
+                  <span className="sr-only">{t("members.actionsColumn")}</span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -220,7 +223,7 @@ export default async function AdminMembersPage({ searchParams }: Props) {
                     />
                   </td>
                   <th scope="row" className="font-normal md:py-4 md:pr-4">
-                    <Link href={`/admin/membres/${row.user_id}`} className="font-medium underline-offset-4 hover:underline">
+                    <Link href={`/admin/membres/${row.user_id}`} className="font-medium underline underline-offset-4">
                       {memberName(row) ?? t("verifications.noProfile")}
                     </Link>
                     {row.member_number && <span className="block text-fg-muted">{row.member_number}</span>}
@@ -237,8 +240,18 @@ export default async function AdminMembersPage({ searchParams }: Props) {
                     <td className="tabular-nums text-fg-muted md:py-4 md:pr-4">{t("members.activity", { evenings: row.evenings_attended, matches: row.matches })}</td>
                   )}
                   {show("joined") && (
-                    <td className="text-fg-muted md:py-4 md:text-right">{format.dateTime(new Date(row.created_at), { day: "numeric", month: "short", year: "numeric" })}</td>
+                    <td className="text-fg-muted md:py-4 md:pr-4 md:text-right">{format.dateTime(new Date(row.created_at), { day: "numeric", month: "short", year: "numeric" })}</td>
                   )}
+                  {/* Accès visible à la fiche : informations complètes et actions */}
+                  <td className="pt-2 md:py-4 md:text-right">
+                    <Link
+                      href={`/admin/membres/${row.user_id}`}
+                      aria-label={t("members.manageOne", { name: memberName(row) ?? row.member_number ?? "" })}
+                      className="inline-flex min-h-10 items-center justify-center rounded-sm border border-fg px-4 text-sm hover:bg-fg hover:text-bg"
+                    >
+                      {t("members.manage")}
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

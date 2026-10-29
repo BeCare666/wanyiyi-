@@ -113,14 +113,17 @@ export default async function VerificationQueuePage({ searchParams }: Props) {
                 {show("dossier") && <th scope="col" className="py-3 pr-4 font-medium">{t("verifications.columns.dossier")}</th>}
                 {show("declared") && <th scope="col" className="py-3 pr-4 font-medium">{t("lists.verifications.columns.declared")}</th>}
                 {show("age") && <th scope="col" className="py-3 pr-4 font-medium">{t("lists.verifications.columns.age")}</th>}
-                {show("submitted") && <th scope="col" className="py-3 font-medium md:text-right">{t("verifications.columns.submitted")}</th>}
+                {show("submitted") && <th scope="col" className="py-3 pr-4 font-medium md:text-right">{t("verifications.columns.submitted")}</th>}
+                <th scope="col" className="py-3 font-medium md:text-right">
+                  <span className="sr-only">{t("members.actionsColumn")}</span>
+                </th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
                 <tr key={row.verification_id} className="grid gap-1 border-b border-line py-4 md:table-row md:py-0">
                   <th scope="row" className="font-normal md:py-4 md:pr-4">
-                    <Link href={`/admin/verifications/${row.verification_id}`} className="font-medium underline-offset-4 hover:underline">
+                    <Link href={`/admin/verifications/${row.verification_id}`} className="font-medium underline underline-offset-4">
                       {memberName(row) ?? t("verifications.noProfile")}
                     </Link>
                     {row.member_number && <span className="ml-2 text-fg-muted">{row.member_number}</span>}
@@ -137,10 +140,20 @@ export default async function VerificationQueuePage({ searchParams }: Props) {
                     <td className="tabular-nums md:py-4 md:pr-4">{row.age !== null ? t("verifications.identity.age", { age: row.age }) : "·"}</td>
                   )}
                   {show("submitted") && (
-                    <td className="text-fg-muted md:py-4 md:text-right">
+                    <td className="text-fg-muted md:py-4 md:pr-4 md:text-right">
                       {row.submitted_at ? format.dateTime(new Date(row.submitted_at), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "·"}
                     </td>
                   )}
+                  {/* Accès visible au dossier : pièces, profil complet et décision */}
+                  <td className="pt-2 md:py-4 md:text-right">
+                    <Link
+                      href={`/admin/verifications/${row.verification_id}`}
+                      aria-label={t("verifications.examineOne", { name: memberName(row) ?? row.member_number ?? "" })}
+                      className="inline-flex min-h-10 items-center justify-center rounded-sm border border-fg px-4 text-sm hover:bg-fg hover:text-bg"
+                    >
+                      {t("verifications.examine")}
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

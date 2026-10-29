@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { ageOn, memberName } from "../queue";
+import { MemberDetails } from "@/components/admin/MemberDetails";
 import { DecisionForm } from "./DecisionForm";
 import { DocumentButton } from "./DocumentButton";
 
@@ -194,6 +195,9 @@ export default async function VerificationDetailPage({ params }: Props) {
           </div>
         </aside>
       </div>
+
+      {/* Profil complet pour décider : e-mail, réponses, textes et photos (29 octobre 2026) */}
+      <MemberDetails userId={verification.user_id} name={profile ? (memberName(profile) ?? "") : ""} />
     </div>
   );
 }
