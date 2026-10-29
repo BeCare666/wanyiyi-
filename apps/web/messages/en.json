@@ -696,6 +696,19 @@
         "unavailable": "This service is not available yet. Please try again later.",
         "generic": "Something went wrong. Please try again in a moment.",
         "code": "Code: {code}"
+      },
+      "participants": {
+        "seeWomen": "See the women registered",
+        "seeMen": "See the men registered",
+        "title": "Who is registered for this evening",
+        "intro": "Verified members of the other sex already registered. Their photo is heavily blurred: you will see it clearly only after a match. Members who prefer not to appear are not listed.",
+        "back": "Back to evenings",
+        "notVerified": "Your profile must be approved to see who is registered for an evening.",
+        "closed": "Registration for this evening is closed.",
+        "empty": "Nobody of the other sex has registered yet, or those registered chose not to appear.",
+        "age": "{age} years old",
+        "photoAlt": "Heavily blurred photo of {name}",
+        "noPhoto": "Photo not available yet."
       }
     },
     "notifications": {
@@ -756,11 +769,13 @@
       "privacy": {
         "title": "Privacy",
         "photoHidden": "Photo hidden until a match",
-        "photoHiddenHelp": "Your photo is only shown after a mutual match.",
+        "photoHiddenHelp": "Your clear photo is shown only after a mutual match. Before that, only a heavily blurred version, with the face unreadable, may appear in an evening preview (setting below).",
         "sharePhone": "Number shared after a match",
         "sharePhoneHelp": "After a match, your number is given to the other person. Untick to keep it to yourself.",
         "keepBlurred": "Keep my photo blurred",
-        "keepBlurredHelp": "On by default: even after a match, the other person sees your photo blurred. Untick to show it clearly."
+        "keepBlurredHelp": "On by default: even after a match, the other person sees your photo blurred. Untick to show it clearly.",
+        "showInPreviews": "Appear in evening previews",
+        "showInPreviewsHelp": "On by default: when you are registered for an evening, verified members of the other sex see your first name, age, city, line of work, religion, reviewed texts and heavily blurred photo. Untick to stay out of it; you still see the others."
       },
       "data": {
         "title": "My data",

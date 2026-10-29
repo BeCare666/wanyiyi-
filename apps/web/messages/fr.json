@@ -696,6 +696,19 @@
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant.",
         "code": "Code : {code}"
+      },
+      "participants": {
+        "seeWomen": "Voir les femmes inscrites",
+        "seeMen": "Voir les hommes inscrits",
+        "title": "Les inscrits de cette soirée",
+        "intro": "Les membres vérifiés de l'autre sexe déjà inscrits. Leur photo est très floutée : vous la verrez nette seulement après un match. Les membres qui ne souhaitent pas apparaître ne sont pas listés.",
+        "back": "Retour aux soirées",
+        "notVerified": "Votre profil doit être validé pour voir les inscrits d'une soirée.",
+        "closed": "Les inscriptions à cette soirée sont closes.",
+        "empty": "Personne de l'autre sexe ne s'est encore inscrit, ou les inscrits ont choisi de ne pas apparaître.",
+        "age": "{age} ans",
+        "photoAlt": "Photo très floutée de {name}",
+        "noPhoto": "Photo pas encore disponible."
       }
     },
     "notifications": {
@@ -756,11 +769,13 @@
       "privacy": {
         "title": "Confidentialité",
         "photoHidden": "Photo cachée jusqu'au match",
-        "photoHiddenHelp": "Votre photo n'est montrée qu'après un match réciproque.",
+        "photoHiddenHelp": "Votre photo nette n'est montrée qu'après un match réciproque. Avant, seule une version très floutée, visage illisible, peut apparaître dans l'aperçu d'une soirée (réglage ci-dessous).",
         "sharePhone": "Numéro partagé après un match",
         "sharePhoneHelp": "Après un match, votre numéro est donné à la personne. Décochez pour le garder pour vous.",
         "keepBlurred": "Garder ma photo floutée",
-        "keepBlurredHelp": "Activé par défaut : même après un match, l'autre personne voit votre photo floutée. Décochez pour la montrer nette."
+        "keepBlurredHelp": "Activé par défaut : même après un match, l'autre personne voit votre photo floutée. Décochez pour la montrer nette.",
+        "showInPreviews": "Apparaître dans l'aperçu des soirées",
+        "showInPreviewsHelp": "Activé par défaut : quand vous êtes inscrit(e) à une soirée, les membres vérifiés de l'autre sexe voient votre prénom, votre âge, votre ville, votre secteur, votre religion, vos textes relus et votre photo très floutée. Décochez pour ne pas apparaître ; vous voyez toujours les autres."
       },
       "data": {
         "title": "Mes données",

@@ -35,12 +35,12 @@ async function loadSettings(userId: string): Promise<Settings & { phone: string 
 async function loadPrivacyAndDeletion(userId: string) {
   const supabase = await createSupabaseServer();
   const [profile, deletion] = await Promise.all([
-    supabase?.from("member_profiles").select("photo_blurred, share_phone, keep_photo_blurred").eq("user_id", userId).maybeSingle(),
+    supabase?.from("member_profiles").select("photo_blurred, share_phone, keep_photo_blurred, show_in_evening_previews").eq("user_id", userId).maybeSingle(),
     supabase?.from("account_deletions").select("requested_at, purge_after").eq("user_id", userId).is("purged_at", null).maybeSingle(),
   ]);
   const row = deletion?.data as { requested_at: string; purge_after: string } | null | undefined;
   return {
-    privacy: privacyFrom(profile?.data as { photo_blurred: boolean; share_phone: boolean; keep_photo_blurred: boolean } | null),
+    privacy: privacyFrom(profile?.data as { photo_blurred: boolean; share_phone: boolean; keep_photo_blurred: boolean; show_in_evening_previews: boolean } | null),
     deletion: (row ? { requestedAt: row.requested_at, purgeAfter: row.purge_after } : null) satisfies Deletion,
   };
 }

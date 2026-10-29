@@ -38,14 +38,15 @@ export function isEmail(value: string): boolean {
 /**
  * Confidentialité (question 15, 24 octobre 2026) : photo cachée jusqu'à un match réciproque,
  * numéro partagé après un match. Par défaut : photo cachée, numéro partagé. Phase 3 (10.2) : garder
- * sa photo floutée même pendant la découverte, désactivé par défaut.
+ * sa photo floutée même pendant la découverte, désactivé par défaut. 29 octobre 2026 : apparaître
+ * dans l'aperçu des participants d'une soirée (photo très floutée), activé par défaut.
  */
-export const privacyFields = ["photoHidden", "sharePhone", "keepBlurred"] as const;
+export const privacyFields = ["photoHidden", "sharePhone", "keepBlurred", "showInPreviews"] as const;
 export type PrivacyField = (typeof privacyFields)[number];
 export type Privacy = Record<PrivacyField, boolean>;
 
 /** Colonne de member_profiles de chaque réglage. */
-export const privacyColumns = { photoHidden: "photo_blurred", sharePhone: "share_phone", keepBlurred: "keep_photo_blurred" } as const satisfies Record<PrivacyField, string>;
+export const privacyColumns = { photoHidden: "photo_blurred", sharePhone: "share_phone", keepBlurred: "keep_photo_blurred", showInPreviews: "show_in_evening_previews" } as const satisfies Record<PrivacyField, string>;
 
 export function isPrivacyField(value: unknown): value is PrivacyField {
   return privacyFields.some((f) => f === value);
@@ -53,9 +54,17 @@ export function isPrivacyField(value: unknown): value is PrivacyField {
 
 /** Réglages lus sur le profil ; sans profil, les valeurs par défaut de la base. */
 export function privacyFrom(
-  row: { photo_blurred?: boolean | null; share_phone?: boolean | null; keep_photo_blurred?: boolean | null } | null | undefined,
+  row:
+    | { photo_blurred?: boolean | null; share_phone?: boolean | null; keep_photo_blurred?: boolean | null; show_in_evening_previews?: boolean | null }
+    | null
+    | undefined,
 ): Privacy {
-  return { photoHidden: row?.photo_blurred ?? true, sharePhone: row?.share_phone ?? true, keepBlurred: row?.keep_photo_blurred ?? true };
+  return {
+    photoHidden: row?.photo_blurred ?? true,
+    sharePhone: row?.share_phone ?? true,
+    keepBlurred: row?.keep_photo_blurred ?? true,
+    showInPreviews: row?.show_in_evening_previews ?? true,
+  };
 }
 
 /** Demande de suppression en cours (question 17) : effacement prévu le purgeAfter, annulable avant. */

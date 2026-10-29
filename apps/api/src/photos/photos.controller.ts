@@ -5,6 +5,7 @@ import {
   Get,
   Header,
   HttpCode,
+  Logger,
   NotFoundException,
   Param,
   ParseUUIDPipe,
@@ -20,7 +21,7 @@ import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagg
 import { type AuthenticatedMember, CurrentMember, MemberGuard } from "../auth/member.guard";
 import { unwrap } from "../supabase/db-errors";
 import { SupabaseService } from "../supabase/supabase.service";
-import { checkUpload, normalizePhoto, PHOTO_MAX_BYTES, renderForViewer, watermarkText } from "./photo-image";
+import { checkUpload, normalizePhoto, PHOTO_MAX_BYTES, previewPathOf, previewPhoto, renderForViewer, watermarkText } from "./photo-image";
 import { PhotoLinks } from "./photo-links";
 
 const BUCKET = "member-photos";
@@ -40,6 +41,8 @@ type ViewRow = { storage_path: string; blurred: boolean; viewer_first_name: stri
 @UseGuards(MemberGuard)
 @Controller("photos")
 export class PhotosController {
+  private readonly logger = new Logger(PhotosController.name);
+
   constructor(private readonly supabase: SupabaseService) {}
 
   @Post()
@@ -47,7 +50,9 @@ export class PhotosController {
   @ApiOperation({ summary: "Déposer une photo (JPEG, PNG ou WebP, 8 Mo) : réduite, sans métadonnées, en relecture" })
   @UseInterceptors(FileInterceptor("photo", { limits: { fileSize: PHOTO_MAX_BYTES, files: 1 } }))
   async upload(@CurrentMember() member: AuthenticatedMember, @UploadedFile() file: UploadedPhoto | undefined) {
-    return this.store(member, file, `${randomUUID()}.jpg`, (path) => ["add_photo", { p_path: path }]);
+    const stored = await this.store(member, file, `${randomUUID()}.jpg`, (path) => ["add_photo", { p_path: path }]);
+    await this.storePreview(member, stored.id, stored.path, stored.image);
+    return { id: stored.id };
   }
 
   @Delete(":id")
@@ -56,7 +61,20 @@ export class PhotosController {
   async remove(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
     const db = this.supabase.forMember(member.accessToken);
     const path = unwrap(await db.rpc("remove_photo", { p_photo: id })) as string;
-    await db.storage.from(BUCKET).remove([path]);
+    await db.storage.from(BUCKET).remove([path, previewPathOf(path)]);
+  }
+
+  @Post("evening/:eventId/:id/link")
+  @ApiOperation({ summary: "Lien de 5 minutes vers la copie très floutée d'un participant d'une soirée (aperçu avant de réserver)" })
+  async eveningLink(
+    @CurrentMember() member: AuthenticatedMember,
+    @Param("eventId", ParseUUIDPipe) eventId: string,
+    @Param("id", ParseUUIDPipe) id: string,
+  ) {
+    const db = this.supabase.forMember(member.accessToken);
+    const [view] = unwrap(await db.rpc("evening_preview_for_view", { p_event: eventId, p_photo: id })) as Omit<ViewRow, "blurred">[];
+    if (!view) throw new NotFoundException("not_found");
+    return this.renderLink(db, { ...view, blurred: true });
   }
 
   @Post(":id/link")
@@ -78,7 +96,8 @@ export class PhotosController {
     @Param("coupleId", ParseUUIDPipe) coupleId: string,
     @UploadedFile() file: UploadedPhoto | undefined,
   ) {
-    return this.store(member, file, `union-${randomUUID()}.jpg`, (path) => ["add_union_photo", { p_couple: coupleId, p_path: path }]);
+    const stored = await this.store(member, file, `union-${randomUUID()}.jpg`, (path) => ["add_union_photo", { p_couple: coupleId, p_path: path }]);
+    return { id: stored.id };
   }
 
   @Delete("union/:id")
@@ -118,7 +137,23 @@ export class PhotosController {
     const [fn, args] = register(path);
     const result = await db.rpc(fn, args);
     if (result.error) await db.storage.from(BUCKET).remove([path]);
-    return { id: unwrap(result) as string };
+    return { id: unwrap(result) as string, path, image };
+  }
+
+  /**
+   * Copie très floutée pour l'aperçu des soirées, déposée avec le jeton du membre. Un échec
+   * n'empêche pas le dépôt de la photo : la tâche de copie des aperçus la reprend.
+   */
+  private async storePreview(member: AuthenticatedMember, photoId: string, path: string, image: Buffer) {
+    try {
+      const db = this.supabase.forMember(member.accessToken);
+      const previewPath = previewPathOf(path);
+      const stored = await db.storage.from(BUCKET).upload(previewPath, await previewPhoto(image), { contentType: "image/jpeg", upsert: true });
+      if (stored.error) throw new Error(stored.error.message);
+      unwrap(await db.rpc("set_photo_preview", { p_photo: photoId, p_path: previewPath }));
+    } catch (e) {
+      this.logger.error(`Copie d'aperçu de la photo ${photoId} : ${(e as Error).message}`);
+    }
   }
 
   /** Image filigranée pour la personne qui regarde, servie par un lien de 5 minutes. */
@@ -126,6 +161,11 @@ export class PhotosController {
     const db = this.supabase.forMember(member.accessToken);
     const [view] = unwrap(await db.rpc(fn, { p_photo: id })) as ViewRow[];
     if (!view) throw new NotFoundException("not_found");
+    return this.renderLink(db, view);
+  }
+
+  /** Télécharge le fichier avec le jeton du membre (RLS du stockage), puis rend l'image filigranée. */
+  private async renderLink(db: ReturnType<SupabaseService["forMember"]>, view: ViewRow) {
     const file = await db.storage.from(BUCKET).download(view.storage_path);
     if (file.error || !file.data) throw new NotFoundException("not_found");
     const image = await renderForViewer(Buffer.from(await file.data.arrayBuffer()), {

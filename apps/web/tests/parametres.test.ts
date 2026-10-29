@@ -8,14 +8,14 @@ import { notificationKey } from "../src/components/member/notificationKinds";
 describe("Confidentialité (question 15)", () => {
   it("par défaut : photo cachée jusqu'au match, numéro partagé, photo non floutée (10.2)", () => {
     // Photo floutée par défaut (décision du 28 octobre 2026)
-    expect(privacyFrom(null)).toEqual({ photoHidden: true, sharePhone: true, keepBlurred: true });
-    expect(privacyFrom({ photo_blurred: false, share_phone: false, keep_photo_blurred: true })).toEqual({ photoHidden: false, sharePhone: false, keepBlurred: true });
+    expect(privacyFrom(null)).toEqual({ photoHidden: true, sharePhone: true, keepBlurred: true, showInPreviews: true });
+    expect(privacyFrom({ photo_blurred: false, share_phone: false, keep_photo_blurred: true })).toEqual({ photoHidden: false, sharePhone: false, keepBlurred: true, showInPreviews: true });
   });
 
   it("seuls les trois réglages prévus sont écrits, chacun sur sa colonne", () => {
     expect(isPrivacyField("photoHidden")).toBe(true);
     expect(isPrivacyField("status")).toBe(false);
-    expect(privacyColumns).toEqual({ photoHidden: "photo_blurred", sharePhone: "share_phone", keepBlurred: "keep_photo_blurred" });
+    expect(privacyColumns).toEqual({ photoHidden: "photo_blurred", sharePhone: "share_phone", keepBlurred: "keep_photo_blurred", showInPreviews: "show_in_evening_previews" });
   });
 });
 

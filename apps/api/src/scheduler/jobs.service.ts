@@ -3,6 +3,7 @@ import { Cron } from "@nestjs/schedule";
 import { purgeDeletedAccounts } from "../accounts/purge";
 import { DeliveriesService } from "../notifications/deliveries.service";
 import { PaymentsService } from "../payments/payments.service";
+import { createMissingPreviews } from "../photos/previews";
 import { SupabaseService } from "../supabase/supabase.service";
 
 /**
@@ -15,7 +16,8 @@ import { SupabaseService } from "../supabase/supabase.service";
  * - couples : alerte d'inactivité, pause, effacement des conversations échues (9.5, phase 3) ;
  * - remboursement des soirées annulées (relance si un remboursement a échoué) ;
  * - envoi par SMS et e-mail des notifications des actions groupées (chaque minute) ;
- * - effacement des comptes supprimés depuis 30 jours (chaque nuit, question 17).
+ * - effacement des comptes supprimés depuis 30 jours (chaque nuit, question 17) ;
+ * - copies très floutées des photos déposées avant les aperçus de soirée (29 octobre 2026).
  * Les règles elles-mêmes sont dans les fonctions SQL : ces tâches ne font que les déclencher.
  */
 @Injectable()
@@ -82,6 +84,13 @@ export class JobsService {
   async purgeDeletedAccounts() {
     if (!this.ready()) return;
     await purgeDeletedAccounts(this.supabase.system("effacement des comptes supprimés depuis 30 jours"), this.logger);
+  }
+
+  /** Copies floutées manquantes, par petits lots (aperçu des participants d'une soirée). */
+  @Cron("*/15 * * * *", { name: "photo-previews", timeZone: "Africa/Porto-Novo" })
+  async photoPreviews() {
+    if (!this.ready()) return;
+    await createMissingPreviews(this.supabase.system("copies floutées des photos pour l'aperçu des soirées"), this.logger);
   }
 
   @Cron("*/5 * * * *", { name: "compute-matches", timeZone: "Africa/Porto-Novo" })

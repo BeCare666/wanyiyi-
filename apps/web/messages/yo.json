@@ -696,6 +696,19 @@
         "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
         "code": "Kóòdù: {code}"
+      },
+      "participants": {
+        "seeWomen": "Wo àwọn obìnrin tó forúkọ sílẹ̀",
+        "seeMen": "Wo àwọn ọkùnrin tó forúkọ sílẹ̀",
+        "title": "Àwọn tó forúkọ sílẹ̀ fún ìpàdé alẹ́ yìí",
+        "intro": "Àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò ti ìbálòpọ̀ kejì tí wọ́n ti forúkọ sílẹ̀. Fọ́tò wọn ṣókùnkùn gidigidi: ẹ ó rí i kedere lẹ́yìn tí ẹ bá ara yín mu nìkan. Àwọn tí kò fẹ́ farahàn kò sí nínú àkójọ yìí.",
+        "back": "Padà sí àwọn ìpàdé alẹ́",
+        "notVerified": "A gbọ́dọ̀ fọwọ́ sí àpèjúwe yín kí ẹ tó lè rí àwọn tó forúkọ sílẹ̀ fún ìpàdé alẹ́.",
+        "closed": "Ìforúkọsílẹ̀ fún ìpàdé alẹ́ yìí ti parí.",
+        "empty": "Kò sí ẹnikẹ́ni ti ìbálòpọ̀ kejì tó tí ì forúkọ sílẹ̀, tàbí àwọn tó forúkọ sílẹ̀ yàn láti má farahàn.",
+        "age": "Ọmọ ọdún {age}",
+        "photoAlt": "Fọ́tò {name} tó ṣókùnkùn gidigidi",
+        "noPhoto": "Fọ́tò kò tí ì sí."
       }
     },
     "notifications": {
@@ -756,11 +769,13 @@
       "privacy": {
         "title": "Àṣírí",
         "photoHidden": "Fọ́tò mi pamọ́ títí di ìbámu",
-        "photoHiddenHelp": "A kò ní fi fọ́tò rẹ hàn àyàfi lẹ́yìn ìbámu láti ọ̀dọ̀ ẹ̀yin méjèèjì.",
+        "photoHiddenHelp": "Fọ́tò yín tó mọ́ kedere ni a ó fi hàn lẹ́yìn tí ẹ bá ara yín mu nìkan. Ṣáájú ìgbà náà, ẹ̀dà tó ṣókùnkùn gidigidi, tí a kò lè dá ojú mọ̀, ló lè hàn nínú àkópọ̀ ìpàdé alẹ́ (ètò ìsàlẹ̀).",
         "sharePhone": "Pín nọ́mbà mi lẹ́yìn ìbámu",
         "sharePhoneHelp": "Lẹ́yìn ìbámu, a ó fún ẹni náà ní nọ́mbà rẹ. Yọ àmì náà kúrò láti pa á mọ́ fún ara rẹ.",
         "keepBlurred": "Jẹ́ kí fọ́tò mi máa ṣókùnkùn",
-        "keepBlurredHelp": "Ó wà ní títàn láti ìbẹ̀rẹ̀: kódà lẹ́yìn tí ẹ bá ara yín mu, ẹnìkejì yóò rí fọ́tò yín ní ṣókùnkùn. Ẹ yọ àmì náà kúrò láti fi hàn kedere."
+        "keepBlurredHelp": "Ó wà ní títàn láti ìbẹ̀rẹ̀: kódà lẹ́yìn tí ẹ bá ara yín mu, ẹnìkejì yóò rí fọ́tò yín ní ṣókùnkùn. Ẹ yọ àmì náà kúrò láti fi hàn kedere.",
+        "showInPreviews": "Farahàn nínú àkópọ̀ àwọn ìpàdé alẹ́",
+        "showInPreviewsHelp": "Ó wà ní títàn: nígbà tí ẹ bá forúkọ sílẹ̀ fún ìpàdé alẹ́ kan, àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò ti ìbálòpọ̀ kejì yóò rí orúkọ yín àkọ́kọ́, ọjọ́ orí yín, ìlú yín, iṣẹ́ yín, ẹ̀sìn yín, àwọn ọ̀rọ̀ yín tí a ti ṣàyẹ̀wò àti fọ́tò yín tó ṣókùnkùn gidigidi. Ẹ yọ àmì rẹ̀ kí ẹ má baà farahàn; ẹ ó ṣì máa rí àwọn yòókù."
       },
       "data": {
         "title": "Àwọn ìwífún mi",

@@ -129,6 +129,15 @@ export default async function EveningsPage({ searchParams }: Props) {
                                   : ""}
                           </p>
                         )}
+                        {/* Aperçu des inscrits de l'autre sexe, avant de réserver (29 octobre 2026) */}
+                        {profile.verified && profile.sex && (
+                          <Link
+                            href={`${memberNav.evenings.href}/${evening.id}`}
+                            className="mt-4 inline-block text-sm text-link underline underline-offset-4"
+                          >
+                            {t(profile.sex === "male" ? "evenings.participants.seeWomen" : "evenings.participants.seeMen")}
+                          </Link>
+                        )}
                       </div>
 
                       <dl className="grid gap-3 text-sm md:col-span-4">

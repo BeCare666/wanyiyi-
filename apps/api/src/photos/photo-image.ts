@@ -76,3 +76,25 @@ export async function renderForViewer(stored: Buffer, options: { blurred: boolea
     .jpeg({ quality: 82 })
     .toBuffer();
 }
+
+/** Côté le plus long de la copie floutée d'aperçu (soirées, 29 octobre 2026). */
+export const PREVIEW_SIDE = 480;
+
+/**
+ * Copie d'aperçu d'une photo, pour les participants d'une soirée avant tout match : réduite
+ * puis très floutée, visage illisible. Seule cette copie est lisible par les autres membres.
+ */
+export async function previewPhoto(stored: Buffer): Promise<Buffer> {
+  const small = await sharp(stored).rotate().resize({ width: PREVIEW_SIDE, height: PREVIEW_SIDE, fit: "inside", withoutEnlargement: true }).toBuffer();
+  const { width = PREVIEW_SIDE, height = PREVIEW_SIDE } = await sharp(small).metadata();
+  return sharp(small)
+    .blur(Math.max(24, Math.round(Math.min(width, height) / 6)))
+    .jpeg({ quality: 70 })
+    .toBuffer();
+}
+
+/** Chemin de la copie d'aperçu, dans le même dossier que la photo (effacée avec le compte). */
+export function previewPathOf(path: string): string {
+  const slash = path.lastIndexOf("/");
+  return `${path.slice(0, slash + 1)}apercu-${path.slice(slash + 1)}`;
+}
