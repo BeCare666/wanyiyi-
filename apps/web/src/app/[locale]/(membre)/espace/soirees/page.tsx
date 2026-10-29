@@ -88,6 +88,8 @@ export default async function EveningsPage({ searchParams }: Props) {
       {!result.ok ? (
         <p role="alert" className="mt-14 border-l border-accent pl-5 text-fg-muted">
           {t(result.error === "unavailable" ? "errors.unavailable" : "errors.generic")}
+          {/* Code de l'erreur, pour que l'équipe trouve la cause */}
+          {result.error !== "unavailable" && <span className="mt-1 block text-xs">{t("evenings.errors.code", { code: result.error })}</span>}
         </p>
       ) : (
         (() => {
