@@ -37,9 +37,9 @@ async function pay(eventId: string, userId: string, status: "succeeded" | "pendi
 describe("Place donnée moins de 48 h avant (question 9)", () => {
   it("confirmation dans les 2 heures après l'attribution, refusée ensuite ; place attribuée avant la limite : règle des 48 h", async () => {
     const event = await priced(30, 3);
-    const late = await createMember(db, { firstName: "Houéfa", sex: "female" });
-    const tooLate = await createMember(db, { firstName: "Mariam", sex: "female" });
-    const early = await createMember(db, { firstName: "Folake", sex: "female" });
+    const late = await createMember(db, { photo: true, firstName: "Houéfa", sex: "female" });
+    const tooLate = await createMember(db, { photo: true, firstName: "Mariam", sex: "female" });
+    const early = await createMember(db, { photo: true, firstName: "Folake", sex: "female" });
     await register(db, event, late, "female", "booked", 1); // attribuée il y a 1 h, après la limite (il y a 18 h)
     await register(db, event, tooLate, "female", "booked", 3); // il y a 3 h : délai de 2 h dépassé
     await register(db, event, early, "female", "booked", 20); // avant la limite : confirmation close
@@ -51,12 +51,12 @@ describe("Place donnée moins de 48 h avant (question 9)", () => {
 
   it("au bout de 2 heures sans confirmation ou sans paiement : place libérée et donnée au suivant", async () => {
     const event = await priced(30, 4);
-    const unconfirmed = await createMember(db, { firstName: "Ayaba", sex: "female" });
-    const unpaid = await createMember(db, { firstName: "Kémi", sex: "female" });
-    const paid = await createMember(db, { firstName: "Nadège", sex: "female" });
-    const inProgress = await createMember(db, { firstName: "Sènami", sex: "female" });
-    const recent = await createMember(db, { firstName: "Yétondé", sex: "male" });
-    const next = await createMember(db, { firstName: "Afiavi", sex: "female" });
+    const unconfirmed = await createMember(db, { photo: true, firstName: "Ayaba", sex: "female" });
+    const unpaid = await createMember(db, { photo: true, firstName: "Kémi", sex: "female" });
+    const paid = await createMember(db, { photo: true, firstName: "Nadège", sex: "female" });
+    const inProgress = await createMember(db, { photo: true, firstName: "Sènami", sex: "female" });
+    const recent = await createMember(db, { photo: true, firstName: "Yétondé", sex: "male" });
+    const next = await createMember(db, { photo: true, firstName: "Afiavi", sex: "female" });
     await register(db, event, unconfirmed, "female", "booked", 2.5);
     await register(db, event, unpaid, "female", "confirmed", 2.5);
     await register(db, event, paid, "female", "confirmed", 2.5);
@@ -88,7 +88,7 @@ describe("Place donnée moins de 48 h avant (question 9)", () => {
 
   it("réservation directe tardive : même règle ; Mes soirées affiche les limites de 2 heures", async () => {
     const event = await priced(30, 2);
-    const member = await createMember(db, { firstName: "Adjoavi", sex: "female" });
+    const member = await createMember(db, { photo: true, firstName: "Adjoavi", sex: "female" });
     const result = await asUser(db, member, async (tx) => {
       await tx.query("select app.book_event($1)", [event]);
       const [row] = (await tx.query<{ confirm_by: Date; pay_by: Date }>("select confirm_by, pay_by from app.my_bookings() where event_id = $1", [event])).rows;

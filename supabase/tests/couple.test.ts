@@ -72,7 +72,7 @@ beforeAll(async () => {
     ["admin", "female", "admin"],
     ["conseillere", "female", "counselor"],
   ] as const) {
-    p[name] = await createMember(db, { firstName: name, sex, role });
+    p[name] = await createMember(db, { firstName: name, sex, role, photo: true });
   }
   await db.query("insert into app.counselors (user_id, display_name) values ($1, 'Mme Conseillère')", [p.conseillere]);
   event = await createEvent(db, { startsInHours: -48, status: "finished" });

@@ -96,6 +96,7 @@ export const knownEveningErrors = new Set([
   "theme_age",
   "theme_religion",
   "theme_sector",
+  "photo_required",
   "already_registered",
   "evening_closed",
   "confirmation_closed",

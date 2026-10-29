@@ -686,6 +686,7 @@
         "theme_age": "Cette soirée thématique est réservée à une autre tranche d'âge.",
         "theme_religion": "Cette soirée thématique est réservée à une autre confession.",
         "theme_sector": "Cette soirée thématique est réservée à un autre secteur d'activité.",
+        "photo_required": "Une photo approuvée par l'équipe est nécessaire pour réserver. Ajoutez-en une dans « Mon profil », rubrique « Mes photos ».",
         "already_registered": "Vous avez déjà une inscription pour cette soirée.",
         "evening_closed": "Les inscriptions à cette soirée sont closes.",
         "confirmation_closed": "La date limite de confirmation est passée.",

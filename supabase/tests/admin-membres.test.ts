@@ -16,9 +16,9 @@ let moderator: string;
 
 beforeAll(async () => {
   db = await createDb();
-  admin = await createMember(db, { firstName: "Rachidatou", sex: "female", role: "admin" });
-  superAdmin = await createMember(db, { firstName: "Gbènakpon", sex: "male", role: "super_admin" });
-  moderator = await createMember(db, { firstName: "Sèna", sex: "male", role: "moderator" });
+  admin = await createMember(db, { photo: true, firstName: "Rachidatou", sex: "female", role: "admin" });
+  superAdmin = await createMember(db, { photo: true, firstName: "Gbènakpon", sex: "male", role: "super_admin" });
+  moderator = await createMember(db, { photo: true, firstName: "Sèna", sex: "male", role: "moderator" });
 }, 120_000);
 
 afterAll(async () => {
@@ -42,7 +42,7 @@ const statusOf = async (tx: Transaction, userId: string) =>
 
 describe("Droits", () => {
   it("modérateur et membre : ni liste, ni fiche, ni action ; plus d'écriture directe sur les profils", async () => {
-    const member = await createMember(db, { firstName: "Afiwa", sex: "female" });
+    const member = await createMember(db, { photo: true, firstName: "Afiwa", sex: "female" });
     for (const user of [moderator, member]) {
       const errors = await asUser(db, user, async (tx) => ({
         list: await attempt(tx, "select * from app.admin_members()"),
@@ -65,9 +65,9 @@ describe("Droits", () => {
 
 describe("Liste et fiche", () => {
   it("recherche par prénom, numéro ou téléphone, filtres, pagination côté serveur", async () => {
-    const a = await createMember(db, { firstName: "Mahougnon", sex: "female" });
-    await createMember(db, { firstName: "Comlan", sex: "male" });
-    await createMember(db, { firstName: "Houéfa", sex: "female", status: "pending_verification" });
+    const a = await createMember(db, { photo: true, firstName: "Mahougnon", sex: "female" });
+    await createMember(db, { photo: true, firstName: "Comlan", sex: "male" });
+    await createMember(db, { photo: true, firstName: "Houéfa", sex: "female", status: "pending_verification" });
     const result = await asUser(db, admin, async (tx) => {
       const [{ member_number, phone }] = (await rows(
         tx.query<{ member_number: string; phone: string }>("select member_number, phone from app.users where id = $1", [a]),
@@ -94,7 +94,7 @@ describe("Liste et fiche", () => {
   });
 
   it("fiche et historique : soirées, sanctions ; aucun vote", async () => {
-    const member = await createMember(db, { firstName: "Ayaba", sex: "female" });
+    const member = await createMember(db, { photo: true, firstName: "Ayaba", sex: "female" });
     const event = await createEvent(db, { startsInHours: 72 });
     await register(db, event, member, "female", "confirmed");
     const result = await asUser(db, admin, async (tx) => {
@@ -112,7 +112,7 @@ describe("Liste et fiche", () => {
 
 describe("Actions", () => {
   it("suspension : motif obligatoire, notification avec le motif, réservation et vote refusés ; réactivation à l'état d'avant", async () => {
-    const member = await createMember(db, { firstName: "Nafi", sex: "female" });
+    const member = await createMember(db, { photo: true, firstName: "Nafi", sex: "female" });
     const event = await createEvent(db, { startsInHours: 120 });
     const flow = await asUser(db, admin, async (tx) => {
       const steps: Record<string, unknown> = {};
@@ -150,7 +150,7 @@ describe("Actions", () => {
   });
 
   it("exclusion définitive, motif notifié ; pointage refusé ensuite", async () => {
-    const member = await createMember(db, { firstName: "Sênami", sex: "female" });
+    const member = await createMember(db, { photo: true, firstName: "Sênami", sex: "female" });
     const event = await createEvent(db, { startsInHours: 1 });
     await register(db, event, member, "female", "confirmed");
     const flow = await asUser(db, admin, async (tx) => {
@@ -172,7 +172,7 @@ describe("Actions", () => {
   });
 
   it("blocage des soirées jusqu'à une date, puis levée ; date passée refusée", async () => {
-    const member = await createMember(db, { firstName: "Codjo", sex: "male" });
+    const member = await createMember(db, { photo: true, firstName: "Codjo", sex: "male" });
     const event = await createEvent(db, { startsInHours: 120 });
     const flow = await asUser(db, admin, async (tx) => {
       const past = await attempt(tx, "select app.block_member_evenings($1, now() - interval '1 day')", [member]);
@@ -191,7 +191,7 @@ describe("Actions", () => {
   });
 
   it("rôle : super administration seulement, jamais le sien, journalisé", async () => {
-    const member = await createMember(db, { firstName: "Kpodé", sex: "male" });
+    const member = await createMember(db, { photo: true, firstName: "Kpodé", sex: "male" });
     const flow = await asUser(db, superAdmin, async (tx) => {
       const self = await attempt(tx, "select app.set_member_role($1, 'member')", [superAdmin]);
       await tx.query("select app.set_member_role($1, 'moderator')", [member]);

@@ -14,6 +14,7 @@ const BY_CODE: Record<string, (code: string) => HttpException> = {
   theme_age: (c) => new ForbiddenException(c),
   theme_religion: (c) => new ForbiddenException(c),
   theme_sector: (c) => new ForbiddenException(c),
+  photo_required: (c) => new ForbiddenException(c),
   already_registered: (c) => new ConflictException(c),
   evening_closed: (c) => new ConflictException(c),
   confirmation_closed: (c) => new ConflictException(c),

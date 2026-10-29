@@ -13,12 +13,12 @@ let moderator: string;
 
 beforeAll(async () => {
   db = await createDb();
-  afiwa = await createMember(db, { firstName: "Afiwa", sex: "female", religion: "catholic", sector: "health" });
-  sena = await createMember(db, { firstName: "Séna", sex: "female" });
-  koffi = await createMember(db, { firstName: "Koffi", sex: "male" });
-  nadege = await createMember(db, { firstName: "Nadège", sex: "female", status: "pending_verification" });
-  admin = await createMember(db, { firstName: "Rachidatou", sex: "female", role: "admin" });
-  moderator = await createMember(db, { firstName: "Gildas", sex: "male", role: "moderator" });
+  afiwa = await createMember(db, { photo: true, firstName: "Afiwa", sex: "female", religion: "catholic", sector: "health" });
+  sena = await createMember(db, { photo: true, firstName: "Séna", sex: "female" });
+  koffi = await createMember(db, { photo: true, firstName: "Koffi", sex: "male" });
+  nadege = await createMember(db, { photo: true, firstName: "Nadège", sex: "female", status: "pending_verification" });
+  admin = await createMember(db, { photo: true, firstName: "Rachidatou", sex: "female", role: "admin" });
+  moderator = await createMember(db, { photo: true, firstName: "Gildas", sex: "male", role: "moderator" });
 }, 120_000);
 
 afterAll(async () => {
@@ -102,7 +102,7 @@ describe("Écritures directes interdites aux membres", () => {
   });
 
   it("un nouveau profil créé par le membre démarre toujours en « inscription » ; plus d'écriture directe (19 octobre 2026)", async () => {
-    const id = await createMember(db, { firstName: "Bienvenu", sex: "male" });
+    const id = await createMember(db, { photo: true, firstName: "Bienvenu", sex: "male" });
     await db.query("delete from app.member_profiles where user_id = $1", [id]);
     const result = await asUser(db, id, async (tx) => {
       await tx.exec("savepoint direct");
@@ -308,8 +308,8 @@ describe("Confirmation 48 h avant et liste d'attente (9.2)", () => {
 describe("Rotation, vote QR et matchs (9.2, 9.3)", () => {
   /** Soirée commencée il y a 10 minutes : 3 femmes, 2 hommes pointés. */
   async function startedEvening() {
-    const women = [afiwa, sena, await createMember(db, { firstName: "Mariam", sex: "female" })];
-    const men = [koffi, await createMember(db, { firstName: "Dossou", sex: "male" })];
+    const women = [afiwa, sena, await createMember(db, { photo: true, firstName: "Mariam", sex: "female" })];
+    const men = [koffi, await createMember(db, { photo: true, firstName: "Dossou", sex: "male" })];
     const event = await createEvent(db, { startsInHours: -10 / 60 });
     for (const w of women) await register(db, event, w, "female", "checked_in");
     for (const m of men) await register(db, event, m, "male", "checked_in");
@@ -430,7 +430,7 @@ describe("Mes soirées dans l'espace membre (6.2-4)", () => {
   it("situation par soirée, rang dans la liste d'attente du même sexe et limite de confirmation", async () => {
     const full = await createEvent(db, { startsInHours: 120, capacityWomen: 1 });
     await register(db, full, sena, "female", "confirmed");
-    const waiting = await createMember(db, { firstName: "Houéfa", sex: "female" });
+    const waiting = await createMember(db, { photo: true, firstName: "Houéfa", sex: "female" });
     await db.query("insert into app.waitlist_entries (event_id, user_id, sex, position) values ($1, $2, 'female', 1), ($1, $3, 'female', 2)", [
       full,
       waiting,
@@ -480,8 +480,8 @@ describe("Mes soirées dans l'espace membre (6.2-4)", () => {
 
 describe("Notifications du membre", () => {
   it("le membre marque ses notifications comme lues par la fonction, jamais par une écriture directe", async () => {
-    const member = await createMember(db, { firstName: "Mahougnon", sex: "female" });
-    const other = await createMember(db, { firstName: "Codjo", sex: "male" });
+    const member = await createMember(db, { photo: true, firstName: "Mahougnon", sex: "female" });
+    const other = await createMember(db, { photo: true, firstName: "Codjo", sex: "male" });
     const ids = await rows(
       db.query<{ id: string }>(
         `insert into app.notifications (user_id, kind) values ($1, 'evening.seat_offered'), ($1, 'match.announced'), ($2, 'match.announced')
@@ -518,8 +518,8 @@ describe("Notifications du membre", () => {
 
 describe("Paramètres du membre (6.2-9)", () => {
   it("le membre change sa langue, son mode sombre et ses canaux de notification, pas ceux d'un autre", async () => {
-    const member = await createMember(db, { firstName: "Ayaba", sex: "female" });
-    const other = await createMember(db, { firstName: "Sèwanou", sex: "male" });
+    const member = await createMember(db, { photo: true, firstName: "Ayaba", sex: "female" });
+    const other = await createMember(db, { photo: true, firstName: "Sèwanou", sex: "male" });
     const result = await asUser(db, member, async (tx) => {
       const users = await rows(tx.query<{ locale: string; dark_mode: boolean }>("update app.users set locale = 'yo', dark_mode = true where id = $1 returning locale, dark_mode", [member]));
       await tx.query(

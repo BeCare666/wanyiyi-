@@ -16,6 +16,8 @@ export type MemberInput = {
   role?: "member" | "counselor" | "moderator" | "admin" | "super_admin";
   religion?: string;
   sector?: string;
+  /** Photo approuvée, exigée pour réserver une soirée (question 10 c). */
+  photo?: boolean;
 };
 
 let phoneCounter = 0;
@@ -43,6 +45,9 @@ export async function createMember(db: PGlite, input: MemberInput): Promise<stri
       id,
       [input.sector],
     ]);
+  }
+  if (input.photo) {
+    await db.query("insert into app.photos (user_id, storage_path, review_status) values ($1, $2, 'approved')", [id, `${id}/photo.jpg`]);
   }
   return id;
 }

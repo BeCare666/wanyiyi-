@@ -81,7 +81,7 @@ beforeAll(async () => {
     [womenNames, women, "female"],
     [menNames, men, "male"],
   ] as Array<[string[], string[], Sex]>) {
-    for (const firstName of names) list.push(await createMember(db, { firstName, sex }));
+    for (const firstName of names) list.push(await createMember(db, { firstName, sex, photo: true }));
   }
 }, 120_000);
 

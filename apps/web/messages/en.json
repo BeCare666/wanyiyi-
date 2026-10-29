@@ -686,6 +686,7 @@
         "theme_age": "This themed evening is reserved for another age group.",
         "theme_religion": "This themed evening is reserved for another faith.",
         "theme_sector": "This themed evening is reserved for another line of work.",
+        "photo_required": "You need a photo approved by the team to book. Add one in “My profile”, under “My photos”.",
         "already_registered": "You are already registered for this evening.",
         "evening_closed": "Registration for this evening is closed.",
         "confirmation_closed": "The confirmation deadline has passed.",
