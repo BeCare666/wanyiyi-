@@ -187,6 +187,9 @@ describe("Soirées de l'administration (11.2-5)", () => {
       confirmed_at: null,
       checked_in_at: null,
       seat_number: null,
+      paid: false,
+      paid_xof: 0,
+      pay_by: null,
     });
     const rows = [p("a", "female", "confirmed"), p("b", "female", "waitlisted"), p("c", "female", "released"), p("d", "male", "booked")];
     const women = groupParticipants(rows, "female");
