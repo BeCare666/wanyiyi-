@@ -12,3 +12,16 @@ export function safeNextPath(value: string | string[] | undefined | null, fallba
 export function signInHref(next: string): string {
   return `/connexion?suite=${encodeURIComponent(next)}`;
 }
+
+/** Rôles de l'équipe qui travaillent dans l'administration (même liste que lib/staff.ts). */
+const ADMIN_ROLES = ["moderator", "admin", "super_admin"];
+
+/**
+ * Page ouverte après la connexion. Équipe (modération, administration, super administration) :
+ * toujours l'administration, quelle que soit l'adresse demandée ; une page de l'administration
+ * demandée est gardée. Autres rôles : la page demandée.
+ */
+export function pathAfterSignIn(next: string, role: unknown): string {
+  if (typeof role !== "string" || !ADMIN_ROLES.includes(role)) return next;
+  return next === "/admin" || next.startsWith("/admin/") || next.startsWith("/admin?") ? next : "/admin";
+}

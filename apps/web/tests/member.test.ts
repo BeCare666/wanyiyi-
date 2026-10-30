@@ -24,7 +24,7 @@ import {
   selfieError,
   storagePath,
 } from "../src/app/[locale]/(membre)/espace/verification/verification";
-import { safeNextPath, signInHref } from "../src/lib/next-path";
+import { pathAfterSignIn, safeNextPath, signInHref } from "../src/lib/next-path";
 import { normalizePhone } from "../src/lib/phone";
 
 describe("Retour après connexion", () => {
@@ -41,6 +41,19 @@ describe("Retour après connexion", () => {
 
   it("encode la page à rouvrir", () => {
     expect(signInHref("/vote/abc?x=1")).toBe("/connexion?suite=%2Fvote%2Fabc%3Fx%3D1");
+  });
+
+  it("équipe : toujours l'administration, page de l'administration demandée gardée ; autres rôles : page demandée", () => {
+    for (const role of ["moderator", "admin", "super_admin"]) {
+      expect(pathAfterSignIn("/espace", role)).toBe("/admin");
+      expect(pathAfterSignIn("/espace/soirees", role)).toBe("/admin");
+      expect(pathAfterSignIn("/administrateur", role)).toBe("/admin");
+      expect(pathAfterSignIn("/admin", role)).toBe("/admin");
+      expect(pathAfterSignIn("/admin/membres?q=a", role)).toBe("/admin/membres?q=a");
+    }
+    for (const role of ["member", "counselor", null, undefined]) {
+      expect(pathAfterSignIn("/espace/soirees", role)).toBe("/espace/soirees");
+    }
   });
 });
 

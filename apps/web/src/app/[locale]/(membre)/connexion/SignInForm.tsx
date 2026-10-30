@@ -6,6 +6,7 @@ import { Button, fieldClass } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Link, useRouter } from "@/i18n/navigation";
 import { authErrorKey } from "@/lib/auth-errors";
+import { pathAfterSignIn } from "@/lib/next-path";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
 
 type ErrorKey = "invalidCredentials" | "notConfirmed" | "invalidLink" | "tooManyRequests" | "unavailable" | "generic";
@@ -19,7 +20,8 @@ function toErrorKey(error: { code?: string; status?: number }): ErrorKey {
 /**
  * Connexion par adresse e-mail et mot de passe (Supabase Auth, décision du 20 octobre 2026).
  * Adresse pas encore confirmée : le lien peut être renvoyé. Compte sans profil (inscription
- * interrompue) : reprise de l'inscription à l'identité.
+ * interrompue) : reprise de l'inscription à l'identité. Équipe : toujours l'administration
+ * (décision du 30 octobre 2026), même sans profil de membre.
  */
 export function SignInForm({ next, invalidLink }: { next: string; invalidLink: boolean }) {
   const t = useTranslations("SignIn");
@@ -49,8 +51,12 @@ export function SignInForm({ next, invalidLink }: { next: string; invalidLink: b
       setPending(false);
       return setError(authError ? toErrorKey(authError) : "generic");
     }
-    const { data: profile } = await supabase!.from("member_profiles").select("user_id").eq("user_id", data.user.id).maybeSingle();
-    router.replace(profile ? next : "/inscription");
+    const [{ data: profile }, { data: user }] = await Promise.all([
+      supabase!.from("member_profiles").select("user_id").eq("user_id", data.user.id).maybeSingle(),
+      supabase!.from("users").select("role").eq("id", data.user.id).maybeSingle(),
+    ]);
+    const destination = pathAfterSignIn(next, user?.role);
+    router.replace(profile || destination.startsWith("/admin") ? destination : "/inscription");
     router.refresh();
   }
 

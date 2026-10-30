@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { MinimalHeader } from "@/components/member/MinimalHeader";
 import { redirect } from "@/i18n/navigation";
-import { safeNextPath } from "@/lib/next-path";
+import { pathAfterSignIn, safeNextPath } from "@/lib/next-path";
 import { getSessionMember } from "@/lib/session";
+import { createSupabaseServer } from "@/lib/supabase/server";
 import { SignInForm } from "./SignInForm";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,7 +21,13 @@ type Props = { searchParams: Promise<{ suite?: string | string[]; lien?: string 
 export default async function SignInPage({ searchParams }: Props) {
   const query = await searchParams;
   const next = safeNextPath(query.suite);
-  if (await getSessionMember()) return redirect({ href: next, locale: await getLocale() });
+  const member = await getSessionMember();
+  if (member) {
+    // Déjà connecté : l'équipe va dans l'administration, les autres à la page demandée
+    const supabase = await createSupabaseServer();
+    const { data: user } = (await supabase?.from("users").select("role").eq("id", member.id).maybeSingle()) ?? { data: null };
+    return redirect({ href: pathAfterSignIn(next, user?.role), locale: await getLocale() });
+  }
   const t = await getTranslations("SignIn");
 
   return (
