@@ -72,7 +72,8 @@ export default async function VerificationDetailPage({ params }: Props) {
   const { verification, profile, user, declarations, documents } = dossier;
   const dateTime = (iso: string) => format.dateTime(new Date(iso), { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
   const [latest, ...previous] = declarations;
-  const ready = Boolean(latest) && documents.some((d) => d.kind === "selfie") && documents.some((d) => d.kind !== "selfie");
+  // Selfie seul depuis le 22 octobre 2026 (question 29) : plus de pièce d'identité, même règle que app.dossier_complete
+  const ready = Boolean(latest) && documents.some((d) => d.kind === "selfie");
   const open = verification.status === "pending" || verification.status === "to_correct";
 
   return (
