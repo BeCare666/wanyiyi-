@@ -203,9 +203,14 @@ export function MobileNav({ member, pathname, activeSection }: Props) {
                 </div>
 
                 {!member && (
-                  <ButtonLink href="/inscription" className="mb-6 w-full" onClick={() => setOpen(false)}>
-                    {t("Common.becomeMember")}
-                  </ButtonLink>
+                  <div className="mb-6 grid gap-3">
+                    <ButtonLink href="/inscription" className="w-full" onClick={() => setOpen(false)}>
+                      {t("Common.becomeMember")}
+                    </ButtonLink>
+                    <ButtonLink href="/connexion" variant="secondary" className="w-full" onClick={() => setOpen(false)}>
+                      {t("Common.signIn")}
+                    </ButtonLink>
+                  </div>
                 )}
               </div>
 

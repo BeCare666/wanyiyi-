@@ -15,7 +15,10 @@
     "toComplete": "À compléter",
     "logoAlt": "Ifedele, accueil",
     "photoCredit": "Photographie {name}",
-    "errorCode": "Code : {code}"
+    "errorCode": "Code : {code}",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "signIn": "Connexion"
   },
   "Nav": {
     "promise": "La promesse",
@@ -1069,6 +1072,11 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      },
+      "completed": {
+        "title": "Vous venez de terminer toutes les étapes de votre profil.",
+        "text": "Bravo ! La suite vous attend sur votre tableau de bord, dans « Votre prochaine étape ».",
+        "action": "Voir ma prochaine étape"
       }
     },
     "discoveries": {
@@ -2027,7 +2035,10 @@
           "released": "Libérée faute de confirmation",
           "no_show": "Absent",
           "waitlisted": "Liste d'attente"
-        }
+        },
+        "paid": "Payée",
+        "unpaid": "Non payée, à payer avant le {date}",
+        "paidSummary": "{count, plural, =0 {Aucune place payée} one {# place payée} other {# places payées}} · {amount} encaissés"
       },
       "results": {
         "title": "Résultats",

@@ -15,7 +15,10 @@
     "toComplete": "To be completed",
     "logoAlt": "Ifedele, home",
     "photoCredit": "Photograph by {name}",
-    "errorCode": "Code: {code}"
+    "errorCode": "Code: {code}",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "signIn": "Sign in"
   },
   "Nav": {
     "promise": "Our promise",
@@ -1069,6 +1072,11 @@
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment."
         }
+      },
+      "completed": {
+        "title": "You have just completed every step of your profile.",
+        "text": "Well done! What comes next is on your dashboard, under “Your next step”.",
+        "action": "See my next step"
       }
     },
     "discoveries": {
@@ -2027,7 +2035,10 @@
           "released": "Released for lack of confirmation",
           "no_show": "Absent",
           "waitlisted": "Waiting list"
-        }
+        },
+        "paid": "Paid",
+        "unpaid": "Not paid, to pay before {date}",
+        "paidSummary": "{count, plural, =0 {No seat paid} one {# seat paid} other {# seats paid}} · {amount} collected"
       },
       "results": {
         "title": "Results",

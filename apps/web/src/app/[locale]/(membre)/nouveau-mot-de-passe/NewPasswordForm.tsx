@@ -2,7 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
-import { Button, fieldClass } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { useRouter } from "@/i18n/navigation";
 import { authErrorKey } from "@/lib/auth-errors";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
@@ -41,27 +42,23 @@ export function NewPasswordForm() {
     <form onSubmit={submit} noValidate className="mt-12">
       <label className="block">
         <span className="eyebrow">{t("password")}</span>
-        <input
-          type="password"
+        <PasswordInput
           autoComplete="new-password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           aria-invalid={error === "weak_password" || error === "same_password" || undefined}
-          className={fieldClass}
         />
         <span className="mt-2 block text-xs text-fg-muted">{t("passwordHelp")}</span>
       </label>
       <label className="mt-8 block">
         <span className="eyebrow">{t("passwordConfirm")}</span>
-        <input
-          type="password"
+        <PasswordInput
           autoComplete="new-password"
           required
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           aria-invalid={error === "password_mismatch" || undefined}
-          className={fieldClass}
         />
       </label>
       {error && (

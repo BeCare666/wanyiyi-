@@ -15,7 +15,10 @@
     "toComplete": "À ń parí rẹ̀",
     "logoAlt": "Ifedele, ojú-ìwé àkọ́kọ́",
     "photoCredit": "Fọ́tò láti ọwọ́ {name}",
-    "errorCode": "Kóòdù: {code}"
+    "errorCode": "Kóòdù: {code}",
+    "showPassword": "Fi ọ̀rọ̀ aṣínà hàn",
+    "hidePassword": "Fi ọ̀rọ̀ aṣínà pamọ́",
+    "signIn": "Wọlé"
   },
   "Nav": {
     "promise": "Ìlérí wa",
@@ -1069,6 +1072,11 @@
           "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
         }
+      },
+      "completed": {
+        "title": "Ẹ ṣẹ̀ṣẹ̀ parí gbogbo ìgbésẹ̀ àpèjúwe yín.",
+        "text": "Ẹ kú iṣẹ́! Ohun tó kàn wà lórí pátákó yín, ní « Ìgbésẹ̀ yín tó kàn ».",
+        "action": "Wo ìgbésẹ̀ mi tó kàn"
       }
     },
     "discoveries": {
@@ -2027,7 +2035,10 @@
           "released": "A ti fi àyè sílẹ̀ nítorí àìfìdímúlẹ̀",
           "no_show": "Kò wá",
           "waitlisted": "Àkójọ ìdúró"
-        }
+        },
+        "paid": "A ti san",
+        "unpaid": "A kò tíì san, ẹ san ṣáájú {date}",
+        "paidSummary": "{count, plural, =0 {Kò sí àyè tí a ti san} other {Àyè # tí a ti san}} · {amount} tí a gbà"
       },
       "results": {
         "title": "Àbájáde",

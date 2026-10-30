@@ -99,6 +99,17 @@ export function progress(side: Side, answers: Answers, writtenTexts: number): { 
     : { done, total: required.length };
 }
 
+/**
+ * Profil complet : barre de progression à 100 % des deux côtés, même règle que
+ * app.profile_complete (choix E du 28 octobre 2026).
+ */
+export function isProfileComplete(answers: Answers, writtenTexts: number): boolean {
+  return sides.every((side) => {
+    const { done, total } = progress(side, answers, writtenTexts);
+    return done === total;
+  });
+}
+
 /** Un critère non négociable porte sur une recherche précise (ni vide, ni « Indifférent »). */
 export function canBeDealbreaker(values: readonly string[] | undefined): boolean {
   return Boolean(values?.length) && !values!.includes(INDIFFERENT);

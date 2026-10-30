@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { memberName } from "../../verifications/queue";
-import { canCheckIn, type EventStatus, groupParticipants, nextStep, type ParticipantRow, toCotonouInput } from "../evenings";
+import { canCheckIn, type EventStatus, groupParticipants, nextStep, type ParticipantRow, paymentSummary, toCotonouInput } from "../evenings";
 import { EventForm } from "../EventForm";
 import { loadEventOptions } from "../options";
 import { type CompositionAlert, involvedCount, showComposition, splitAlerts } from "../composition";
@@ -87,6 +87,7 @@ export default async function AdminEveningPage({ params }: Props) {
   const tp = await getTranslations("Profile");
   const format = await getFormatter();
   const { event, participants, rounds, results, matches, alerts } = evening;
+  const showPayments = event.price_xof !== null && participants.every((p) => typeof p.paid === "boolean");
   const prepared = rounds > 0;
   const step = nextStep(event.status, prepared, event.results_computed_at !== null);
   const dateTime = (iso: string) => format.dateTime(new Date(iso), { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -202,6 +203,16 @@ export default async function AdminEveningPage({ params }: Props) {
         <section aria-labelledby="participants" className="mt-12 border-t border-line pt-8">
           <h2 id="participants" className="text-2xl">{t("evenings.participants.title")}</h2>
           {prepared && <p className="mt-2 text-sm text-fg-muted">{t("evenings.participants.prepared", { tables: rounds })}</p>}
+          {/* Places payées et montant encaissé (30 octobre 2026) */}
+          {/* Sans la mise à jour de la base du 30 octobre, la colonne manque : rien n'est affiché */}
+          {showPayments && (
+            <p className="mt-2 text-sm">
+              {t("evenings.participants.paidSummary", {
+                count: paymentSummary(participants).paid,
+                amount: format.number(paymentSummary(participants).collected, { style: "currency", currency: "XOF", maximumFractionDigits: 0 }),
+              })}
+            </p>
+          )}
           <div className="mt-6 grid gap-12 lg:grid-cols-2">
             {(["female", "male"] as const).map((sex) => {
               const { seated, waiting, other } = groupParticipants(participants, sex);
@@ -228,6 +239,15 @@ export default async function AdminEveningPage({ params }: Props) {
                                   : t(`evenings.participants.status.${p.status}`)}
                                 {p.seat_number !== null && ` · ${t("evenings.participants.seat", { seat: p.seat_number })}`}
                               </span>
+                              {showPayments && p.status !== "waitlisted" && (p.paid || p.pay_by) && (
+                                <span className={p.paid ? "block text-fg" : "block font-medium"}>
+                                  {p.paid
+                                    ? t("evenings.participants.paid")
+                                    : t("evenings.participants.unpaid", {
+                                        date: format.dateTime(new Date(p.pay_by!), { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }),
+                                      })}
+                                </span>
+                              )}
                             </span>
                             {canCheckIn(p, event.status, prepared) && <CheckInButton eventId={event.id} userId={p.user_id} name={name} />}
                           </li>

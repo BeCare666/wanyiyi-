@@ -1,5 +1,8 @@
+import { PROFILE_CATALOG } from "@wanyiyi/shared";
 import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
+import { type ParticipantRow, paymentSummary } from "../src/app/[locale]/(admin)/admin/soirees/evenings";
+import { type Answers, isProfileComplete } from "../src/app/[locale]/(membre)/espace/profil/profile";
 import { type NextStepInput, nextStep, photoState, type UpcomingBooking } from "../src/components/member/nextStep";
 
 /** « Votre prochaine étape » (décision du 30 octobre 2026) : une phrase, un bouton. */
@@ -83,5 +86,24 @@ describe("Étape suivante du membre", () => {
       expect(steps[step.key]?.text).toBeTruthy();
       expect(Boolean(steps[step.key]?.action)).toBe(step.target !== null);
     }
+  });
+});
+
+describe("Profil complet (message de fin, 30 octobre 2026)", () => {
+  const full = (side: "self" | "seeking") =>
+    Object.fromEntries(PROFILE_CATALOG.filter((c) => !c.optional).map((c) => [c.key, c.options.slice(0, c.key === "personality" ? 3 : 1)]));
+  it("complet seulement avec les deux côtés remplis et les 3 textes", () => {
+    const answers: Answers = { self: full("self"), seeking: full("seeking") };
+    expect(isProfileComplete(answers, 3)).toBe(true);
+    expect(isProfileComplete(answers, 2)).toBe(false);
+    expect(isProfileComplete({ ...answers, seeking: {} }, 3)).toBe(false);
+  });
+});
+
+describe("Fiche d'une soirée : places payées (30 octobre 2026)", () => {
+  const row = (paid: boolean, paid_xof: number) => ({ paid, paid_xof }) as ParticipantRow;
+  it("compte les places payées et additionne le montant encaissé", () => {
+    expect(paymentSummary([row(true, 10000), row(true, 8000), row(false, 0)])).toEqual({ paid: 2, collected: 18000 });
+    expect(paymentSummary([])).toEqual({ paid: 0, collected: 0 });
   });
 });

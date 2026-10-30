@@ -3,7 +3,9 @@
 import { INDIFFERENT, type CatalogCategory } from "@wanyiyi/shared";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { memberHome } from "@/components/member/memberNav";
 import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { cn } from "@/lib/cn";
 import { saveAnswer, setDealbreaker } from "./actions";
 import {
@@ -11,6 +13,7 @@ import {
   canBeDealbreaker,
   categoryOf,
   isMultiple,
+  isProfileComplete,
   maxDealbreakers,
   progress,
   type Side,
@@ -43,6 +46,9 @@ export function ProfileEditor({
   const [dealbreakers, setDealbreakers] = useState(initialDealbreakers);
   const [written, setWritten] = useState(Object.values(texts).filter((x) => x.body.trim() !== "").length);
   const [status, setStatus] = useState<Status>(null);
+  // Message de fin (30 octobre 2026) : seulement quand le profil devient complet pendant la visite
+  const [completeAtStart] = useState(() => isProfileComplete(initialAnswers, written));
+  const justCompleted = !completeAtStart && isProfileComplete(answers, written);
 
   const steps = stepsFor(side);
   const step = steps[Math.min(stepIndex, steps.length - 1)]!;
@@ -176,6 +182,16 @@ export function ProfileEditor({
           {status === "error" && t("error")}
           {status === "too_many" && t("tooMany", { max: maxDealbreakers })}
         </p>
+
+        {justCompleted && (
+          <div role="status" className="mt-2 border border-accent bg-bg-soft p-6">
+            <p className="font-serif text-2xl">{t("completed.title")}</p>
+            <p className="mt-3 max-w-measure text-fg-muted">{t("completed.text")}</p>
+            <ButtonLink href={memberHome} className="mt-5">
+              {t("completed.action")}
+            </ButtonLink>
+          </div>
+        )}
 
         <div className="mt-4 flex flex-wrap justify-between gap-4 border-t border-line pt-6">
           <Button type="button" variant="secondary" disabled={stepIndex === 0} onClick={() => setStepIndex((i) => i - 1)}>

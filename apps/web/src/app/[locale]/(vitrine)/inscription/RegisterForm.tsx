@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { Link, useRouter } from "@/i18n/navigation";
 import { authErrorCode, authErrorKey } from "@/lib/auth-errors";
 import { REFERRAL_PARAM, REFERRAL_STORAGE_KEY } from "@/lib/referral";
@@ -158,27 +159,23 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
         </label>
         <label className="mt-8 block">
           <span className="eyebrow">{t("password")}</span>
-          <input
-            type="password"
+          <PasswordInput
             autoComplete="new-password"
             required
             value={account.password}
             onChange={setField("password")}
             aria-invalid={error === "weak_password" || undefined}
-            className={fieldClass}
           />
           <span className="mt-2 block text-xs text-fg-muted">{t("passwordHelp")}</span>
         </label>
         <label className="mt-8 block">
           <span className="eyebrow">{t("passwordConfirm")}</span>
-          <input
-            type="password"
+          <PasswordInput
             autoComplete="new-password"
             required
             value={account.passwordConfirm}
             onChange={setField("passwordConfirm")}
             aria-invalid={error === "password_mismatch" || undefined}
-            className={fieldClass}
           />
         </label>
         {errorMessage}

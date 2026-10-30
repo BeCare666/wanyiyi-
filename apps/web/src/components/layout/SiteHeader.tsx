@@ -83,6 +83,18 @@ export function SiteHeader({ member }: { member: SessionMember | null }) {
               </Link>
             ) : (
               <>
+                {/* Connexion à côté de « Devenir membre » (30 octobre 2026) : lien sur téléphone, bouton sur grand écran */}
+                <Link
+                  href="/connexion"
+                  className="px-1 text-xs font-medium tracking-[0.06em] uppercase underline-offset-4 hover:underline sm:text-[0.6875rem] sm:tracking-[0.12em] xl:hidden"
+                >
+                  {t("Common.signIn")}
+                </Link>
+                <span className="hidden xl:flex">
+                  <ButtonLink href="/connexion" variant="secondary">
+                    {t("Common.signIn")}
+                  </ButtonLink>
+                </span>
                 {/* Enveloppes : la classe inline-flex du bouton l'emporterait sur hidden */}
                 <span className="flex xl:hidden">
                   <ButtonLink href="/inscription" size="sm">

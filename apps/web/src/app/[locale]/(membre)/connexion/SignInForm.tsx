@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Link, useRouter } from "@/i18n/navigation";
 import { authErrorKey } from "@/lib/auth-errors";
@@ -86,14 +87,12 @@ export function SignInForm({ next, invalidLink }: { next: string; invalidLink: b
       </label>
       <label className="mt-8 block">
         <span className="eyebrow">{t("password")}</span>
-        <input
-          type="password"
+        <PasswordInput
           autoComplete="current-password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           aria-invalid={error === "invalidCredentials" || undefined}
-          className={fieldClass}
         />
       </label>
       <p className="mt-3 text-sm">

@@ -33,6 +33,10 @@ export type ParticipantRow = {
   confirmed_at: string | null;
   checked_in_at: string | null;
   seat_number: number | null;
+  /** Paiement (30 octobre 2026) : réussi ou non, montant encaissé, limite d'une place non payée. */
+  paid: boolean;
+  paid_xof: number;
+  pay_by: string | null;
 };
 
 /** Filtres de la liste, reflétés dans l'adresse (?etat=, section 11.3). */
@@ -143,6 +147,12 @@ export function groupParticipants(rows: ParticipantRow[], sex: "female" | "male"
     waiting: ofSex.filter((r) => r.status === "waitlisted"),
     other: ofSex.filter((r) => r.status === "cancelled" || r.status === "released" || r.status === "no_show"),
   };
+}
+
+/** Places payées et montant encaissé de la soirée (remboursements déduits). */
+export function paymentSummary(rows: readonly ParticipantRow[]): { paid: number; collected: number } {
+  const paid = rows.filter((r) => r.paid);
+  return { paid: paid.length, collected: paid.reduce((sum, r) => sum + r.paid_xof, 0) };
 }
 
 const COTONOU = "Africa/Porto-Novo";
