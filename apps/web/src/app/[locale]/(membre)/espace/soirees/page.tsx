@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { memberNav } from "@/components/member/memberNav";
+import { loadJourney, NextStep } from "@/components/member/NextStep";
 import { Link } from "@/i18n/navigation";
 import { memberApi } from "@/lib/api";
 import { cn } from "@/lib/cn";
@@ -46,7 +47,9 @@ export default async function EveningsPage({ searchParams }: Props) {
   const member = await getSessionMember();
   if (!member) return null;
   const filter = parseFilter((await searchParams).filtre);
-  const [result, profile] = await Promise.all([memberApi<Evening[]>("/events"), memberProfile(member.id)]);
+  const [result, profile, journey] = await Promise.all([memberApi<Evening[]>("/events"), memberProfile(member.id), loadJourney(member.id)]);
+  // Raison affichée à la place de « Réserver » (30 octobre 2026) ; la base refait le contrôle
+  const blocked = !profile.verified ? "notVerified" : journey?.photo === "missing" ? "addPhoto" : journey?.photo === "pending" ? "photoPending" : null;
   const now = new Date();
 
   return (
@@ -60,13 +63,18 @@ export default async function EveningsPage({ searchParams }: Props) {
         <p className="mt-6 max-w-measure text-lg text-fg-muted">{t("evenings.intro")}</p>
       </header>
 
-      {!profile.verified && (
-        <aside className="mt-10 border-l border-accent pl-6">
-          <p className="max-w-measure text-fg-muted">{t("evenings.notVerified")}</p>
-          <Link href={memberNav.verification.href} className="mt-3 inline-block text-sm text-link underline-offset-4 hover:underline">
-            {t("evenings.seeVerification")}
-          </Link>
-        </aside>
+      {/* Étape suivante (30 octobre 2026) ; sans elle (erreur de lecture), l'ancien rappel de validation */}
+      {journey?.step ? (
+        <NextStep journey={journey} here={["evenings"]} />
+      ) : (
+        !profile.verified && (
+          <aside className="mt-10 border-l border-accent pl-6">
+            <p className="max-w-measure text-fg-muted">{t("evenings.notVerified")}</p>
+            <Link href={memberNav.verification.href} className="mt-3 inline-block text-sm text-link underline-offset-4 hover:underline">
+              {t("evenings.seeVerification")}
+            </Link>
+          </aside>
+        )
       )}
 
       <nav aria-label={t("evenings.filters.label")} className="mt-12 flex flex-wrap gap-2">
@@ -193,10 +201,23 @@ export default async function EveningsPage({ searchParams }: Props) {
                             })}
                           </p>
                         )}
-                        <EveningActions
-                          eventId={evening.id}
-                          actions={profile.verified || mine ? eveningActions(evening, profile.sex, now) : []}
-                        />
+                        {blocked && !(mine && mine.status !== "released") ? (
+                          blocked === "addPhoto" ? (
+                            <Link
+                              href={`${memberNav.profile.href}#mes-photos`}
+                              className="mt-4 inline-block text-sm text-link underline underline-offset-4"
+                            >
+                              {t("evenings.blocked.addPhoto")}
+                            </Link>
+                          ) : (
+                            <p className="mt-4 text-sm text-fg-muted">{t(`evenings.blocked.${blocked}`)}</p>
+                          )
+                        ) : (
+                          <EveningActions
+                            eventId={evening.id}
+                            actions={profile.verified || mine ? eveningActions(evening, profile.sex, now) : []}
+                          />
+                        )}
                       </div>
                     </li>
                   );

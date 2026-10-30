@@ -340,6 +340,22 @@ describe("Envois des actions groupées (19 octobre 2026)", () => {
     expect(deliveryContent("date.checkin_no_answer", {}, "fr", "https://w.example")).toBeNull();
   });
 
+  it("décision sur le dossier (30 octobre 2026) : étape suivante, message de l'équipe ou motif, lien utile", () => {
+    const approved = deliveryContent("verification.approved", {}, "fr", "https://w.example")!;
+    expect(approved.email.subject).toBe("Votre compte Ifedele est validé");
+    expect(approved.email.text).toContain("Prochaine étape");
+    expect(approved.email.html).toContain('href="https://w.example/espace/soirees"');
+    const correction = deliveryContent("verification.to_correct", { reason: "Selfie flou." }, "en", "https://w.example")!;
+    expect(correction.email.text).toContain("Message from the team: Selfie flou.");
+    expect(correction.email.text).toContain("https://w.example/en/espace/verification");
+    const rejected = deliveryContent("verification.rejected", {}, "yo", "https://w.example")!;
+    expect(rejected.email.text).not.toContain("Ìdí:");
+    expect(rejected.email.html).toContain('href="https://w.example/yo/contact"');
+    const photo = deliveryContent("profile.photo_rejected", { reason: "<b>Floue</b>" }, "fr", "https://w.example")!;
+    expect(photo.email.html).toContain("Motif : &lt;b&gt;Floue&lt;/b&gt;");
+    expect(photo.email.text).toContain("https://w.example/espace/profil");
+  });
+
   it("file : envoyé, sans destinataire abandonné sans appel, échec du prestataire signalé pour relance", async () => {
     const calls: Array<[string, unknown]> = [];
     const pending = [

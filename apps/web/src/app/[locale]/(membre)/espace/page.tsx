@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { CheckinCard, type PendingCheckin } from "@/components/member/CheckinCard";
+import { loadJourney, NextStep } from "@/components/member/NextStep";
 import { TrustBadges } from "@/components/member/TrustBadges";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { coupleSpace, memberNav } from "@/components/member/memberNav";
@@ -91,12 +92,13 @@ export default async function DashboardPage() {
   const format = await getFormatter();
   const member = await getSessionMember();
   if (!member) return null;
-  const [status, evening, links, checkins, badges] = await Promise.all([
+  const [status, evening, links, checkins, badges, journey] = await Promise.all([
     memberStatus(member.id),
     nextEvening(),
     relations(),
     pendingCheckins(),
     myBadges(member.id),
+    loadJourney(member.id),
   ]);
 
   return (
@@ -110,6 +112,9 @@ export default async function DashboardPage() {
         {/* Badges de confiance (phase 4, question 5) */}
         <TrustBadges badges={badges} label={t("myBadges")} />
       </header>
+
+      {/* Ce qu'il reste à faire, une phrase et un bouton (30 octobre 2026) */}
+      <NextStep journey={journey} />
 
       {/* « Bien rentré(e) ? » (question 5) : en tête du tableau de bord tant qu'il n'a pas répondu */}
       {checkins.length > 0 && (

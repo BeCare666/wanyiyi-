@@ -26,6 +26,21 @@ type Texts = {
   alertHelp: string;
   alertNoAnswer: string;
   openIfedele: string;
+  // Décision sur le dossier de vérification et photo refusée (30 octobre 2026)
+  approvedSubject: string;
+  approvedLines: string[];
+  seeEvenings: string;
+  correctionSubject: string;
+  correctionLine: string;
+  teamNote: (note: string) => string;
+  correct: string;
+  rejectedSubject: string;
+  rejectedLine: string;
+  reasonLine: (reason: string) => string;
+  contact: string;
+  photoRejectedSubject: string;
+  photoRejectedLine: string;
+  openProfile: string;
 };
 
 const TEXTS: Record<Locale, Texts> = {
@@ -46,6 +61,23 @@ const TEXTS: Record<Locale, Texts> = {
     alertHelp: "Ce membre a répondu « J'ai besoin d'aide » après son rendez-vous. Contactez-le sans attendre.",
     alertNoAnswer: "Ce membre n'a pas répondu à « Bien rentré(e) ? » 24 heures après son rendez-vous. Décidez s'il faut le contacter.",
     openIfedele: "Ouvrir Ifedele",
+    approvedSubject: "Votre compte Ifedele est validé",
+    approvedLines: [
+      "L'équipe Ifedele a examiné votre dossier et validé votre compte.",
+      "Prochaine étape : réservez votre place à une soirée depuis votre espace. Une photo de profil approuvée est demandée pour réserver ; si vous n'en avez pas encore, ajoutez-en une dans votre profil.",
+    ],
+    seeEvenings: "Voir les soirées",
+    correctionSubject: "Votre dossier Ifedele est à corriger",
+    correctionLine: "L'équipe Ifedele a examiné votre dossier et vous demande une correction avant de valider votre compte.",
+    teamNote: (note) => `Message de l'équipe : ${note}`,
+    correct: "Corriger mon dossier",
+    rejectedSubject: "Votre dossier Ifedele n'a pas été accepté",
+    rejectedLine: "L'équipe Ifedele a examiné votre dossier et ne peut pas valider votre compte.",
+    reasonLine: (reason) => `Motif : ${reason}`,
+    contact: "Nous contacter",
+    photoRejectedSubject: "Une photo de votre profil a été refusée",
+    photoRejectedLine: "Une photo de votre profil a été refusée. Déposez-en une autre depuis votre profil : elle sera relue de nouveau.",
+    openProfile: "Ouvrir mon profil",
   },
   en: {
     messageSubject: "A message from the Ifedele team",
@@ -64,6 +96,23 @@ const TEXTS: Record<Locale, Texts> = {
     alertHelp: "This member answered “I need help” after their date. Contact them right away.",
     alertNoAnswer: "This member has not answered “Did you get home safely?” 24 hours after their date. Decide whether to contact them.",
     openIfedele: "Open Ifedele",
+    approvedSubject: "Your Ifedele account is approved",
+    approvedLines: [
+      "The Ifedele team has reviewed your file and approved your account.",
+      "Next step: book your seat at an evening from your space. An approved profile photo is required to book; if you do not have one yet, add one in your profile.",
+    ],
+    seeEvenings: "See the evenings",
+    correctionSubject: "Your Ifedele file needs a correction",
+    correctionLine: "The Ifedele team has reviewed your file and asks you for a correction before approving your account.",
+    teamNote: (note) => `Message from the team: ${note}`,
+    correct: "Correct my file",
+    rejectedSubject: "Your Ifedele file was not accepted",
+    rejectedLine: "The Ifedele team has reviewed your file and cannot approve your account.",
+    reasonLine: (reason) => `Reason: ${reason}`,
+    contact: "Contact us",
+    photoRejectedSubject: "A photo of your profile was declined",
+    photoRejectedLine: "A photo of your profile was declined. Upload another one from your profile: it will be reviewed again.",
+    openProfile: "Open my profile",
   },
   yo: {
     messageSubject: "Ìránṣẹ́ láti ọ̀dọ̀ ẹgbẹ́ Ifedele",
@@ -82,6 +131,23 @@ const TEXTS: Record<Locale, Texts> = {
     alertHelp: "Ọmọ ẹgbẹ́ yìí dáhùn « Mo nílò ìrànlọ́wọ́ » lẹ́yìn ìpàdé rẹ̀. Ẹ kàn sí i lẹ́sẹ̀kẹsẹ̀.",
     alertNoAnswer: "Ọmọ ẹgbẹ́ yìí kò dáhùn « Ṣé ẹ dé ilé láìléwu? » ní wákàtí 24 lẹ́yìn ìpàdé rẹ̀. Ẹ pinnu bóyá ẹ ó kàn sí i.",
     openIfedele: "Ṣí Ifedele",
+    approvedSubject: "A ti fọwọ́ sí àkọọ́lẹ̀ Ifedele yín",
+    approvedLines: [
+      "Ẹgbẹ́ Ifedele ti yẹ ìwé yín wò, wọ́n sì ti fọwọ́ sí àkọọ́lẹ̀ yín.",
+      "Ìgbésẹ̀ tó kàn: ẹ gba àyè yín ní ìpàdé alẹ́ kan láti inú àyè yín. Àwòrán tí a ti fọwọ́ sí ni a nílò láti gba àyè; bí ẹ kò bá tíì ní, ẹ fi ọ̀kan kún un nínú àpèjúwe yín.",
+    ],
+    seeEvenings: "Wo àwọn ìpàdé alẹ́",
+    correctionSubject: "Ẹ nílò láti ṣàtúnṣe ìwé Ifedele yín",
+    correctionLine: "Ẹgbẹ́ Ifedele ti yẹ ìwé yín wò, wọ́n sì ń béèrè àtúnṣe kí wọ́n tó fọwọ́ sí àkọọ́lẹ̀ yín.",
+    teamNote: (note) => `Ìránṣẹ́ ẹgbẹ́: ${note}`,
+    correct: "Ṣàtúnṣe ìwé mi",
+    rejectedSubject: "A kò gba ìwé Ifedele yín",
+    rejectedLine: "Ẹgbẹ́ Ifedele ti yẹ ìwé yín wò, wọn kò sì lè fọwọ́ sí àkọọ́lẹ̀ yín.",
+    reasonLine: (reason) => `Ìdí: ${reason}`,
+    contact: "Kàn sí wa",
+    photoRejectedSubject: "A kọ àwòrán kan nínú àpèjúwe yín",
+    photoRejectedLine: "A kọ àwòrán kan nínú àpèjúwe yín. Ẹ fi òmíràn ránṣẹ́ láti inú àpèjúwe yín: a ó tún un yẹ̀ wò.",
+    openProfile: "Ṣí àpèjúwe mi",
   },
 };
 
@@ -166,6 +232,28 @@ export function deliveryContent(kind: string, payload: unknown, localeValue: unk
         subject,
         html: emailLayout({ locale, title: subject, paragraphs: [body, t.alertLine(who)], button: { label: t.openIfedele, href: link }, footer: t.footer }),
         text: `${subject}\n\n${body}\n${t.alertLine(who)}\n\n${link}\n\n${t.footer}`,
+      },
+    };
+  }
+
+  // Décision de l'équipe sur le dossier, et photo refusée (30 octobre 2026) : motif joint s'il existe
+  const decisions: Record<string, { subject: string; lines: string[]; button: string; path: string; note?: (n: string) => string }> = {
+    "verification.approved": { subject: t.approvedSubject, lines: t.approvedLines, button: t.seeEvenings, path: "/espace/soirees" },
+    "verification.to_correct": { subject: t.correctionSubject, lines: [t.correctionLine], button: t.correct, path: "/espace/verification", note: t.teamNote },
+    "verification.rejected": { subject: t.rejectedSubject, lines: [t.rejectedLine], button: t.contact, path: "/contact", note: t.reasonLine },
+    "profile.photo_rejected": { subject: t.photoRejectedSubject, lines: [t.photoRejectedLine], button: t.openProfile, path: "/espace/profil", note: t.reasonLine },
+  };
+  const decision = Object.hasOwn(decisions, kind) ? decisions[kind]! : null;
+  if (decision) {
+    const reason = typeof data.reason === "string" && data.reason.trim() !== "" ? data.reason.trim() : null;
+    const paragraphs = reason && decision.note ? [...decision.lines, decision.note(reason)] : decision.lines;
+    const link = siteUrl(webOrigin, locale, decision.path);
+    return {
+      sms: `${decision.subject}. ${link}`,
+      email: {
+        subject: decision.subject,
+        html: emailLayout({ locale, title: decision.subject, paragraphs, button: { label: decision.button, href: link }, footer: t.footer }),
+        text: `${decision.subject}\n\n${paragraphs.join("\n\n")}\n\n${link}\n\n${t.footer}`,
       },
     };
   }

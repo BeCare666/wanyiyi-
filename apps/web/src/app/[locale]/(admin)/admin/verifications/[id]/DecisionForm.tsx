@@ -71,6 +71,8 @@ export function DecisionForm({ verificationId, ready }: { verificationId: string
           })}
         </div>
         {!ready && <p className="mt-3 text-sm text-fg-muted">{t("notReady")}</p>}
+        {/* Photos approuvées avec le dossier et membre prévenu (30 octobre 2026) */}
+        {choice === "approved" && <p className="mt-3 text-sm text-fg-muted">{t("approvedEffect")}</p>}
       </fieldset>
 
       {choice && choice !== "approved" && (

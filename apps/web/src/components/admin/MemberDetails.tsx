@@ -1,7 +1,9 @@
 import { PROFILE_CATALOG } from "@wanyiyi/shared";
 import { getTranslations } from "next-intl/server";
 import { photoLink } from "@/app/[locale]/(admin)/admin/moderation/actions";
+import { TextReview } from "@/app/[locale]/(admin)/admin/moderation/TextReview";
 import { ProtectedPhoto } from "@/components/ui/ProtectedPhoto";
+import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 type ReviewStatus = "pending" | "approved" | "rejected";
@@ -20,13 +22,16 @@ const categoryOrder = new Map<string, number>(PROFILE_CATALOG.map((c, i) => [c.k
  * dossier de vérification : adresse e-mail, réponses (moi et recherché, critères non négociables),
  * textes et photos avec leur état de relecture. Lu avec le jeton de la personne
  * (app.admin_member_details : permission members.manage ou verifications.review).
+ * Une photo en relecture s'approuve ou se refuse ici (30 octobre 2026), avec la permission de
+ * la modération (app.review_photo).
  */
 export async function MemberDetails({ userId, name }: { userId: string; name: string }) {
   const t = await getTranslations("Admin.details");
   const tProfile = await getTranslations("Profile");
   const tMember = await getTranslations("Member.profile");
   const supabase = await createSupabaseServer();
-  const result = supabase ? await supabase.rpc("admin_member_details", { p_user: userId }) : null;
+  const [result, staff] = await Promise.all([supabase ? supabase.rpc("admin_member_details", { p_user: userId }) : null, getStaffMember()]);
+  const canReview = staff?.permissions.includes("profile_texts.review") ?? false;
   const details = result && !result.error ? (result.data as Details) : null;
 
   if (!details) {
@@ -121,6 +126,7 @@ export async function MemberDetails({ userId, name }: { userId: string; name: st
                 <ProtectedPhoto load={photoLink.bind(null, photo.photo_id, false)} alt={t("photoAlt", { rank: i + 1, name })} />
               </div>
               <p className="mt-2 text-xs">{status(photo.review_status, photo.review_note)}</p>
+              {canReview && photo.review_status === "pending" && <TextReview textId={photo.photo_id} kind="photo" />}
             </li>
           ))}
         </ul>

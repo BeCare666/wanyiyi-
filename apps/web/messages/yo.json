@@ -576,7 +576,10 @@
         "cagnotte_contribution": "Ìdáwó tuntun sí àpò owó yín.",
         "cagnotte_closed": "Àpò owó yín ti tì. Ẹ̀yin méjèèjì, ẹ béèrè ìsanpadà.",
         "cagnotte_paid_out": "Ẹgbẹ́ ti san owó àpò yín sí nọ́ńbà yín.",
-        "referral_acquired": "Ọ̀kan nínú àwọn tí ẹ fi lọ́lẹ̀ ti kópa nínú ìrọ̀lẹ́ àkọ́kọ́ rẹ̀: ìfinilọ́lẹ̀ yín ti múlẹ̀."
+        "referral_acquired": "Ọ̀kan nínú àwọn tí ẹ fi lọ́lẹ̀ ti kópa nínú ìrọ̀lẹ́ àkọ́kọ́ rẹ̀: ìfinilọ́lẹ̀ yín ti múlẹ̀.",
+        "verification_approved": "Ẹgbẹ́ Ifedele ti fọwọ́ sí àkọọ́lẹ̀ yín. Ẹ lè gba àyè ní ìpàdé alẹ́.",
+        "verification_to_correct": "Ẹgbẹ́ Ifedele ń béèrè àtúnṣe ìwé yín.",
+        "verification_rejected": "Ẹgbẹ́ Ifedele kò gba ìwé yín."
       }
     },
     "dashboard": {
@@ -710,6 +713,11 @@
         "age": "Ọmọ ọdún {age}",
         "photoAlt": "Fọ́tò {name} tó ṣókùnkùn gidigidi",
         "noPhoto": "Fọ́tò kò tí ì sí."
+      },
+      "blocked": {
+        "notVerified": "Ẹ lè gba àyè lẹ́yìn tí a bá fọwọ́ sí àkọọ́lẹ̀ yín.",
+        "addPhoto": "Ẹ fi àwòrán kún àpèjúwe yín láti gba àyè.",
+        "photoPending": "Ẹ lè gba àyè ní kété tí a bá fọwọ́ sí àwòrán yín."
       }
     },
     "notifications": {
@@ -1458,6 +1466,57 @@
       "evenings_attended": "Ó ń wá sí àwọn ìrọ̀lẹ́",
       "profile_complete": "Àkọsílẹ̀ pípé",
       "sponsor": "Onífinilọ́lẹ̀"
+    },
+    "nextStep": {
+      "title": "Ìgbésẹ̀ yín tó kàn",
+      "steps": {
+        "startRegistration": {
+          "text": "Ìforúkọsílẹ̀ yín kò tíì parí.",
+          "action": "Parí ìforúkọsílẹ̀ mi"
+        },
+        "finishVerification": {
+          "text": "Ìgbésẹ̀ ìkẹyìn ìforúkọsílẹ̀: ẹ fi selfie yín ránṣẹ́, kí ẹ sì buwọ́ lu ìkéde lórí ọlá kí ẹgbẹ́ lè yẹ ìwé yín wò.",
+          "action": "Parí àyẹ̀wò mi"
+        },
+        "correct": {
+          "text": "Ẹgbẹ́ ń béèrè àtúnṣe lọ́wọ́ yín. Ẹ ka ìránṣẹ́ wọn, lẹ́yìn náà ẹ tún ìwé yín fi ránṣẹ́.",
+          "action": "Ṣàtúnṣe ìwé mi"
+        },
+        "waitReview": {
+          "text": "Ẹgbẹ́ Ifedele ń yẹ ìwé yín wò. Ẹ ó gba ìfitónilétí àti í-meèlì ní kété tí wọ́n bá pinnu."
+        },
+        "waitReviewAddPhoto": {
+          "text": "Wọ́n ń yẹ ìwé yín wò. Ní báyìí ná, ẹ fi àwòrán kún àpèjúwe yín: a ó béèrè rẹ̀ láti gba àyè ní ìpàdé alẹ́.",
+          "action": "Fi àwòrán kún un"
+        },
+        "addPhoto": {
+          "text": "A ti fọwọ́ sí àkọọ́lẹ̀ yín. Ẹ fi àwòrán kún àpèjúwe yín: a nílò rẹ̀ láti gba àyè ní ìpàdé alẹ́.",
+          "action": "Fi àwòrán kún un"
+        },
+        "photoPending": {
+          "text": "Ẹgbẹ́ ń yẹ àwòrán yín wò. Ẹ lè gba àyè ní ìpàdé alẹ́ ní kété tí wọ́n bá fọwọ́ sí i."
+        },
+        "pay": {
+          "text": "Ẹ san owó àyè yín ṣáájú {date}, bí bẹ́ẹ̀ kọ́ a ó fi í sílẹ̀ fún ẹlòmíràn.",
+          "action": "San owó àyè mi"
+        },
+        "confirm": {
+          "text": "Ẹ jẹ́rìí àyè yín ṣáájú {date}.",
+          "action": "Jẹ́rìí àyè mi"
+        },
+        "waitlisted": {
+          "text": "Ẹ wà nínú àkójọ ìdúró fún ìpàdé alẹ́ {date}. A ó sọ fún yín bí àyè bá ṣí sílẹ̀.",
+          "action": "Wo àwọn ìpàdé mi"
+        },
+        "ready": {
+          "text": "Ẹ ti forúkọ sílẹ̀ fún ìpàdé alẹ́ {date}.",
+          "action": "Wo àwọn ìpàdé mi"
+        },
+        "book": {
+          "text": "Àkọọ́lẹ̀ yín ti ṣetán. Ẹ gba àyè yín ní ìpàdé alẹ́ tó ń bọ̀.",
+          "action": "Wo àwọn ìpàdé alẹ́"
+        }
+      }
     }
   },
   "SignIn": {
@@ -1729,7 +1788,7 @@
         "notReady": "Ẹ lè fọwọ́ sí i nígbà tí fọ́tò ojú àti ìbúra bá ti dé.",
         "noteLabel": "Ọ̀rọ̀ sí ọmọ ẹgbẹ́ (dandan)",
         "noteOptional": "Ọ̀rọ̀ sí ọmọ ẹgbẹ́ (kò pọn dandan)",
-        "noteHelp": "Ọmọ ẹgbẹ́ náà yóò ka ọ̀rọ̀ yìí lórí ojú-ìwé àyẹ̀wò rẹ̀.",
+        "noteHelp": "Ọmọ ẹgbẹ́ náà ń ka ìránṣẹ́ yìí lójú-ìwé àyẹ̀wò rẹ̀, ó sì ń gbà á nípasẹ̀ í-meèlì.",
         "confirmReject": "Kíkọ̀ ọ́ yóò yọ ọmọ ẹgbẹ́ náà kúrò nínú Ifedele. Ṣé ẹ fọwọ́ sí i?",
         "confirmRejectButton": "Fìdí kíkọ̀ múlẹ̀",
         "submit": "Fi ìpinnu pamọ́",
@@ -1742,7 +1801,8 @@
           "forbidden": "Ipa yín kò fàyè gba ìpinnu yìí.",
           "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
           "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
-        }
+        },
+        "approvedEffect": "Fífọwọ́ sí ìwé náà tún fọwọ́ sí àwọn àwòrán tó ń dúró, tí ó wà nísàlẹ̀ ojú-ìwé yìí. A ó sọ fún ọmọ ẹgbẹ́ náà nínú àyè rẹ̀ àti nípasẹ̀ í-meèlì."
       },
       "examine": "Ṣàyẹ̀wò",
       "examineOne": "Ṣàyẹ̀wò ìwé {name}"

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { loadJourney, NextStep } from "@/components/member/NextStep";
 import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -24,11 +25,12 @@ export default async function ProfilePage() {
   const member = await getSessionMember();
   if (!member) return null;
   const supabase = await createSupabaseServer();
-  const [answers, dealbreakers, texts, photos] = await Promise.all([
+  const [answers, dealbreakers, texts, photos, journey] = await Promise.all([
     supabase?.from("profile_answers").select("side, category, values"),
     supabase?.from("dealbreakers").select("category"),
     supabase?.from("profile_texts").select("field, body, review_status, review_note"),
     supabase?.rpc("my_photos"),
+    loadJourney(member.id),
   ]);
   const textRows = (texts?.data ?? []) as { field: string; body: string; review_status: ProfileText["status"]; review_note: string | null }[];
 
@@ -42,6 +44,7 @@ export default async function ProfilePage() {
         <h1 className="mt-6 text-4xl">{t("profile.title")}</h1>
         <p className="mt-4 max-w-measure text-fg-muted">{t("profile.intro")}</p>
       </header>
+      <NextStep journey={journey} />
       {!member.firstName ? (
         <p className="mt-10 border-l border-accent pl-5">
           {t("profile.noProfile")}{" "}

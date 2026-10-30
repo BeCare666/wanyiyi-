@@ -63,6 +63,10 @@ const kinds = {
   cagnotte_contribution: { href: { pathname: coupleSpace } },
   cagnotte_closed: { href: { pathname: coupleSpace } },
   cagnotte_paid_out: { href: { pathname: coupleSpace } },
+  // Décision de l'équipe sur le dossier de vérification (30 octobre 2026) ; le motif est affiché
+  verification_approved: { href: { pathname: memberNav.evenings.href } },
+  verification_to_correct: { href: { pathname: memberNav.verification.href } },
+  verification_rejected: { href: null },
   // Parrainage acquis (phase 4, question 4)
   referral_acquired: { href: { pathname: memberNav.referral.href } },
 } as const;

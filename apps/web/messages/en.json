@@ -576,7 +576,10 @@
         "cagnotte_contribution": "New contribution to your fund.",
         "cagnotte_closed": "Your fund is closed. Both of you, ask for the payout.",
         "cagnotte_paid_out": "The team has paid your fund out to your number.",
-        "referral_acquired": "One of the people you referred attended their first evening: your referral is confirmed."
+        "referral_acquired": "One of the people you referred attended their first evening: your referral is confirmed.",
+        "verification_approved": "Your account has been approved by the Ifedele team. You can book an evening.",
+        "verification_to_correct": "The Ifedele team asks you for a correction to your file.",
+        "verification_rejected": "Your file was not accepted by the Ifedele team."
       }
     },
     "dashboard": {
@@ -710,6 +713,11 @@
         "age": "{age} years old",
         "photoAlt": "Heavily blurred photo of {name}",
         "noPhoto": "Photo not available yet."
+      },
+      "blocked": {
+        "notVerified": "Booking opens once your account is approved.",
+        "addPhoto": "Add a profile photo to book.",
+        "photoPending": "Booking opens as soon as your photo is approved."
       }
     },
     "notifications": {
@@ -1458,6 +1466,57 @@
       "evenings_attended": "Attends evenings",
       "profile_complete": "Complete profile",
       "sponsor": "Sponsor"
+    },
+    "nextStep": {
+      "title": "Your next step",
+      "steps": {
+        "startRegistration": {
+          "text": "Your registration is not finished.",
+          "action": "Finish my registration"
+        },
+        "finishVerification": {
+          "text": "Last step of registration: upload your selfie and sign the sworn statement so the team can review your file.",
+          "action": "Complete my verification"
+        },
+        "correct": {
+          "text": "The team asks you for a correction. Read their message, then submit your file again.",
+          "action": "Correct my file"
+        },
+        "waitReview": {
+          "text": "Your file is being reviewed by the Ifedele team. You will receive a notification and an email as soon as they decide."
+        },
+        "waitReviewAddPhoto": {
+          "text": "Your file is being reviewed. Meanwhile, add a profile photo: it will be required to book an evening.",
+          "action": "Add a photo"
+        },
+        "addPhoto": {
+          "text": "Your account is approved. Add a profile photo: it is required to book an evening.",
+          "action": "Add a photo"
+        },
+        "photoPending": {
+          "text": "Your photo is being reviewed by the team. You can book an evening as soon as it is approved."
+        },
+        "pay": {
+          "text": "Pay for your seat before {date}, otherwise it will be released.",
+          "action": "Pay for my seat"
+        },
+        "confirm": {
+          "text": "Confirm your seat before {date}.",
+          "action": "Confirm my seat"
+        },
+        "waitlisted": {
+          "text": "You are on the waiting list for the evening of {date}. You will be told if a seat opens up.",
+          "action": "See my evenings"
+        },
+        "ready": {
+          "text": "You are registered for the evening of {date}.",
+          "action": "See my evenings"
+        },
+        "book": {
+          "text": "Your account is ready. Book your seat at an upcoming evening.",
+          "action": "See the evenings"
+        }
+      }
     }
   },
   "SignIn": {
@@ -1729,7 +1788,7 @@
         "notReady": "Approval is possible once the selfie and the statement are uploaded.",
         "noteLabel": "Message to the member (required)",
         "noteOptional": "Message to the member (optional)",
-        "noteHelp": "The member reads this message on their verification page.",
+        "noteHelp": "The member reads this message on their verification page and receives it by email.",
         "confirmReject": "Declining excludes the member from Ifedele. Do you confirm?",
         "confirmRejectButton": "Confirm the refusal",
         "submit": "Save the decision",
@@ -1742,7 +1801,8 @@
           "forbidden": "Your role does not allow this decision.",
           "unavailable": "This service is not available yet. Please try again later.",
           "generic": "Something went wrong. Please try again in a moment."
-        }
+        },
+        "approvedEffect": "Approving also approves the pending photos, shown further down this page. The member is told in their space and by email."
       },
       "examine": "Review",
       "examineOne": "Review {name}'s file"

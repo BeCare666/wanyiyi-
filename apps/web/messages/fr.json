@@ -576,7 +576,10 @@
         "cagnotte_contribution": "Nouvelle contribution à votre cagnotte.",
         "cagnotte_closed": "Votre cagnotte est close. Demandez le reversement tous les deux.",
         "cagnotte_paid_out": "L'équipe a reversé l'argent de votre cagnotte sur votre numéro.",
-        "referral_acquired": "Un de vos filleuls a participé à sa première soirée : votre parrainage est acquis."
+        "referral_acquired": "Un de vos filleuls a participé à sa première soirée : votre parrainage est acquis.",
+        "verification_approved": "Votre compte est validé par l'équipe Ifedele. Vous pouvez réserver une soirée.",
+        "verification_to_correct": "L'équipe Ifedele vous demande une correction de votre dossier.",
+        "verification_rejected": "Votre dossier n'a pas été accepté par l'équipe Ifedele."
       }
     },
     "dashboard": {
@@ -710,6 +713,11 @@
         "age": "{age} ans",
         "photoAlt": "Photo très floutée de {name}",
         "noPhoto": "Photo pas encore disponible."
+      },
+      "blocked": {
+        "notVerified": "Réservation possible après la validation de votre compte.",
+        "addPhoto": "Ajoutez une photo de profil pour réserver.",
+        "photoPending": "Réservation possible dès que votre photo sera approuvée."
       }
     },
     "notifications": {
@@ -1458,6 +1466,57 @@
       "evenings_attended": "Présent(e) aux soirées",
       "profile_complete": "Profil complet",
       "sponsor": "Parrain(e)"
+    },
+    "nextStep": {
+      "title": "Votre prochaine étape",
+      "steps": {
+        "startRegistration": {
+          "text": "Votre inscription n'est pas terminée.",
+          "action": "Terminer mon inscription"
+        },
+        "finishVerification": {
+          "text": "Dernière étape de l'inscription : déposez votre selfie et signez la déclaration sur l'honneur pour que l'équipe examine votre dossier.",
+          "action": "Compléter ma vérification"
+        },
+        "correct": {
+          "text": "L'équipe vous demande une correction. Lisez son message, puis déposez de nouveau votre dossier.",
+          "action": "Corriger mon dossier"
+        },
+        "waitReview": {
+          "text": "Votre dossier est en cours d'examen par l'équipe Ifedele. Vous recevrez une notification et un e-mail dès la décision."
+        },
+        "waitReviewAddPhoto": {
+          "text": "Votre dossier est en cours d'examen. En attendant, ajoutez une photo de profil : elle sera demandée pour réserver une soirée.",
+          "action": "Ajouter une photo"
+        },
+        "addPhoto": {
+          "text": "Votre compte est validé. Ajoutez une photo de profil : elle est demandée pour réserver une soirée.",
+          "action": "Ajouter une photo"
+        },
+        "photoPending": {
+          "text": "Votre photo est en cours de relecture par l'équipe. Vous pourrez réserver une soirée dès qu'elle sera approuvée."
+        },
+        "pay": {
+          "text": "Payez votre place avant le {date}, sinon elle sera libérée.",
+          "action": "Payer ma place"
+        },
+        "confirm": {
+          "text": "Confirmez votre place avant le {date}.",
+          "action": "Confirmer ma place"
+        },
+        "waitlisted": {
+          "text": "Vous êtes sur liste d'attente pour la soirée du {date}. Vous serez prévenu(e) si une place se libère.",
+          "action": "Voir mes soirées"
+        },
+        "ready": {
+          "text": "Vous êtes inscrit(e) à la soirée du {date}.",
+          "action": "Voir mes soirées"
+        },
+        "book": {
+          "text": "Votre compte est prêt. Réservez votre place à une prochaine soirée.",
+          "action": "Voir les soirées"
+        }
+      }
     }
   },
   "SignIn": {
@@ -1729,7 +1788,7 @@
         "notReady": "Validation possible quand le selfie et la déclaration sont déposés.",
         "noteLabel": "Message au membre (obligatoire)",
         "noteOptional": "Message au membre (facultatif)",
-        "noteHelp": "Le membre lit ce message sur sa page de vérification.",
+        "noteHelp": "Le membre lit ce message sur sa page de vérification et le reçoit par e-mail.",
         "confirmReject": "Le refus exclut le membre de Ifedele. Confirmez-vous ?",
         "confirmRejectButton": "Confirmer le refus",
         "submit": "Enregistrer la décision",
@@ -1742,7 +1801,8 @@
           "forbidden": "Votre rôle ne permet pas cette décision.",
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
-        }
+        },
+        "approvedEffect": "Valider approuve aussi les photos en attente, visibles plus bas sur cette fiche. Le membre est prévenu dans son espace et par e-mail."
       },
       "examine": "Examiner",
       "examineOne": "Examiner le dossier de {name}"
