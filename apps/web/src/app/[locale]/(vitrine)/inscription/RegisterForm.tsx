@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
 import { Link, useRouter } from "@/i18n/navigation";
-import { authErrorKey } from "@/lib/auth-errors";
+import { authErrorCode, authErrorKey } from "@/lib/auth-errors";
 import { REFERRAL_PARAM, REFERRAL_STORAGE_KEY } from "@/lib/referral";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
 import { completeRegistration } from "./actions";
@@ -37,12 +37,15 @@ const knownErrors = new Set([
  */
 export function RegisterForm({ initialStep }: { initialStep: Step }) {
   const t = useTranslations("Register");
+  const tc = useTranslations("Common");
   const locale = useLocale();
   const router = useRouter();
   const [step, setStep] = useState<Step>(initialStep);
   const [account, setAccount] = useState<Account>({ email: "", password: "", passwordConfirm: "" });
   const [identity, setIdentity] = useState<Identity>({ firstName: "", lastName: "", sex: "", birthDate: "", city: "", consent: false });
   const [error, setError] = useState<string | null>(null);
+  // Code de Supabase Auth, montré sous « trop de tentatives » ou une erreur générale
+  const [authCode, setAuthCode] = useState<string | null>(null);
   const [resent, setResent] = useState(false);
   const [pending, setPending] = useState(false);
   // Code de parrainage (phase 4) : lien /inscription?parrain=CODE, gardé jusqu'à l'étape identité
@@ -68,9 +71,10 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
     );
   }
 
-  const fail = (key: string) => {
+  const fail = (key: string, code: string | null = null) => {
     setPending(false);
     setError(knownErrors.has(key) ? key : "generic");
+    setAuthCode(code);
   };
 
   async function createAccount(e: FormEvent) {
@@ -82,7 +86,7 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
     const email = account.email.trim();
     // Langue reprise sur le compte (déclencheur de la base) et dans l'e-mail de confirmation
     const { data, error: authError } = await supabase!.auth.signUp({ email, password: account.password, options: { data: { locale } } });
-    if (authError) return fail(authErrorKey(authError));
+    if (authError) return fail(authErrorKey(authError), authErrorCode(authError));
     setPending(false);
     setAccount({ email, password: "", passwordConfirm: "" });
     // Confirmation désactivée dans Supabase : le compte est déjà connecté
@@ -93,7 +97,7 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
     setPending(true);
     setError(null);
     const { error: authError } = await supabase!.auth.resend({ type: "signup", email: account.email });
-    if (authError) return fail(authErrorKey(authError));
+    if (authError) return fail(authErrorKey(authError), authErrorCode(authError));
     setPending(false);
     setResent(true);
   }
@@ -120,6 +124,9 @@ export function RegisterForm({ initialStep }: { initialStep: Step }) {
   const errorMessage = error && (
     <p role="alert" className="mt-6 border-l border-accent pl-5">
       {t(`errors.${error}`)}
+      {authCode && (error === "tooManyRequests" || error === "generic") && (
+        <span className="mt-1 block text-xs text-fg-muted">{tc("errorCode", { code: authCode })}</span>
+      )}
     </p>
   );
   const link = (href: string) =>

@@ -14,7 +14,8 @@
     "backHome": "Retour à l'accueil",
     "toComplete": "À compléter",
     "logoAlt": "Ifedele, accueil",
-    "photoCredit": "Photographie {name}"
+    "photoCredit": "Photographie {name}",
+    "errorCode": "Code : {code}"
   },
   "Nav": {
     "promise": "La promesse",

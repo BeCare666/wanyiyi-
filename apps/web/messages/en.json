@@ -14,7 +14,8 @@
     "backHome": "Back to home",
     "toComplete": "To be completed",
     "logoAlt": "Ifedele, home",
-    "photoCredit": "Photograph by {name}"
+    "photoCredit": "Photograph by {name}",
+    "errorCode": "Code: {code}"
   },
   "Nav": {
     "promise": "Our promise",

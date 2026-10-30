@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
 import { cardError, type CheckoutInfo, isBeninPhone, isMethod, methodsOf } from "../src/app/[locale]/(membre)/paiement/[id]/checkout";
 import { ageOnCotonouDay, checkAccount, checkIdentity, checkPassword, type Identity, latestBirthDate } from "../src/app/[locale]/(vitrine)/inscription/registration";
-import { authErrorKey } from "../src/lib/auth-errors";
+import { authErrorCode, authErrorKey } from "../src/lib/auth-errors";
 import {
   type Evening,
   eveningActions,
@@ -356,6 +356,12 @@ describe("Compte par e-mail et mot de passe (décision du 20 octobre 2026)", () 
     expect(authErrorKey({ code: "same_password", status: 422 })).toBe("same_password");
     expect(authErrorKey({ code: "email_exists", status: 422 })).toBe("email_exists");
     expect(authErrorKey({ code: "inconnu", status: 500 })).toBe("generic");
+  });
+
+  it("code de Supabase Auth affiché sous le message, pour trouver la limite atteinte", () => {
+    expect(authErrorCode({ code: "over_email_send_rate_limit", status: 429 })).toBe("over_email_send_rate_limit");
+    expect(authErrorCode({ status: 429 })).toBe("429");
+    expect(authErrorCode({})).toBe("inconnu");
   });
 });
 

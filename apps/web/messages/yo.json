@@ -14,7 +14,8 @@
     "backHome": "Padà sí ojú-ìwé àkọ́kọ́",
     "toComplete": "À ń parí rẹ̀",
     "logoAlt": "Ifedele, ojú-ìwé àkọ́kọ́",
-    "photoCredit": "Fọ́tò láti ọwọ́ {name}"
+    "photoCredit": "Fọ́tò láti ọwọ́ {name}",
+    "errorCode": "Kóòdù: {code}"
   },
   "Nav": {
     "promise": "Ìlérí wa",

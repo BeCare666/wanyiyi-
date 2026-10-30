@@ -12,6 +12,11 @@ export type AuthErrorKey =
   | "email_exists"
   | "generic";
 
+/** Code renvoyé par Supabase Auth, affiché sous un message général pour trouver la cause. */
+export function authErrorCode(error: { code?: string; status?: number }): string {
+  return error.code || (error.status ? String(error.status) : "inconnu");
+}
+
 export function authErrorKey(error: { code?: string; status?: number }): AuthErrorKey {
   const code = error.code ?? "";
   if (error.status === 429 || code.startsWith("over_")) return "tooManyRequests";
