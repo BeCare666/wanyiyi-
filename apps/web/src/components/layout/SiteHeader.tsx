@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightIcon, CaretDownIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon, CaretDownIcon, UserIcon } from "@phosphor-icons/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
@@ -23,6 +23,7 @@ import { desktopMore, desktopPrimary, isNavActive, memberSpaceHref, type NavItem
  * En-tête de la vitrine.
  * Ordinateur (1024 px et plus) : logo, menus avec icônes, menu « La maison », langue, action.
  * Mobile : logo, langue et action en haut ; la navigation passe dans la barre du bas (MobileNav).
+ * Téléphone (moins de 640 px) : la langue n'est plus que dans le Menu du bas et la connexion devient une icône.
  * Action : « Devenir membre » pour un visiteur, avatar circulaire pour un membre connecté.
  */
 export function SiteHeader({ member }: { member: SessionMember | null }) {
@@ -76,17 +77,27 @@ export function SiteHeader({ member }: { member: SessionMember | null }) {
           </nav>
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-3 lg:gap-5">
-            <LanguageMenu />
+            {/* Téléphone (moins de 640 px) : la langue passe dans le Menu du bas, faute de place */}
+            <LanguageMenu className="hidden sm:block" />
             {member ? (
               <Link href={memberSpaceHref} aria-label={t("Nav.account")} className="inline-flex rounded-full">
                 <MemberAvatar member={member} size={36} />
               </Link>
             ) : (
               <>
-                {/* Connexion à côté de « Devenir membre » (30 octobre 2026) : lien sur téléphone, bouton sur grand écran */}
+                {/* Connexion à côté de « Devenir membre » (30 octobre 2026) : icône ronde sur téléphone,
+                    lien de 640 à 1279 px, bouton sur grand écran ; « Devenir membre » reste lisible en entier (2 novembre 2026) */}
                 <Link
                   href="/connexion"
-                  className="px-1 text-xs font-medium tracking-[0.06em] uppercase underline-offset-4 hover:underline sm:text-[0.6875rem] sm:tracking-[0.12em] xl:hidden"
+                  aria-label={t("Common.signIn")}
+                  title={t("Common.signIn")}
+                  className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-fg/40 text-fg sm:hidden"
+                >
+                  <UserIcon size={18} weight="light" aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/connexion"
+                  className="hidden px-1 text-[0.6875rem] font-medium tracking-[0.12em] uppercase underline-offset-4 hover:underline sm:inline xl:hidden"
                 >
                   {t("Common.signIn")}
                 </Link>
