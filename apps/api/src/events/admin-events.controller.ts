@@ -51,13 +51,13 @@ export class AdminEventsController {
 
   @Post("finish")
   @HttpCode(204)
-  @ApiOperation({ summary: "Fin de la soirée : codes QR fermés, votes figés" })
+  @ApiOperation({ summary: "Fin de la soirée : codes QR fermés, votes figés, matchs calculés et annoncés aussitôt" })
   async finish(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
     unwrap(await this.db(member).rpc("finish_evening", { p_event: id }));
   }
 
   @Post("compute-matches")
-  @ApiOperation({ summary: "Calcul des matchs (annoncés le lendemain à 8 h)" })
+  @ApiOperation({ summary: "Calcul des matchs, annoncés aussitôt (rattrapage si la fin n'a pas pu les calculer)" })
   async computeMatches(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
     return { matches: unwrap(await this.db(member).rpc("compute_matches", { p_event: id })) };
   }

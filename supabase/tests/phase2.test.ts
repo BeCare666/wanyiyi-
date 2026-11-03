@@ -377,11 +377,11 @@ describe("Rotation, vote QR et matchs (9.2, 9.3)", () => {
       const late = await expectFailure(() => as(women[0]!, "select app.cast_vote($1, 1::smallint, 'no')", [qr]));
       const lateRounds = await expectFailure(() => as(women[0]!, "select * from app.my_evening_rounds($1)", [qr]));
       await as(admin, "select app.compute_matches($1)", [event]);
-      const before = await as(women[0]!, "select partner_first_name from app.my_matches()", []);
+      const after = await as(women[0]!, "select partner_first_name from app.my_matches()", []);
       await tx.exec("reset role");
       const all = await tx.query<{ member_a: string; member_b: string; announced_at: Date }>("select member_a, member_b, announced_at from app.matches where event_id = $1", [event]);
-      const [{ expected }] = (await tx.query<{ expected: Date }>("select app.match_announcement_at(starts_at) as expected from app.events where id = $1", [event])).rows as [{ expected: Date }];
-      return { partner: partner.rows, roundsAfiwa: roundsAfiwa.rows, outsider, lateRounds, pause, seenByKoffi: seenByKoffi.rows, feedbackByKoffi: feedbackByKoffi.rows, late, before: before.rows, all: all.rows, expected };
+      const [{ expected }] = (await tx.query<{ expected: Date }>("select results_computed_at as expected from app.events where id = $1", [event])).rows as [{ expected: Date }];
+      return { partner: partner.rows, roundsAfiwa: roundsAfiwa.rows, outsider, lateRounds, pause, seenByKoffi: seenByKoffi.rows, feedbackByKoffi: feedbackByKoffi.rows, late, after: after.rows, all: all.rows, expected };
     });
 
     // Afiwa voit le prénom de la personne rencontrée au tour 1, jamais son nom de famille
@@ -401,11 +401,11 @@ describe("Rotation, vote QR et matchs (9.2, 9.3)", () => {
     expect(outcome.all).toHaveLength(1);
     expect([outcome.all[0]!.member_a, outcome.all[0]!.member_b].sort()).toEqual([women[0], men[0]].sort());
     expect(new Date(outcome.all[0]!.announced_at).getTime()).toBe(new Date(outcome.expected).getTime());
-    // Avant 8 h le lendemain, le match n'est pas visible
-    expect(outcome.before).toEqual([]);
+    // Annoncé dès la fermeture de la soirée par l'équipe : visible tout de suite
+    expect(outcome.after).toEqual([{ partner_first_name: "Koffi" }]);
   });
 
-  it("l'annonce de 8 h crée une notification par membre concerné, une seule fois", async () => {
+  it("l'annonce (rattrapage) crée une notification par membre concerné, une seule fois", async () => {
     const [a, b] = [afiwa, koffi].sort();
     const event = await createEvent(db, { startsInHours: -30, status: "finished" });
     await db.query("insert into app.matches (event_id, member_a, member_b, announced_at) values ($1, $2, $3, now() - interval '1 minute')", [event, a, b]);

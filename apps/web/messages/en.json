@@ -128,8 +128,8 @@
         "text": "After each conversation, you scan the table code and answer discreetly. You may change your mind until the end of the evening."
       },
       {
-        "label": "The next morning",
-        "text": "At 8 a.m., you receive your mutual agreements. Nobody ever knows who said no."
+        "label": "At the end of the evening",
+        "text": "As soon as the team closes the evening, you receive your mutual agreements. Nobody ever knows who said no."
       }
     ],
     "venue": "The venue is chosen for its calm and discretion. Its address is shared with confirmed participants.",
@@ -621,7 +621,7 @@
     },
     "matches": {
       "title": "My matches",
-      "intro": "A match happens when two people both wish to meet again. It is announced the morning after the evening, at 8 am.",
+      "intro": "A match happens when two people both wish to meet again. It is announced as soon as the team closes the evening.",
       "empty": "No matches yet.",
       "announced": "Announced on {date}",
       "status": {
@@ -1081,7 +1081,7 @@
     },
     "discoveries": {
       "title": "Discovery",
-      "intro": "A match happens when two people both want to meet again; it is announced the next day at 8 am. Each match can open a 14-day discovery: a simple conversation and your photos. Two discoveries at most at the same time.",
+      "intro": "A match happens when two people both want to meet again; it is announced as soon as the team closes the evening. Each match can open a 14-day discovery: a simple conversation and your photos. Two discoveries at most at the same time.",
       "active": "Discoveries in progress",
       "daysLeft": "{count, plural, =0 {Last day} one {# day left, until {date}} other {# days left, until {date}}}",
       "extended": "extended",
@@ -1944,13 +1944,13 @@
         },
         "finish": {
           "title": "End",
-          "help": "QR codes are closed and votes can no longer change.",
-          "confirm": "Votes will be frozen. Do you confirm the end of the evening?",
+          "help": "QR codes are closed, votes are frozen and matches are announced to members right away.",
+          "confirm": "Votes will be frozen and matches announced to members right away. Do you confirm the end of the evening?",
           "button": "End the evening"
         },
         "compute": {
           "title": "Matches",
-          "help": "A match comes from two “yes” answers. Members learn about it the next day at 8 am.",
+          "help": "A match comes from two “yes” answers. Members learn about it as soon as it is calculated.",
           "confirm": "Compute the matches for this evening?",
           "button": "Compute the matches"
         }
@@ -2046,6 +2046,7 @@
         "voters": "Voters",
         "matches": "Matches",
         "announce": "Announcement to members: {date}.",
+        "announceAtFinish": "Matches will be announced to members at the end of the evening.",
         "noNo": "No “no” is ever shown."
       },
       "composition": {

@@ -128,8 +128,8 @@
         "text": "Après chaque échange, vous scannez le code de la table et vous répondez en toute discrétion. Vous pouvez changer d'avis jusqu'à la fin de la soirée."
       },
       {
-        "label": "Le lendemain",
-        "text": "À 8 heures, vous recevez vos accords mutuels. Personne ne sait jamais qui a répondu non."
+        "label": "À la fin de la soirée",
+        "text": "Dès que l'équipe clôt la soirée, vous recevez vos accords mutuels. Personne ne sait jamais qui a répondu non."
       }
     ],
     "venue": "Le lieu est choisi pour son calme et sa discrétion. Son adresse est communiquée aux participants confirmés.",
@@ -621,7 +621,7 @@
     },
     "matches": {
       "title": "Mes matchs",
-      "intro": "Un match naît quand deux personnes souhaitent se revoir. Il est annoncé le lendemain de la soirée, à 8 h.",
+      "intro": "Un match naît quand deux personnes souhaitent se revoir. Il est annoncé dès que l'équipe clôt la soirée.",
       "empty": "Aucun match pour le moment.",
       "announced": "Annoncé le {date}",
       "status": {
@@ -1081,7 +1081,7 @@
     },
     "discoveries": {
       "title": "Découverte",
-      "intro": "Un match naît quand deux personnes souhaitent se revoir ; il est annoncé le lendemain à 8 h. Chaque match peut ouvrir une découverte de 14 jours : une conversation simple et vos photos. Deux découvertes au plus en même temps.",
+      "intro": "Un match naît quand deux personnes souhaitent se revoir ; il est annoncé dès que l'équipe clôt la soirée. Chaque match peut ouvrir une découverte de 14 jours : une conversation simple et vos photos. Deux découvertes au plus en même temps.",
       "active": "Découvertes en cours",
       "daysLeft": "{count, plural, =0 {Dernier jour} one {Encore # jour, jusqu'au {date}} other {Encore # jours, jusqu'au {date}}}",
       "extended": "prolongée",
@@ -1944,13 +1944,13 @@
         },
         "finish": {
           "title": "Fin",
-          "help": "Les codes QR sont fermés et les votes ne peuvent plus changer.",
-          "confirm": "Les votes seront figés. Confirmez-vous la fin de la soirée ?",
+          "help": "Les codes QR sont fermés, les votes sont figés et les matchs sont annoncés aussitôt aux membres.",
+          "confirm": "Les votes seront figés et les matchs annoncés tout de suite aux membres. Confirmez-vous la fin de la soirée ?",
           "button": "Terminer la soirée"
         },
         "compute": {
           "title": "Matchs",
-          "help": "Un match naît de deux « oui ». Les membres le découvrent le lendemain à 8 h.",
+          "help": "Un match naît de deux « oui ». Les membres le découvrent dès le calcul.",
           "confirm": "Calculer les matchs de cette soirée ?",
           "button": "Calculer les matchs"
         }
@@ -2046,6 +2046,7 @@
         "voters": "Votants",
         "matches": "Matchs",
         "announce": "Annonce aux membres : {date}.",
+        "announceAtFinish": "Les matchs seront annoncés aux membres à la fin de la soirée.",
         "noNo": "Aucun « non » n'est jamais affiché."
       },
       "composition": {

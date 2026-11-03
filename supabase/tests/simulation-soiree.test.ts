@@ -180,9 +180,11 @@ describe("Simulation complète d'une soirée 10 × 10 (étape 6)", () => {
     expect(n).toBe(200);
   });
 
-  it("fin de soirée : matchs sur double oui, annoncés le lendemain à 8 h et invisibles avant", async () => {
+  it("fin de soirée : matchs sur double oui, calculés et annoncés dès que l'équipe ferme la soirée", async () => {
     await as(admin, "select app.finish_evening($1)", [event]);
+    // Déjà calculés par la fermeture : un nouveau calcul n'ajoute rien
     const [computed] = await as<{ n: number }>(admin, "select app.compute_matches($1) as n", [event]);
+    expect(computed!.n).toBe(0);
 
     const present = new Set(
       (await db.query<{ user_id: string }>("select user_id from app.event_registrations where event_id = $1 and status = 'checked_in'", [event])).rows.map((r) => r.user_id),
@@ -193,31 +195,26 @@ describe("Simulation complète d'une soirée 10 × 10 (étape 6)", () => {
         if (present.has(w) && present.has(m) && womanSaysYes(i, j) && manSaysYes(i, j)) expected.push([w, m].sort().join("+"));
       }),
     );
-    expect(computed!.n).toBe(expected.length);
-    const matches = (await db.query<{ member_a: string; member_b: string; announced_at: Date; expected: Date }>(
-      `select m.member_a, m.member_b, m.announced_at, app.match_announcement_at(e.starts_at) as expected
+    expect(expected.length).toBeGreaterThan(0);
+    const matches = (await db.query<{ member_a: string; member_b: string; notified_at: Date | null; computed: Date }>(
+      `select m.member_a, m.member_b, m.notified_at, e.results_computed_at as computed
        from app.matches m join app.events e on e.id = m.event_id where m.event_id = $1`,
       [event],
     )).rows;
     expect(matches.map((m) => [m.member_a, m.member_b].sort().join("+")).sort()).toEqual(expected.sort());
-    expect(matches.every((m) => new Date(m.announced_at).getTime() === new Date(m.expected).getTime())).toBe(true);
-    // 8 h, heure de Cotonou (UTC+1)
-    expect(new Date(matches[0]!.announced_at).getUTCHours()).toBe(7);
-
-    const someone = matches[0]!.member_a;
-    expect(await as(someone, "select partner_first_name from app.my_matches()")).toEqual([]);
+    // Annoncés tout de suite, pas le lendemain
+    expect(matches.every((m) => m.notified_at !== null)).toBe(true);
+    const [{ n: notified }] = (await db.query<{ n: number }>(
+      "select count(*)::int as n from app.notifications where kind = 'match.announced' and (payload->>'match_id')::uuid in (select id from app.matches where event_id = $1)",
+      [event],
+    )).rows as [{ n: number }];
+    expect(notified).toBe(matches.length * 2);
   });
 
-  it("le lendemain à 8 h : annonce, une notification par membre concerné, chacun voit le prénom de ses matchs", async () => {
-    const [{ wait }] = (await db.query<{ wait: string }>("select (max(announced_at) - now() + interval '1 minute')::text as wait from app.matches where event_id = $1", [event])).rows as [
-      { wait: string },
-    ];
-    await timePasses(wait);
-    await db.query("update app.matches set announced_at = announced_at - $2::interval where event_id = $1", [event, wait]);
-
+  it("après la fermeture : une seule notification par membre, chacun voit le prénom de ses matchs", async () => {
     const [announced] = await asSystem<{ n: number }>("select app.announce_matches() as n");
     const matches = (await db.query<{ member_a: string; member_b: string }>("select member_a, member_b from app.matches where event_id = $1", [event])).rows;
-    expect(announced!.n).toBe(matches.length * 2);
+    expect(announced!.n).toBe(0);
 
     const first = matches[0]!;
     const partnerName = [...womenNames, ...menNames][[...women, ...men].indexOf(first.member_b)];

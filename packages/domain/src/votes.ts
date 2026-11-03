@@ -8,7 +8,8 @@ import { cotonouDate, cotonouParts } from "./time";
  * - Après chaque tour : « Je souhaite revoir cette personne » ou « Non »,
  *   plus une appréciation facultative visible uniquement par l'équipe.
  * - Un vote est modifiable jusqu'à la fin de la soirée.
- * - Match uniquement si les deux ont dit oui, annoncé le lendemain à 8 h (heure de Cotonou).
+ * - Match uniquement si les deux ont dit oui. Annonce : à la fermeture de la soirée par l'équipe (base, 03/11/2026) ;
+ *   matchAnnouncementAt (lendemain 8 h) n'est plus utilisé par la base.
  * - Personne ne voit jamais qui a dit non : les résultats d'un membre ne contiennent
  *   que ses matchs.
  */

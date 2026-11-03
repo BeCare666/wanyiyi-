@@ -10,7 +10,7 @@ import { SupabaseService } from "../supabase/supabase.service";
  * Tâches planifiées (clé service role, chaque usage journalisé) :
  * - limite des 48 h : libération des places non confirmées et promotion de la liste d'attente ;
  * - calcul des matchs des soirées terminées ;
- * - annonce des matchs à 8 h, heure de Cotonou, avec un rattrapage si l'API était arrêtée à 8 h ;
+ * - annonce des matchs : faite à la fin de la soirée par la base ; rattrapage toutes les 15 minutes ;
  * - fin des découvertes à 14 jours (21 avec la prolongation) et des matchs non ouverts à 7 jours
  *   (phase 3, 9.4), message neutre aux deux ;
  * - couples : alerte d'inactivité, pause, effacement des conversations échues (9.5, phase 3) ;
@@ -106,13 +106,7 @@ export class JobsService {
     }
   }
 
-  /** 8 h précises à Cotonou. */
-  @Cron("0 8 * * *", { name: "announce-matches", timeZone: "Africa/Porto-Novo" })
-  async announceAtEight() {
-    await this.announceMatches();
-  }
-
-  /** Rattrapage toutes les 15 minutes si l'API était arrêtée à 8 h (la fonction ne notifie qu'une fois). */
+  /** Rattrapage toutes les 15 minutes : matchs non encore notifiés (la fonction ne notifie qu'une fois). */
   @Cron("*/15 * * * *", { name: "announce-matches-catch-up", timeZone: "Africa/Porto-Novo" })
   async announceCatchUp() {
     await this.announceMatches();
@@ -120,7 +114,7 @@ export class JobsService {
 
   async announceMatches() {
     if (!this.ready()) return;
-    const db = this.supabase.system("annonce des matchs (8 h)");
+    const db = this.supabase.system("annonce des matchs (rattrapage)");
     const { data: count, error } = await db.rpc("announce_matches");
     if (error) return this.logger.error(`Annonce des matchs : ${error.message}`);
     if (count) this.logger.log(`${count} notification(s) de match créée(s)`);

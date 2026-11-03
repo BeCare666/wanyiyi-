@@ -128,8 +128,8 @@
         "text": "Lẹ́yìn ìjíròrò kọ̀ọ̀kan, ẹ ó ka kóòdù tábìlì náà, ẹ ó sì dáhùn ní ìkọ̀kọ̀. Ẹ lè yí ìpinnu yín padà títí di òpin ìpàdé alẹ́ náà."
       },
       {
-        "label": "Ní òwúrọ̀ ọjọ́ kejì",
-        "text": "Ní agogo mẹ́jọ àárọ̀, ẹ ó gba àwọn ìfohùnṣọ̀kan yín. Kò sí ẹni tí yóò mọ ẹni tó dáhùn rárá."
+        "label": "Ní ìparí ìpàdé",
+        "text": "Ní kété tí ẹgbẹ́ wa bá parí ìpàdé náà, ẹ ó gba àwọn ìfohùnṣọ̀kan yín. Kò sí ẹni tí yóò mọ ẹni tó dáhùn rárá."
       }
     ],
     "venue": "A yan ibi ìpàdé náà nítorí ìdákẹ́jẹ́ẹ́ àti àṣírí rẹ̀. A ó fi àdírẹ́sì rẹ̀ ránṣẹ́ sí àwọn olùkópa tí wọ́n ti jẹ́rìí.",
@@ -621,7 +621,7 @@
     },
     "matches": {
       "title": "Ìfohùnṣọ̀kan mi",
-      "intro": "Ìfohùnṣọ̀kan máa ń wáyé nígbà tí ẹni méjèèjì bá fẹ́ tún ara wọn rí. A máa ń kéde rẹ̀ ní ọjọ́ kejì ìpàdé, ní aago mẹ́jọ àárọ̀.",
+      "intro": "Ìfohùnṣọ̀kan máa ń wáyé nígbà tí ẹni méjèèjì bá fẹ́ tún ara wọn rí. A máa ń kéde rẹ̀ ní kété tí ẹgbẹ́ wa bá parí ìpàdé náà.",
       "empty": "Kò sí ìfohùnṣọ̀kan kankan báyìí.",
       "announced": "A kéde rẹ̀ ní {date}",
       "status": {
@@ -1081,7 +1081,7 @@
     },
     "discoveries": {
       "title": "Ìmọ̀ra ẹni",
-      "intro": "Ẹ bá ara yín mu nígbà tí ẹni méjì bá fẹ́ tún rí ara wọn; a ó kéde rẹ̀ ní ọjọ́ kejì ní aago mẹ́jọ àárọ̀. Ìbámu kọ̀ọ̀kan lè ṣí ìmọ̀ra ẹni ọjọ́ 14: ìfọ̀rọ̀wérọ̀ rírọrùn àti àwọn fọ́tò yín. Ìmọ̀ra ẹni méjì péré ní àkókò kan náà.",
+      "intro": "Ẹ bá ara yín mu nígbà tí ẹni méjì bá fẹ́ tún rí ara wọn; a ó kéde rẹ̀ ní kété tí ẹgbẹ́ wa bá parí ìpàdé náà. Ìbámu kọ̀ọ̀kan lè ṣí ìmọ̀ra ẹni ọjọ́ 14: ìfọ̀rọ̀wérọ̀ rírọrùn àti àwọn fọ́tò yín. Ìmọ̀ra ẹni méjì péré ní àkókò kan náà.",
       "active": "Ìmọ̀ra ẹni tó ń lọ lọ́wọ́",
       "daysLeft": "{count, plural, =0 {Ọjọ́ tó kẹ́yìn} other {Ọjọ́ # ló kù, títí di {date}}}",
       "extended": "a ti fi kún un",
@@ -1944,13 +1944,13 @@
         },
         "finish": {
           "title": "Ìparí",
-          "help": "A ó ti àwọn kóòdù QR pa, ìdìbò kò sì ní yí padà mọ́.",
+          "help": "A ó ti àwọn kóòdù QR pa, ìdìbò kò ní yí padà mọ́, a ó sì kéde àwọn ìfohùnṣọ̀kan fún àwọn ọmọ ẹgbẹ́ lẹ́sẹ̀kẹsẹ̀.",
           "confirm": "Ìdìbò yóò dúró bí ó ṣe wà. Ṣé ẹ fọwọ́ sí ìparí ìpàdé náà?",
           "button": "Parí ìpàdé náà"
         },
         "compute": {
           "title": "Ìfohùnṣọ̀kan",
-          "help": "Ìfohùnṣọ̀kan máa ń wáyé nígbà tí ẹni méjèèjì bá sọ « bẹ́ẹ̀ ni ». Àwọn ọmọ ẹgbẹ́ yóò mọ̀ ọ́n ní ọjọ́ kejì ní aago mẹ́jọ àárọ̀.",
+          "help": "Ìfohùnṣọ̀kan máa ń wáyé nígbà tí ẹni méjèèjì bá sọ « bẹ́ẹ̀ ni ». Àwọn ọmọ ẹgbẹ́ yóò mọ̀ ọ́n lẹ́sẹ̀kẹsẹ̀ lẹ́yìn ìṣirò.",
           "confirm": "Ṣé kí a ṣírò ìfohùnṣọ̀kan ìpàdé yìí?",
           "button": "Ṣírò ìfohùnṣọ̀kan"
         }
@@ -2046,6 +2046,7 @@
         "voters": "Àwọn tó dìbò",
         "matches": "Ìfohùnṣọ̀kan",
         "announce": "Ìkéde fún àwọn ọmọ ẹgbẹ́: {date}.",
+        "announceAtFinish": "A ó kéde àwọn ìfohùnṣọ̀kan fún àwọn ọmọ ẹgbẹ́ ní ìparí ìpàdé.",
         "noNo": "A kì í fi « rárá » kankan hàn láé."
       },
       "composition": {

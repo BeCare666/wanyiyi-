@@ -37,7 +37,7 @@ type EventRow = {
   venue: { name: string; address: string; city: string } | null;
   theme: { key: string } | null;
 };
-type Results = { checked_in: number; voters: number; matches: number; announced_at: string; results_computed_at: string | null };
+type Results = { checked_in: number; voters: number; matches: number; announced_at: string | null; results_computed_at: string | null };
 type MatchRow = { match_id: string; member_a_number: string; member_a_first_name: string | null; member_b_number: string; member_b_first_name: string | null };
 
 /** Lecture avec le jeton de la personne : la permission events.manage est contrôlée par la base. */
@@ -329,7 +329,8 @@ export default async function AdminEveningPage({ params }: Props) {
             </div>
           </dl>
           <p className="mt-6 text-sm text-fg-muted">
-            {t("evenings.results.announce", { date: dateTime(results.announced_at) })} {t("evenings.results.noNo")}
+            {results.announced_at ? t("evenings.results.announce", { date: dateTime(results.announced_at) }) : t("evenings.results.announceAtFinish")}{" "}
+            {t("evenings.results.noNo")}
           </p>
           {matches.length > 0 && (
             <ul className="mt-6 divide-y divide-line border-y border-line text-sm">
