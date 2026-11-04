@@ -221,6 +221,19 @@
       "professionals": "Univers professionnel"
     }
   },
+  "AppDownload": {
+    "eyebrow": "L'application",
+    "title": "Ifedele dans votre poche.",
+    "intro": "Retrouvez votre espace, vos soirées et vos discussions depuis l'écran d'accueil de votre téléphone. Les mises à jour arrivent d'elles-mêmes.",
+    "androidTitle": "Sur Android",
+    "download": "Télécharger l'application",
+    "details": "Version {version} · {size} Mo · Android {android} ou plus récent",
+    "step1": "Touchez « Télécharger l'application » et ouvrez le fichier reçu.",
+    "step2": "Si Android le demande, autorisez l'installation depuis votre navigateur.",
+    "step3": "Ouvrez Ifedele depuis votre écran d'accueil et connectez-vous.",
+    "iphoneTitle": "Sur iPhone",
+    "iphoneText": "Ouvrez ifedele.com dans Safari, touchez le bouton Partager, puis « Sur l'écran d'accueil ». Ifedele s'ouvre alors comme une application."
+  },
   "Faq": {
     "eyebrow": "Questions fréquentes",
     "title": "Ce que l'on nous demande souvent.",

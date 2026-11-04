@@ -221,6 +221,19 @@
       "professionals": "Àwọn oníṣẹ́"
     }
   },
+  "AppDownload": {
+    "eyebrow": "Ìṣàfilọ́lẹ̀",
+    "title": "Ifedele nínú àpò yín.",
+    "intro": "Ẹ wọ ààyè yín, àwọn ìpàdé alẹ́ yín àti àwọn ìjíròrò yín láti ojú-ìbẹ̀rẹ̀ fóònù yín. Àwọn àtúnṣe máa ń dé fúnra wọn.",
+    "androidTitle": "Lórí Android",
+    "download": "Ṣe ìgbàsílẹ̀ ìṣàfilọ́lẹ̀",
+    "details": "Ẹ̀yà {version} · {size} MB · Android {android} tàbí èyí tó jù bẹ́ẹ̀ lọ",
+    "step1": "Tẹ «Ṣe ìgbàsílẹ̀ ìṣàfilọ́lẹ̀» kí ẹ sì ṣí fáìlì tí ẹ gbà.",
+    "step2": "Bí Android bá béèrè, ẹ fàyè gba ìfisori láti inú aṣàwákiri yín.",
+    "step3": "Ẹ ṣí Ifedele láti ojú-ìbẹ̀rẹ̀ yín kí ẹ sì wọlé.",
+    "iphoneTitle": "Lórí iPhone",
+    "iphoneText": "Ẹ ṣí ifedele.com nínú Safari, ẹ tẹ bọ́tìnnì Pín, lẹ́yìn náà «Add to Home Screen». Ifedele yóò ṣí bí ìṣàfilọ́lẹ̀."
+  },
   "Faq": {
     "eyebrow": "Àwọn ìbéèrè tí a sábà ń gbọ́",
     "title": "Ohun tí àwọn ènìyàn sábà ń béèrè.",

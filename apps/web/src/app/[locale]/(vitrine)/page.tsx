@@ -1,3 +1,4 @@
+import { AppDownload } from "@/components/sections/AppDownload";
 import { Celebration } from "@/components/sections/Celebration";
 import { Evenings } from "@/components/sections/Evenings";
 import { Faq } from "@/components/sections/Faq";

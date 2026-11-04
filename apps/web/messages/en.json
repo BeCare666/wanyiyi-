@@ -221,6 +221,19 @@
       "professionals": "Professional background"
     }
   },
+  "AppDownload": {
+    "eyebrow": "The app",
+    "title": "Ifedele in your pocket.",
+    "intro": "Reach your space, your evenings and your conversations from your phone's home screen. Updates arrive on their own.",
+    "androidTitle": "On Android",
+    "download": "Download the app",
+    "details": "Version {version} · {size} MB · Android {android} or later",
+    "step1": "Tap \"Download the app\" and open the file you receive.",
+    "step2": "If Android asks, allow installation from your browser.",
+    "step3": "Open Ifedele from your home screen and sign in.",
+    "iphoneTitle": "On iPhone",
+    "iphoneText": "Open ifedele.com in Safari, tap the Share button, then \"Add to Home Screen\". Ifedele then opens like an app."
+  },
   "Faq": {
     "eyebrow": "Frequently asked questions",
     "title": "What people often ask us.",

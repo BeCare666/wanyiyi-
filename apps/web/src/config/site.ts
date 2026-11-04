@@ -18,7 +18,19 @@ export const sectionIds = {
   support: "accompagnement",
   celebration: "celebration",
   upcoming: "prochaines-soirees",
+  app: "application",
   faq: "questions",
+} as const;
+
+/**
+ * Application Android (TWA com.ifedele.app), servie depuis public/telechargement.
+ * À mettre à jour à chaque nouvel APK (voir GUIDE-ANDROID.txt).
+ */
+export const androidApp = {
+  apkPath: "/telechargement/ifedele.apk",
+  version: "1.0.0",
+  sizeMb: 1,
+  minAndroid: "7.0",
 } as const;
 
 /**
