@@ -28,10 +28,12 @@ async function main() {
     navigationDividerColor: "#14213D",
     navigationDividerColorDark: "#14213D",
     backgroundColor: "#FAF7F2",
-    enableNotifications: false,
-    appVersionCode: 1,
+    // Notifications sur le téléphone (04/11/2026) : affichées sous le nom Ifedele (délégation)
+    enableNotifications: true,
+    appVersionCode: 2,
     minSdkVersion: 24, // exigé par androidbrowserhelper 2.7.4 (Android 7.0)
-    appVersionName: "1.0.0",
+    appVersionName: "1.0.1",
+    appVersion: "1.0.1",
     fallbackType: "customtabs",
     signingKey: {
       path: path.join(os.homedir(), "ifedele-signature", "ifedele.keystore"),
@@ -45,6 +47,10 @@ async function main() {
   const log = new ConsoleLog("ifedele");
   await new TwaGenerator().createTwaProject(DOSSIER, twa, log);
   await twa.saveToFile(path.join(DOSSIER, "twa-manifest.json"));
+  // Gradle limité à 1 Go : le poste manque de mémoire au premier lancement
+  const props = path.join(DOSSIER, "gradle.properties");
+  const fsp = require("node:fs");
+  fsp.writeFileSync(props, fsp.readFileSync(props, "utf8").replace(/-Xmx\d+m/, "-Xmx1024m"));
   console.log(`Projet Android généré dans ${DOSSIER}`);
 }
 

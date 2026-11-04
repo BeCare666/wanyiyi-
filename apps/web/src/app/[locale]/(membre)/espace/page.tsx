@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { CheckinCard, type PendingCheckin } from "@/components/member/CheckinCard";
 import { loadJourney, NextStep } from "@/components/member/NextStep";
+import { PushToggle } from "@/components/member/PushToggle";
 import { TrustBadges } from "@/components/member/TrustBadges";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { coupleSpace, memberNav } from "@/components/member/memberNav";
@@ -115,6 +116,9 @@ export default async function DashboardPage() {
 
       {/* Ce qu'il reste à faire, une phrase et un bouton (30 octobre 2026) */}
       <NextStep journey={journey} />
+
+      {/* Notifications sur le téléphone (04/11/2026) : proposé tant que l'appareil n'est pas abonné */}
+      <PushToggle variant="card" />
 
       {/* « Bien rentré(e) ? » (question 5) : en tête du tableau de bord tant qu'il n'a pas répondu */}
       {checkins.length > 0 && (

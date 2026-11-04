@@ -47,6 +47,12 @@ export const envSchema = z.object({
     .enum(["true", "false"])
     .default("true")
     .transform((v) => v === "true"),
+
+  // Notifications sur le téléphone (web push, 04/11/2026) : clés VAPID (npx web-push generate-vapid-keys)
+  // et contact de l'expéditeur (mailto:...). Sans elles, rien n'est envoyé sur les téléphones.
+  VAPID_PUBLIC_KEY: optional,
+  VAPID_PRIVATE_KEY: optional,
+  VAPID_SUBJECT: optional.pipe(z.string().regex(/^(mailto:|https:\/\/)/, "commence par mailto: ou https://").optional()),
 });
 
 export type Env = z.infer<typeof envSchema>;

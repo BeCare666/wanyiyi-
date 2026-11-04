@@ -35,6 +35,14 @@ Installer sur un téléphone pour essayer
   Envoyer ifedele.apk sur le téléphone (WhatsApp, câble, Drive), l'ouvrir,
   autoriser « installer des applications inconnues » quand Android le demande.
 
+Notifications sur le téléphone (depuis la version 1.0.1)
+  - Clés dans C:\Users\PC\ifedele-signature\cles-vapid.env (hors git) :
+    VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT dans apps/api/.env et sur Render ;
+    NEXT_PUBLIC_VAPID_PUBLIC_KEY sur Vercel (puis redéployer le site).
+  - SQL à exécuter une fois : supabase/a-executer-mise-a-jour-4-novembre-notifications-telephone.sql
+  - Le membre active les notifications avec le bouton de son espace ou de ses paramètres.
+    Texte discret sur l'écran verrouillé : « Vous avez une nouvelle notification. »
+
 Plus tard, pour le Play Store
   - Construire un .aab (./gradlew.bat bundleRelease) au lieu de l'APK.
   - Google Play re-signe l'application avec sa propre clé : ajouter son

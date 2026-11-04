@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { saveChannel, saveDarkMode, saveLocale } from "./actions";
+import { PushToggle } from "@/components/member/PushToggle";
 import { type NotificationChannel, notificationChannels, type Settings } from "./settings";
 
 type Status = { section: "language" | "display" | "notifications"; ok: boolean } | null;
@@ -139,6 +140,9 @@ export function SettingsForm({ initial }: { initial: Settings }) {
             ))}
           </ul>
           {feedback("notifications")}
+          <div className="mt-4 border-t border-line">
+            <PushToggle variant="settings" />
+          </div>
         </div>
       </section>
     </div>

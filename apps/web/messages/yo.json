@@ -1621,6 +1621,21 @@
         "current": "ó ń lọ lọ́wọ́",
         "todo": "ó ń bọ̀"
       }
+    },
+    "push": {
+      "title": "Lórí fóònù yìí",
+      "cardTitle": "Ẹ gba ìfitónilétí lórí fóònù yín",
+      "cardText": "Ìfiránṣẹ́ kékeré kan yóò hàn fún gbogbo ohun tuntun, kódà bí ìṣàfilọ́lẹ̀ bá ti pa. Kò sí orúkọ tàbí àlàyé lórí ojú fóònù tí a tì.",
+      "enable": "Tan ìfitónilétí",
+      "disable": "Pa á lórí ẹ̀rọ yìí",
+      "failed": "Kò ṣeé ṣe láti tàn án. Ẹ tún gbìyànjú láìpẹ́.",
+      "state": {
+        "on": "Ó ti tàn lórí ẹ̀rọ yìí. Ìfiránṣẹ́ tí ó ń hàn kò ní àlàyé.",
+        "off": "Ó ti pa lórí ẹ̀rọ yìí.",
+        "denied": "Fóònù yín ti dí i. Ẹ fàyè gba ìfitónilétí Ifedele nínú ètò fóònù yín, lẹ́yìn náà ẹ padà síbí.",
+        "unsupported": "Aṣàwákiri yìí kò ṣe àtìlẹ́yìn ìfitónilétí. Ẹ lo ìṣàfilọ́lẹ̀ Android tàbí Chrome.",
+        "ios-install": "Lórí iPhone, ẹ kọ́kọ́ fi Ifedele kún ojú-ìbẹ̀rẹ̀ láti Safari (Pín, lẹ́yìn náà «Add to Home Screen»), kí ẹ sì ṣí i láti àmì yẹn."
+      }
     }
   },
   "SignIn": {

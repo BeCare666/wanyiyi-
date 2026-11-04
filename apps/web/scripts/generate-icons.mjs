@@ -43,4 +43,12 @@ await sharp(maskable).resize(512).png().toFile("public/icons/icon-maskable-512.p
 await sharp(standard).resize(180).png().toFile("src/app/apple-icon.png");
 await writeFile("src/app/icon.svg", emblemSvg({ scale: 0.8, rounded: 64 }));
 
+// Petite icône des notifications (barre d'état Android) : deux anneaux blancs sur fond transparent,
+// Android n'en garde que la silhouette.
+const badge = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 100 100" fill="none" stroke="#FFFFFF" stroke-width="7">
+  <circle cx="38" cy="50" r="24"/>
+  <circle cx="62" cy="50" r="24"/>
+</svg>`;
+await sharp(Buffer.from(badge)).resize(96).png().toFile("public/icons/badge-96.png");
+
 console.log("Icônes générées.");

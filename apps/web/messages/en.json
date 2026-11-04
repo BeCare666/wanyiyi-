@@ -1621,6 +1621,21 @@
         "current": "in progress",
         "todo": "to come"
       }
+    },
+    "push": {
+      "title": "On this phone",
+      "cardTitle": "Get notified on your phone",
+      "cardText": "A discreet message appears for every update, even when the app is closed. No first name or detail on the lock screen.",
+      "enable": "Turn on notifications",
+      "disable": "Turn off on this device",
+      "failed": "Notifications could not be turned on. Please try again in a moment.",
+      "state": {
+        "on": "On for this device. The message shown stays discreet.",
+        "off": "Off for this device.",
+        "denied": "Blocked by your phone. Allow notifications for Ifedele in your phone settings, then come back here.",
+        "unsupported": "This browser does not support notifications. Use the Android app or Chrome.",
+        "ios-install": "On iPhone, first add Ifedele to your Home Screen from Safari (Share, then \"Add to Home Screen\"), then open it from that icon."
+      }
     }
   },
   "SignIn": {

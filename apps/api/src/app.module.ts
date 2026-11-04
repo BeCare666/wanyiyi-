@@ -21,6 +21,7 @@ import {
   SMS_SENDER,
 } from "./notifications/senders";
 import { DeliveriesService } from "./notifications/deliveries.service";
+import { PushService } from "./notifications/push.service";
 import { CagnottesController } from "./payments/cagnottes.controller";
 import { FeexpayWebhookController, PaymentsController } from "./payments/payments.controller";
 import { FeexpayClient } from "./payments/feexpay";
@@ -51,6 +52,7 @@ import { AdminVerificationsController } from "./verifications/admin-verification
     PaymentsService,
     JobsService,
     DeliveriesService,
+    PushService,
     {
       provide: SMS_SENDER,
       inject: [ConfigService],

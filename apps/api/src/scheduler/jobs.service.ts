@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 import { purgeDeletedAccounts } from "../accounts/purge";
 import { DeliveriesService } from "../notifications/deliveries.service";
+import { PushService } from "../notifications/push.service";
 import { PaymentsService } from "../payments/payments.service";
 import { createMissingPreviews } from "../photos/previews";
 import { SupabaseService } from "../supabase/supabase.service";
@@ -30,6 +31,7 @@ export class JobsService {
     private readonly supabase: SupabaseService,
     private readonly payments: PaymentsService,
     private readonly deliveries: DeliveriesService,
+    private readonly push: PushService,
   ) {}
 
   /** Sans projet Supabase configuré, les tâches attendent ; l'avertissement n'est écrit qu'une fois. */
@@ -200,6 +202,26 @@ export class JobsService {
       await this.deliveries.dispatch();
     } catch (error) {
       this.logger.error(`Envois des notifications : ${(error as Error).message}`);
+    }
+  }
+
+  @Cron("* * * * *", { name: "send-push-notifications", timeZone: "Africa/Porto-Novo" })
+  async sendPushNotifications() {
+    if (!this.ready()) return;
+    try {
+      await this.push.dispatch();
+    } catch (error) {
+      this.logger.error(`Notifications sur le téléphone : ${(error as Error).message}`);
+    }
+  }
+
+  @Cron("45 3 * * *", { name: "purge-push-deliveries", timeZone: "Africa/Porto-Novo" })
+  async purgePushDeliveries() {
+    if (!this.ready()) return;
+    try {
+      await this.push.purge();
+    } catch (error) {
+      this.logger.error(`Purge des envois sur le téléphone : ${(error as Error).message}`);
     }
   }
 }

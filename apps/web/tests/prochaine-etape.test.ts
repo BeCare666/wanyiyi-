@@ -174,5 +174,6 @@ describe("Audit UX du 3 novembre 2026 : parcours étape par étape", () => {
       for (const kind of ["registration_completed", "verification_submitted", "profile_photo_approved", "evening_booked", "evening_confirmed", "evening_waitlisted", "evening_registration_cancelled", "evening_seat_released"])
         expect(m.Member.bell.kinds[kind], `${locale} ${kind}`).toBeTruthy();
     }
-  });
+    // Import des 3 fichiers de traduction : lent quand toute la suite tourne sur ce poste
+  }, 30_000);
 });
