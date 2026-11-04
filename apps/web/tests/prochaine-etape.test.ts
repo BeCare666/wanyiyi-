@@ -3,7 +3,10 @@ import { describe, expect, it } from "vitest";
 import fr from "../messages/fr.json";
 import { type ParticipantRow, paymentSummary } from "../src/app/[locale]/(admin)/admin/soirees/evenings";
 import { type Answers, isProfileComplete } from "../src/app/[locale]/(membre)/espace/profil/profile";
-import { type NextStepInput, nextStep, photoState, type UpcomingBooking } from "../src/components/member/nextStep";
+import { discoveryGuide } from "../src/app/[locale]/(membre)/espace/matchs/discoveries";
+import { nextMilestone } from "../src/app/[locale]/(membre)/espace/couple/couple";
+import { eveningActions, type Evening } from "../src/app/[locale]/(membre)/espace/soirees/evenings";
+import { type NextStepInput, nextStep, phaseStates, photoState, type UpcomingBooking } from "../src/components/member/journeyRules";
 
 /** « Votre prochaine étape » (décision du 30 octobre 2026) : une phrase, un bouton. */
 
@@ -78,6 +81,9 @@ describe("Étape suivante du membre", () => {
       { ...base, bookings: [booking({})] },
       { ...base, bookings: [booking({ status: "waitlisted" })] },
       { ...base, bookings: [booking({ status: "confirmed" })] },
+      { ...base, status: "pending_verification", profileComplete: false },
+      { ...base, photos: ["pending"], profileComplete: false },
+      { ...base, profileComplete: false },
       base,
     ];
     const seen = inputs.map((input) => nextStep(input)!);
@@ -105,5 +111,68 @@ describe("Fiche d'une soirée : places payées (30 octobre 2026)", () => {
   it("compte les places payées et additionne le montant encaissé", () => {
     expect(paymentSummary([row(true, 10000), row(true, 8000), row(false, 0)])).toEqual({ paid: 2, collected: 18000 });
     expect(paymentSummary([])).toEqual({ paid: 0, collected: 0 });
+  });
+});
+
+describe("Audit UX du 3 novembre 2026 : parcours étape par étape", () => {
+  it("le profil incomplet est demandé pendant l'attente, après la photo, et avant la première réservation", () => {
+    expect(nextStep({ ...base, status: "pending_verification", profileComplete: false })).toEqual({ key: "waitReviewProfile", target: "profile" });
+    // La photo passe avant le profil : elle est examinée avec le dossier
+    expect(nextStep({ ...base, status: "pending_verification", photos: [], profileComplete: false })?.key).toBe("waitReviewAddPhoto");
+    expect(nextStep({ ...base, photos: ["pending"], profileComplete: false })).toEqual({ key: "photoPendingProfile", target: "profile" });
+    expect(nextStep({ ...base, profileComplete: false })).toEqual({ key: "completeProfile", target: "profile" });
+    // Une place déjà prise reste l'étape à suivre
+    expect(nextStep({ ...base, profileComplete: false, bookings: [booking({ status: "confirmed" })] })?.key).toBe("ready");
+  });
+
+  it("frise : étapes faites, en cours et à venir", () => {
+    const at = (input: NextStepInput) => phaseStates(input, nextStep(input));
+    expect(at({ ...base, status: "registering", photos: [], profileComplete: false })).toEqual({
+      account: "done",
+      verification: "current",
+      photo: "todo",
+      profile: "todo",
+      evening: "todo",
+    });
+    expect(at({ ...base, status: "pending_verification", photos: [], profileComplete: false }).photo).toBe("current");
+    expect(at({ ...base, profileComplete: false })).toEqual({ account: "done", verification: "done", photo: "done", profile: "current", evening: "todo" });
+    expect(at(base).evening).toBe("current");
+    expect(at({ ...base, bookings: [booking({ status: "confirmed" })] }).evening).toBe("done");
+  });
+
+  it("soirée payante : pas de bouton Confirmer, le paiement confirme ; soirée gratuite : Confirmer reste", () => {
+    const evening = (price: number | null) =>
+      ({ price_xof: price, mine: { status: "booked", confirm_by: "2026-11-04T19:00:00Z", paid: false } }) as unknown as Evening;
+    expect(eveningActions(evening(10000), "female", now)).toEqual(["pay", "cancel"]);
+    expect(eveningActions(evening(null), "female", now)).toEqual(["confirm", "cancel"]);
+  });
+
+  it("découverte : écrire, se rencontrer, puis décider ; la décision passe devant à la fin", () => {
+    expect(discoveryGuide({ sentMessages: 0, dates: 0, wantsToContinue: false, daysLeft: 12 })).toMatchObject({ key: "writeFirst", tab: "discussion" });
+    expect(discoveryGuide({ sentMessages: 2, dates: 0, wantsToContinue: false, daysLeft: 12 })).toMatchObject({
+      key: "planDate",
+      tab: "dates",
+      steps: { talk: "done", meet: "current", decide: "todo" },
+    });
+    expect(discoveryGuide({ sentMessages: 2, dates: 1, wantsToContinue: false, daysLeft: 8 })).toMatchObject({ key: "decide", tab: "decision" });
+    expect(discoveryGuide({ sentMessages: 0, dates: 0, wantsToContinue: false, daysLeft: 2 })).toMatchObject({ key: "decideSoon", tab: "decision" });
+    expect(discoveryGuide({ sentMessages: 2, dates: 1, wantsToContinue: true, daysLeft: 2 })).toMatchObject({ key: "decided", tab: null });
+  });
+
+  it("couple : la prochaine étape du parcours est la première non franchie", () => {
+    const row = (kind: string, reached: boolean) => ({ kind, reached_at: reached ? "2026-11-01T10:00:00Z" : null, i_confirmed_reach: false, i_confirmed_remove: false });
+    expect(nextMilestone([row("first_dates", true), row("counselor_sessions", false), row("celebration", false)] as never)?.kind).toBe("counselor_sessions");
+    expect(nextMilestone([row("first_dates", true)] as never)).toBeNull();
+  });
+
+  it("chaque texte des guides existe dans les 3 langues", async () => {
+    for (const locale of ["fr", "en", "yo"]) {
+      const m = (await import(`../messages/${locale}.json`)).default;
+      for (const key of ["writeFirst", "planDate", "decide", "decideSoon", "decided"]) expect(m.Member.discoveries.guide.text[key], `${locale} ${key}`).toBeTruthy();
+      for (const key of ["discussion", "journey", "support", "together", "decisions"]) expect(m.Member.couple.tabs[key], `${locale} ${key}`).toBeTruthy();
+      for (const key of ["account", "verification", "photo", "profile", "evening"]) expect(m.Member.nextStep.phases[key], `${locale} ${key}`).toBeTruthy();
+      for (const kind of ["registration_completed", "verification_submitted", "profile_photo_approved", "evening_booked", "evening_confirmed", "evening_waitlisted", "evening_registration_cancelled", "evening_seat_released"])
+        expect(m.Member.bell.kinds[kind], `${locale} ${kind}`).toBeTruthy();
+    }
   });
 });

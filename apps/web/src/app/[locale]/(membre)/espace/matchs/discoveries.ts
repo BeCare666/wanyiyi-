@@ -72,3 +72,36 @@ export function canAskExtension(row: DiscoveryRow, now: Date): boolean {
   if (now.getTime() >= end) return false;
   return row.i_want_extension || now.getTime() >= end - EXTENSION_WINDOW_DAYS * 86_400_000;
 }
+
+/**
+ * Espace d'une découverte, étape par étape (audit UX du 3 novembre 2026) : onglets et guide.
+ * Discuter, se rencontrer, puis décider ; le guide dit quoi faire maintenant et ouvre l'onglet utile.
+ */
+export const discoveryTabs = ["discussion", "dates", "photos", "decision"] as const;
+export type DiscoveryTab = (typeof discoveryTabs)[number];
+
+export type DiscoveryGuideKey = "writeFirst" | "planDate" | "decide" | "decideSoon" | "decided";
+export type DiscoveryGuide = {
+  key: DiscoveryGuideKey;
+  tab: DiscoveryTab | null;
+  steps: Record<"talk" | "meet" | "decide", "done" | "current" | "todo">;
+};
+
+/** Jours restants à partir desquels la décision passe en tête. */
+export const DECIDE_SOON_DAYS = 3;
+
+export function discoveryGuide(input: { sentMessages: number; dates: number; wantsToContinue: boolean; daysLeft: number }): DiscoveryGuide {
+  const talked = input.sentMessages > 0;
+  const met = input.dates > 0;
+  const decided = input.wantsToContinue;
+  const steps = {
+    talk: talked ? "done" : "current",
+    meet: met ? "done" : talked ? "current" : "todo",
+    decide: decided ? "done" : met ? "current" : "todo",
+  } as DiscoveryGuide["steps"];
+  if (decided) return { key: "decided", tab: null, steps };
+  if (input.daysLeft <= DECIDE_SOON_DAYS) return { key: "decideSoon", tab: "decision", steps: { ...steps, decide: "current" } };
+  if (!talked) return { key: "writeFirst", tab: "discussion", steps };
+  if (!met) return { key: "planDate", tab: "dates", steps };
+  return { key: "decide", tab: "decision", steps };
+}

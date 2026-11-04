@@ -44,7 +44,7 @@ export default async function ProfilePage() {
         <h1 className="mt-6 text-4xl">{t("profile.title")}</h1>
         <p className="mt-4 max-w-measure text-fg-muted">{t("profile.intro")}</p>
       </header>
-      <NextStep journey={journey} />
+      <NextStep journey={journey} here={["profile"]} />
       {!member.firstName ? (
         <p className="mt-10 border-l border-accent pl-5">
           {t("profile.noProfile")}{" "}

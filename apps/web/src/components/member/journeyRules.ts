@@ -21,6 +21,8 @@ export type NextStepInput = {
   inCouple: boolean;
   bookings: readonly UpcomingBooking[];
   now: Date;
+  /** Profil rempli à 100 % des deux côtés (audit UX du 3 novembre 2026). Absent : considéré complet. */
+  profileComplete?: boolean;
 };
 
 export type NextStepKey =
@@ -29,15 +31,18 @@ export type NextStepKey =
   | "correct"
   | "waitReview"
   | "waitReviewAddPhoto"
+  | "waitReviewProfile"
   | "addPhoto"
   | "photoPending"
+  | "photoPendingProfile"
+  | "completeProfile"
   | "pay"
   | "confirm"
   | "waitlisted"
   | "ready"
   | "book";
 
-export type NextStepTarget = "registration" | "verification" | "photos" | "evenings" | "myEvenings";
+export type NextStepTarget = "registration" | "verification" | "photos" | "profile" | "evenings" | "myEvenings";
 
 export type NextStep = { key: NextStepKey; target: NextStepTarget | null; date?: string };
 
@@ -60,7 +65,7 @@ export function photoState(photos: readonly PhotoReview[]): "missing" | "pending
  * Étape suivante, ou null quand le bloc n'a rien d'utile à dire (couple en cours, compte
  * suspendu, exclu ou en suppression : la page l'affiche déjà).
  */
-export function nextStep({ status, photos, inCouple, bookings, now }: NextStepInput): NextStep | null {
+export function nextStep({ status, photos, inCouple, bookings, now, profileComplete = true }: NextStepInput): NextStep | null {
   switch (status) {
     case "none":
       return { key: "startRegistration", target: "registration" };
@@ -69,7 +74,9 @@ export function nextStep({ status, photos, inCouple, bookings, now }: NextStepIn
     case "to_correct":
       return { key: "correct", target: "verification" };
     case "pending_verification":
-      return needsPhoto(photos) ? { key: "waitReviewAddPhoto", target: "photos" } : { key: "waitReview", target: null };
+      // L'attente de l'équipe sert à préparer la suite : la photo d'abord (examinée avec le dossier), puis le profil
+      if (needsPhoto(photos)) return { key: "waitReviewAddPhoto", target: "photos" };
+      return profileComplete ? { key: "waitReview", target: null } : { key: "waitReviewProfile", target: "profile" };
     case "verified":
       break;
     default:
@@ -90,6 +97,44 @@ export function nextStep({ status, photos, inCouple, bookings, now }: NextStepIn
 
   const photo = photoState(photos);
   if (photo === "missing") return { key: "addPhoto", target: "photos" };
-  if (photo === "pending") return { key: "photoPending", target: null };
+  if (photo === "pending") return profileComplete ? { key: "photoPending", target: null } : { key: "photoPendingProfile", target: "profile" };
+  // Les autres découvrent le membre par sa description : profil complet avant la première réservation
+  if (!profileComplete) return { key: "completeProfile", target: "profile" };
   return { key: "book", target: "evenings" };
+}
+
+/** Étapes du parcours, montrées en frise au-dessus de l'étape suivante (audit UX du 3 novembre 2026). */
+export const journeyPhases = ["account", "verification", "photo", "profile", "evening"] as const;
+export type JourneyPhase = (typeof journeyPhases)[number];
+export type PhaseState = "done" | "current" | "todo";
+
+/**
+ * État de chaque étape : faite, en cours (celle de l'étape suivante) ou à venir. La photo et le
+ * profil peuvent être faits avant la validation du dossier.
+ */
+export function phaseStates(input: NextStepInput, step: NextStep | null): Record<JourneyPhase, PhaseState> {
+  const { status, photos, profileComplete = true } = input;
+  const verified = status === "verified";
+  const photo = photoState(photos);
+  const current: JourneyPhase | null = !step
+    ? null
+    : step.key === "startRegistration"
+      ? "account"
+      : ["finishVerification", "correct", "waitReview"].includes(step.key)
+        ? "verification"
+        : ["waitReviewAddPhoto", "addPhoto", "photoPending"].includes(step.key)
+          ? "photo"
+          : ["waitReviewProfile", "photoPendingProfile", "completeProfile"].includes(step.key)
+            ? "profile"
+            : "evening";
+  const done: Record<JourneyPhase, boolean> = {
+    account: status !== "none",
+    verification: verified,
+    photo: photo === "approved",
+    profile: profileComplete,
+    evening: step?.key === "ready",
+  };
+  return Object.fromEntries(
+    journeyPhases.map((p) => [p, p === current && !done[p] ? "current" : done[p] ? "done" : "todo"]),
+  ) as Record<JourneyPhase, PhaseState>;
 }

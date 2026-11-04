@@ -158,7 +158,8 @@ describe("Soirées de l'espace membre (6.2-4)", () => {
   it("confirmer avant la limite seulement ; payer si un tarif existe et que rien n'est payé ; annuler", () => {
     expect(eveningActions(evening({ mine: booking({}) }), "female", now)).toEqual(["confirm", "cancel"]);
     expect(eveningActions(evening({ mine: booking({}) }), "female", new Date("2026-10-23T00:00:00Z"))).toEqual(["cancel"]);
-    expect(eveningActions(evening({ price_xof: 1, mine: booking({}) }), "female", now)).toEqual(["confirm", "pay", "cancel"]);
+    // Soirée payante : le paiement confirme la place (audit UX du 3 novembre 2026), pas de bouton Confirmer
+    expect(eveningActions(evening({ price_xof: 1, mine: booking({}) }), "female", now)).toEqual(["pay", "cancel"]);
     expect(eveningActions(evening({ price_xof: 1, mine: booking({ status: "confirmed", paid: true }) }), "female", now)).toEqual(["cancel"]);
     expect(eveningActions(evening({ mine: booking({ status: "waitlisted", waitlist_rank: 2 }) }), "female", now)).toEqual(["cancel"]);
     expect(eveningActions(evening({ mine: booking({ status: "checked_in" }) }), "female", now)).toEqual([]);

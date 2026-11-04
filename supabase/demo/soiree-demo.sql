@@ -1,7 +1,7 @@
 -- =====================================================================
 -- Soirée de démonstration (étape 6 de PHASE2.txt, question 31 du 22 octobre 2026) :
 -- une soirée 10 × 10 jouée de bout en bout avec les 24 membres de démonstration
--- (membres-demo.sql) : réservation, liste d'attente, paiement simulé, confirmation,
+-- (membres-demo.sql) : réservation, liste d'attente, paiement simulé (qui confirme la place),
 -- pointage, 10 tours, votes, matchs.
 --   - chaque étape passe par les fonctions de la plateforme, au nom du membre ou de
 --     l'équipe, comme le site et l'API ;
@@ -9,8 +9,8 @@
 --     (journalisées à son nom) ;
 --   - lieu fictif « Lieu de démonstration (fictif) » ; paiements « de démonstration »
 --     (aucun argent) ; aucun e-mail : les adresses de démonstration ne sont pas confirmées ;
---   - les matchs sont annoncés le lendemain à 8 h (heure de Cotonou) par la tâche
---     planifiée de l'API, comme pour une vraie soirée ;
+--   - les matchs sont annoncés dès que l'équipe termine la soirée, comme pour une
+--     vraie soirée ;
 --   - supprimée avec les membres par supprimer-membres-demo.sql.
 -- Le temps ne pouvant pas avancer dans un script, la soirée est créée dans 3 jours,
 -- réservée et confirmée, puis avancée à « il y a 10 minutes » pour être jouée.
@@ -75,7 +75,7 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', v_men[6], 'role', 'authenticated')::text, true);
   perform app.cancel_registration(v_event);
 
-  -- 4. Paiement simulé (comme l'API) puis confirmation des 20 places
+  -- 4. Paiement simulé (comme l'API) : le paiement confirme la place (migration du 03/11)
   for v_user in select user_id from app.event_registrations where event_id = v_event and status = 'booked' order by user_id loop
     insert into app.payments (user_id, purpose, amount_xof, provider, status)
     values (v_user, 'evening_booking', 10000, 'simulated', 'pending') returning id into v_payment;
@@ -83,8 +83,6 @@ begin
     update app.event_registrations set payment_id = v_payment where event_id = v_event and user_id = v_user;
     update app.payments set status = 'succeeded' where id = v_payment;
     insert into app.audit_log (actor_id, action, target_table, target_id) values (v_user, 'payment.simulated_succeeded', 'payments', v_payment);
-    perform set_config('request.jwt.claims', json_build_object('sub', v_user, 'role', 'authenticated')::text, true);
-    perform app.confirm_registration(v_event);
   end loop;
 
   -- 5. Le soir venu : la soirée commence (il y a 10 minutes), pointage, préparation, début
@@ -112,13 +110,12 @@ begin
     end loop;
   end loop;
 
-  -- 7. Fin de soirée et calcul des matchs (annoncés le lendemain à 8 h)
+  -- 7. Fin de soirée : calcul et annonce des matchs
   perform set_config('request.jwt.claims', json_build_object('sub', v_admin, 'role', 'authenticated')::text, true);
   perform app.finish_evening(v_event);
   v_matches := app.compute_matches(v_event);
   perform set_config('request.jwt.claims', '', true);
-  raise notice 'Soirée de démonstration % : % matchs, annoncés le %', v_event, v_matches,
-    (select app.match_announcement_at(starts_at) from app.events where id = v_event);
+  raise notice 'Soirée de démonstration % : % matchs, annoncés à la fermeture', v_event, v_matches;
 end $$;
 
 commit;

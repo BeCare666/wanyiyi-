@@ -62,7 +62,8 @@ export function eveningActions(evening: Evening, sex: Sex | null, now: Date): Ev
     return [freeSeats(evening, sex) > 0 ? "book" : "waitlist"];
   }
   const actions: EveningAction[] = [];
-  if (mine.status === "booked" && now.getTime() < new Date(mine.confirm_by).getTime()) actions.push("confirm");
+  // Soirée payante : le paiement confirme la place (audit UX du 3 novembre 2026), pas de second bouton
+  if (mine.status === "booked" && evening.price_xof === null && now.getTime() < new Date(mine.confirm_by).getTime()) actions.push("confirm");
   if ((mine.status === "booked" || mine.status === "confirmed") && evening.price_xof !== null && !mine.paid) actions.push("pay");
   if (mine.status === "booked" || mine.status === "confirmed" || mine.status === "waitlisted") actions.push("cancel");
   return actions;

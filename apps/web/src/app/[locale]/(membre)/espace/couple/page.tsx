@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { type ChatMessage, ChatRoom } from "@/components/member/ChatRoom";
+import { currentTab, type SpaceTab, SpaceTabs, TAB_PARAM } from "@/components/member/SpaceTabs";
+import { StepGuide } from "@/components/member/StepGuide";
 import { TrustBadges } from "@/components/member/TrustBadges";
 import { ProtectedPhoto } from "@/components/ui/ProtectedPhoto";
 import { Link } from "@/i18n/navigation";
@@ -17,10 +19,13 @@ import {
   type CounselorAccess,
   counselorState,
   type CoupleRow,
+  type CoupleTab,
+  coupleTabs,
   isLive,
   milestoneKinds,
   type MemoryPhotoRow,
   type MilestoneRow,
+  nextMilestone,
   type SessionRow,
 } from "./couple";
 import { MemoryPhotos } from "./MemoryPhotos";
@@ -43,7 +48,10 @@ type DateRow = { id: string; date_at: string; declared_by_me: boolean };
  * des numéros, décisions et fin. Tout est lu avec le jeton du membre (RLS) ; l'ouverture de
  * l'espace compte comme une activité du couple (question 6).
  */
-export default async function CouplePage() {
+type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
+
+export default async function CouplePage({ searchParams }: Props) {
+  const requestedTab = (await searchParams)[TAB_PARAM];
   const t = await getTranslations("Member");
   const format = await getFormatter();
   const member = await getSessionMember();
@@ -127,8 +135,6 @@ export default async function CouplePage() {
     ? await supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", discoveryChat.id).order("created_at").limit(500)
     : { data: [] as ChatMessage[] };
 
-  // Conversation affichée : elle ne compte plus dans les messages non lus du tableau de bord
-  if (conversation && chatReadable(couple.status)) await supabase.rpc("mark_conversation_read", { p_conversation: conversation.id });
 
   const phone = ((phoneResult.data ?? []) as Phone[])[0] ?? null;
   const dates = (datesResult.data ?? []) as DateRow[];
@@ -164,6 +170,24 @@ export default async function CouplePage() {
   }
   if (lastAccess?.status === "granted" && lastAccess.counselor_id) names[lastAccess.counselor_id] = couple.counselor_name ?? t("chat.counselor");
 
+  // Onglets (audit UX du 3 novembre 2026) : seulement ceux qui ont du contenu pour ce couple
+  const hasTab: Record<CoupleTab, boolean> = {
+    discussion: chatReadable(couple.status) && conversation !== null,
+    journey: live || couple.status === "union_celebrated" || dates.length > 0,
+    support: counselorAvailable(couple.status),
+    together: shared && ((photos ?? []).length > 0 || phone !== null),
+    decisions: live || couple.status === "union_celebrated",
+  };
+  const shownTabs = coupleTabs.filter((key) => hasTab[key]);
+  const tab = currentTab(requestedTab, shownTabs.length > 0 ? shownTabs : coupleTabs);
+  // Lue seulement quand l'onglet Discussion est ouvert : sinon les messages restent signalés comme non lus
+  if (conversation && chatReadable(couple.status) && tab === "discussion") await supabase.rpc("mark_conversation_read", { p_conversation: conversation.id });
+  const next = live && !couple.blocked ? nextMilestone(journey) : null;
+  // Messages non lus : pastille sur l'onglet Discussion quand le membre est sur un autre onglet
+  const { data: unreadRows } = conversation && tab !== "discussion" ? await supabase.rpc("my_unread_messages") : { data: [] };
+  const unread = ((unreadRows ?? []) as { conversation_id: string; unread: number }[]).find((r) => r.conversation_id === conversation?.id)?.unread ?? 0;
+  const tabs: SpaceTab[] = shownTabs.map((key) => ({ key, label: t(`couple.tabs.${key}`), count: key === "discussion" ? unread : undefined }));
+
   return (
     <div className="mx-auto max-w-4xl">
       {header}
@@ -177,6 +201,33 @@ export default async function CouplePage() {
       )}
       {couple.counselor_name && live && <p className="mt-4 text-sm text-fg-muted">{t("couple.counselorPresent", { name: couple.counselor_name })}</p>}
 
+      {/* Étape par étape (audit UX du 3 novembre 2026) : prochaine étape du parcours, puis une tâche par onglet */}
+      {next && (
+        <StepGuide
+          label={t("couple.guide.label")}
+          title={t("couple.guide.title")}
+          steps={journey.map((m) => ({
+            key: m.kind,
+            label: t(`couple.journey.${m.kind}`),
+            state: m.reached_at !== null ? "done" : m.kind === next.kind ? "current" : "todo",
+          }))}
+          text={t(
+            next.kind === "counselor_sessions" ? "couple.guide.auto" : next.i_confirmed_reach ? "couple.guide.waiting" : "couple.guide.text",
+            { step: t(`couple.journey.${next.kind}`), name: partnerName },
+          )}
+          action={(() => {
+            // Séances : franchie automatiquement, l'action utile est d'inviter un conseiller
+            const target: CoupleTab = next.kind === "counselor_sessions" && hasTab.support ? "support" : "journey";
+            return tab === target
+              ? null
+              : { href: { pathname: "/espace/couple", query: { [TAB_PARAM]: target } }, label: t(target === "support" ? "couple.guide.actionSupport" : "couple.guide.action") };
+          })()}
+        />
+      )}
+      {tabs.length > 1 && <SpaceTabs label={t("couple.tabs.label")} pathname="/espace/couple" current={tab} tabs={tabs} />}
+
+      {tab === "discussion" && (
+        <>
       {chatReadable(couple.status) && conversation && (
         <ChatRoom
           conversationId={conversation.id}
@@ -205,21 +256,11 @@ export default async function CouplePage() {
         </details>
       )}
 
-      {shared && (photos ?? []).length > 0 && (
-        <section aria-labelledby="photos" className="mt-14">
-          <h2 id="photos" className="eyebrow">
-            {t("discoveries.photos")}
-          </h2>
-          <ul className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {(photos ?? []).map((p, i) => (
-              <li key={p.id}>
-                <ProtectedPhoto load={partnerPhotoLink.bind(null, p.id)} alt={t("discoveries.photoAlt", { name: partnerName, rank: i + 1 })} />
-              </li>
-            ))}
-          </ul>
-        </section>
+        </>
       )}
 
+      {tab === "journey" && (
+        <>
       {(live || couple.status === "union_celebrated") && (
         <section aria-labelledby="parcours" className="mt-14">
           <h2 id="parcours" className="eyebrow">
@@ -233,33 +274,31 @@ export default async function CouplePage() {
 
       {live && <FirstDateVenues venues={(venues ?? []) as FirstDateVenue[]} />}
 
-      {counselorAvailable(couple.status) && (
-        <section aria-labelledby="cagnotte" className="mt-14">
-          <h2 id="cagnotte" className="eyebrow">
-            {t("couple.cagnotte.title")}
+      {(live || dates.length > 0) && (
+        <section aria-labelledby="rendez-vous" className="mt-14">
+          <h2 id="rendez-vous" className="eyebrow">
+            {t("couple.dates.title")}
           </h2>
-          <CagnottePanel
-            coupleId={id}
-            view={cagnotteView(cagnotte)}
-            cagnotte={cagnotte}
-            contributions={(contributions ?? []) as ContributionRow[]}
-            canPropose={canProposeCagnotte({ status: couple.status, blocked: couple.blocked, dowryOrWeddingReached: dowryReached, view: cagnotteView(cagnotte) })}
-            commissionPercent={Number(cagnotteRules?.commission_percent ?? 0)}
-            minPayout={cagnotteRules?.min_payout_xof ?? 0}
-            siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}
-          />
+          <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("couple.dates.help")}</p>
+          {couple.status === "active" && <DateForm declare={declareDate.bind(null, id)} />}
+          {dates.length > 0 && (
+            <ul className="mt-6 border-t border-line">
+              {dates.map((d) => (
+                <li key={d.id} className="flex flex-wrap justify-between gap-4 border-b border-line py-4">
+                  <span>{when(d.date_at)}</span>
+                  <span className="text-sm text-fg-muted">{d.declared_by_me ? t("couple.dates.byMe") : t("couple.dates.byPartner", { name: partnerName })}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       )}
 
-      {/* Prestataires partenaires : coordonnées réservées aux couples et unions (phase 4, question 2) */}
-      {counselorAvailable(couple.status) && (
-        <p className="mt-14 border-t border-line pt-8">
-          <Link href="/espace/prestataires" className="text-link underline-offset-4 hover:underline">
-            {t("couple.providersLink")}
-          </Link>
-        </p>
+        </>
       )}
 
+      {tab === "support" && (
+        <>
       {counselorAvailable(couple.status) && (
         <section aria-labelledby="conseiller" className="mt-14">
           <h2 id="conseiller" className="eyebrow">
@@ -289,23 +328,50 @@ export default async function CouplePage() {
         </section>
       )}
 
-      {(live || dates.length > 0) && (
-        <section aria-labelledby="rendez-vous" className="mt-14">
-          <h2 id="rendez-vous" className="eyebrow">
-            {t("couple.dates.title")}
+      {counselorAvailable(couple.status) && (
+        <section aria-labelledby="cagnotte" className="mt-14">
+          <h2 id="cagnotte" className="eyebrow">
+            {t("couple.cagnotte.title")}
           </h2>
-          <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("couple.dates.help")}</p>
-          {couple.status === "active" && <DateForm declare={declareDate.bind(null, id)} />}
-          {dates.length > 0 && (
-            <ul className="mt-6 border-t border-line">
-              {dates.map((d) => (
-                <li key={d.id} className="flex flex-wrap justify-between gap-4 border-b border-line py-4">
-                  <span>{when(d.date_at)}</span>
-                  <span className="text-sm text-fg-muted">{d.declared_by_me ? t("couple.dates.byMe") : t("couple.dates.byPartner", { name: partnerName })}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <CagnottePanel
+            coupleId={id}
+            view={cagnotteView(cagnotte)}
+            cagnotte={cagnotte}
+            contributions={(contributions ?? []) as ContributionRow[]}
+            canPropose={canProposeCagnotte({ status: couple.status, blocked: couple.blocked, dowryOrWeddingReached: dowryReached, view: cagnotteView(cagnotte) })}
+            commissionPercent={Number(cagnotteRules?.commission_percent ?? 0)}
+            minPayout={cagnotteRules?.min_payout_xof ?? 0}
+            siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}
+          />
+        </section>
+      )}
+
+      {/* Prestataires partenaires : coordonnées réservées aux couples et unions (phase 4, question 2) */}
+      {counselorAvailable(couple.status) && (
+        <p className="mt-14 border-t border-line pt-8">
+          <Link href="/espace/prestataires" className="text-link underline-offset-4 hover:underline">
+            {t("couple.providersLink")}
+          </Link>
+        </p>
+      )}
+
+        </>
+      )}
+
+      {tab === "together" && (
+        <>
+      {shared && (photos ?? []).length > 0 && (
+        <section aria-labelledby="photos" className="mt-14">
+          <h2 id="photos" className="eyebrow">
+            {t("discoveries.photos")}
+          </h2>
+          <ul className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {(photos ?? []).map((p, i) => (
+              <li key={p.id}>
+                <ProtectedPhoto load={partnerPhotoLink.bind(null, p.id)} alt={t("discoveries.photoAlt", { name: partnerName, rank: i + 1 })} />
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
@@ -329,6 +395,11 @@ export default async function CouplePage() {
         </section>
       )}
 
+        </>
+      )}
+
+      {tab === "decisions" && (
+        <>
       {(live || couple.status === "union_celebrated") && (
         <section aria-labelledby="decisions" className="mt-14">
           <h2 id="decisions" className="eyebrow">
@@ -345,6 +416,9 @@ export default async function CouplePage() {
           </div>
         </section>
       )}
+        </>
+      )}
+
     </div>
   );
 }

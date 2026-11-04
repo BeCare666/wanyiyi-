@@ -74,15 +74,15 @@ describe("Membres de démonstration", () => {
     expect(kept(after)).toEqual(kept(before));
   });
 
-  it("soirée de démonstration : 10 × 10 jouée de bout en bout, liste d'attente, 200 votes, matchs le lendemain à 8 h", async () => {
+  it("soirée de démonstration : 10 × 10 jouée de bout en bout, liste d'attente, 200 votes, matchs annoncés à la fermeture", async () => {
     expect(await failure(db.exec(script("soiree-demo.sql")))).toMatch(/super administrateur/);
     await db.exec("rollback");
     superAdmin = await createMember(db, { firstName: "Équipe", sex: "female", role: "super_admin" });
 
     await db.exec(script("soiree-demo.sql"));
     const [event] = (
-      await db.query<{ id: string; status: string; price_xof: number; announce: Date }>(
-        `select e.id, e.status, e.price_xof, app.match_announcement_at(e.starts_at) as announce
+      await db.query<{ id: string; status: string; price_xof: number; computed: Date }>(
+        `select e.id, e.status, e.price_xof, e.results_computed_at as computed
          from app.events e join app.venues v on v.id = e.venue_id where v.name = 'Lieu de démonstration (fictif)'`,
       )
     ).rows;
@@ -107,8 +107,9 @@ describe("Membres de démonstration", () => {
     for (let i = 1; i <= 12; i++) for (let j = 1; j <= 12; j++) if (present(i, 4) && present(j, 6) && (i + j) % 4 === 0) expected += 1;
     const matches = (await db.query<{ announced_at: Date }>("select announced_at from app.matches where event_id = $1", [event!.id])).rows;
     expect(matches).toHaveLength(expected);
-    expect(matches.every((m) => new Date(m.announced_at).getTime() === new Date(event!.announce).getTime())).toBe(true);
-    expect(new Date(event!.announce).getTime()).toBeGreaterThan(Date.now());
+    // Annoncés dès que l'équipe termine la soirée (commit 7b7ff13), plus le lendemain à 8 h
+    expect(event!.computed).not.toBeNull();
+    expect(matches.every((m) => new Date(m.announced_at).getTime() <= Date.now())).toBe(true);
     // Actions de l'équipe journalisées au nom du super administrateur
     expect((await db.query("select 1 from app.audit_log where actor_id = $1", [superAdmin])).rows.length).toBeGreaterThan(0);
 

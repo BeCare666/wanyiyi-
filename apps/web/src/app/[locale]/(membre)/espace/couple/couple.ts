@@ -147,3 +147,15 @@ export function availableDecisions(couple: Pick<CoupleRow, "status">): ("resume"
   if (couple.status === "union_celebrated") return ["keep_chat"];
   return [];
 }
+
+/**
+ * Espace du couple, étape par étape (audit UX du 3 novembre 2026) : cinq onglets au lieu d'une
+ * longue page, et un guide vers la prochaine étape du parcours.
+ */
+export const coupleTabs = ["discussion", "journey", "support", "together", "decisions"] as const;
+export type CoupleTab = (typeof coupleTabs)[number];
+
+/** Prochaine étape du parcours : la première non franchie (null quand tout est franchi). */
+export function nextMilestone(rows: readonly MilestoneRow[]): MilestoneRow | null {
+  return rows.find((m) => m.reached_at === null) ?? null;
+}

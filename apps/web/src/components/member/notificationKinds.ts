@@ -69,6 +69,15 @@ const kinds = {
   verification_rejected: { href: null },
   // Parrainage acquis (phase 4, question 4)
   referral_acquired: { href: { pathname: memberNav.referral.href } },
+  // Une notification à chaque étape du parcours (audit UX du 3 novembre 2026)
+  registration_completed: { href: { pathname: memberNav.verification.href } },
+  verification_submitted: { href: { pathname: memberHome } },
+  profile_photo_approved: { href: { pathname: memberNav.evenings.href } },
+  evening_booked: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
+  evening_confirmed: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
+  evening_waitlisted: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
+  evening_registration_cancelled: { href: { pathname: memberNav.evenings.href } },
+  evening_seat_released: { href: { pathname: memberNav.evenings.href } },
 } as const;
 
 export type NotificationKey = keyof typeof kinds | "other";

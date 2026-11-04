@@ -117,7 +117,7 @@
     "steps": [
       {
         "label": "L'accueil",
-        "text": "Notre équipe vous accueille et vous remet votre numéro de table. Vous confirmez votre présence 48 heures avant."
+        "text": "Notre équipe vous accueille et vous remet votre numéro de table. Votre place est confirmée dès son paiement."
       },
       {
         "label": "Les échanges",
@@ -464,8 +464,10 @@
     "intro": "L'inscription se fait avec votre adresse e-mail. Chaque étape est expliquée, et notre équipe reste joignable à tout moment.",
     "steps": [
       "Votre adresse e-mail, confirmée par un lien",
-      "Votre selfie, pris en direct",
-      "Votre déclaration sur l'honneur"
+      "Votre identité : prénom, nom, date de naissance",
+      "Votre vérification : déclaration sur l'honneur, selfie en direct et photo de profil, examinés ensemble par l'équipe",
+      "Votre profil : qui vous êtes et ce que vous recherchez",
+      "Votre première soirée : réservée, puis confirmée par le paiement"
     ],
     "accountTitle": "Votre compte",
     "email": "Adresse e-mail",
@@ -482,7 +484,7 @@
     "resent": "Un nouveau lien vient d'être envoyé.",
     "changeEmail": "Changer d'adresse",
     "identityTitle": "Qui êtes-vous ?",
-    "identityIntro": "Ces informations seront comparées à votre selfie lors de la vérification.",
+    "identityIntro": "Indiquez votre vrai prénom et votre vrai nom : seul votre prénom est montré aux autres membres. Le selfie, pris ensuite en direct, permet à l'équipe de s'assurer qu'une vraie personne se trouve derrière chaque profil.",
     "firstName": "Prénom",
     "lastName": "Nom",
     "lastNameHelp": "Jamais visible des autres membres.",
@@ -544,7 +546,7 @@
       "empty": "Aucune notification pour le moment.",
       "seeAll": "Toutes les notifications",
       "kinds": {
-        "evening_seat_offered": "Une place vous est attribuée pour une soirée. Pensez à la confirmer.",
+        "evening_seat_offered": "Une place vous est attribuée pour une soirée. Payez-la ou confirmez-la dans Mes soirées.",
         "match_announced": "Vous avez un nouveau match.",
         "evening_updated": "Une soirée pour laquelle vous avez une place ou attendez une place a été modifiée.",
         "evening_cancelled": "Une soirée pour laquelle vous aviez une place est annulée. Si vous aviez payé, le montant vous est remboursé en entier.",
@@ -595,7 +597,15 @@
         "referral_acquired": "Un de vos filleuls a participé à sa première soirée : votre parrainage est acquis.",
         "verification_approved": "Votre compte est validé par l'équipe Ifedele. Vous pouvez réserver une soirée.",
         "verification_to_correct": "L'équipe Ifedele vous demande une correction de votre dossier.",
-        "verification_rejected": "Votre dossier n'a pas été accepté par l'équipe Ifedele."
+        "verification_rejected": "Votre dossier n'a pas été accepté par l'équipe Ifedele.",
+        "registration_completed": "Bienvenue chez Ifedele. Étape suivante : votre vérification (déclaration, selfie et photo).",
+        "verification_submitted": "Votre dossier est envoyé. L'équipe l'examine et vous prévient dès sa décision.",
+        "profile_photo_approved": "Votre photo de profil est approuvée.",
+        "evening_booked": "Votre place est réservée. Payez-la pour la confirmer (soirée gratuite : confirmez-la) avant la date limite.",
+        "evening_confirmed": "Votre place est confirmée. À bientôt à la soirée.",
+        "evening_waitlisted": "Vous êtes sur liste d'attente pour une soirée. Vous serez prévenu(e) si une place se libère.",
+        "evening_registration_cancelled": "Votre place est annulée. Vous pouvez réserver une autre soirée.",
+        "evening_seat_released": "Votre place a été libérée faute de paiement ou de confirmation à temps. Vous pouvez réserver une autre soirée."
       }
     },
     "dashboard": {
@@ -617,7 +627,7 @@
       "noEvening": "Aucune soirée réservée pour le moment.",
       "seeEvenings": "Voir les soirées",
       "registration": {
-        "booked": "Place réservée, à confirmer 48 h avant la soirée",
+        "booked": "Place réservée, à payer ou à confirmer",
         "confirmed": "Place confirmée",
         "waitlisted": "Sur liste d'attente",
         "checked_in": "Présence enregistrée"
@@ -650,7 +660,7 @@
     },
     "evenings": {
       "title": "Les soirées",
-      "intro": "Choisissez une soirée, réservez votre place, puis confirmez-la avant la date limite indiquée.",
+      "intro": "Choisissez une soirée et réservez votre place. Une soirée payante est confirmée dès le paiement ; une soirée gratuite se confirme avant la date limite indiquée.",
       "notVerified": "Les réservations sont ouvertes aux membres dont le profil est validé.",
       "seeVerification": "Voir ma vérification",
       "filters": {
@@ -681,7 +691,8 @@
         "released": "Votre place a été libérée faute de confirmation ou de paiement.",
         "waitlisted": "Sur liste d'attente, position {rank}",
         "paid": "Paiement reçu",
-        "payBy": "À régler avant le {date}, sinon la place est libérée."
+        "payBy": "À régler avant le {date}, sinon la place est libérée.",
+        "bookedToPay": "Place réservée : le paiement la confirme."
       },
       "actions": {
         "book": "Réserver ma place",
@@ -694,7 +705,7 @@
         "cancelNo": "Non, la garder"
       },
       "done": {
-        "seat": "Votre place est réservée. Pensez à la confirmer avant la date limite.",
+        "seat": "Votre place est réservée. Payez-la pour la confirmer (soirée gratuite : confirmez-la avant la date limite).",
         "waitlist": "Vous êtes sur la liste d'attente. Nous vous préviendrons si une place se libère.",
         "confirmed": "Votre place est confirmée.",
         "cancelled": "Votre annulation est enregistrée."
@@ -830,7 +841,7 @@
     "verification": {
       "eyebrow": "Vérification",
       "title": "Ma vérification",
-      "intro": "Tous les membres de Ifedele sont vérifiés. Vos documents restent privés : seule l'équipe de vérification peut les consulter, et chaque consultation est enregistrée.",
+      "intro": "Chaque dossier est examiné par l'équipe Ifedele : déclaration sur l'honneur, selfie pris en direct et photo de profil. Vos documents restent privés : seule l'équipe de vérification peut les consulter, et chaque consultation est enregistrée.",
       "tracking": {
         "title": "Suivi de votre dossier",
         "note": "Message de l'équipe :",
@@ -842,7 +853,7 @@
           "rejected": "Dossier refusé"
         },
         "help": {
-          "not_started": "Signez la déclaration sur l'honneur, puis prenez un selfie en direct.",
+          "not_started": "Signez la déclaration sur l'honneur, prenez un selfie en direct et ajoutez une photo de profil.",
           "pending": "L'équipe examine votre dossier. Vous pouvez encore remplacer un élément si besoin.",
           "to_correct": "Corrigez les éléments indiqués par l'équipe, puis envoyez-les de nouveau.",
           "approved": "Votre dossier est validé. Vous pouvez réserver vos soirées.",
@@ -1132,7 +1143,37 @@
         "already_extended": "Cette découverte a déjà été prolongée une fois."
       },
       "coupleOpen": "Ouvrir l'espace du couple",
-      "extendHint": "Il reste 4 jours au plus : vous pouvez demander 7 jours de plus, une seule fois."
+      "extendHint": "Il reste 4 jours au plus : vous pouvez demander 7 jours de plus, une seule fois.",
+      "tabs": {
+        "label": "Sections de la découverte",
+        "discussion": "Discussion",
+        "dates": "Rendez-vous",
+        "photos": "Photos",
+        "decision": "Décision"
+      },
+      "guide": {
+        "label": "Votre découverte, étape par étape",
+        "title": "À faire maintenant",
+        "steps": {
+          "talk": "Discuter",
+          "meet": "Se rencontrer",
+          "decide": "Décider"
+        },
+        "text": {
+          "writeFirst": "Écrivez votre premier message à {name}. Une question simple sur ce qui compte pour vous suffit.",
+          "planDate": "Proposez à {name} un premier rendez-vous dans un lieu public, puis déclarez-le ici pour votre sécurité.",
+          "decide": "Après votre rencontre, dites si vous souhaitez continuer avec {name}. Votre choix reste privé.",
+          "decideSoon": "{count, plural, =0 {Dernier jour : dites si vous souhaitez continuer avec {name}, ou demandez 7 jours de plus.} one {Plus que # jour : dites si vous souhaitez continuer avec {name}, ou demandez 7 jours de plus.} other {Plus que # jours : dites si vous souhaitez continuer avec {name}, ou demandez 7 jours de plus.}}",
+          "decided": "Votre choix de continuer est enregistré. Si {name} fait le même, votre espace du couple s'ouvre et vous êtes prévenu(e)."
+        },
+        "action": {
+          "discussion": "Écrire un message",
+          "dates": "Déclarer un rendez-vous",
+          "photos": "Voir ses photos",
+          "decision": "Donner ma décision"
+        }
+      },
+      "noPhotos": "{name} n'a pas encore de photo approuvée."
     },
     "chat": {
       "label": "Conversation",
@@ -1410,6 +1451,23 @@
           "payout_too_small": "Le montant à reverser est encore sous le minimum. Vous pourrez le demander plus tard, ou à la clôture."
         },
         "minPayoutHelp": "Tant que la cagnotte est ouverte, un reversement se demande à partir de {amount} ; une fois close, tout est reversé."
+      },
+      "tabs": {
+        "label": "Sections de l'espace du couple",
+        "discussion": "Discussion",
+        "journey": "Notre parcours",
+        "support": "Accompagnement",
+        "together": "Nous deux",
+        "decisions": "Décisions"
+      },
+      "guide": {
+        "label": "Votre parcours de couple, étape par étape",
+        "title": "Prochaine étape",
+        "text": "Prochaine étape de votre parcours : {step}. Quand vous l'aurez franchie, confirmez-la tous les deux dans « Notre parcours ».",
+        "waiting": "Vous avez confirmé l'étape « {step} ». Elle sera franchie quand {name} la confirmera aussi.",
+        "auto": "Prochaine étape de votre parcours : {step}. Elle est franchie à la première séance faite avec le conseiller ; invitez-le depuis « Accompagnement ».",
+        "actionSupport": "Voir l'accompagnement",
+        "action": "Voir notre parcours"
       }
     },
     "venues": {
@@ -1483,7 +1541,7 @@
     },
     "badges": {
       "of": "Badges de confiance de {name}",
-      "identity_verified": "Identité vérifiée",
+      "identity_verified": "Profil vérifié",
       "evenings_attended": "Présent(e) aux soirées",
       "profile_complete": "Profil complet",
       "sponsor": "Parrain(e)"
@@ -1496,7 +1554,7 @@
           "action": "Terminer mon inscription"
         },
         "finishVerification": {
-          "text": "Dernière étape de l'inscription : déposez votre selfie et signez la déclaration sur l'honneur pour que l'équipe examine votre dossier.",
+          "text": "Dernière étape de l'inscription : signez la déclaration sur l'honneur, prenez votre selfie et ajoutez une photo de profil. L'équipe examine le tout en une fois.",
           "action": "Compléter ma vérification"
         },
         "correct": {
@@ -1507,7 +1565,7 @@
           "text": "Votre dossier est en cours d'examen par l'équipe Ifedele. Vous recevrez une notification et un e-mail dès la décision."
         },
         "waitReviewAddPhoto": {
-          "text": "Votre dossier est en cours d'examen. En attendant, ajoutez une photo de profil : elle sera demandée pour réserver une soirée.",
+          "text": "Votre dossier est en cours d'examen. Ajoutez votre photo de profil maintenant : l'équipe la relira avec votre dossier, et elle est demandée pour réserver une soirée.",
           "action": "Ajouter une photo"
         },
         "addPhoto": {
@@ -1518,7 +1576,7 @@
           "text": "Votre photo est en cours de relecture par l'équipe. Vous pourrez réserver une soirée dès qu'elle sera approuvée."
         },
         "pay": {
-          "text": "Payez votre place avant le {date}, sinon elle sera libérée.",
+          "text": "Payez votre place avant le {date} : le paiement la confirme. Sans paiement, elle sera libérée.",
           "action": "Payer ma place"
         },
         "confirm": {
@@ -1536,7 +1594,32 @@
         "book": {
           "text": "Votre compte est prêt. Réservez votre place à une prochaine soirée.",
           "action": "Voir les soirées"
+        },
+        "waitReviewProfile": {
+          "text": "Votre dossier est en cours d'examen. En attendant, complétez votre profil : c'est par lui que les autres membres vous découvrent.",
+          "action": "Compléter mon profil"
+        },
+        "photoPendingProfile": {
+          "text": "Votre photo est en relecture. En attendant, complétez votre profil : c'est par lui que les autres membres vous découvrent.",
+          "action": "Compléter mon profil"
+        },
+        "completeProfile": {
+          "text": "Dernière étape avant votre première soirée : complétez votre profil. C'est par lui que les autres membres vous découvrent.",
+          "action": "Compléter mon profil"
         }
+      },
+      "phasesLabel": "Votre parcours, étape par étape",
+      "phases": {
+        "account": "Compte",
+        "verification": "Vérification",
+        "photo": "Photo",
+        "profile": "Profil",
+        "evening": "Soirée"
+      },
+      "phaseStates": {
+        "done": "fait",
+        "current": "en cours",
+        "todo": "à venir"
       }
     }
   },

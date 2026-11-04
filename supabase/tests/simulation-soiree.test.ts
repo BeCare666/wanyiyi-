@@ -125,12 +125,11 @@ describe("Simulation complète d'une soirée 10 × 10 (étape 6)", () => {
     expect(offered.rows.map((n) => n.user_id)).toEqual([women[10], men[10]].sort());
   });
 
-  it("paiement simulé puis confirmation des 20 participants avant la limite des 48 h", async () => {
+  it("paiement simulé : les 20 places payées sont confirmées d'elles-mêmes", async () => {
     const seated = [...women, ...men].filter((_, k) => k !== 3 && k !== 12 + 5 && k !== 11 && k !== 23);
     expect(seated).toHaveLength(20);
     for (const user of seated) {
       await paySimulated(user);
-      await as(user, "select app.confirm_registration($1)", [event]);
     }
     const regs = await db.query<{ status: string; paid: boolean }>(
       `select r.status, p.status = 'succeeded' as paid from app.event_registrations r

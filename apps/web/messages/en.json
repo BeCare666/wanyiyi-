@@ -117,7 +117,7 @@
     "steps": [
       {
         "label": "Welcome",
-        "text": "Our team greets you and gives you your table number. You confirm your attendance 48 hours beforehand."
+        "text": "Our team greets you and gives you your table number. Your seat is confirmed as soon as it is paid."
       },
       {
         "label": "Conversations",
@@ -464,8 +464,10 @@
     "intro": "Registration is done with your e-mail address. Each step is explained, and our team is available at any time.",
     "steps": [
       "Your e-mail address, confirmed by a link",
-      "Your selfie, taken live",
-      "Your sworn statement"
+      "Your identity: first name, last name, date of birth",
+      "Your verification: sworn statement, live selfie and profile photo, reviewed together by the team",
+      "Your profile: who you are and what you are looking for",
+      "Your first evening: booked, then confirmed by payment"
     ],
     "accountTitle": "Your account",
     "email": "E-mail address",
@@ -482,7 +484,7 @@
     "resent": "A new link has just been sent.",
     "changeEmail": "Change address",
     "identityTitle": "Who are you?",
-    "identityIntro": "This information will be compared with your selfie during verification.",
+    "identityIntro": "Enter your real first and last name: only your first name is shown to other members. The live selfie you take next lets the team make sure a real person is behind every profile.",
     "firstName": "First name",
     "lastName": "Last name",
     "lastNameHelp": "Never visible to other members.",
@@ -544,7 +546,7 @@
       "empty": "No notifications yet.",
       "seeAll": "All notifications",
       "kinds": {
-        "evening_seat_offered": "A seat at an evening is now yours. Please remember to confirm it.",
+        "evening_seat_offered": "A seat at an evening is now yours. Pay for it or confirm it in My evenings.",
         "match_announced": "You have a new match.",
         "evening_updated": "An evening you registered for has been changed.",
         "evening_cancelled": "An evening you registered for is cancelled. If you paid, you are refunded in full.",
@@ -595,7 +597,15 @@
         "referral_acquired": "One of the people you referred attended their first evening: your referral is confirmed.",
         "verification_approved": "Your account has been approved by the Ifedele team. You can book an evening.",
         "verification_to_correct": "The Ifedele team asks you for a correction to your file.",
-        "verification_rejected": "Your file was not accepted by the Ifedele team."
+        "verification_rejected": "Your file was not accepted by the Ifedele team.",
+        "registration_completed": "Welcome to Ifedele. Next step: your verification (statement, selfie and photo).",
+        "verification_submitted": "Your file has been sent. The team is reviewing it and will let you know its decision.",
+        "profile_photo_approved": "Your profile photo has been approved.",
+        "evening_booked": "Your seat is booked. Pay for it to confirm it (free evening: confirm it) before the deadline.",
+        "evening_confirmed": "Your seat is confirmed. See you at the evening.",
+        "evening_waitlisted": "You are on the waiting list for an evening. You will be told if a seat becomes free.",
+        "evening_registration_cancelled": "Your seat is cancelled. You can book another evening.",
+        "evening_seat_released": "Your seat was released because it was not paid or confirmed in time. You can book another evening."
       }
     },
     "dashboard": {
@@ -617,7 +627,7 @@
       "noEvening": "No evening booked yet.",
       "seeEvenings": "See the evenings",
       "registration": {
-        "booked": "Seat booked, to be confirmed 48 hours before the evening",
+        "booked": "Seat booked, to pay or confirm",
         "confirmed": "Seat confirmed",
         "waitlisted": "On the waiting list",
         "checked_in": "Attendance recorded"
@@ -650,7 +660,7 @@
     },
     "evenings": {
       "title": "Evenings",
-      "intro": "Choose an evening, book your seat, then confirm it before the deadline shown.",
+      "intro": "Choose an evening and book your seat. A paid evening is confirmed as soon as you pay; a free evening is confirmed before the stated deadline.",
       "notVerified": "Bookings are open to members whose profile has been approved.",
       "seeVerification": "See my verification",
       "filters": {
@@ -681,7 +691,8 @@
         "released": "Your seat was released because it was not confirmed or paid.",
         "waitlisted": "On the waiting list, position {rank}",
         "paid": "Payment received",
-        "payBy": "To be paid before {date}, otherwise the seat is released."
+        "payBy": "To be paid before {date}, otherwise the seat is released.",
+        "bookedToPay": "Seat booked: payment confirms it."
       },
       "actions": {
         "book": "Book my seat",
@@ -694,7 +705,7 @@
         "cancelNo": "No, keep it"
       },
       "done": {
-        "seat": "Your seat is booked. Remember to confirm it before the deadline.",
+        "seat": "Your seat is booked. Pay for it to confirm it (free evening: confirm it before the deadline).",
         "waitlist": "You are on the waiting list. We will let you know if a seat opens up.",
         "confirmed": "Your seat is confirmed.",
         "cancelled": "Your cancellation has been recorded."
@@ -830,7 +841,7 @@
     "verification": {
       "eyebrow": "Verification",
       "title": "My verification",
-      "intro": "Every Ifedele member is verified. Your documents stay private: only the verification team can view them, and every view is recorded.",
+      "intro": "Every file is reviewed by the Ifedele team: sworn statement, live selfie and profile photo. Your documents stay private: only the verification team can view them, and every view is recorded.",
       "tracking": {
         "title": "Your file",
         "note": "Message from the team:",
@@ -842,7 +853,7 @@
           "rejected": "File declined"
         },
         "help": {
-          "not_started": "Sign the sworn statement, then take a live selfie.",
+          "not_started": "Sign the sworn statement, take a live selfie and add a profile photo.",
           "pending": "The team is reviewing your file. You can still replace an item if needed.",
           "to_correct": "Correct the items the team pointed out, then send them again.",
           "approved": "Your file is approved. You can book your evenings.",
@@ -1132,7 +1143,37 @@
         "already_extended": "This discovery has already been extended once."
       },
       "coupleOpen": "Open the couple space",
-      "extendHint": "4 days or less remain: you can ask for 7 more days, once."
+      "extendHint": "4 days or less remain: you can ask for 7 more days, once.",
+      "tabs": {
+        "label": "Discovery sections",
+        "discussion": "Conversation",
+        "dates": "Dates",
+        "photos": "Photos",
+        "decision": "Decision"
+      },
+      "guide": {
+        "label": "Your discovery, step by step",
+        "title": "What to do now",
+        "steps": {
+          "talk": "Talk",
+          "meet": "Meet",
+          "decide": "Decide"
+        },
+        "text": {
+          "writeFirst": "Write your first message to {name}. A simple question about what matters to you is enough.",
+          "planDate": "Suggest a first date with {name} in a public place, then declare it here for your safety.",
+          "decide": "After meeting, say whether you wish to continue with {name}. Your choice stays private.",
+          "decideSoon": "{count, plural, =0 {Last day: say whether you wish to continue with {name}, or ask for 7 more days.} one {Only # day left: say whether you wish to continue with {name}, or ask for 7 more days.} other {Only # days left: say whether you wish to continue with {name}, or ask for 7 more days.}}",
+          "decided": "Your choice to continue is recorded. If {name} makes the same choice, your couple space opens and you are notified."
+        },
+        "action": {
+          "discussion": "Write a message",
+          "dates": "Declare a date",
+          "photos": "See the photos",
+          "decision": "Give my decision"
+        }
+      },
+      "noPhotos": "{name} has no approved photo yet."
     },
     "chat": {
       "label": "Conversation",
@@ -1410,6 +1451,23 @@
           "payout_too_small": "The amount to pay out is still below the minimum. You can ask later, or when the fund closes."
         },
         "minPayoutHelp": "While the fund is open, a payout can be requested from {amount}; once closed, everything is paid out."
+      },
+      "tabs": {
+        "label": "Couple space sections",
+        "discussion": "Conversation",
+        "journey": "Our journey",
+        "support": "Support",
+        "together": "The two of us",
+        "decisions": "Decisions"
+      },
+      "guide": {
+        "label": "Your couple journey, step by step",
+        "title": "Next step",
+        "text": "Next step of your journey: {step}. Once you have reached it, both confirm it in “Our journey”.",
+        "waiting": "You have confirmed the step “{step}”. It will be reached when {name} confirms it too.",
+        "auto": "Next step of your journey: {step}. It is reached at the first session held with the counsellor; invite one from “Support”.",
+        "actionSupport": "See support",
+        "action": "See our journey"
       }
     },
     "venues": {
@@ -1483,7 +1541,7 @@
     },
     "badges": {
       "of": "{name}'s trust badges",
-      "identity_verified": "Identity verified",
+      "identity_verified": "Verified profile",
       "evenings_attended": "Attends evenings",
       "profile_complete": "Complete profile",
       "sponsor": "Sponsor"
@@ -1496,7 +1554,7 @@
           "action": "Finish my registration"
         },
         "finishVerification": {
-          "text": "Last step of registration: upload your selfie and sign the sworn statement so the team can review your file.",
+          "text": "Last step of registration: sign the sworn statement, take your selfie and add a profile photo. The team reviews everything at once.",
           "action": "Complete my verification"
         },
         "correct": {
@@ -1507,7 +1565,7 @@
           "text": "Your file is being reviewed by the Ifedele team. You will receive a notification and an email as soon as they decide."
         },
         "waitReviewAddPhoto": {
-          "text": "Your file is being reviewed. Meanwhile, add a profile photo: it will be required to book an evening.",
+          "text": "Your file is being reviewed. Add your profile photo now: the team will review it with your file, and it is required to book an evening.",
           "action": "Add a photo"
         },
         "addPhoto": {
@@ -1518,7 +1576,7 @@
           "text": "Your photo is being reviewed by the team. You can book an evening as soon as it is approved."
         },
         "pay": {
-          "text": "Pay for your seat before {date}, otherwise it will be released.",
+          "text": "Pay for your seat before {date}: payment confirms it. Without payment, it will be released.",
           "action": "Pay for my seat"
         },
         "confirm": {
@@ -1536,7 +1594,32 @@
         "book": {
           "text": "Your account is ready. Book your seat at an upcoming evening.",
           "action": "See the evenings"
+        },
+        "waitReviewProfile": {
+          "text": "Your file is being reviewed. Meanwhile, complete your profile: it is how other members get to know you.",
+          "action": "Complete my profile"
+        },
+        "photoPendingProfile": {
+          "text": "Your photo is being reviewed. Meanwhile, complete your profile: it is how other members get to know you.",
+          "action": "Complete my profile"
+        },
+        "completeProfile": {
+          "text": "Last step before your first evening: complete your profile. It is how other members get to know you.",
+          "action": "Complete my profile"
         }
+      },
+      "phasesLabel": "Your journey, step by step",
+      "phases": {
+        "account": "Account",
+        "verification": "Verification",
+        "photo": "Photo",
+        "profile": "Profile",
+        "evening": "Evening"
+      },
+      "phaseStates": {
+        "done": "done",
+        "current": "in progress",
+        "todo": "to come"
       }
     }
   },

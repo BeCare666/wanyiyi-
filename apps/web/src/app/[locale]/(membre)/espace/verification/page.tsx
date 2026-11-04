@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
+import { loadJourney, NextStep } from "@/components/member/NextStep";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { type MyPhotoRow, photosFrom } from "../profil/photos";
+import { PhotosStep } from "../profil/PhotosStep";
 import { DeclarationForm } from "./DeclarationForm";
 import { SelfieForm } from "./SelfieForm";
 import { canSubmit, type MyVerification } from "./verification";
@@ -46,7 +49,8 @@ export default async function VerificationPage() {
   const format = await getFormatter();
   const member = await getSessionMember();
   if (!member) return null;
-  const result = await myVerification();
+  const supabase = await createSupabaseServer();
+  const [result, photos, journey] = await Promise.all([myVerification(), supabase?.rpc("my_photos"), loadJourney(member.id)]);
 
   if (!result.ok) {
     return (
@@ -75,6 +79,8 @@ export default async function VerificationPage() {
         <h1 className="mt-6 text-4xl">{t("title")}</h1>
         <p className="mt-6 max-w-measure text-lg text-fg-muted">{t("intro")}</p>
       </header>
+
+      <NextStep journey={journey} here={["verification", "photos"]} />
 
       <section aria-labelledby="suivi" className="mt-12 border-l border-accent pl-6">
         <h2 id="suivi" className="eyebrow">
@@ -148,6 +154,14 @@ export default async function VerificationPage() {
             ) : null}
           </div>
         </section>
+
+        {/* Photo de profil demandée avec le dossier (audit UX du 3 novembre 2026) : l'équipe la
+            relit en même temps, une seule attente au lieu de deux */}
+        {photos && !photos.error && (
+          <div className="border-b border-line pb-10 [&>section]:mt-0 [&>section]:border-t-0">
+            <PhotosStep photos={photosFrom((photos.data ?? []) as MyPhotoRow[])} />
+          </div>
+        )}
       </div>
     </div>
   );

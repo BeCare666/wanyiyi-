@@ -182,7 +182,9 @@ export default async function EveningsPage({ searchParams }: Props) {
                       <div className="md:col-span-3 md:text-right">
                         {mine && (
                           <p className="text-sm">
-                            {mine.status === "booked"
+                            {mine.status === "booked" && evening.price_xof !== null
+                              ? t("evenings.mine.bookedToPay")
+                              : mine.status === "booked"
                               ? now < new Date(mine.confirm_by)
                                 ? t("evenings.mine.booked", {
                                     date: `${format.dateTime(new Date(mine.confirm_by), "eventDay")}, ${format.dateTime(new Date(mine.confirm_by), "eventTime")}`,

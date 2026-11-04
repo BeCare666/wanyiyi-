@@ -161,7 +161,7 @@ describe("Actions", () => {
         suspend: await attempt(tx, "select app.suspend_member($1, 'motif')", [member]),
         checkIn: await attempt(tx, "select app.check_in($1, $2)", [event, member]),
         // Lue par le membre lui-même : l'équipe ne lit pas ses notifications
-        notification: await actAs(tx, member).then(() => rows(tx.query("select kind, payload from app.notifications where user_id = $1", [member]))),
+        notification: await actAs(tx, member).then(() => rows(tx.query("select kind, payload from app.notifications where user_id = $1 and kind like 'member.%'", [member]))),
       };
     });
     expect(flow.status).toBe("excluded");

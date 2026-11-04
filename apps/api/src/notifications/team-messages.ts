@@ -1,3 +1,4 @@
+import { isJourneyKind, journeyContent } from "./journey-messages";
 import { emailLayout, type Locale, toLocale } from "./messages";
 
 /**
@@ -256,6 +257,12 @@ export function deliveryContent(kind: string, payload: unknown, localeValue: unk
         text: `${decision.subject}\n\n${paragraphs.join("\n\n")}\n\n${link}\n\n${t.footer}`,
       },
     };
+  }
+
+  // Étapes du parcours (audit UX du 3 novembre 2026) : une notification à chaque action du membre
+  if (isJourneyKind(kind)) {
+    const date = typeof data.starts_at === "string" && !Number.isNaN(Date.parse(data.starts_at)) ? eveningDate(data.starts_at, locale) : null;
+    return journeyContent(kind, locale, date, data.priced !== false, (path) => siteUrl(webOrigin, locale, path), t.footer);
   }
 
   return null;

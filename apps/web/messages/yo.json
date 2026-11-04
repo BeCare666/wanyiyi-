@@ -117,7 +117,7 @@
     "steps": [
       {
         "label": "Ìkíni káàbọ̀",
-        "text": "Ẹgbẹ́ wa yóò kí yín káàbọ̀, yóò sì fún yín ní nọ́mbà tábìlì yín. Ẹ ó jẹ́rìí sí wíwá yín ní wákàtí méjìdínláàádọ́ta ṣáájú."
+        "text": "Ẹgbẹ́ wa yóò kí yín káàbọ̀, yóò sì fún yín ní nọ́mbà tábìlì yín. Àyè yín yóò fìdí múlẹ̀ ní kété tí ẹ bá san owó rẹ̀."
       },
       {
         "label": "Àwọn ìjíròrò",
@@ -464,8 +464,10 @@
     "intro": "Ẹ ó forúkọsílẹ̀ pẹ̀lú àdírẹ́sì e-mail yín. A ṣàlàyé ìgbésẹ̀ kọ̀ọ̀kan, ẹgbẹ́ wa sì wà fún yín nígbàkígbà.",
     "steps": [
       "Àdírẹ́sì e-mail yín, tí a fìdí rẹ̀ múlẹ̀ pẹ̀lú ìjápọ̀ kan",
-      "Fọ́tò ojú yín, tí a yà lójú ẹsẹ̀",
-      "Ìbúra yín"
+      "Ìdánimọ̀ yín: orúkọ, orúkọ ìdílé, ọjọ́ ìbí",
+      "Àyẹ̀wò yín: ìbúra, fọ́tò ojú lójú ẹsẹ̀ àti fọ́tò àkọsílẹ̀, tí ẹgbẹ́ ń ṣàyẹ̀wò papọ̀",
+      "Àkọsílẹ̀ yín: ẹni tí ẹ jẹ́ àti ohun tí ẹ ń wá",
+      "Ìpàdé alẹ́ àkọ́kọ́ yín: ẹ gba àyè, ìsanwó yóò sì fìdí rẹ̀ múlẹ̀"
     ],
     "accountTitle": "Àkọọ́lẹ̀ yín",
     "email": "Àdírẹ́sì e-mail",
@@ -482,7 +484,7 @@
     "resent": "A ṣẹ̀ṣẹ̀ fi ìjápọ̀ tuntun ránṣẹ́.",
     "changeEmail": "Yí àdírẹ́sì padà",
     "identityTitle": "Ta ni yín?",
-    "identityIntro": "A ó fi àwọn ìsọfúnni yìí wé fọ́tò ojú yín nígbà àyẹ̀wò.",
+    "identityIntro": "Ẹ kọ orúkọ yín gidi àti orúkọ ìdílé yín gidi: orúkọ yín nìkan ni àwọn ọmọ ẹgbẹ́ mìíràn yóò rí. Fọ́tò ojú tí ẹ ó yà lójú ẹsẹ̀ lẹ́yìn náà ń jẹ́ kí ẹgbẹ́ mọ̀ dájú pé ènìyàn gidi wà lẹ́yìn àkọsílẹ̀ kọ̀ọ̀kan.",
     "firstName": "Orúkọ",
     "lastName": "Orúkọ ìdílé",
     "lastNameHelp": "Àwọn ọmọ ẹgbẹ́ mìíràn kò ní rí i láé.",
@@ -544,7 +546,7 @@
       "empty": "Kò sí ìfitónilétí kankan báyìí.",
       "seeAll": "Gbogbo ìfitónilétí",
       "kinds": {
-        "evening_seat_offered": "A ti fún yín ní àyè kan fún ìpàdé alẹ́. Ẹ rántí láti fìdí rẹ̀ múlẹ̀.",
+        "evening_seat_offered": "A ti fún yín ní àyè kan fún ìpàdé alẹ́. Ẹ san owó rẹ̀ tàbí ẹ fìdí rẹ̀ múlẹ̀ nínú Àwọn ìpàdé mi.",
         "match_announced": "Ẹ ní ìfohùnṣọ̀kan tuntun.",
         "evening_updated": "A ti ṣàtúnṣe ìpàdé kan tí ẹ forúkọ sílẹ̀ fún.",
         "evening_cancelled": "A ti fagilé ìpàdé kan tí ẹ forúkọ sílẹ̀ fún. Bí ẹ bá ti sanwó, a ó dá gbogbo rẹ̀ padà fún yín.",
@@ -595,7 +597,15 @@
         "referral_acquired": "Ọ̀kan nínú àwọn tí ẹ fi lọ́lẹ̀ ti kópa nínú ìrọ̀lẹ́ àkọ́kọ́ rẹ̀: ìfinilọ́lẹ̀ yín ti múlẹ̀.",
         "verification_approved": "Ẹgbẹ́ Ifedele ti fọwọ́ sí àkọọ́lẹ̀ yín. Ẹ lè gba àyè ní ìpàdé alẹ́.",
         "verification_to_correct": "Ẹgbẹ́ Ifedele ń béèrè àtúnṣe ìwé yín.",
-        "verification_rejected": "Ẹgbẹ́ Ifedele kò gba ìwé yín."
+        "verification_rejected": "Ẹgbẹ́ Ifedele kò gba ìwé yín.",
+        "registration_completed": "Ẹ káàbọ̀ sí Ifedele. Ìgbésẹ̀ tó kàn: àyẹ̀wò yín (ìbúra, fọ́tò ojú àti fọ́tò àkọsílẹ̀).",
+        "verification_submitted": "A ti fi ìwé yín ránṣẹ́. Ẹgbẹ́ ń ṣàyẹ̀wò rẹ̀, yóò sì sọ ìpinnu rẹ̀ fún yín.",
+        "profile_photo_approved": "A ti fọwọ́ sí fọ́tò àkọsílẹ̀ yín.",
+        "evening_booked": "A ti gba àyè yín sílẹ̀. Ẹ san owó rẹ̀ láti fìdí rẹ̀ múlẹ̀ (ìpàdé ọ̀fẹ́: ẹ fìdí rẹ̀ múlẹ̀) ṣáájú ọjọ́ ìparí.",
+        "evening_confirmed": "A ti fìdí àyè yín múlẹ̀. A ó rí yín ní ìpàdé alẹ́.",
+        "evening_waitlisted": "Ẹ wà nínú àkójọ ìdúró fún ìpàdé alẹ́ kan. A ó sọ fún yín bí àyè kan bá ṣí sílẹ̀.",
+        "evening_registration_cancelled": "A ti fagi lé àyè yín. Ẹ lè gba àyè ní ìpàdé alẹ́ mìíràn.",
+        "evening_seat_released": "A ti fi àyè yín sílẹ̀ nítorí pé a kò san owó rẹ̀ tàbí fìdí rẹ̀ múlẹ̀ ní àkókò. Ẹ lè gba àyè ní ìpàdé alẹ́ mìíràn."
       }
     },
     "dashboard": {
@@ -617,7 +627,7 @@
       "noEvening": "Ẹ kò tíì gba àyè fún ìpàdé alẹ́ kankan.",
       "seeEvenings": "Wo àwọn ìpàdé alẹ́",
       "registration": {
-        "booked": "A ti gba àyè yín, ẹ fìdí rẹ̀ múlẹ̀ ní wákàtí 48 ṣáájú",
+        "booked": "A ti gba àyè sílẹ̀, ẹ sanwó tàbí ẹ fìdí rẹ̀ múlẹ̀",
         "confirmed": "A ti fìdí àyè yín múlẹ̀",
         "waitlisted": "Ẹ wà lórí àkójọ ìdúró",
         "checked_in": "A ti kọ wíwá yín sílẹ̀"
@@ -650,7 +660,7 @@
     },
     "evenings": {
       "title": "Àwọn ìpàdé alẹ́",
-      "intro": "Ẹ yan ìpàdé alẹ́ kan, ẹ gba àyè yín, lẹ́yìn náà ẹ fìdí rẹ̀ múlẹ̀ ṣáájú ọjọ́ tí a kọ.",
+      "intro": "Ẹ yan ìpàdé alẹ́ kan, kí ẹ sì gba àyè yín. Ìpàdé tí a ń sanwó fún yóò fìdí múlẹ̀ ní kété tí ẹ bá sanwó; ìpàdé ọ̀fẹ́ ni ẹ ó fìdí rẹ̀ múlẹ̀ ṣáájú ọjọ́ ìparí.",
       "notVerified": "Gbígba àyè wà fún àwọn ọmọ ẹgbẹ́ tí a ti fọwọ́ sí àpèjúwe wọn.",
       "seeVerification": "Wo àyẹ̀wò mi",
       "filters": {
@@ -681,7 +691,8 @@
         "released": "A ti fi àyè yín sílẹ̀ nítorí pé ẹ kò fìdí rẹ̀ múlẹ̀ tàbí ẹ kò sanwó.",
         "waitlisted": "Ẹ wà lórí àkójọ ìdúró, ipò {rank}",
         "paid": "A ti gba owó náà",
-        "payBy": "Ẹ sanwó kí {date} tó dé, bí bẹ́ẹ̀ kọ́ a ó fi àyè náà fún ẹlòmíràn."
+        "payBy": "Ẹ sanwó kí {date} tó dé, bí bẹ́ẹ̀ kọ́ a ó fi àyè náà fún ẹlòmíràn.",
+        "bookedToPay": "A ti gba àyè sílẹ̀: ìsanwó ni yóò fìdí rẹ̀ múlẹ̀."
       },
       "actions": {
         "book": "Gba àyè mi",
@@ -694,7 +705,7 @@
         "cancelNo": "Rárá, fi sílẹ̀"
       },
       "done": {
-        "seat": "A ti gba àyè yín. Ẹ rántí láti fìdí rẹ̀ múlẹ̀ ṣáájú ọjọ́ tí a kọ.",
+        "seat": "A ti gba àyè yín sílẹ̀. Ẹ san owó rẹ̀ láti fìdí rẹ̀ múlẹ̀ (ìpàdé ọ̀fẹ́: ẹ fìdí rẹ̀ múlẹ̀ ṣáájú ọjọ́ ìparí).",
         "waitlist": "Ẹ wà lórí àkójọ ìdúró. A ó sọ fún yín bí àyè kan bá ṣí sílẹ̀.",
         "confirmed": "A ti fìdí àyè yín múlẹ̀.",
         "cancelled": "A ti kọ ìfagilé yín sílẹ̀."
@@ -830,7 +841,7 @@
     "verification": {
       "eyebrow": "Àyẹ̀wò",
       "title": "Àyẹ̀wò mi",
-      "intro": "A ń ṣe àyẹ̀wò gbogbo ọmọ ẹgbẹ́ Ifedele. Àwọn ìwé yín jẹ́ àṣírí: ẹgbẹ́ àyẹ̀wò nìkan ló lè wò wọ́n, a sì ń kọ gbogbo ìgbà tí wọ́n bá wò wọ́n sílẹ̀.",
+      "intro": "Ẹgbẹ́ Ifedele ń ṣàyẹ̀wò ìwé kọ̀ọ̀kan: ìbúra, fọ́tò ojú tí a yà lójú ẹsẹ̀ àti fọ́tò àkọsílẹ̀. Àwọn ìwé yín wà ní ìkọ̀kọ̀: ẹgbẹ́ àyẹ̀wò nìkan ló lè wò wọ́n, a sì ń kọ ìwòran kọ̀ọ̀kan sílẹ̀.",
       "tracking": {
         "title": "Ìtẹ̀síwájú ìwé yín",
         "note": "Ọ̀rọ̀ láti ọ̀dọ̀ ẹgbẹ́:",
@@ -842,7 +853,7 @@
           "rejected": "A kò gba ìwé yín"
         },
         "help": {
-          "not_started": "Ẹ fọwọ́ sí ìbúra, lẹ́yìn náà ẹ ya fọ́tò ojú yín lójú ẹsẹ̀.",
+          "not_started": "Ẹ buwọ́ lu ìbúra, ẹ ya fọ́tò ojú lójú ẹsẹ̀, kí ẹ sì fi fọ́tò àkọsílẹ̀ kún un.",
           "pending": "Ẹgbẹ́ ń wo ìwé yín. Ẹ ṣì lè pààrọ̀ nǹkan kan tí ó bá pọn dandan.",
           "to_correct": "Ẹ tún àwọn nǹkan tí ẹgbẹ́ tọ́ka sí ṣe, kí ẹ sì tún fi wọ́n ránṣẹ́.",
           "approved": "A ti fọwọ́ sí ìwé yín. Ẹ lè gba àyè ìpàdé alẹ́.",
@@ -1132,7 +1143,37 @@
         "already_extended": "A ti fi àkókò kún ìmọ̀ra yìí lẹ́ẹ̀kan."
       },
       "coupleOpen": "Ṣí àyè tọkọtaya",
-      "extendHint": "Ọjọ́ mẹ́rin tàbí kí ó dín ló kù: ẹ lè béèrè ọjọ́ méje sí i, lẹ́ẹ̀kan ṣoṣo."
+      "extendHint": "Ọjọ́ mẹ́rin tàbí kí ó dín ló kù: ẹ lè béèrè ọjọ́ méje sí i, lẹ́ẹ̀kan ṣoṣo.",
+      "tabs": {
+        "label": "Àwọn apá àkókò ìmọ̀ra",
+        "discussion": "Ìfọ̀rọ̀wérọ̀",
+        "dates": "Ìpàdé",
+        "photos": "Àwọn fọ́tò",
+        "decision": "Ìpinnu"
+      },
+      "guide": {
+        "label": "Àkókò ìmọ̀ra yín, ní ìgbésẹ̀ kọ̀ọ̀kan",
+        "title": "Ohun tí ẹ ó ṣe báyìí",
+        "steps": {
+          "talk": "Sọ̀rọ̀",
+          "meet": "Pàdé",
+          "decide": "Pinnu"
+        },
+        "text": {
+          "writeFirst": "Ẹ kọ ọ̀rọ̀ àkọ́kọ́ yín sí {name}. Ìbéèrè rírọrùn nípa ohun tó ṣe pàtàkì sí yín ti tó.",
+          "planDate": "Ẹ dábàá ìpàdé àkọ́kọ́ pẹ̀lú {name} ní ibi gbangba, lẹ́yìn náà ẹ kéde rẹ̀ níbí fún ààbò yín.",
+          "decide": "Lẹ́yìn ìpàdé yín, ẹ sọ bí ẹ bá fẹ́ tẹ̀síwájú pẹ̀lú {name}. Ìpinnu yín wà ní ìkọ̀kọ̀.",
+          "decideSoon": "{count, plural, =0 {Ọjọ́ ìkẹyìn: ẹ sọ bí ẹ bá fẹ́ tẹ̀síwájú pẹ̀lú {name}, tàbí ẹ béèrè ọjọ́ méje sí i.} other {Ọjọ́ # ló kù: ẹ sọ bí ẹ bá fẹ́ tẹ̀síwájú pẹ̀lú {name}, tàbí ẹ béèrè ọjọ́ méje sí i.}}",
+          "decided": "A ti kọ ìpinnu yín láti tẹ̀síwájú sílẹ̀. Bí {name} bá ṣe ìpinnu kan náà, ààyè ìbáṣepọ̀ yín yóò ṣí, a ó sì sọ fún yín."
+        },
+        "action": {
+          "discussion": "Kọ ọ̀rọ̀ kan",
+          "dates": "Kéde ìpàdé kan",
+          "photos": "Wo àwọn fọ́tò",
+          "decision": "Sọ ìpinnu mi"
+        }
+      },
+      "noPhotos": "{name} kò tíì ní fọ́tò tí a fọwọ́ sí."
     },
     "chat": {
       "label": "Ìfọ̀rọ̀wérọ̀",
@@ -1410,6 +1451,23 @@
           "payout_too_small": "Owó láti san padà kò tíì tó iye tó kéré jù. Ẹ lè béèrè rẹ̀ nígbà mìíràn, tàbí nígbà tí àpò bá tì."
         },
         "minPayoutHelp": "Nígbà tí àpò owó ṣí, a lè béèrè ìsanpadà láti {amount}; tí ó bá ti tì, a ó san gbogbo rẹ̀ padà."
+      },
+      "tabs": {
+        "label": "Àwọn apá ààyè ìbáṣepọ̀",
+        "discussion": "Ìfọ̀rọ̀wérọ̀",
+        "journey": "Ìrìn àjò wa",
+        "support": "Ìrànlọ́wọ́",
+        "together": "Àwa méjèèjì",
+        "decisions": "Àwọn ìpinnu"
+      },
+      "guide": {
+        "label": "Ìrìn àjò ìbáṣepọ̀ yín, ní ìgbésẹ̀ kọ̀ọ̀kan",
+        "title": "Ìgbésẹ̀ tó kàn",
+        "text": "Ìgbésẹ̀ tó kàn nínú ìrìn àjò yín: {step}. Nígbà tí ẹ bá dé ibẹ̀, ẹ méjèèjì fìdí rẹ̀ múlẹ̀ nínú « Ìrìn àjò wa ».",
+        "waiting": "Ẹ ti fìdí ìgbésẹ̀ « {step} » múlẹ̀. Yóò kọjá nígbà tí {name} náà bá fìdí rẹ̀ múlẹ̀.",
+        "auto": "Ìgbésẹ̀ tó kàn nínú ìrìn àjò yín: {step}. Yóò kọjá ní ìpàdé àkọ́kọ́ pẹ̀lú olùdámọ̀ràn; ẹ pè é láti inú « Ìrànlọ́wọ́ ».",
+        "actionSupport": "Wo ìrànlọ́wọ́",
+        "action": "Wo ìrìn àjò wa"
       }
     },
     "venues": {
@@ -1483,7 +1541,7 @@
     },
     "badges": {
       "of": "Àwọn àmì ìgbẹ́kẹ̀lé {name}",
-      "identity_verified": "A ti ṣàyẹ̀wò ìdánimọ̀",
+      "identity_verified": "A ti ṣàyẹ̀wò àkọsílẹ̀",
       "evenings_attended": "Ó ń wá sí àwọn ìrọ̀lẹ́",
       "profile_complete": "Àkọsílẹ̀ pípé",
       "sponsor": "Onífinilọ́lẹ̀"
@@ -1496,7 +1554,7 @@
           "action": "Parí ìforúkọsílẹ̀ mi"
         },
         "finishVerification": {
-          "text": "Ìgbésẹ̀ ìkẹyìn ìforúkọsílẹ̀: ẹ fi selfie yín ránṣẹ́, kí ẹ sì buwọ́ lu ìkéde lórí ọlá kí ẹgbẹ́ lè yẹ ìwé yín wò.",
+          "text": "Ìgbésẹ̀ ìkẹyìn ìforúkọsílẹ̀: ẹ buwọ́ lu ìbúra, ẹ ya fọ́tò ojú yín, kí ẹ sì fi fọ́tò àkọsílẹ̀ kún un. Ẹgbẹ́ yóò ṣàyẹ̀wò gbogbo rẹ̀ lẹ́ẹ̀kan náà.",
           "action": "Parí àyẹ̀wò mi"
         },
         "correct": {
@@ -1507,7 +1565,7 @@
           "text": "Ẹgbẹ́ Ifedele ń yẹ ìwé yín wò. Ẹ ó gba ìfitónilétí àti í-meèlì ní kété tí wọ́n bá pinnu."
         },
         "waitReviewAddPhoto": {
-          "text": "Wọ́n ń yẹ ìwé yín wò. Ní báyìí ná, ẹ fi àwòrán kún àpèjúwe yín: a ó béèrè rẹ̀ láti gba àyè ní ìpàdé alẹ́.",
+          "text": "A ń ṣàyẹ̀wò ìwé yín. Ẹ fi fọ́tò àkọsílẹ̀ yín kún un báyìí: ẹgbẹ́ yóò ṣàyẹ̀wò rẹ̀ pẹ̀lú ìwé yín, a sì nílò rẹ̀ láti gba àyè ní ìpàdé alẹ́.",
           "action": "Fi àwòrán kún un"
         },
         "addPhoto": {
@@ -1518,7 +1576,7 @@
           "text": "Ẹgbẹ́ ń yẹ àwòrán yín wò. Ẹ lè gba àyè ní ìpàdé alẹ́ ní kété tí wọ́n bá fọwọ́ sí i."
         },
         "pay": {
-          "text": "Ẹ san owó àyè yín ṣáájú {date}, bí bẹ́ẹ̀ kọ́ a ó fi í sílẹ̀ fún ẹlòmíràn.",
+          "text": "Ẹ san owó àyè yín ṣáájú {date}: ìsanwó ni yóò fìdí rẹ̀ múlẹ̀. Láìsanwó, a ó fi í sílẹ̀ fún ẹlòmíràn.",
           "action": "San owó àyè mi"
         },
         "confirm": {
@@ -1536,7 +1594,32 @@
         "book": {
           "text": "Àkọọ́lẹ̀ yín ti ṣetán. Ẹ gba àyè yín ní ìpàdé alẹ́ tó ń bọ̀.",
           "action": "Wo àwọn ìpàdé alẹ́"
+        },
+        "waitReviewProfile": {
+          "text": "A ń ṣàyẹ̀wò ìwé yín. Ní àsìkò yìí, ẹ parí àkọsílẹ̀ yín: òun ni àwọn ọmọ ẹgbẹ́ mìíràn fi ń mọ̀ yín.",
+          "action": "Parí àkọsílẹ̀ mi"
+        },
+        "photoPendingProfile": {
+          "text": "A ń ṣàyẹ̀wò fọ́tò yín. Ní àsìkò yìí, ẹ parí àkọsílẹ̀ yín: òun ni àwọn ọmọ ẹgbẹ́ mìíràn fi ń mọ̀ yín.",
+          "action": "Parí àkọsílẹ̀ mi"
+        },
+        "completeProfile": {
+          "text": "Ìgbésẹ̀ ìkẹyìn ṣáájú ìpàdé alẹ́ àkọ́kọ́ yín: ẹ parí àkọsílẹ̀ yín. Òun ni àwọn ọmọ ẹgbẹ́ mìíràn fi ń mọ̀ yín.",
+          "action": "Parí àkọsílẹ̀ mi"
         }
+      },
+      "phasesLabel": "Ìrìn àjò yín, ní ìgbésẹ̀ kọ̀ọ̀kan",
+      "phases": {
+        "account": "Àkọọ́lẹ̀",
+        "verification": "Àyẹ̀wò",
+        "photo": "Fọ́tò",
+        "profile": "Àkọsílẹ̀",
+        "evening": "Ìpàdé alẹ́"
+      },
+      "phaseStates": {
+        "done": "ó ti parí",
+        "current": "ó ń lọ lọ́wọ́",
+        "todo": "ó ń bọ̀"
       }
     }
   },
