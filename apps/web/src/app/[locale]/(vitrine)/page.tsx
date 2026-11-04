@@ -23,6 +23,7 @@ export default async function HomePage() {
       <Celebration />
       <Testimonials />
       <Upcoming />
+      <AppDownload />
       <Faq />
     </>
   );
