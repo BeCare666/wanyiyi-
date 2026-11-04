@@ -1,0 +1,43 @@
+APPLICATION ANDROID IFEDELE (com.ifedele.app)
+==============================================
+
+Principe : l'application ouvre https://ifedele.com en plein écran (Trusted Web
+Activity, générée avec Bubblewrap). Toute mise à jour du site arrive aussitôt
+dans l'application. Il faut reconstruire l'APK seulement si le nom, l'icône,
+les couleurs ou les réglages Android changent.
+
+Fichiers
+  - android/generer-projet.cjs : génère android/projet à partir du manifeste du site.
+  - android/projet : projet Android (Gradle).
+  - apps/web/public/.well-known/assetlinks.json : lie le site à l'application.
+    Sans lui, une barre d'adresse apparaît en haut de l'application.
+  - C:\Users\PC\ifedele-signature\ : CLÉ DE SIGNATURE + mots de passe.
+    Jamais dans git. À COPIER sur une clé USB ou dans un coffre :
+    sans elle, plus aucune mise à jour de l'application n'est possible.
+
+Reconstruire l'APK (Git Bash, depuis android/projet)
+  1. Augmenter appVersionCode (+1) et appVersionName dans app/build.gradle
+     et twa-manifest.json.
+  2. export JAVA_HOME="C:\Users\PC\.bubblewrap\jdk"
+     export ANDROID_HOME="C:\Users\PC\.bubblewrap\android_sdk"
+     ./gradlew.bat assembleRelease --no-daemon
+  3. Aligner puis signer (build-tools 36.1.0) :
+     zipalign -f -p 4 app/build/outputs/apk/release/app-release-unsigned.apk aligne.apk
+     apksigner sign --ks C:\Users\PC\ifedele-signature\ifedele.keystore
+       --ks-key-alias ifedele --out ifedele.apk aligne.apk
+  Mémoire : Gradle est limité à 1 Go (gradle.properties). Fermer les programmes
+  lourds avant de construire.
+
+Installer sur un téléphone pour essayer
+  Envoyer ifedele.apk sur le téléphone (WhatsApp, câble, Drive), l'ouvrir,
+  autoriser « installer des applications inconnues » quand Android le demande.
+
+Plus tard, pour le Play Store
+  - Construire un .aab (./gradlew.bat bundleRelease) au lieu de l'APK.
+  - Google Play re-signe l'application avec sa propre clé : ajouter son
+    empreinte SHA-256 (Play Console > Intégrité de l'application) dans
+    assetlinks.json, à côté de la nôtre.
+  - Les personnes qui ont installé l'APK d'essai devront le désinstaller
+    avant d'installer la version du Play Store (signature différente).
+  - Questions encore ouvertes : compte Play Console (société ou particulier),
+    APK gardé en téléchargement ou non, notifications sur le téléphone.

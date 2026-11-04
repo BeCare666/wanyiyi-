@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ifedele.app",
+      "sha256_cert_fingerprints": [
+        "4D:7C:F7:9A:2C:EA:82:6F:BC:A5:F7:D6:9B:24:CC:62:9E:53:43:46:7E:4F:52:9F:F2:A2:83:5B:2A:84:D0:99"
+      ]
+    }
+  }
+]
