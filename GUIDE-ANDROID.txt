@@ -25,6 +25,9 @@ Reconstruire l'APK (Git Bash, depuis android/projet)
      zipalign -f -p 4 app/build/outputs/apk/release/app-release-unsigned.apk aligne.apk
      apksigner sign --ks C:\Users\PC\ifedele-signature\ifedele.keystore
        --ks-key-alias ifedele --out ifedele.apk aligne.apk
+  4. Copier ifedele.apk dans apps/web/public/telechargement/ (téléchargé depuis
+     la section « L'application » de la vitrine) et mettre à jour version et
+     taille dans androidApp (apps/web/src/config/site.ts).
   Mémoire : Gradle est limité à 1 Go (gradle.properties). Fermer les programmes
   lourds avant de construire.
 
