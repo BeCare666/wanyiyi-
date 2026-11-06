@@ -6,12 +6,13 @@ import { Link } from "@/i18n/navigation";
 import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { memberName } from "../../verifications/queue";
-import { canCheckIn, type EventStatus, groupParticipants, nextStep, type ParticipantRow, paymentSummary, toCotonouInput } from "../evenings";
+import { readTopics } from "@/lib/topics";
+import { type EventStatus, groupParticipants, nextStep, type ParticipantRow, paymentSummary, toCotonouInput } from "../evenings";
 import { EventForm } from "../EventForm";
 import { loadEventOptions } from "../options";
 import { type CompositionAlert, involvedCount, showComposition, splitAlerts } from "../composition";
 import { canPrintTables } from "../tables";
-import { CancelEveningButton, CheckInButton, DeleteDraftButton, StepButton } from "./EveningControls";
+import { CancelEveningButton, DeleteDraftButton, StepButton, TopicsForm } from "./EveningControls";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Admin.nav");
@@ -53,13 +54,15 @@ async function loadEvening(id: string) {
     .maybeSingle();
   if (!data) return null;
   const event = data as unknown as EventRow;
-  const [participants, rounds, results, matches, alerts] = await Promise.all([
+  const [participants, rounds, results, matches, alerts, topics] = await Promise.all([
     supabase.rpc("event_participants", { p_event: id }),
     supabase.from("rounds").select("id", { count: "exact", head: true }).eq("event_id", id),
     supabase.rpc("event_results", { p_event: id }),
     supabase.rpc("event_matches", { p_event: id }),
     // Composition assistée (section 11.2-5) : critères non négociables incompatibles
     showComposition(event.status) ? supabase.rpc("event_composition_alerts", { p_event: id }) : Promise.resolve({ data: [] }),
+    // Sujets de débat (06/11/2026), lus à part : sans la mise à jour de la base, la colonne manque
+    supabase.from("events").select("topics").eq("id", id).maybeSingle(),
   ]);
   return {
     event,
@@ -68,12 +71,14 @@ async function loadEvening(id: string) {
     results: ((results.data as Results[] | null) ?? [])[0] ?? null,
     matches: (matches.data as MatchRow[] | null) ?? [],
     alerts: (alerts.data as CompositionAlert[] | null) ?? [],
+    topics: topics.error ? null : readTopics((topics.data as { topics: unknown } | null)?.topics),
   };
 }
 
 /**
  * Fiche d'une soirée (section 11.2-5) : brouillon modifiable, déroulé pas à pas
- * (publication, préparation, début, fin, matchs), inscriptions et pointage, résultats.
+ * (publication, préparation avec pointage d'office des places confirmées, début, fin, matchs),
+ * inscriptions, sujets de débat, résultats.
  */
 export default async function AdminEveningPage({ params }: Props) {
   const { id } = await params;
@@ -86,7 +91,7 @@ export default async function AdminEveningPage({ params }: Props) {
   const t = await getTranslations("Admin");
   const tp = await getTranslations("Profile");
   const format = await getFormatter();
-  const { event, participants, rounds, results, matches, alerts } = evening;
+  const { event, participants, rounds, results, matches, alerts, topics } = evening;
   const showPayments = event.price_xof !== null && participants.every((p) => typeof p.paid === "boolean");
   const prepared = rounds > 0;
   const step = nextStep(event.status, prepared, event.results_computed_at !== null);
@@ -158,6 +163,17 @@ export default async function AdminEveningPage({ params }: Props) {
           <ButtonLink href={`/admin/soirees/${event.id}/minuteur`} className="mt-6">
             {t("evenings.timer.open")}
           </ButtonLink>
+        </section>
+      )}
+
+      {/* Quatre sujets de débat, les mêmes sur toutes les tables (06/11/2026) */}
+      {topics && event.status !== "finished" && event.status !== "cancelled" && (
+        <section aria-labelledby="topics" className="mt-12 border-t border-line pt-8">
+          <h2 id="topics" className="text-2xl">{t("evenings.topics.title")}</h2>
+          <p className="mt-4 max-w-measure text-fg-muted">{t("evenings.topics.help")}</p>
+          <div className="mt-6">
+            <TopicsForm eventId={event.id} initial={topics} />
+          </div>
         </section>
       )}
 
@@ -249,7 +265,6 @@ export default async function AdminEveningPage({ params }: Props) {
                                 </span>
                               )}
                             </span>
-                            {canCheckIn(p, event.status, prepared) && <CheckInButton eventId={event.id} userId={p.user_id} name={name} />}
                           </li>
                         );
                       })}

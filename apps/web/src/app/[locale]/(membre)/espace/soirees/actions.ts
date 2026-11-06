@@ -4,8 +4,8 @@ import { type ApiResult, memberApi } from "@/lib/api";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Réserver : place attribuée (« seat ») ou liste d'attente (« waitlist »). */
-export async function bookEvening(eventId: string): Promise<ApiResult<{ outcome: "seat" | "waitlist" }>> {
+/** Réserver : place attribuée (« seat »), ou soirée complète et inscription d'office à la suivante (« next_evening »). */
+export async function bookEvening(eventId: string): Promise<ApiResult<{ outcome: "seat" | "next_evening" }>> {
   if (!UUID.test(eventId)) return { ok: false, error: "generic" };
   return memberApi(`/events/${eventId}/book`, { method: "POST" });
 }

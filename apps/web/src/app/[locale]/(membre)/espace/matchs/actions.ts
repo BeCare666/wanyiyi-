@@ -14,12 +14,6 @@ async function call<T>(fn: string, args: Record<string, unknown>): Promise<ApiRe
   return error ? { ok: false, error: error.message } : { ok: true, data: data as T };
 }
 
-/** Choisir d'ouvrir une découverte (9.4, question 2) ; elle s'ouvre si l'autre l'a aussi choisie. */
-export async function chooseMatch(matchId: string): Promise<ApiResult<string | null>> {
-  if (!UUID.test(matchId)) return { ok: false, error: "generic" };
-  return call<string | null>("choose_match", { p_match: matchId });
-}
-
 /**
  * « Je veux continuer » et « Prolonger » : chacun pour soi ; l'effet n'a lieu que si les deux
  * l'ont demandé (couple, ou 7 jours de plus une seule fois).
@@ -37,6 +31,13 @@ export async function sendMessage(conversationId: string, body: string): Promise
   const text = body.trim();
   if (text === "" || text.length > 2000) return { ok: false, error: "invalid_body" };
   return call<string>("send_message", { p_conversation: conversationId, p_body: text });
+}
+
+/** Conversation lue (message reçu pendant que la discussion est ouverte) : l'autre voit ✓✓. */
+export async function markConversationRead(conversationId: string): Promise<ApiResult<void>> {
+  if (!UUID.test(conversationId)) return { ok: false, error: "generic" };
+  const result = await call<null>("mark_conversation_read", { p_conversation: conversationId });
+  return result.ok ? { ok: true, data: undefined } : result;
 }
 
 /** Lien de 5 minutes vers une photo de l'autre personne, filigranée au nom du membre (l'API vérifie le match). */

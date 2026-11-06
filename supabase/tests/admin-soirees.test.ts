@@ -77,8 +77,8 @@ describe("Brouillon et publication", () => {
     expect(result.audit).toEqual(["event.created", "event.updated", "event.published", "event.updated"]);
   });
 
-  it("refuse les valeurs hors règles : passé, capacité au-delà de 12, durées, tarif négatif", async () => {
-    const drafts: Draft[] = [{ startsInHours: -1 }, { women: 13 }, { men: 0 }, { round: 0 }, { change: -1 }, { price: -5 }];
+  it("refuse les valeurs hors règles : passé, capacité au-delà de 15, durées, tarif négatif", async () => {
+    const drafts: Draft[] = [{ startsInHours: -1 }, { women: 16 }, { men: 0 }, { round: 0 }, { change: -1 }, { price: -5 }];
     const errors = await asUser(db, admin, async (tx) => {
       const out: (string | null)[] = [];
       // Une tentative après l'autre : les points de sauvegarde ne se croisent pas

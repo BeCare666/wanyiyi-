@@ -28,7 +28,8 @@ export type Evening = {
   mine: MyBooking | null;
 };
 
-export type EveningAction = "book" | "waitlist" | "confirm" | "pay" | "cancel";
+/** « next » : soirée complète pour son sexe, le membre est inscrit d'office à la suivante (06/11/2026). */
+export type EveningAction = "book" | "next" | "confirm" | "pay" | "cancel";
 
 export const eveningFilters = ["all", "mine", "available"] as const;
 export type EveningFilter = (typeof eveningFilters)[number];
@@ -59,7 +60,7 @@ export function eveningActions(evening: Evening, sex: Sex | null, now: Date): Ev
   const mine = evening.mine;
   if (!mine || mine.status === "released") {
     if (!sex) return [];
-    return [freeSeats(evening, sex) > 0 ? "book" : "waitlist"];
+    return [freeSeats(evening, sex) > 0 ? "book" : "next"];
   }
   const actions: EveningAction[] = [];
   // Soirée payante : le paiement confirme la place (audit UX du 3 novembre 2026), pas de second bouton
@@ -99,6 +100,7 @@ export const knownEveningErrors = new Set([
   "theme_sector",
   "photo_required",
   "already_registered",
+  "no_evening_available",
   "evening_closed",
   "confirmation_closed",
   "not_booked",

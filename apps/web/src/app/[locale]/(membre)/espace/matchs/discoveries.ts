@@ -25,25 +25,25 @@ export type DiscoveryRow = {
 
 /**
  * Sections de la page :
- *   - toChoose : match en attente que le membre n'a pas encore choisi ;
- *   - waiting : match qu'il a choisi, en attente de l'autre (sans dire pourquoi) ;
+ *   - waiting : ancien match encore en attente d'ouverture (depuis le 06/11/2026, chaque match
+ *     s'ouvre aussitôt : il n'y a plus de choix à faire) ;
  *   - active : découverte ouverte (ou prolongée) ;
  *   - couple : découverte devenue couple ;
  *   - ended : mise en relation terminée (match expiré, découverte fermée ou arrivée à échéance).
  */
-export type Section = "toChoose" | "waiting" | "active" | "couple" | "ended";
+export type Section = "waiting" | "active" | "couple" | "ended";
 
 export function sectionOf(row: DiscoveryRow, now: Date): Section {
   if (row.discovery_status === "active" || row.discovery_status === "extended") return "active";
   if (row.discovery_status === "continued") return "couple";
   if (row.match_status === "pending_choice" && now.getTime() < new Date(row.pending_expires_at).getTime()) {
-    return row.chosen_by_me ? "waiting" : "toChoose";
+    return "waiting";
   }
   return "ended";
 }
 
 export function groupBySection(rows: readonly DiscoveryRow[], now: Date): Record<Section, DiscoveryRow[]> {
-  const out: Record<Section, DiscoveryRow[]> = { toChoose: [], waiting: [], active: [], couple: [], ended: [] };
+  const out: Record<Section, DiscoveryRow[]> = { waiting: [], active: [], couple: [], ended: [] };
   for (const row of rows) out[sectionOf(row, now)].push(row);
   return out;
 }
@@ -51,11 +51,6 @@ export function groupBySection(rows: readonly DiscoveryRow[], now: Date): Record
 /** Jours restants (arrondis au jour supérieur, 0 si l'échéance est passée). */
 export function daysLeft(until: string, now: Date): number {
   return Math.max(0, Math.ceil((new Date(until).getTime() - now.getTime()) / 86_400_000));
-}
-
-/** Le membre peut-il choisir un match maintenant ? (place libre ; la base revérifie tout) */
-export function canChoose(row: DiscoveryRow): boolean {
-  return row.free_slots > 0;
 }
 
 /** Prolongation encore possible : une seule, découverte pas encore prolongée. */
@@ -104,4 +99,39 @@ export function discoveryGuide(input: { sentMessages: number; dates: number; wan
   if (!talked) return { key: "writeFirst", tab: "discussion", steps };
   if (!met) return { key: "planDate", tab: "dates", steps };
   return { key: "decide", tab: "decision", steps };
+}
+
+/** Ligne de app.my_discovery_chats() : dernier message et messages non lus d'une discussion ouverte. */
+export type ChatPreview = {
+  discovery_id: string;
+  conversation_id: string;
+  last_body: string | null;
+  last_is_system: boolean | null;
+  last_from_me: boolean | null;
+  last_at: string | null;
+  unread: number;
+};
+
+/**
+ * Liste des discussions façon WhatsApp (06/11/2026) : la plus récente en haut (dernier message,
+ * sinon ouverture de la découverte).
+ */
+export function sortChats<T extends Pick<DiscoveryRow, "discovery_id" | "opened_at">>(
+  rows: readonly T[],
+  previews: readonly Pick<ChatPreview, "discovery_id" | "last_at">[],
+): T[] {
+  const last = new Map(previews.map((p) => [p.discovery_id, p.last_at]));
+  const at = (r: T) => new Date(last.get(r.discovery_id ?? "") ?? r.opened_at ?? 0).getTime();
+  return [...rows].sort((a, b) => at(b) - at(a));
+}
+
+/** Heure du dernier message : l'heure si c'est aujourd'hui, « hier », sinon la date. */
+export type ChatTimeLabel = { kind: "time" | "yesterday" | "date"; date: Date };
+
+export function chatTimeLabel(iso: string, now: Date, timeZone = "Africa/Porto-Novo"): ChatTimeLabel {
+  const date = new Date(iso);
+  const day = (d: Date) => new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+  if (day(date) === day(now)) return { kind: "time", date };
+  if (day(date) === day(new Date(now.getTime() - 86_400_000))) return { kind: "yesterday", date };
+  return { kind: "date", date };
 }

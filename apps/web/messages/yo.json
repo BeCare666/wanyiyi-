@@ -34,7 +34,7 @@
     "account": "Àyè mi",
     "rules": "Òfin",
     "hints": {
-      "evenings": "Obìnrin mẹ́wàá, ọkùnrin mẹ́wàá, tábìlì kan ní Cotonou.",
+      "evenings": "Obìnrin mẹ́ẹ̀ẹ́dógún, ọkùnrin mẹ́ẹ̀ẹ́dógún, tábìlì kan ní Cotonou.",
       "promise": "Ohun tí ilé wa ṣèlérí fún yín láti ọjọ́ kìíní.",
       "journey": "Ìgbésẹ̀ kọ̀ọ̀kan, láti ìforúkọsílẹ̀ dé ìpàdé àkọ́kọ́.",
       "safety": "Ìjẹ́rìísí, àṣírí àti ìfisùn.",
@@ -121,7 +121,7 @@
       },
       {
         "label": "Àwọn ìjíròrò",
-        "text": "Obìnrin mẹ́wàá, ọkùnrin mẹ́wàá. Àwọn obìnrin ń dúró sí tábìlì wọn, àwọn ọkùnrin ń yí padà ní ìyípo kọ̀ọ̀kan. Ìṣẹ́jú méje fún ìpàdé kọ̀ọ̀kan, pẹ̀lú ìsinmi ní àárín."
+        "text": "Obìnrin mẹ́ẹ̀ẹ́dógún, ọkùnrin mẹ́ẹ̀ẹ́dógún. Àwọn obìnrin ń dúró sí tábìlì wọn, àwọn ọkùnrin ń yí padà ní ìyípo kọ̀ọ̀kan. Ìṣẹ́jú méje fún ìpàdé kọ̀ọ̀kan, pẹ̀lú ìsinmi ní àárín."
       },
       {
         "label": "Ìpinnu yín",
@@ -167,7 +167,7 @@
     "eyebrow": "Ìtọ́sọ́nà",
     "title": "Ẹni tí ẹ lè gbẹ́kẹ̀lé, lẹ́gbẹ̀ẹ́ yín.",
     "discoveryTitle": "Àkókò ìmọ̀ra",
-    "discoveryText": "Ìfohùnṣọ̀kan kọ̀ọ̀kan ń ṣí ọjọ́ mẹ́rìnlá láti mọ ara yín: ìjíròrò ní ìkọ̀kọ̀, fọ́tò yín, ìpàdé àkọ́kọ́ ní ibi alábàáṣiṣẹ́pọ̀ wa. Ẹ lè ní àkókò ìmọ̀ra méjì péré lẹ́ẹ̀kan náà, kí ẹ lè fún ọ̀kọ̀ọ̀kan ní àkókò tó yẹ.",
+    "discoveryText": "Ìfohùnṣọ̀kan kọ̀ọ̀kan ń ṣí ọjọ́ mẹ́rìnlá láti mọ ara yín: ìjíròrò ní ìkọ̀kọ̀, fọ́tò yín, ìpàdé àkọ́kọ́ ní ibi alábàáṣiṣẹ́pọ̀ wa. Ìbámu mẹ́ta péré ní ìpàdé alẹ́ kọ̀ọ̀kan, a ó ṣí ìjíròrò fún ọ̀kọ̀ọ̀kan lẹ́sẹ̀kẹsẹ̀.",
     "counselorTitle": "Olùdámọ̀ràn",
     "counselorText": "Nígbà tí ẹ̀yin méjèèjì bá pinnu láti tẹ̀síwájú, ẹ ó jọ yan olùdámọ̀ràn ìgbésí ayé àti ti tọkọtaya. Yóò tọ́ yín sọ́nà ní àwọn ìgbésẹ̀ pàtàkì: ìjókòó, ìfihàn sí àwọn ẹbí, ìmúrasílẹ̀ fún ìgbéyàwó.",
     "consentTitle": "Ìfọwọ́sí yín ṣáájú gbogbo nǹkan",
@@ -206,7 +206,6 @@
     "women": "Obìnrin",
     "men": "Ọkùnrin",
     "full": "Ó ti kún",
-    "waitlist": "Àkójọ ìdúró",
     "book": "Gba àyè",
     "membersOnly": "Àwọn ọmọ ẹgbẹ́ tí a ti ṣàyẹ̀wò nìkan ló lè gba àyè.",
     "empty": "A ó kéde àwọn ọjọ́ tó ń bọ̀ níbí láìpẹ́.",
@@ -219,7 +218,8 @@
       "faith-christian": "Ìgbàgbọ́ Kristẹni",
       "faith-muslim": "Ìgbàgbọ́ Mùsùlùmí",
       "professionals": "Àwọn oníṣẹ́"
-    }
+    },
+    "next": "Ó ti kún: èyí tó tẹ̀lé e"
   },
   "AppDownload": {
     "eyebrow": "Ìṣàfilọ́lẹ̀",
@@ -252,7 +252,7 @@
       },
       {
         "q": "Ṣé mo lè ní àkókò ìmọ̀ra ju ẹyọ kan lọ lẹ́ẹ̀kan náà?",
-        "a": "Bẹ́ẹ̀ni, méjì péré. Tí ẹ bá ní ìfohùnṣọ̀kan jù bẹ́ẹ̀ lọ, ẹ ó yan èyí tí ẹ fẹ́ ṣí. Àwọn yòókù yóò dúró fún ọjọ́ méje."
+        "a": "Bẹ́ẹ̀ni. Ìpàdé alẹ́ kọ̀ọ̀kan ń fún yín ní ìbámu mẹ́ta péré, a ó sì ṣí ìjíròrò fún ọ̀kọ̀ọ̀kan lẹ́sẹ̀kẹsẹ̀, láìsí yíyàn kankan. Àwọn ìjíròrò ìpàdé alẹ́ àtẹ̀yìnwá yóò wà ní ṣíṣí."
       },
       {
         "q": "Ṣé olùdámọ̀ràn lè ka àwọn ìfiránṣẹ́ wa?",
@@ -342,14 +342,14 @@
       {
         "title": "4. Ìpàdé alẹ́",
         "paragraphs": [
-          "Ẹ ó jẹ́rìí sí wíwá yín ní wákàtí méjìdínláàádọ́ta ṣáájú ìpàdé alẹ́ náà ní ìpẹ́jù. Láìsí ìjẹ́rìí, a ó fún ẹni tó wà nínú àkójọ ìdúró ní àyè yín.",
+          "Ìsanwó ni ó ń fìdí ìpàdé alẹ́ tí a ń sanwó fún múlẹ̀: láìsí ìsanwó láàárín wákàtí 24 lẹ́yìn tí ẹ gba àyè, a ó fi àyè náà sílẹ̀. Bí ìpàdé alẹ́ tí ẹ yàn bá ti kún, a ó fi yín sí èyí tó tẹ̀lé e.",
           "Ẹ ó dé lásìkò, ẹ ó sì dúró títí di ìyípo tó kẹ́yìn, fún ọ̀wọ̀ àwọn olùkópa yòókù."
         ]
       },
       {
         "title": "5. Àkókò ìmọ̀ra àti ààyè ìbáṣepọ̀",
         "paragraphs": [
-          "Ẹ lè ní àkókò ìmọ̀ra méjì péré lẹ́ẹ̀kan náà. Nígbà tí ẹ bá wọ ààyè ìbáṣepọ̀, ẹ ṣèlérí láti jẹ́ ti ara yín nìkan, ẹ kò sì ní gba àyè ìpàdé alẹ́ mọ́ títí ààyè náà yóò fi wà ní ṣíṣí.",
+          "Ìpàdé alẹ́ kọ̀ọ̀kan ń fún yín ní ìbámu mẹ́ta péré, a ó ṣí ìjíròrò fún ọ̀kọ̀ọ̀kan. Nígbà tí ẹ bá wọ ààyè ìbáṣepọ̀, ẹ ṣèlérí láti jẹ́ ti ara yín nìkan, ẹ kò sì ní gba àyè ìpàdé alẹ́ mọ́ títí ààyè náà yóò fi wà ní ṣíṣí.",
           "Ẹnìkọ̀ọ̀kan lè fòpin sí ìbáṣepọ̀ nígbàkígbà, láìsí àlàyé."
         ]
       },
@@ -605,7 +605,8 @@
         "evening_confirmed": "A ti fìdí àyè yín múlẹ̀. A ó rí yín ní ìpàdé alẹ́.",
         "evening_waitlisted": "Ẹ wà nínú àkójọ ìdúró fún ìpàdé alẹ́ kan. A ó sọ fún yín bí àyè kan bá ṣí sílẹ̀.",
         "evening_registration_cancelled": "A ti fagi lé àyè yín. Ẹ lè gba àyè ní ìpàdé alẹ́ mìíràn.",
-        "evening_seat_released": "A ti fi àyè yín sílẹ̀ nítorí pé a kò san owó rẹ̀ tàbí fìdí rẹ̀ múlẹ̀ ní àkókò. Ẹ lè gba àyè ní ìpàdé alẹ́ mìíràn."
+        "evening_seat_released": "A ti fi àyè yín sílẹ̀ nítorí pé a kò san owó rẹ̀ tàbí fìdí rẹ̀ múlẹ̀ ní àkókò. Ẹ lè gba àyè ní ìpàdé alẹ́ mìíràn.",
+        "evening_moved_to_next": "Ìpàdé alẹ́ tí ẹ yàn ti kún: a ti fi yín sí ìpàdé alẹ́ tó tẹ̀lé e. Ẹ san owó àyè yín láàárín wákàtí 24."
       }
     },
     "dashboard": {
@@ -638,7 +639,6 @@
       "relations": "Àwọn ìbáṣepọ̀ mi",
       "couple": "Tọkọtaya yín pẹ̀lú {name}",
       "discoveries": "{count, plural, =0 {Kò sí ìmọ̀ra kankan tí ń lọ lọ́wọ́} other {Ìmọ̀ra # ń lọ lọ́wọ́}}",
-      "toChoose": "{count, plural, other {Ìfohùnṣọ̀kan # láti ṣí}}",
       "unread": "{count, plural, other {Ọ̀rọ̀ # tí a kò tíì kà}}",
       "myBadges": "Àwọn àmì ìgbẹ́kẹ̀lé mi"
     },
@@ -696,19 +696,19 @@
       },
       "actions": {
         "book": "Gba àyè mi",
-        "waitlist": "Wọ àkójọ ìdúró",
         "confirm": "Fìdí àyè mi múlẹ̀",
         "pay": "Sanwó",
         "cancel": "Fagi lé ìforúkọsílẹ̀ mi",
         "cancelAsk": "Ṣé ẹ fẹ́ fagi lé ìforúkọsílẹ̀ yín lóòótọ́?",
         "cancelYes": "Bẹ́ẹ̀ ni, fagi lé e",
-        "cancelNo": "Rárá, fi sílẹ̀"
+        "cancelNo": "Rárá, fi sílẹ̀",
+        "next": "Ó ti kún: fi mí sí èyí tó tẹ̀lé e"
       },
       "done": {
         "seat": "A ti gba àyè yín sílẹ̀. Ẹ san owó rẹ̀ láti fìdí rẹ̀ múlẹ̀ (ìpàdé ọ̀fẹ́: ẹ fìdí rẹ̀ múlẹ̀ ṣáájú ọjọ́ ìparí).",
-        "waitlist": "Ẹ wà lórí àkójọ ìdúró. A ó sọ fún yín bí àyè kan bá ṣí sílẹ̀.",
         "confirmed": "A ti fìdí àyè yín múlẹ̀.",
-        "cancelled": "A ti kọ ìfagilé yín sílẹ̀."
+        "cancelled": "A ti kọ ìfagilé yín sílẹ̀.",
+        "next_evening": "Ìpàdé alẹ́ yìí ti kún: a ti fi yín sí ìpàdé alẹ́ tó tẹ̀lé e. Ẹ san owó àyè yín láàárín wákàtí 24 nínú Àwọn ìpàdé mi."
       },
       "errors": {
         "not_validated": "A gbọ́dọ̀ fọwọ́ sí àpèjúwe yín kí ẹ tó lè gba àyè.",
@@ -726,7 +726,8 @@
         "price_not_set": "A kò tíì pinnu owó ìpàdé alẹ́ yìí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
-        "code": "Kóòdù: {code}"
+        "code": "Kóòdù: {code}",
+        "no_evening_available": "Ìpàdé alẹ́ yìí ti kún, kò sì sí ìpàdé alẹ́ mìíràn tó ní àyè fún yín báyìí."
       },
       "participants": {
         "seeWomen": "Wo àwọn obìnrin tó forúkọ sílẹ̀",
@@ -745,6 +746,10 @@
         "notVerified": "Ẹ lè gba àyè lẹ́yìn tí a bá fọwọ́ sí àkọọ́lẹ̀ yín.",
         "addPhoto": "Ẹ fi àwòrán kún àpèjúwe yín láti gba àyè.",
         "photoPending": "Ẹ lè gba àyè ní kété tí a bá fọwọ́ sí àwòrán yín."
+      },
+      "topics": {
+        "title": "Àwọn kókó ìjíròrò mẹ́rin",
+        "help": "Wọ́n jọra ní gbogbo tábìlì, láti bẹ̀rẹ̀ ìfọ̀rọ̀wérọ̀ ní ìyípo kọ̀ọ̀kan."
       }
     },
     "notifications": {
@@ -1105,18 +1110,13 @@
     },
     "discoveries": {
       "title": "Ìmọ̀ra ẹni",
-      "intro": "Ẹ bá ara yín mu nígbà tí ẹni méjì bá fẹ́ tún rí ara wọn; a ó kéde rẹ̀ ní kété tí ẹgbẹ́ wa bá parí ìpàdé náà. Ìbámu kọ̀ọ̀kan lè ṣí ìmọ̀ra ẹni ọjọ́ 14: ìfọ̀rọ̀wérọ̀ rírọrùn àti àwọn fọ́tò yín. Ìmọ̀ra ẹni méjì péré ní àkókò kan náà.",
+      "intro": "Ẹ bá ara yín mu nígbà tí ẹni méjì bá fẹ́ tún rí ara wọn; a ó kéde rẹ̀ ní kété tí ẹgbẹ́ wa bá parí ìpàdé náà. Ìbámu mẹ́ta péré ní ìpàdé alẹ́ kọ̀ọ̀kan: a ó ṣí ìjíròrò ọjọ́ 14 fún ọ̀kọ̀ọ̀kan lẹ́sẹ̀kẹsẹ̀, pẹ̀lú àwọn fọ́tò yín.",
       "active": "Ìmọ̀ra ẹni tó ń lọ lọ́wọ́",
       "daysLeft": "{count, plural, =0 {Ọjọ́ tó kẹ́yìn} other {Ọjọ́ # ló kù, títí di {date}}}",
       "extended": "a ti fi kún un",
       "open": "Ṣí ìfọ̀rọ̀wérọ̀",
-      "toChoose": "Àwọn ìbámu láti ṣí",
-      "slots": "{count, plural, other {Ẹ ṣì lè ṣí ìmọ̀ra ẹni #.}}",
-      "noSlot": "Ẹ ti ní ìmọ̀ra ẹni méjì tó ń lọ lọ́wọ́. Àyè yóò ṣí nígbà tí ọ̀kan bá parí.",
-      "chooseBefore": "Ẹ ṣí i kí {date} tó dé",
-      "choose": "Ṣí ìmọ̀ra ẹni",
       "waiting": "Ń dúró",
-      "waitingHelp": "Ẹ ti yàn láti ṣí ìmọ̀ra ẹni yìí. Yóò ṣí tí ẹnìkejì bá yàn án pẹ̀lú kí {date} tó dé.",
+      "waitingHelp": "Ìbámu yìí ń dúró de ṣíṣí, títí di {date} ní ìpẹ́jù.",
       "couple": "Tọkọtaya yín",
       "coupleHelp": "Ẹ̀yin méjèèjì yàn láti tẹ̀síwájú: àyè tọkọtaya yín ti ṣí.",
       "ended": "Ìfìmọ̀ra ẹni tó ti parí",
@@ -1131,7 +1131,6 @@
       "photos": "Àwọn fọ́tò rẹ̀",
       "photoAlt": "Fọ́tò {rank} ti {name}",
       "errors": {
-        "no_free_slot": "Ẹ ti ní ìmọ̀ra ẹni méjì tó ń lọ lọ́wọ́.",
         "expired": "Àkókò láti ṣí ìmọ̀ra ẹni yìí ti kọjá.",
         "not_pending": "Ìbámu yìí kò dúró mọ́.",
         "already_chosen": "Ẹ ti yan ìbámu yìí tẹ́lẹ̀.",
@@ -1220,7 +1219,11 @@
       },
       "counselor": "Olùdámọ̀ràn",
       "reportMessage": "Fi ọ̀rọ̀ yìí sùn",
-      "reportConversation": "Fi ìfọ̀rọ̀wérọ̀ yìí sùn"
+      "reportConversation": "Fi ìfọ̀rọ̀wérọ̀ yìí sùn",
+      "today": "Lónìí",
+      "yesterday": "Àná",
+      "read": "Ó ti kà á",
+      "sent": "A ti fi ránṣẹ́"
     },
     "couple": {
       "title": "Àyè tọkọtaya",
@@ -1636,6 +1639,14 @@
         "unsupported": "Aṣàwákiri yìí kò ṣe àtìlẹ́yìn ìfitónilétí. Ẹ lo ìṣàfilọ́lẹ̀ Android tàbí Chrome.",
         "ios-install": "Lórí iPhone, ẹ kọ́kọ́ fi Ifedele kún ojú-ìbẹ̀rẹ̀ láti Safari (Pín, lẹ́yìn náà «Add to Home Screen»), kí ẹ sì ṣí i láti àmì yẹn."
       }
+    },
+    "chats": {
+      "title": "Àwọn ìjíròrò",
+      "empty": "Ẹ kọ ọ̀rọ̀ àkọ́kọ́",
+      "mine": "Ẹ̀yin: {body}",
+      "system": "Ìfitónilétí ìjíròrò",
+      "yesterday": "Àná",
+      "unread": "{count, plural, other {ọ̀rọ̀ # tí ẹ kò tíì kà}}"
     }
   },
   "SignIn": {
@@ -1689,7 +1700,8 @@
       "pause_round": "Ẹ wà ní ìsinmi nígbà ìyípo yìí.",
       "unavailable": "Ìdìbò kò tíì ṣí.",
       "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
-    }
+    },
+    "topics": "Àwọn kókó ọ̀rọ̀ alẹ́ yìí"
   },
   "SimulatedPayment": {
     "eyebrow": "Àpẹẹrẹ",
@@ -2043,7 +2055,7 @@
         },
         "prepare": {
           "title": "Ìmúrasílẹ̀",
-          "help": "Nígbà tí a bá ti kọ wíwá àwọn olùkópa sílẹ̀ lẹ́nu ọ̀nà: nọ́ńbà, tábìlì, kóòdù QR àti ìyípo.",
+          "help": "A ó kọ wíwá àwọn tí àyè wọn ti fìdí múlẹ̀ (tí wọ́n ti sanwó) sílẹ̀ fúnra rẹ̀, lẹ́yìn náà: nọ́ńbà, tábìlì, kóòdù QR àti ìyípo. Obìnrin 15 àti ọkùnrin 15 ń fún wa ní tábìlì 15.",
           "confirm": "Àwọn tí a ti kọ wíwá wọn sílẹ̀ nìkan ló máa kópa nínú àwọn ìyípo. Ṣé ẹ fọwọ́ sí i?",
           "button": "Ṣètò àwọn tábìlì"
         },
@@ -2089,7 +2101,8 @@
         "print": "Tẹ̀ jáde",
         "table": "Tábìlì {number}",
         "qrLabel": "Kóòdù QR tábìlì {number}",
-        "scan": "Lẹ́yìn ìyípo kọ̀ọ̀kan, ẹ fi fóònù yín ka kóòdù yìí láti fi ìdáhùn yín hàn."
+        "scan": "Lẹ́yìn ìyípo kọ̀ọ̀kan, ẹ fi fóònù yín ka kóòdù yìí láti fi ìdáhùn yín hàn.",
+        "topics": "Àwọn kókó ìjíròrò"
       },
       "timer": {
         "title": "Aago ìdíwọ̀n",
@@ -2122,13 +2135,16 @@
         "not_draft": "Ìpàdé yìí kì í ṣe àkọsílẹ̀ àkọ́kọ́ mọ́.",
         "already_prepared": "A ti ṣètò àwọn tábìlì tẹ́lẹ̀.",
         "not_prepared": "Ẹ kọ́kọ́ ṣètò àwọn tábìlì.",
-        "not_enough_participants": "Ẹ kọ wíwá obìnrin kan àti ọkùnrin kan sílẹ̀ ó kéré tán kí ẹ tó ṣètò àwọn tábìlì.",
+        "not_enough_participants": "A nílò obìnrin kan àti ọkùnrin kan ó kéré tán tí àyè wọn ti fìdí múlẹ̀ láti ṣètò àwọn tábìlì.",
         "invalid_status": "Ìgbésẹ̀ yìí kò bá ipò ìpàdé náà mu mọ́. Ẹ tún ojú-ìwé náà ṣí.",
         "evening_not_finished": "Ẹ parí ìpàdé náà kí ẹ tó ṣírò ìfohùnṣọ̀kan.",
         "not_confirmed": "Àyè tí a ti fìdí rẹ̀ múlẹ̀ nìkan ni a lè kọ wíwá rẹ̀ sílẹ̀.",
         "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
         "unavailable": "Iṣẹ́ yìí kò tíì ṣí. Ẹ gbìyànjú lẹ́yìn náà.",
-        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i."
+        "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i.",
+        "invalid_topics": "Ẹ yan kókó mẹ́rin tó yàtọ̀ síra nínú àkójọ náà.",
+        "not_editable": "A kò lè yí ìpàdé alẹ́ yìí padà mọ́.",
+        "not_found": "A kò rí ìpàdé alẹ́ náà."
       },
       "participants": {
         "title": "Ìforúkọsílẹ̀",
@@ -2136,8 +2152,6 @@
         "none": "Kò sí ìforúkọsílẹ̀ kankan.",
         "waitlisted": "Àkójọ ìdúró, ipò {rank}",
         "seat": "tábìlì {seat}",
-        "checkIn": "Kọ wíwá sílẹ̀",
-        "checkInLabel": "Kọ wíwá {name} sílẹ̀",
         "status": {
           "booked": "A ti gba àyè, a kò tíì fìdí rẹ̀ múlẹ̀",
           "confirmed": "A ti fìdí àyè múlẹ̀",
@@ -2172,6 +2186,40 @@
         "lines": {
           "incompatible": "{holder} ń béèrè « {category} »: {sought}. {other} kéde: {declared}.",
           "unknown": "{holder} ń béèrè « {category} »: {sought}. {other} kò dáhùn."
+        }
+      },
+      "topics": {
+        "title": "Àwọn kókó ìjíròrò",
+        "help": "Kókó mẹ́rin, wọ́n jọra ní gbogbo tábìlì. A ń dá wọn lábàá fúnra rẹ̀ (ẹgbẹ́ tuntun ní ọ̀sẹ̀ kọ̀ọ̀kan), ẹ sì lè yí wọn padà títí ìpàdé alẹ́ yóò fi parí. A ń tẹ̀ wọ́n sórí káàdì tábìlì, a sì ń fi wọ́n han àwọn olùkópa.",
+        "label": "Kókó {number}",
+        "duplicate": "Ẹ yan kókó mẹ́rin tó yàtọ̀ síra.",
+        "saved": "A ti fi àwọn kókó pamọ́.",
+        "save": "Fi àwọn kókó pamọ́"
+      },
+      "saturdays": {
+        "open": "Ṣètò àwọn Ọjọ́ Àbámẹ́ta",
+        "title": "Ṣètò àwọn Ọjọ́ Àbámẹ́ta",
+        "intro": "Ìpàdé alẹ́ kan tí a tẹ̀jáde ní Ọjọ́ Àbámẹ́ta kọ̀ọ̀kan: obìnrin 15, ọkùnrin 15, ní iye owó tí a kọ. A ó fo àwọn Ọjọ́ Àbámẹ́ta tí wọ́n ti ní ìpàdé alẹ́. Ẹ ṣì lè yí ìpàdé alẹ́ kọ̀ọ̀kan padà lẹ́yìn náà ní ojú ewé rẹ̀.",
+        "venue": "Ibi ìpàdé",
+        "noVenue": "Ẹ kọ́kọ́ fi ibi ìpàdé kan kún un",
+        "firstDay": "Bẹ̀rẹ̀ láti",
+        "firstDayHelp": "Ọjọ́ Àbámẹ́ta àkọ́kọ́ láti ọjọ́ yìí.",
+        "time": "Àkókò ìbẹ̀rẹ̀",
+        "timeHelp": "Àkókò Cotonou.",
+        "months": "Ìgbà (oṣù)",
+        "price": "Iye owó (FCFA)",
+        "summary": "A ó tẹ àwọn ìpàdé alẹ́ jáde lẹ́sẹ̀kẹsẹ̀: àwọn ọmọ ẹgbẹ́ lè gba àyè.",
+        "done": "{count, plural, =0 {A kò ṣẹ̀dá ìpàdé alẹ́ kankan: Ọjọ́ Àbámẹ́ta kọ̀ọ̀kan ti ní tirẹ̀.} other {A ti ṣẹ̀dá ìpàdé alẹ́ # a sì ti tẹ̀ wọ́n jáde.}}",
+        "see": "Wo àwọn ìpàdé alẹ́ tó ń bọ̀",
+        "submit": "Ṣètò àwọn ìpàdé alẹ́",
+        "errors": {
+          "venue_required": "Ẹ yan ibi ìpàdé kan.",
+          "starts_at": "Ẹ kọ ọjọ́ àkọ́kọ́ àti àkókò ìbẹ̀rẹ̀.",
+          "invalid_months": "Ìgbà: láti oṣù 1 sí 12.",
+          "invalid_price": "Ẹ kọ iye owó ní nọ́ńbà odidi, 0 tàbí jù bẹ́ẹ̀ lọ.",
+          "forbidden": "Ẹ kò ní àṣẹ láti ṣètò àwọn ìpàdé alẹ́.",
+          "unavailable": "Iṣẹ́ yìí kò tíì sí. Ẹ gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
+          "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́."
         }
       }
     },
@@ -2530,7 +2578,7 @@
             "forbidden": "Ipa yín kò fàyè gba iṣẹ́ yìí.",
             "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
             "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́.",
-            "reward_too_high": "Ẹ̀dínwó gbọdọ̀ kéré sí owó ìrọ̀lẹ́ kan (10 000 FCFA)."
+            "reward_too_high": "Ẹ̀dínwó gbọdọ̀ kéré sí owó ìrọ̀lẹ́ kan (20 000 FCFA)."
           }
         }
       },
@@ -3755,5 +3803,31 @@
       "unavailable": "Iṣẹ́ yìí kò tíì ṣe é lò. Ẹ tún gbìyànjú nígbà mìíràn.",
       "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ tún gbìyànjú láìpẹ́."
     }
+  },
+  "Topics": {
+    "lasting_love": "Kí ló ń mú kí ìfẹ́ tọ́jọ́?",
+    "family_place": "Ipò wo ni ẹbí ní nínú ìbáṣepọ̀?",
+    "money_together": "Owó nínú ìbáṣepọ̀: ṣé ká pa gbogbo rẹ̀ pọ̀ àbí bẹ́ẹ̀ kọ́?",
+    "faith_couple": "Ipò wo ni ìgbàgbọ́ ní nínú ìgbésí ayé ẹni méjì?",
+    "house_chores": "Báwo ni ká ṣe pín iṣẹ́ ilé?",
+    "children_education": "Àwọn ọmọ: mélòó, nígbà wo, báwo la ṣe máa tọ́ wọn?",
+    "in_laws": "Bíbá àna gbé ní àlàáfíà",
+    "trust_social_media": "Ìgbẹ́kẹ̀lé àti òtítọ́ ní àkókò ẹ̀rọ ayélujára",
+    "career_couple": "Bí a ṣe lè ṣe iṣẹ́ àti ìbáṣepọ̀ pọ̀",
+    "ideal_first_date": "Ìpàdé àkọ́kọ́ tó dára jù",
+    "respect": "Kí ni ọ̀wọ̀ túmọ̀ sí nínú ìbáṣepọ̀?",
+    "tradition_modernity": "Àṣà àti ìgbàlódé nínú ìgbéyàwó",
+    "disagreements": "Bí a ṣe lè yanjú èdèàìyedè láìṣe ara wa léṣe",
+    "shared_hobbies": "Àwọn ìgbádùn tí a lè jọ ṣe",
+    "where_to_live": "Ibo la ti máa kọ́ ìgbésí ayé wa: Cotonou àbí ibòmíràn?",
+    "friends_other_sex": "Ọ̀rẹ́ ẹ̀yà kejì nígbà tí a bá wà nínú ìbáṣepọ̀",
+    "small_attentions": "Àwọn ohun kéékèèké tó ń fi ìfẹ́ hàn",
+    "saving_projects": "Fífi owó pamọ́ àti kíkọ́ àwọn ètò papọ̀",
+    "roles_home": "Ipa ẹnìkọ̀ọ̀kan nínú ilé lónìí",
+    "lessons_past": "Ẹ̀kọ́ tí a kọ́ nínú ìbáṣepọ̀ àtẹ̀yìnwá, láìsọ kúlẹ̀kúlẹ̀",
+    "forgiveness": "Ipò ìdáríjì nínú ìbáṣepọ̀",
+    "phone_time": "Fóònù: àkókò mélòó ló kù fún ẹnìkejì?",
+    "travel_dreams": "Ìrìnàjò àti àlá tí a lè jọ mú ṣẹ",
+    "friends_place": "Ipò wo ni ọ̀rẹ́ ní lẹ́yìn tí a bá wà nínú ìbáṣepọ̀?"
   }
 }

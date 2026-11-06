@@ -8,7 +8,6 @@ import {
   discoveriesClosedByCouple,
   discoveryEndsAt,
   discoveryOutcome,
-  freeSlots,
   isPendingExpired,
   type PendingMatch,
   pendingExpiresAt,
@@ -37,40 +36,28 @@ const match = (chosenBy: string[] = [], status: PendingMatch["status"] = "pendin
   chosenBy,
 });
 
-describe("Découverte 9.4 : places et ouverture (question 2)", () => {
-  it("2 découvertes actives au plus par membre", () => {
-    const list = [discovery("1", "afiwa", "dossou"), discovery("2", "afiwa", "kodjo", "extended"), discovery("3", "afiwa", "yao", "closed")];
-    expect(freeSlots("afiwa", list)).toBe(0);
-    expect(freeSlots("dossou", list)).toBe(1);
-    expect(freeSlots("sena", list)).toBe(2);
+describe("Découverte 9.4 : ouverture sans choix (06/11/2026)", () => {
+  it("à l'annonce : tous les nouveaux matchs sont choisis d'office", () => {
+    expect(automaticChoices(["m1", "m2", "m3"])).toEqual(["m1", "m2", "m3"]);
+    expect(automaticChoices([])).toEqual([]);
   });
 
-  it("à l'annonce : choisis d'office s'ils tiennent dans les places, sinon choix du membre", () => {
-    expect(automaticChoices(["m1", "m2"], 2)).toEqual(["m1", "m2"]);
-    expect(automaticChoices(["m1", "m2", "m3"], 2)).toEqual([]);
-    expect(automaticChoices(["m1"], 0)).toEqual([]);
-    expect(automaticChoices([], 0)).toEqual([]);
+  it("ouverture dès que les deux ont choisi, sauf si l'un est en couple ; plus de limite de places", () => {
+    const nobody = () => false;
+    expect(shouldOpen(match(["afiwa"]), nobody)).toBe(false);
+    expect(shouldOpen(match(["afiwa", "koffi"]), nobody)).toBe(true);
+    expect(shouldOpen(match(["afiwa", "koffi"]), (m) => m === "koffi")).toBe(false);
+    expect(shouldOpen(match(["afiwa", "koffi"], "open"), nobody)).toBe(false);
   });
 
-  it("ouverture seulement si les deux ont choisi et ont une place", () => {
-    expect(shouldOpen(match(["afiwa"]), [])).toBe(false);
-    expect(shouldOpen(match(["afiwa", "koffi"]), [])).toBe(true);
-    const full = [discovery("1", "koffi", "sena"), discovery("2", "koffi", "ablavi")];
-    expect(shouldOpen(match(["afiwa", "koffi"]), full)).toBe(false);
-  });
-
-  it("choix refusé : sans place, déjà choisi, hors du match, expiré, en couple", () => {
-    const ctx = { now: later(1), discoveries: [] as Discovery[], inCouple: false };
+  it("ancien match en attente : choix refusé si déjà choisi, hors du match, expiré, en couple", () => {
+    const ctx = { now: later(1), inCouple: false };
     expect(canChooseMatch(match(), "afiwa", ctx)).toBeNull();
     expect(canChooseMatch(match(["afiwa"]), "afiwa", ctx)).toBe("already_chosen");
     expect(canChooseMatch(match(), "sena", ctx)).toBe("not_member");
     expect(canChooseMatch(match([], "open"), "afiwa", ctx)).toBe("not_pending");
     expect(canChooseMatch(match(), "afiwa", { ...ctx, now: later(7) })).toBe("expired");
     expect(canChooseMatch(match(), "afiwa", { ...ctx, inCouple: true })).toBe("couple_exclusivity");
-    const full = [discovery("1", "afiwa", "dossou"), discovery("2", "afiwa", "kodjo")];
-    expect(canChooseMatch(match(), "afiwa", { ...ctx, discoveries: full })).toBe("no_free_slot");
-    // Une place libérée permet de choisir pendant l'attente
-    expect(canChooseMatch(match(), "afiwa", { ...ctx, discoveries: [full[0]!, { ...full[1]!, status: "closed" }] })).toBeNull();
   });
 
   it("attente de 7 jours après l'annonce, puis expiration", () => {

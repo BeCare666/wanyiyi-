@@ -2,9 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, fieldClass } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
-import { cancelEvening, checkIn, deleteDraft, runStep } from "../actions";
+import { cn } from "@/lib/cn";
+import { DEBATE_TOPICS } from "@/lib/topics";
+import { cancelEvening, deleteDraft, runStep, setEventTopics } from "../actions";
 import type { EveningStep } from "../evenings";
 
 const knownErrors = new Set([
@@ -16,8 +18,8 @@ const knownErrors = new Set([
   "not_enough_participants",
   "invalid_status",
   "evening_not_finished",
-  "not_confirmed",
-  "member_inactive",
+  "invalid_topics",
+  "not_editable",
   "not_found",
   "forbidden",
   "unavailable",
@@ -120,23 +122,68 @@ export function DeleteDraftButton({ eventId }: { eventId: string }) {
   );
 }
 
-/** Pointage à l'entrée d'un participant confirmé. */
-export function CheckInButton({ eventId, userId, name }: { eventId: string; userId: string; name: string }) {
-  const t = useTranslations("Admin.evenings.participants");
+/**
+ * Quatre sujets de débat de la soirée (06/11/2026), les mêmes sur toutes les tables : proposés
+ * d'office, l'équipe peut en changer jusqu'à la fin de la soirée. Quatre sujets différents.
+ */
+export function TopicsForm({ eventId, initial }: { eventId: string; initial: string[] }) {
+  const t = useTranslations("Admin.evenings.topics");
+  const tt = useTranslations("Topics");
+  const [topics, setTopics] = useState<string[]>(initial.length === 4 ? initial : [...DEBATE_TOPICS.slice(0, 4)]);
+  const [saved, setSaved] = useState(false);
   const { error, pending, run } = useAction();
+  const duplicate = new Set(topics).size !== topics.length;
+
   return (
-    <span className="inline-flex flex-col items-start md:items-end">
-      <button
-        type="button"
-        disabled={pending}
-        onClick={() => run(() => checkIn(eventId, userId))}
-        aria-label={t("checkInLabel", { name })}
-        className="inline-flex min-h-10 items-center rounded-sm border border-fg px-4 text-sm disabled:opacity-50"
-      >
-        {t("checkIn")}
-      </button>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (duplicate) return;
+        setSaved(false);
+        run(() => setEventTopics(eventId, topics), () => setSaved(true));
+      }}
+      className="grid gap-6"
+    >
+      <ol className="grid gap-4 md:grid-cols-2">
+        {topics.map((topic, i) => (
+          <li key={i}>
+            <label className="block">
+              <span className="text-sm font-medium">{t("label", { number: i + 1 })}</span>
+              <select
+                value={topic}
+                onChange={(e) => {
+                  setSaved(false);
+                  setTopics((list) => list.map((x, j) => (j === i ? e.target.value : x)));
+                }}
+                className={cn(fieldClass, "text-base")}
+              >
+                {DEBATE_TOPICS.map((key) => (
+                  <option key={key} value={key}>
+                    {tt(key)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </li>
+        ))}
+      </ol>
+      {duplicate && (
+        <p role="alert" className="border-l border-accent pl-5">
+          {t("duplicate")}
+        </p>
+      )}
       <ErrorLine code={error} />
-    </span>
+      {saved && !error && (
+        <p role="status" className="text-sm text-fg-muted">
+          {t("saved")}
+        </p>
+      )}
+      <div>
+        <Button type="submit" variant="secondary" disabled={pending || duplicate}>
+          {t("save")}
+        </Button>
+      </div>
+    </form>
   );
 }
 

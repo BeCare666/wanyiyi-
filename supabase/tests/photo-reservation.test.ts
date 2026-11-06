@@ -42,15 +42,16 @@ describe("Photo approuvée pour réserver (question 10 c)", () => {
     expect(await book(member, event)).toBeNull();
   });
 
-  it("la liste d'attente demande aussi une photo approuvée", async () => {
+  it("soirée complète (inscription d'office à la suivante) : une photo approuvée est aussi demandée", async () => {
     const event = await createEvent(db, { startsInHours: 72, capacityMen: 1 });
+    await createEvent(db, { startsInHours: 24 * 9 });
     const seated = await createMember(db, { firstName: "Codjo", sex: "male" });
     await register(db, event, seated, "male", "booked");
     const member = await createMember(db, { firstName: "Mahougnon", sex: "male" });
     expect(await book(member, event)).toMatch(/photo_required/);
     await addPhoto(member, "approved");
     const outcome = await asUser(db, member, async (tx) => (await tx.query<{ r: string }>("select app.book_event($1) as r", [event])).rows[0]!.r);
-    expect(outcome).toBe("waitlist");
+    expect(outcome).toBe("next_evening");
   });
 
   it("compte de démonstration (@demo.ifedele.invalid) : dispensé de photo", async () => {

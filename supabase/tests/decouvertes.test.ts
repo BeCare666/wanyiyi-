@@ -92,18 +92,15 @@ describe("Découvertes (9.4, question 2)", () => {
 
   let m2: string;
   let m3: string;
-  it("trop de nouveaux matchs pour les places : le membre choisit, dans la limite de ses places", async () => {
+  it("plus de choix (06/11/2026) : tous les nouveaux matchs s'ouvrent aussitôt, sans limite de places", async () => {
     m2 = await match(p.afiwa!, p.dossou!);
     m3 = await match(p.afiwa!, p.yao!);
     await announce();
-    // Afiwa : 2 nouveaux matchs pour 1 place, aucun choix d'office ; Dossou et Yao : choisis d'office
-    expect(await discoveryOf(m2)).toBeUndefined();
-    const mine = await as<{ match_id: string; chosen_by_me: boolean; free_slots: number }>(p.afiwa!, "select * from app.my_discoveries()");
-    expect(mine.find((r) => r.match_id === m2)?.chosen_by_me).toBe(false);
-    expect(mine[0]!.free_slots).toBe(1);
-    expect(await choose(p.afiwa!, m2)).toBeNull();
+    // Afiwa a déjà une découverte : ses deux nouveaux matchs s'ouvrent quand même
     expect((await discoveryOf(m2))?.status).toBe("active");
-    expect(await choose(p.afiwa!, m3)).toMatch(/no_free_slot/);
+    expect((await discoveryOf(m3))?.status).toBe("active");
+    const mine = await as<{ match_id: string; chosen_by_me: boolean }>(p.afiwa!, "select * from app.my_discoveries()");
+    expect(mine.filter((r) => r.chosen_by_me)).toHaveLength(3);
     expect(await choose(p.afiwa!, m2)).toMatch(/not_pending/);
     expect(await choose(p.sena!, m3)).toMatch(/not_member/);
   });
@@ -153,10 +150,9 @@ describe("Découvertes (9.4, question 2)", () => {
     expect(closedChats).toHaveLength(1);
     const { rows: coupleChat } = await db.query("select * from app.conversations where couple_id = $1 and kind = 'couple'", [couples[0]!.id]);
     expect(coupleChat).toHaveLength(1);
-    // Question 13 : les matchs encore en attente des deux expirent aussitôt, message neutre
-    expect(await choose(p.afiwa!, m3)).toMatch(/not_pending/);
-    expect((await db.query<{ status: string }>("select status from app.matches where id = $1", [m3])).rows[0]?.status).toBe("expired");
-    expect(await notices(p.yao!, "match.expired")).toBe(1);
+    // La découverte d'Afiwa avec Yao, ouverte d'office, se ferme aussi : message neutre
+    expect((await discoveryOf(m3))?.status).toBe("closed");
+    expect(await notices(p.yao!, "discovery.closed")).toBe(1);
     // Exclusivité : plus de réservation
     const soon = await createEvent(db, { startsInHours: 120 });
     expect(await failure(as(p.afiwa!, "select app.book_event($1)", [soon]))).toMatch(/couple_exclusivity/);
@@ -182,7 +178,7 @@ describe("Découvertes (9.4, question 2)", () => {
     const { rows } = await db.query<{ status: string }>("select status from app.matches where id = $1", [mp]);
     expect(rows[0]?.status).toBe("expired");
     expect(await notices(p.ablavi!, "match.expired")).toBe(1);
-    expect(await notices(p.yao!, "match.expired")).toBe(2);
+    expect(await notices(p.yao!, "match.expired")).toBe(1);
     expect(await choose(p.yao!, mp)).toMatch(/not_pending/);
   });
 

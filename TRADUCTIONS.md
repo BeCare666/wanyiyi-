@@ -38,6 +38,7 @@ Toutes les chaînes yoruba sont à valider. Les choix de vocabulaire ci-dessous 
 | Photographie de… | Fọ́tò láti ọwọ́ … | |
 | Descriptions du menu (`Nav.hints`) | 9 phrases courtes | À relire en entier dans `messages/yo.json` |
 | Selfie pris en direct (`Member.verification.documents.camera`) | Ya fọ́tò lójú ẹsẹ̀, kámẹ́rà | Ajouté le 21 octobre 2026 : 9 phrases à relire |
+| Sujets de débat des soirées (`Topics`), discussions (`Member.chats`), samedis (`Admin.evenings.saturdays`) | Kókó ìjíròrò | Ajouté le 6 novembre 2026 : 24 sujets et une quarantaine de phrases à relire |
 | Drapeau du yoruba | Bénin | Validé le 14 octobre 2026 |
 | Chiffres en lettres (blocage des numéros, `packages/domain/src/textGuard.ts`) | òdo, ọ̀kan, èjì, ẹ̀ta, ẹ̀rin, àrún, ẹ̀fà, èje, ẹ̀jọ, ẹ̀sán | Liste complète ? Autres façons courantes d'écrire un numéro ? |
 | Code OTP par SMS et e-mails de confirmation (`apps/api/src/notifications/messages.ts`) | 1 SMS et 4 e-mails | À relire en entier |

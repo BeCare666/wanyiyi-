@@ -34,7 +34,7 @@
     "account": "Mon espace",
     "rules": "Règlement",
     "hints": {
-      "evenings": "Dix femmes, dix hommes, une table à Cotonou.",
+      "evenings": "Quinze femmes, quinze hommes, une table à Cotonou.",
       "promise": "Ce que la maison vous garantit, dès le premier jour.",
       "journey": "Chaque étape, de l'inscription à la première rencontre.",
       "safety": "Vérification, confidentialité et signalement.",
@@ -121,7 +121,7 @@
       },
       {
         "label": "Les échanges",
-        "text": "Dix femmes, dix hommes. Les femmes restent à leur table, les hommes changent à chaque tour. Sept minutes par rencontre, une pause à mi-parcours."
+        "text": "Quinze femmes, quinze hommes. Les femmes restent à leur table, les hommes changent à chaque tour. Sept minutes par rencontre, une pause à mi-parcours."
       },
       {
         "label": "Votre choix",
@@ -167,7 +167,7 @@
     "eyebrow": "L'accompagnement",
     "title": "Une personne de confiance à vos côtés.",
     "discoveryTitle": "La découverte",
-    "discoveryText": "Chaque accord mutuel ouvre quatorze jours pour apprendre à vous connaître : une conversation privée, vos photos, un premier rendez-vous conseillé dans un lieu partenaire. Vous menez au plus deux découvertes à la fois, pour prendre le temps de chacune.",
+    "discoveryText": "Chaque accord mutuel ouvre quatorze jours pour apprendre à vous connaître : une conversation privée, vos photos, un premier rendez-vous conseillé dans un lieu partenaire. Au plus trois matchs par soirée, chacun ouvert aussitôt en discussion.",
     "counselorTitle": "Le conseiller",
     "counselorText": "Quand vous décidez tous les deux de continuer, vous choisissez ensemble un conseiller de vie et de couple. Il vous guide dans les grandes étapes : les séances, la présentation aux familles, la préparation de l'union.",
     "consentTitle": "Votre accord avant tout",
@@ -206,7 +206,6 @@
     "women": "Femmes",
     "men": "Hommes",
     "full": "Complet",
-    "waitlist": "Liste d'attente",
     "book": "Réserver",
     "membersOnly": "La réservation est réservée aux membres vérifiés.",
     "empty": "Les prochaines dates seront annoncées ici très prochainement.",
@@ -219,7 +218,8 @@
       "faith-christian": "Foi chrétienne",
       "faith-muslim": "Foi musulmane",
       "professionals": "Univers professionnel"
-    }
+    },
+    "next": "Complet : soirée suivante"
   },
   "AppDownload": {
     "eyebrow": "L'application",
@@ -252,7 +252,7 @@
       },
       {
         "q": "Puis-je faire plusieurs découvertes en même temps ?",
-        "a": "Oui, deux au maximum. Si vous avez davantage d'accords mutuels, vous choisissez lesquels ouvrir. Les autres restent en attente sept jours."
+        "a": "Oui. Chaque soirée vous donne au plus trois matchs, et chacun s'ouvre aussitôt en discussion, sans choix à faire. Les discussions des soirées précédentes restent ouvertes."
       },
       {
         "q": "Le conseiller peut-il lire nos messages ?",
@@ -342,14 +342,14 @@
       {
         "title": "4. Soirées",
         "paragraphs": [
-          "Vous confirmez votre présence au plus tard 48 heures avant la soirée. Sans confirmation, votre place est proposée à la liste d'attente.",
+          "Une soirée payante est confirmée par le paiement : sans paiement dans les 24 heures qui suivent la réservation, la place est libérée. Si la soirée choisie est complète, vous êtes inscrit(e) d'office à la suivante.",
           "Vous arrivez à l'heure et vous restez jusqu'à la fin des tours, par respect pour les autres participants."
         ]
       },
       {
         "title": "5. Découverte et espace du couple",
         "paragraphs": [
-          "Vous menez au plus deux découvertes à la fois. Lorsque vous entrez dans un espace du couple, vous vous engagez à l'exclusivité et vous ne réservez plus de soirée tant que l'espace reste ouvert.",
+          "Chaque soirée vous donne au plus trois matchs, chacun ouvert en discussion. Lorsque vous entrez dans un espace du couple, vous vous engagez à l'exclusivité et vous ne réservez plus de soirée tant que l'espace reste ouvert.",
           "Chacun peut mettre fin à une relation à tout moment, sans justification."
         ]
       },
@@ -605,7 +605,8 @@
         "evening_confirmed": "Votre place est confirmée. À bientôt à la soirée.",
         "evening_waitlisted": "Vous êtes sur liste d'attente pour une soirée. Vous serez prévenu(e) si une place se libère.",
         "evening_registration_cancelled": "Votre place est annulée. Vous pouvez réserver une autre soirée.",
-        "evening_seat_released": "Votre place a été libérée faute de paiement ou de confirmation à temps. Vous pouvez réserver une autre soirée."
+        "evening_seat_released": "Votre place a été libérée faute de paiement ou de confirmation à temps. Vous pouvez réserver une autre soirée.",
+        "evening_moved_to_next": "La soirée choisie est complète : vous êtes inscrit(e) d'office à la soirée suivante. Payez votre place dans les 24 heures."
       }
     },
     "dashboard": {
@@ -638,7 +639,6 @@
       "relations": "Mes relations",
       "couple": "Votre couple avec {name}",
       "discoveries": "{count, plural, =0 {Aucune découverte en cours} one {# découverte en cours} other {# découvertes en cours}}",
-      "toChoose": "{count, plural, one {# match à ouvrir} other {# matchs à ouvrir}}",
       "unread": "{count, plural, one {# message non lu} other {# messages non lus}}",
       "myBadges": "Mes badges de confiance"
     },
@@ -696,19 +696,19 @@
       },
       "actions": {
         "book": "Réserver ma place",
-        "waitlist": "Rejoindre la liste d'attente",
         "confirm": "Confirmer ma place",
         "pay": "Payer",
         "cancel": "Annuler mon inscription",
         "cancelAsk": "Voulez-vous vraiment annuler votre inscription ?",
         "cancelYes": "Oui, annuler",
-        "cancelNo": "Non, la garder"
+        "cancelNo": "Non, la garder",
+        "next": "Complète : m'inscrire à la suivante"
       },
       "done": {
         "seat": "Votre place est réservée. Payez-la pour la confirmer (soirée gratuite : confirmez-la avant la date limite).",
-        "waitlist": "Vous êtes sur la liste d'attente. Nous vous préviendrons si une place se libère.",
         "confirmed": "Votre place est confirmée.",
-        "cancelled": "Votre annulation est enregistrée."
+        "cancelled": "Votre annulation est enregistrée.",
+        "next_evening": "Cette soirée est complète : vous êtes inscrit(e) d'office à la soirée suivante. Payez votre place dans les 24 heures depuis Mes soirées."
       },
       "errors": {
         "not_validated": "Votre profil doit être validé avant de réserver une soirée.",
@@ -726,7 +726,8 @@
         "price_not_set": "Le tarif de cette soirée n'est pas encore fixé.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant.",
-        "code": "Code : {code}"
+        "code": "Code : {code}",
+        "no_evening_available": "Cette soirée est complète, et aucune soirée à venir n'a de place pour vous pour le moment."
       },
       "participants": {
         "seeWomen": "Voir les femmes inscrites",
@@ -745,6 +746,10 @@
         "notVerified": "Réservation possible après la validation de votre compte.",
         "addPhoto": "Ajoutez une photo de profil pour réserver.",
         "photoPending": "Réservation possible dès que votre photo sera approuvée."
+      },
+      "topics": {
+        "title": "Les 4 sujets de débat",
+        "help": "Les mêmes sur toutes les tables, pour lancer la conversation à chaque tour."
       }
     },
     "notifications": {
@@ -1105,18 +1110,13 @@
     },
     "discoveries": {
       "title": "Découverte",
-      "intro": "Un match naît quand deux personnes souhaitent se revoir ; il est annoncé dès que l'équipe clôt la soirée. Chaque match peut ouvrir une découverte de 14 jours : une conversation simple et vos photos. Deux découvertes au plus en même temps.",
+      "intro": "Un match naît quand deux personnes souhaitent se revoir ; il est annoncé dès que l'équipe clôt la soirée. Au plus trois matchs par soirée : chacun s'ouvre aussitôt en discussion pour 14 jours, avec vos photos.",
       "active": "Découvertes en cours",
       "daysLeft": "{count, plural, =0 {Dernier jour} one {Encore # jour, jusqu'au {date}} other {Encore # jours, jusqu'au {date}}}",
       "extended": "prolongée",
       "open": "Ouvrir la conversation",
-      "toChoose": "Matchs à ouvrir",
-      "slots": "{count, plural, one {Vous pouvez ouvrir encore # découverte.} other {Vous pouvez ouvrir encore # découvertes.}}",
-      "noSlot": "Vous avez déjà deux découvertes en cours. Une place se libère quand l'une d'elles se termine.",
-      "chooseBefore": "À ouvrir avant le {date}",
-      "choose": "Ouvrir la découverte",
       "waiting": "En attente",
-      "waitingHelp": "Vous avez choisi d'ouvrir cette découverte. Elle s'ouvrira si l'autre personne la choisit aussi avant le {date}.",
+      "waitingHelp": "Ce match attend son ouverture, au plus tard jusqu'au {date}.",
       "couple": "Votre couple",
       "coupleHelp": "Vous avez tous les deux choisi de continuer : votre espace du couple est ouvert.",
       "ended": "Mises en relation terminées",
@@ -1131,7 +1131,6 @@
       "photos": "Ses photos",
       "photoAlt": "Photo {rank} de {name}",
       "errors": {
-        "no_free_slot": "Vous avez déjà deux découvertes en cours.",
         "expired": "Le délai pour ouvrir cette découverte est passé.",
         "not_pending": "Ce match n'est plus en attente.",
         "already_chosen": "Vous avez déjà choisi ce match.",
@@ -1220,7 +1219,11 @@
       },
       "counselor": "Conseiller",
       "reportMessage": "Signaler ce message",
-      "reportConversation": "Signaler cette conversation"
+      "reportConversation": "Signaler cette conversation",
+      "today": "Aujourd'hui",
+      "yesterday": "Hier",
+      "read": "Lu",
+      "sent": "Envoyé"
     },
     "couple": {
       "title": "Espace du couple",
@@ -1636,6 +1639,14 @@
         "unsupported": "Ce navigateur ne permet pas les notifications. Utilisez l'application Android ou Chrome.",
         "ios-install": "Sur iPhone, ajoutez d'abord Ifedele à l'écran d'accueil depuis Safari (Partager, puis « Sur l'écran d'accueil »), puis ouvrez-le depuis cette icône."
       }
+    },
+    "chats": {
+      "title": "Discussions",
+      "empty": "Écrivez le premier message",
+      "mine": "Vous : {body}",
+      "system": "Information de la discussion",
+      "yesterday": "Hier",
+      "unread": "{count, plural, one {# message non lu} other {# messages non lus}}"
     }
   },
   "SignIn": {
@@ -1689,7 +1700,8 @@
       "pause_round": "Vous étiez en pause pendant ce tour.",
       "unavailable": "Le vote n'est pas encore disponible.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
-    }
+    },
+    "topics": "Sujets de la soirée"
   },
   "SimulatedPayment": {
     "eyebrow": "Démonstration",
@@ -2043,7 +2055,7 @@
         },
         "prepare": {
           "title": "Préparation",
-          "help": "Quand les participants sont pointés à l'entrée : numérotation, tables, codes QR et rotation.",
+          "help": "Les places confirmées (payées) sont pointées d'office, puis : numérotation, tables, codes QR et rotation. 15 femmes et 15 hommes donnent 15 tables.",
           "confirm": "Seules les personnes déjà pointées participeront aux tours. Confirmez-vous ?",
           "button": "Préparer les tables"
         },
@@ -2089,7 +2101,8 @@
         "print": "Imprimer",
         "table": "Table {number}",
         "qrLabel": "Code QR de la table {number}",
-        "scan": "Après chaque tour, scannez ce code avec votre téléphone pour donner votre réponse."
+        "scan": "Après chaque tour, scannez ce code avec votre téléphone pour donner votre réponse.",
+        "topics": "Sujets de débat"
       },
       "timer": {
         "title": "Minuteur",
@@ -2122,13 +2135,16 @@
         "not_draft": "Cette soirée n'est plus un brouillon.",
         "already_prepared": "Les tables sont déjà préparées.",
         "not_prepared": "Préparez d'abord les tables.",
-        "not_enough_participants": "Pointez au moins une femme et un homme avant de préparer les tables.",
+        "not_enough_participants": "Il faut au moins une femme et un homme avec une place confirmée pour préparer les tables.",
         "invalid_status": "Cette étape ne correspond plus à l'état de la soirée. Rechargez la page.",
         "evening_not_finished": "Terminez la soirée avant de calculer les matchs.",
         "not_confirmed": "Seule une place confirmée peut être pointée.",
         "forbidden": "Votre rôle ne permet pas cette action.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
-        "generic": "Une erreur est survenue. Réessayez dans un instant."
+        "generic": "Une erreur est survenue. Réessayez dans un instant.",
+        "invalid_topics": "Choisissez quatre sujets différents de la liste.",
+        "not_editable": "Cette soirée ne peut plus être modifiée.",
+        "not_found": "Soirée introuvable."
       },
       "participants": {
         "title": "Inscriptions",
@@ -2136,8 +2152,6 @@
         "none": "Aucune inscription.",
         "waitlisted": "Liste d'attente, rang {rank}",
         "seat": "table {seat}",
-        "checkIn": "Pointer",
-        "checkInLabel": "Pointer l'arrivée de {name}",
         "status": {
           "booked": "Place réservée, non confirmée",
           "confirmed": "Place confirmée",
@@ -2172,6 +2186,40 @@
         "lines": {
           "incompatible": "{holder} exige « {category} » : {sought}. {other} a déclaré : {declared}.",
           "unknown": "{holder} exige « {category} » : {sought}. {other} n'a pas répondu."
+        }
+      },
+      "topics": {
+        "title": "Sujets de débat",
+        "help": "Quatre sujets, les mêmes sur toutes les tables. Ils sont proposés d'office (un nouveau groupe chaque semaine) et vous pouvez les changer jusqu'à la fin de la soirée. Ils sont imprimés sur les cartes des tables et montrés aux participants.",
+        "label": "Sujet {number}",
+        "duplicate": "Choisissez quatre sujets différents.",
+        "saved": "Sujets enregistrés.",
+        "save": "Enregistrer les sujets"
+      },
+      "saturdays": {
+        "open": "Programmer les samedis",
+        "title": "Programmer les samedis",
+        "intro": "Une soirée publiée chaque samedi : 15 femmes, 15 hommes, au prix indiqué. Les samedis qui ont déjà une soirée sont sautés. Chaque soirée reste modifiable ensuite depuis sa fiche.",
+        "venue": "Lieu",
+        "noVenue": "Ajoutez d'abord un lieu",
+        "firstDay": "À partir du",
+        "firstDayHelp": "Le premier samedi à partir de ce jour.",
+        "time": "Heure de début",
+        "timeHelp": "Heure de Cotonou.",
+        "months": "Durée (mois)",
+        "price": "Prix (FCFA)",
+        "summary": "Les soirées sont publiées aussitôt : les membres peuvent réserver.",
+        "done": "{count, plural, =0 {Aucune soirée créée : chaque samedi a déjà sa soirée.} one {# soirée créée et publiée.} other {# soirées créées et publiées.}}",
+        "see": "Voir les soirées à venir",
+        "submit": "Programmer les soirées",
+        "errors": {
+          "venue_required": "Choisissez un lieu.",
+          "starts_at": "Indiquez le premier jour et l'heure de début.",
+          "invalid_months": "Durée : de 1 à 12 mois.",
+          "invalid_price": "Indiquez un prix en nombre entier, 0 ou plus.",
+          "forbidden": "Vous n'avez pas le droit de programmer des soirées.",
+          "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+          "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
       }
     },
@@ -2530,7 +2578,7 @@
             "forbidden": "Votre rôle ne permet pas cette action.",
             "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
             "generic": "Une erreur est survenue. Réessayez dans un instant.",
-            "reward_too_high": "La réduction doit rester inférieure au prix d'une soirée (10 000 FCFA)."
+            "reward_too_high": "La réduction doit rester inférieure au prix d'une soirée (20 000 FCFA)."
           }
         }
       },
@@ -3755,5 +3803,31 @@
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
     }
+  },
+  "Topics": {
+    "lasting_love": "Qu'est-ce qui fait durer un couple ?",
+    "family_place": "Quelle place pour la famille dans le couple ?",
+    "money_together": "L'argent dans le couple : tout mettre en commun ou non ?",
+    "faith_couple": "Quelle place pour la foi dans la vie à deux ?",
+    "house_chores": "Comment partager les tâches de la maison ?",
+    "children_education": "Les enfants : combien, quand, et comment les élever ?",
+    "in_laws": "Vivre en bonne entente avec la belle-famille",
+    "trust_social_media": "Confiance et fidélité à l'heure des réseaux sociaux",
+    "career_couple": "Concilier carrière et vie de couple",
+    "ideal_first_date": "Le premier rendez-vous idéal",
+    "respect": "Que veut dire le respect dans un couple ?",
+    "tradition_modernity": "Traditions et modernité dans le mariage",
+    "disagreements": "Gérer un désaccord sans se blesser",
+    "shared_hobbies": "Les loisirs à partager à deux",
+    "where_to_live": "Où construire sa vie : Cotonou ou ailleurs ?",
+    "friends_other_sex": "Les amitiés avec l'autre sexe quand on est en couple",
+    "small_attentions": "Les petites attentions qui comptent",
+    "saving_projects": "Épargner et bâtir des projets ensemble",
+    "roles_home": "Le rôle de chacun dans le foyer aujourd'hui",
+    "lessons_past": "Ce que l'on retient de ses relations passées, sans entrer dans les détails",
+    "forgiveness": "La place du pardon dans le couple",
+    "phone_time": "Le téléphone : combien de temps reste-t-il pour l'autre ?",
+    "travel_dreams": "Voyages et rêves à réaliser à deux",
+    "friends_place": "Quelle place pour les amis une fois en couple ?"
   }
 }

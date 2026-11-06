@@ -57,8 +57,9 @@ describe("Rotation (9.2)", () => {
     expect(new Set(allMeetings(7, 9)).size).toBe(63);
   });
 
-  it("refuse plus de 12 participants par sexe ou un nombre nul", () => {
-    expect(() => buildRotation(13, 10)).toThrow(RotationError);
+  it("refuse plus de 15 participants par sexe ou un nombre nul", () => {
+    expect(() => buildRotation(16, 10)).toThrow(RotationError);
+    expect(buildRotation(15, 15).length).toBe(15);
     expect(() => buildRotation(10, 0)).toThrow(RotationError);
   });
 });

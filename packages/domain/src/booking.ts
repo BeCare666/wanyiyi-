@@ -63,11 +63,15 @@ export type BookingRefusal =
   | "theme_religion"
   | "theme_sector";
 
-export type BookingDecision = { ok: true; outcome: "seat" | "waitlist" } | { ok: false; reason: BookingRefusal };
+/**
+ * « seat » : place dans la soirée choisie ; « next_evening » : soirée complète pour son sexe, le
+ * membre est inscrit d'office à la prochaine soirée qui a de la place (06/11/2026, voir nextEvening).
+ */
+export type BookingDecision = { ok: true; outcome: "seat" | "next_evening" } | { ok: false; reason: BookingRefusal };
 
 export class CapacityError extends Error {}
 
-/** Capacité par sexe : 1 à 12, 10 par défaut. */
+/** Capacité par sexe : 1 à 15, 15 par défaut (30 participants, 06/11/2026). */
 export function validateCapacity(capacity: Capacity): Capacity {
   for (const sex of ["female", "male"] as const) {
     const n = capacity[sex];
@@ -128,7 +132,31 @@ export function decideBooking(booker: Booker, evening: Evening, registrations: R
   }
   const theme = themeRefusal(booker, evening);
   if (theme) return { ok: false, reason: theme };
-  return { ok: true, outcome: seatsLeft(evening, registrations, booker.sex) > 0 ? "seat" : "waitlist" };
+  return { ok: true, outcome: seatsLeft(evening, registrations, booker.sex) > 0 ? "seat" : "next_evening" };
+}
+
+/**
+ * Soirée complète (06/11/2026) : la prochaine soirée, après celle choisie, à laquelle le membre a
+ * accès (thème), où il n'est pas déjà inscrit et qui a encore de la place pour son sexe. Même règle
+ * que app.book_event ; null : aucune (la base répond no_evening_available).
+ */
+export function nextEvening<E extends Evening & { id: string }>(
+  booker: Booker,
+  full: Evening,
+  evenings: readonly { evening: E; registrations: Registration[] }[],
+  now: Date,
+): E | null {
+  const after = Math.max(full.startsAt.getTime(), now.getTime());
+  const candidates = evenings
+    .filter(({ evening }) => evening.startsAt.getTime() > after)
+    .sort((a, b) => a.evening.startsAt.getTime() - b.evening.startsAt.getTime());
+  for (const { evening, registrations } of candidates) {
+    if (registrations.some((r) => r.memberId === booker.memberId && isActive(r))) continue;
+    if (themeRefusal(booker, evening)) continue;
+    if (seatsLeft(evening, registrations, booker.sex) === 0) continue;
+    return evening;
+  }
+  return null;
 }
 
 /** Liste d'attente d'un sexe, dans l'ordre d'arrivée. */

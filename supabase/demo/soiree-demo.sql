@@ -1,8 +1,9 @@
 -- =====================================================================
 -- Soirée de démonstration (étape 6 de PHASE2.txt, question 31 du 22 octobre 2026) :
 -- une soirée 10 × 10 jouée de bout en bout avec les 24 membres de démonstration
--- (membres-demo.sql) : réservation, liste d'attente, paiement simulé (qui confirme la place),
--- pointage, 10 tours, votes, matchs.
+-- (membres-demo.sql) : réservation, annulations, paiement simulé (qui confirme la place),
+-- pointage d'office à la préparation des tables (06/11/2026), 10 tours, votes, matchs
+-- (3 au plus par personne, ouverts aussitôt en discussion).
 --   - chaque étape passe par les fonctions de la plateforme, au nom du membre ou de
 --     l'équipe, comme le site et l'API ;
 --   - les actions de l'équipe sont faites au nom du premier compte super administrateur
@@ -53,44 +54,46 @@ begin
 
   -- Chaque appel est fait au nom d'une personne : jeton simulé (request.jwt.claims), lu par auth.uid()
 
-  -- 1. L'équipe crée la soirée (10 000 FCFA, lieu fictif) et la publie
+  -- 1. L'équipe crée la soirée (20 000 FCFA, lieu fictif) et la publie
   insert into app.venues (name, address, city, is_partner)
   values ('Lieu de démonstration (fictif)', 'Adresse fictive, Cotonou', 'Cotonou', true)
   returning id into v_venue;
   perform set_config('request.jwt.claims', json_build_object('sub', v_admin, 'role', 'authenticated')::text, true);
-  v_event := app.save_event(null, v_venue, null, now() + interval '3 days', 10::smallint, 10::smallint, 7::smallint, 1::smallint, 10000);
+  v_event := app.save_event(null, v_venue, null, now() + interval '3 days', 10::smallint, 10::smallint, 7::smallint, 1::smallint, 20000);
   perform app.publish_event(v_event);
 
-  -- 2. Réservations : 10 places par sexe, les 2 suivants en liste d'attente
-  for v_i in 1..12 loop
+  -- 2. Réservations : 10 places par sexe (complet : plus de liste d'attente, 06/11/2026)
+  for v_i in 1..10 loop
     perform set_config('request.jwt.claims', json_build_object('sub', v_women[v_i], 'role', 'authenticated')::text, true);
     perform app.book_event(v_event);
     perform set_config('request.jwt.claims', json_build_object('sub', v_men[v_i], 'role', 'authenticated')::text, true);
     perform app.book_event(v_event);
   end loop;
 
-  -- 3. Deux annulations : la place va au premier en attente du même sexe
+  -- 3. Deux annulations : les places libérées sont reprises par deux autres membres
   perform set_config('request.jwt.claims', json_build_object('sub', v_women[4], 'role', 'authenticated')::text, true);
   perform app.cancel_registration(v_event);
   perform set_config('request.jwt.claims', json_build_object('sub', v_men[6], 'role', 'authenticated')::text, true);
   perform app.cancel_registration(v_event);
+  perform set_config('request.jwt.claims', json_build_object('sub', v_women[11], 'role', 'authenticated')::text, true);
+  perform app.book_event(v_event);
+  perform set_config('request.jwt.claims', json_build_object('sub', v_men[11], 'role', 'authenticated')::text, true);
+  perform app.book_event(v_event);
 
   -- 4. Paiement simulé (comme l'API) : le paiement confirme la place (migration du 03/11)
   for v_user in select user_id from app.event_registrations where event_id = v_event and status = 'booked' order by user_id loop
     insert into app.payments (user_id, purpose, amount_xof, provider, status)
-    values (v_user, 'evening_booking', 10000, 'simulated', 'pending') returning id into v_payment;
+    values (v_user, 'evening_booking', 20000, 'simulated', 'pending') returning id into v_payment;
     update app.payments set provider_transaction_id = 'sim_' || v_payment where id = v_payment;
     update app.event_registrations set payment_id = v_payment where event_id = v_event and user_id = v_user;
     update app.payments set status = 'succeeded' where id = v_payment;
     insert into app.audit_log (actor_id, action, target_table, target_id) values (v_user, 'payment.simulated_succeeded', 'payments', v_payment);
   end loop;
 
-  -- 5. Le soir venu : la soirée commence (il y a 10 minutes), pointage, préparation, début
+  -- 5. Le soir venu : la soirée commence (il y a 10 minutes), préparation (pointage d'office des
+  --    places confirmées), début
   update app.events set starts_at = now() - interval '10 minutes' where id = v_event;
   perform set_config('request.jwt.claims', json_build_object('sub', v_admin, 'role', 'authenticated')::text, true);
-  for v_user in select user_id from app.event_registrations where event_id = v_event and status = 'confirmed' order by user_id loop
-    perform app.check_in(v_event, v_user);
-  end loop;
   perform app.prepare_evening(v_event);
   perform app.start_evening(v_event);
   select qr_token into v_qr from app.event_tables where event_id = v_event and table_number = 1;

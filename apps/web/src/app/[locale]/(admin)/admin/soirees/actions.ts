@@ -2,13 +2,14 @@
 
 import { type ApiResult, memberApi } from "@/lib/api";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { checkDraft, type EventDraft, type EveningStep, fromCotonouInput } from "./evenings";
+import { isTopicSet } from "@/lib/topics";
+import { checkDraft, checkSaturdayPlan, type EventDraft, type EveningStep, fromCotonouInput, type SaturdayPlan } from "./evenings";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
  * Création ou modification d'une soirée, brouillon ou publiée (19 octobre 2026). La permission
- * events.manage et les règles (capacité 12 × 12, début futur, pas sous les places prises,
+ * events.manage et les règles (capacité 15 × 15, début futur, pas sous les places prises,
  * tables non préparées) sont contrôlées par app.save_event.
  */
 export async function saveEvent(eventId: string | null, draft: EventDraft): Promise<ApiResult<{ id: string }>> {
@@ -60,10 +61,32 @@ export async function runStep(eventId: string, step: EveningStep): Promise<ApiRe
   return result.ok ? { ok: true, data: undefined } : result;
 }
 
-/** Pointage à l'entrée d'un participant confirmé (API, puis app.check_in). */
-export async function checkIn(eventId: string, userId: string): Promise<ApiResult<void>> {
-  if (!UUID.test(eventId) || !UUID.test(userId)) return { ok: false, error: "generic" };
-  return memberApi<void>(`/admin/events/${eventId}/check-in/${userId}`, { method: "POST" });
+/** Quatre sujets de débat de la soirée (06/11/2026) : app.set_event_topics revérifie tout. */
+export async function setEventTopics(eventId: string, topics: string[]): Promise<ApiResult<void>> {
+  if (!UUID.test(eventId) || !isTopicSet(topics)) return { ok: false, error: "invalid_topics" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { error } = await supabase.rpc("set_event_topics", { p_event: eventId, p_topics: topics });
+  return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
+}
+
+/**
+ * Programmation des samedis (06/11/2026) : une soirée publiée chaque samedi pendant N mois, à
+ * l'heure et au lieu choisis (app.schedule_saturdays saute les samedis qui ont déjà une soirée).
+ */
+export async function scheduleSaturdays(input: SaturdayPlan): Promise<ApiResult<{ created: number }>> {
+  const invalid = checkSaturdayPlan(input);
+  if (invalid) return { ok: false, error: invalid };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { data, error } = await supabase.rpc("schedule_saturdays", {
+    p_venue: input.venueId,
+    p_first_day: input.firstDay,
+    p_time: input.time,
+    p_months: input.months,
+    p_price_xof: input.priceXof,
+  });
+  return error ? { ok: false, error: error.message } : { ok: true, data: { created: data as number } };
 }
 
 /**

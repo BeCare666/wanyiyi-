@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { type ThemeName, themeName } from "@/lib/theme-name";
 import { saveEvent } from "./actions";
-import { checkDraft, type EventDraft } from "./evenings";
+import { checkDraft, type EventDraft, MAX_CAPACITY } from "./evenings";
 
 export type VenueOption = { id: string; name: string; city: string };
 export type ThemeOption = { id: string; key: string; name: Partial<ThemeName> | null; min_age: number | null; max_age: number | null };
@@ -123,11 +123,11 @@ export function EventForm({
         <legend className="mb-4 text-sm font-medium">{t("format")}</legend>
         <label className="block">
           <span className="text-sm">{t("capacityWomen")}</span>
-          <input type="number" min={1} max={12} value={draft.capacityWomen} onChange={(e) => set("capacityWomen", e.target.valueAsNumber)} className={numberField} />
+          <input type="number" min={1} max={MAX_CAPACITY} value={draft.capacityWomen} onChange={(e) => set("capacityWomen", e.target.valueAsNumber)} className={numberField} />
         </label>
         <label className="block">
           <span className="text-sm">{t("capacityMen")}</span>
-          <input type="number" min={1} max={12} value={draft.capacityMen} onChange={(e) => set("capacityMen", e.target.valueAsNumber)} className={numberField} />
+          <input type="number" min={1} max={MAX_CAPACITY} value={draft.capacityMen} onChange={(e) => set("capacityMen", e.target.valueAsNumber)} className={numberField} />
         </label>
         <label className="block">
           <span className="text-sm">{t("roundMinutes")}</span>

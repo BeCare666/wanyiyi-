@@ -25,19 +25,8 @@ export class AdminEventsController {
     return this.supabase.forMember(member.accessToken);
   }
 
-  @Post("check-in/:userId")
-  @HttpCode(204)
-  @ApiOperation({ summary: "Pointage à l'entrée d'un participant confirmé" })
-  async checkIn(
-    @CurrentMember() member: AuthenticatedMember,
-    @Param("id", ParseUUIDPipe) id: string,
-    @Param("userId", ParseUUIDPipe) userId: string,
-  ) {
-    unwrap(await this.db(member).rpc("check_in", { p_event: id, p_user: userId }));
-  }
-
   @Post("prepare")
-  @ApiOperation({ summary: "Numérotation, tables, codes QR et rotation des participants pointés" })
+  @ApiOperation({ summary: "Pointage d'office des places confirmées, puis numérotation, tables, codes QR et rotation (06/11/2026)" })
   async prepare(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
     return { tables: unwrap(await this.db(member).rpc("prepare_evening", { p_event: id })) };
   }

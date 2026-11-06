@@ -54,7 +54,7 @@ export class EventsController {
   }
 
   @Post("events/:id/book")
-  @ApiOperation({ summary: "Réserver : place attribuée (seat) ou liste d'attente (waitlist)" })
+  @ApiOperation({ summary: "Réserver : place attribuée (seat), ou soirée complète et inscription d'office à la suivante (next_evening)" })
   async book(@CurrentMember() member: AuthenticatedMember, @Param("id", ParseUUIDPipe) id: string) {
     const outcome = unwrap(await this.supabase.forMember(member.accessToken).rpc("book_event", { p_event: id }));
     return { outcome };

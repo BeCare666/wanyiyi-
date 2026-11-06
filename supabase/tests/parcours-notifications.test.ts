@@ -83,8 +83,9 @@ describe("Paiement = place confirmée", () => {
 });
 
 describe("Une notification à chaque étape", () => {
-  it("réserver, confirmer, annuler, liste d'attente : chaque action du membre est notifiée", async () => {
+  it("réserver, confirmer, annuler, soirée complète : chaque action du membre est notifiée", async () => {
     const event = await createEvent(db, { startsInHours: 120, capacityWomen: 1 });
+    const next = await createEvent(db, { startsInHours: 240 });
     const first = await createMember(db, { firstName: "Ayaba", sex: "female", photo: true });
     const second = await createMember(db, { firstName: "Mawulé", sex: "female", photo: true });
 
@@ -94,8 +95,10 @@ describe("Une notification à chaque étape", () => {
     await commitAs(first, (tx) => tx.query("select app.cancel_registration($1)", [event]));
 
     expect((await kinds(first)).map((n) => n.kind)).toEqual(["evening.booked", "evening.confirmed", "evening.registration_cancelled"]);
-    // La seconde passe de la liste d'attente à la place libérée : son message reste « place proposée »
-    expect((await kinds(second)).map((n) => n.kind)).toEqual(["evening.waitlisted", "evening.seat_offered"]);
+    // La seconde trouve la soirée complète : inscrite d'office à la suivante, une seule alerte (06/11/2026)
+    expect((await kinds(second)).map((n) => n.kind)).toEqual(["evening.moved_to_next"]);
+    const { rows } = await db.query<{ event_id: string }>("select event_id from app.event_registrations where user_id = $1", [second]);
+    expect(rows).toEqual([{ event_id: next }]);
   });
 
   it("dossier envoyé, photo approuvée hors dossier : notifiés ; photo approuvée avec le dossier : pas de doublon", async () => {

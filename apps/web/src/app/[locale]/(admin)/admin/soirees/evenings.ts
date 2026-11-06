@@ -1,3 +1,4 @@
+import { RULES } from "@wanyiyi/shared";
 import type { ListNode } from "@/components/admin/listRules";
 
 /** État d'une soirée (enum app.event_status). */
@@ -122,7 +123,7 @@ export function eventExportCell(
 
 /**
  * Prochaine action du déroulé (9.2) : publier, préparer (tables, codes QR, rotation des
- * personnes pointées), commencer, terminer, calculer les matchs. Null : plus rien à faire.
+ * places confirmées, pointées d'office), commencer, terminer, calculer les matchs. Null : plus rien à faire.
  */
 export type EveningStep = "publish" | "prepare" | "start" | "finish" | "compute";
 
@@ -132,11 +133,6 @@ export function nextStep(status: EventStatus, prepared: boolean, resultsComputed
   if (status === "in_progress") return "finish";
   if (status === "finished" && !resultsComputed) return "compute";
   return null;
-}
-
-/** Pointage possible : place confirmée, soirée publiée et pas encore préparée (la rotation fige la liste). */
-export function canCheckIn(participant: Pick<ParticipantRow, "status">, status: EventStatus, prepared: boolean): boolean {
-  return participant.status === "confirmed" && (status === "published" || status === "full") && !prepared;
 }
 
 /** Inscriptions actives d'un sexe (places occupées), puis liste d'attente, puis le reste. */
@@ -202,11 +198,19 @@ export type EventDraft = {
   priceXof: number | null;
 };
 
-/** Valeurs par défaut de la note (9.2) : 10 × 10, tours de 7 minutes, 1 minute de changement. */
-export const draftDefaults = { capacityWomen: 10, capacityMen: 10, roundMinutes: 7, changeoverMinutes: 1 } as const;
+/** Valeurs par défaut (06/11/2026) : 15 × 15, tours de 7 minutes, 1 minute de changement. */
+export const draftDefaults = {
+  capacityWomen: RULES.evenings.defaultCapacityPerSex,
+  capacityMen: RULES.evenings.defaultCapacityPerSex,
+  roundMinutes: 7,
+  changeoverMinutes: 1,
+} as const;
 
-/** Tarif proposé à la création d'une soirée : 10 000 FCFA, sans frais d'inscription (question 29, 22 octobre 2026). */
-export const DEFAULT_PRICE_XOF = 10_000;
+/** Places au plus par sexe (06/11/2026) : 15. */
+export const MAX_CAPACITY = RULES.evenings.maxCapacityPerSex;
+
+/** Tarif proposé à la création d'une soirée : 20 000 FCFA (06/11/2026). */
+export const DEFAULT_PRICE_XOF = RULES.evenings.defaultPriceXof;
 
 export type DraftError = "starts_at" | "starts_in_past" | "invalid_capacity" | "invalid_duration" | "invalid_price";
 
@@ -215,10 +219,30 @@ export function checkDraft(draft: EventDraft, now: Date): DraftError | null {
   const start = fromCotonouInput(draft.startsAt);
   if (!start) return "starts_at";
   if (start.getTime() <= now.getTime()) return "starts_in_past";
-  const capacity = (n: number) => Number.isInteger(n) && n >= 1 && n <= 12;
+  const capacity = (n: number) => Number.isInteger(n) && n >= 1 && n <= MAX_CAPACITY;
   if (!capacity(draft.capacityWomen) || !capacity(draft.capacityMen)) return "invalid_capacity";
   if (!Number.isInteger(draft.roundMinutes) || draft.roundMinutes < 1) return "invalid_duration";
   if (!Number.isInteger(draft.changeoverMinutes) || draft.changeoverMinutes < 0) return "invalid_duration";
   if (draft.priceXof !== null && (!Number.isInteger(draft.priceXof) || draft.priceXof < 0)) return "invalid_price";
+  return null;
+}
+
+/** Programmation des samedis (06/11/2026) : lieu, premier jour, heure de Cotonou, durée, prix. */
+export type SaturdayPlan = { venueId: string; firstDay: string; time: string; months: number; priceXof: number };
+
+/** Durée proposée : 10 mois (demande du 06/11/2026). */
+export const SATURDAY_MONTHS = 10;
+
+export type SaturdayPlanError = "venue_required" | "starts_at" | "invalid_months" | "invalid_price";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Contrôle côté site, identique à celui de app.schedule_saturdays (la base reste juge). */
+export function checkSaturdayPlan(plan: SaturdayPlan): SaturdayPlanError | null {
+  if (typeof plan.venueId !== "string" || !UUID_RE.test(plan.venueId)) return "venue_required";
+  const day = /^(\d{4})-(\d{2})-(\d{2})$/.exec(plan.firstDay ?? "");
+  if (!day || Number.isNaN(Date.UTC(+day[1]!, +day[2]! - 1, +day[3]!)) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(plan.time ?? "")) return "starts_at";
+  if (!Number.isInteger(plan.months) || plan.months < 1 || plan.months > 12) return "invalid_months";
+  if (!Number.isInteger(plan.priceXof) || plan.priceXof < 0) return "invalid_price";
   return null;
 }

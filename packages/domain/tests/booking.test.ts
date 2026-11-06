@@ -7,6 +7,7 @@ import {
   confirmationDeadline,
   decideBooking,
   defaultCapacity,
+  nextEvening,
   type Evening,
   type Registration,
   releaseUnconfirmed,
@@ -37,11 +38,29 @@ const reg = (memberId: string, sex: Registration["sex"], status: Registration["s
 });
 
 describe("Capacité (9.2)", () => {
-  it("10 × 10 par défaut, 12 au maximum par sexe", () => {
-    expect(defaultCapacity).toEqual({ female: 10, male: 10 });
-    expect(validateCapacity({ female: 12, male: 12 })).toBeTruthy();
-    expect(() => validateCapacity({ female: 13, male: 10 })).toThrow(CapacityError);
+  it("15 × 15 par défaut, 15 au maximum par sexe (06/11/2026)", () => {
+    expect(defaultCapacity).toEqual({ female: 15, male: 15 });
+    expect(validateCapacity({ female: 15, male: 15 })).toBeTruthy();
+    expect(() => validateCapacity({ female: 16, male: 10 })).toThrow(CapacityError);
     expect(() => validateCapacity({ female: 10, male: 0 })).toThrow(CapacityError);
+  });
+});
+
+describe("Soirée complète : inscription d'office à la suivante (06/11/2026)", () => {
+  const day = (d: number) => cotonouDate(2026, 10, 22 + d, 19, 30);
+  const ev = (id: string, d: number, over: Partial<Evening> = {}) => ({ id, startsAt: day(d), capacity: { female: 1, male: 1 }, ...over });
+
+  it("la prochaine soirée accessible, où le membre n'est pas déjà inscrit, avec une place pour son sexe", () => {
+    const list = [
+      { evening: ev("later", 14), registrations: [] },
+      { evening: ev("themed", 3, { theme: { ageMin: 50 } }), registrations: [] },
+      { evening: ev("full", 7), registrations: [reg("x", "female", "confirmed", 0)] },
+      { evening: ev("mine", 9), registrations: [reg("afiwa", "female", "booked", 0)] },
+      { evening: ev("past", -7), registrations: [] },
+    ];
+    expect(nextEvening(booker(), evening, list, now)?.id).toBe("later");
+    expect(nextEvening(booker({ sex: "male", memberId: "koffi" }), evening, list, now)?.id).toBe("full");
+    expect(nextEvening(booker(), evening, list.slice(1), now)).toBeNull();
   });
 });
 
@@ -53,11 +72,11 @@ describe("Réservation (9.2)", () => {
     expect(decideBooking(booker(), evening, [], now)).toEqual({ ok: true, outcome: "seat" });
   });
 
-  it("quotas séparés par sexe : places pleines chez les femmes, liste d'attente ; places libres chez les hommes", () => {
+  it("quotas séparés par sexe : complet chez les femmes, soirée suivante ; places libres chez les hommes", () => {
     const regs = [reg("a", "female", "booked", 0), reg("b", "female", "confirmed", 1)];
     expect(seatsLeft(evening, regs, "female")).toBe(0);
     expect(seatsLeft(evening, regs, "male")).toBe(2);
-    expect(decideBooking(booker({ memberId: "c" }), evening, regs, now)).toEqual({ ok: true, outcome: "waitlist" });
+    expect(decideBooking(booker({ memberId: "c" }), evening, regs, now)).toEqual({ ok: true, outcome: "next_evening" });
     expect(decideBooking(booker({ memberId: "koffi", sex: "male" }), evening, regs, now)).toEqual({ ok: true, outcome: "seat" });
   });
 

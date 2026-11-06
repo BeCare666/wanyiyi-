@@ -7,6 +7,8 @@ const kinds = {
   // Soirée publiée modifiée ou annulée (19 octobre 2026)
   evening_updated: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
   evening_cancelled: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
+  // Soirée complète : inscription d'office à la suivante (06/11/2026)
+  evening_moved_to_next: { href: { pathname: memberNav.evenings.href, query: { filtre: "mine" } } },
   // Décisions de l'équipe (19 octobre 2026) : le motif est affiché avec la notification
   member_suspended: { href: null },
   member_reactivated: { href: null },

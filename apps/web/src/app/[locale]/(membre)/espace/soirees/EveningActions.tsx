@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { bookEvening, cancelEvening, confirmEvening, payEvening } from "./actions";
 import { type EveningAction, knownEveningErrors } from "./evenings";
 
-type Notice = { kind: "done"; key: "seat" | "waitlist" | "confirmed" | "cancelled" } | { kind: "error"; code: string };
+type Notice = { kind: "done"; key: "seat" | "next_evening" | "confirmed" | "cancelled" } | { kind: "error"; code: string };
 
 /**
  * Boutons d'une soirée. Après chaque action, la page est rechargée côté serveur :
@@ -24,10 +24,10 @@ export function EveningActions({ eventId, actions }: { eventId: string; actions:
   function run(action: EveningAction) {
     setNotice(null);
     startTransition(async () => {
-      if (action === "book" || action === "waitlist") {
+      if (action === "book" || action === "next") {
         const result = await bookEvening(eventId);
         if (!result.ok) return setNotice({ kind: "error", code: result.error });
-        setNotice({ kind: "done", key: result.data.outcome === "seat" ? "seat" : "waitlist" });
+        setNotice({ kind: "done", key: result.data.outcome === "next_evening" ? "next_evening" : "seat" });
       } else if (action === "confirm") {
         const result = await confirmEvening(eventId);
         if (!result.ok) return setNotice({ kind: "error", code: result.error });

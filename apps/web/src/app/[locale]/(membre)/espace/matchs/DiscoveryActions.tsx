@@ -4,13 +4,9 @@ import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
-import { chooseMatch, decideDiscovery } from "./actions";
+import { decideDiscovery } from "./actions";
 
 const knownErrors = new Set([
-  "no_free_slot",
-  "expired",
-  "not_pending",
-  "already_chosen",
   "couple_exclusivity",
   "not_active",
   "extension_too_early",
@@ -40,20 +36,6 @@ function ErrorLine({ error }: { error: string | null }) {
       {t(error)}
     </p>
   ) : null;
-}
-
-/** Choisir d'ouvrir la découverte d'un match en attente (place libre exigée). */
-export function ChooseMatch({ matchId, disabled }: { matchId: string; disabled: boolean }) {
-  const t = useTranslations("Member.discoveries");
-  const { error, pending, run } = useAction();
-  return (
-    <div>
-      <Button type="button" disabled={disabled || pending} onClick={() => run(() => chooseMatch(matchId))}>
-        {t("choose")}
-      </Button>
-      <ErrorLine error={error} />
-    </div>
-  );
 }
 
 /**

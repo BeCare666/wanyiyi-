@@ -130,8 +130,9 @@ describe("Parrainage (question 4)", () => {
     const [referral] = await as<{ acquired: boolean; rewarded: boolean }>(p.marraine!, "select * from app.my_referrals() where first_name = 'filleul'");
     expect(referral).toMatchObject({ acquired: true, rewarded: false });
     expect(await failure(as(p.filleul!, "select app.admin_set_referral_settings(2000, 5)"))).toMatch(/forbidden/);
-    // Choix B : jamais une réduction égale ou supérieure au prix par défaut d'une soirée
-    expect(await failure(as(p.admin!, "select app.admin_set_referral_settings(10000, 5)"))).toMatch(/reward_too_high/);
+    // La réduction reste sous le prix d'une soirée, désormais 20 000 FCFA (06/11/2026)
+    expect(await failure(as(p.admin!, "select app.admin_set_referral_settings(10000, 5)"))).toBeNull();
+    expect(await failure(as(p.admin!, "select app.admin_set_referral_settings(20000, 5)"))).toMatch(/reward_too_high/);
     await as(p.admin!, "select app.admin_set_referral_settings(2000, 5)");
   });
 

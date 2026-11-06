@@ -5,8 +5,11 @@
  */
 export const RULES = {
   evenings: {
-    defaultCapacityPerSex: 10,
-    maxCapacityPerSex: 12,
+    /** 30 participants : 15 femmes et 15 hommes (demande du 06/11/2026). */
+    defaultCapacityPerSex: 15,
+    maxCapacityPerSex: 15,
+    /** Prix d'une place (06/11/2026). */
+    defaultPriceXof: 20_000,
     maxPerWeek: 3,
     confirmationHoursBefore: 48,
     roundMinutes: 7,
@@ -22,7 +25,8 @@ export const RULES = {
     /** Prolongation demandable seulement pendant les derniers jours (question 3, 27 octobre 2026). */
     extensionRequestWindowDays: 4,
     maxExtensions: 1,
-    maxActivePerMember: 2,
+    /** 3 matchs au plus par soirée et par personne, ouverts aussitôt, sans choix (06/11/2026). */
+    maxMatchesPerEvening: 3,
     pendingMatchExpiryDays: 7,
     closedMessage: "Cette mise en relation est terminée.",
   },

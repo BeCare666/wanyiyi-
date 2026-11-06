@@ -5,6 +5,7 @@ import {
   castVote,
   computeMatches,
   isQrValid,
+  limitEveningMatches,
   matchAnnouncementAt,
   matchesFor,
   type Participant,
@@ -101,5 +102,27 @@ describe("Matchs (9.3)", () => {
   it("une soirée qui finit après minuit reste annoncée le lendemain de son début", () => {
     const late = { startsAt: cotonouDate(2026, 12, 31, 22, 0), endsAt: cotonouDate(2027, 1, 1, 0, 30) };
     expect(matchAnnouncementAt(late).toISOString()).toBe("2027-01-01T07:00:00.000Z");
+  });
+});
+
+describe("3 matchs au plus par soirée (06/11/2026)", () => {
+  const m = (a: string, b: string, round: number) => ({ memberA: a, memberB: b, round });
+
+  it("on garde les matchs avec les personnes qui en ont le moins", () => {
+    const all = [m("w0", "m0", 1), m("w0", "m1", 2), m("w0", "m2", 3), m("w0", "m3", 4), m("w1", "m0", 2), m("w2", "m0", 3)];
+    const kept = limitEveningMatches(all);
+    expect(kept).toHaveLength(5);
+    expect(kept.some((x) => x.memberA === "w0" && x.memberB === "m0")).toBe(false);
+  });
+
+  it("à égalité, le tour le plus tôt ; personne ne dépasse 3", () => {
+    const all = [m("w", "a", 4), m("w", "b", 1), m("w", "c", 3), m("w", "d", 2), m("w", "e", 5)];
+    expect(limitEveningMatches(all).map((x) => x.memberB)).toEqual(["b", "c", "d"]);
+    const dense = ["w1", "w2", "w3", "w4", "w5"].flatMap((w, i) => ["h1", "h2", "h3", "h4", "h5"].map((h, j) => m(w, h, ((i + j) % 5) + 1)));
+    const kept = limitEveningMatches(dense);
+    for (const id of ["w1", "w2", "w3", "w4", "w5", "h1", "h2", "h3", "h4", "h5"]) {
+      expect(kept.filter((x) => x.memberA === id || x.memberB === id).length).toBeLessThanOrEqual(3);
+    }
+    expect(limitEveningMatches(all.slice(0, 3))).toHaveLength(3);
   });
 });

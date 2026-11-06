@@ -196,17 +196,20 @@ describe("Réservation des soirées (9.2)", () => {
     expect(outcome[0]?.o).toBe("seat");
   });
 
-  it("quotas séparés par sexe et liste d'attente par sexe", async () => {
+  it("quotas séparés par sexe ; complet : inscription d'office à la soirée suivante (06/11/2026)", async () => {
     const event = await createEvent(db, { startsInHours: 120, capacityWomen: 1, capacityMen: 1 });
+    const next = await createEvent(db, { startsInHours: 240 });
     await register(db, event, sena, "female", "booked");
     const result = await asUser(db, afiwa, async (tx) => {
       const [o] = await rows(tx.query<{ o: string }>("select app.book_event($1) as o", [event]));
       const seats = await rows(tx.query<{ sex: string; taken: number; waiting: number }>("select sex, taken, waiting from app.event_seats($1)", [event]));
-      return { outcome: o?.o, seats };
+      const [moved] = await rows(tx.query<{ status: string }>("select status from app.event_registrations where event_id = $1 and user_id = $2", [next, afiwa]));
+      return { outcome: o?.o, seats, moved: moved?.status };
     });
-    expect(result.outcome).toBe("waitlist");
+    expect(result.outcome).toBe("next_evening");
+    expect(result.moved).toBe("booked");
     expect(result.seats).toEqual([
-      { sex: "female", taken: 1, waiting: 1 },
+      { sex: "female", taken: 1, waiting: 0 },
       { sex: "male", taken: 0, waiting: 0 },
     ]);
     const male = await asUser(db, koffi, (tx) => rows(tx.query<{ o: string }>("select app.book_event($1) as o", [event])));

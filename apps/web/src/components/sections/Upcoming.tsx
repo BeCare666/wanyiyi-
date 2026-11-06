@@ -60,7 +60,7 @@ export async function Upcoming() {
                     {/* Colonne du bouton à sa largeur naturelle : aucun libellé (3 langues) ne déborde */}
                     <div className="lg:text-right">
                       <ButtonLink href="/inscription" variant="secondary" className="w-full lg:w-auto">
-                        {full ? t("waitlist") : t("book")}
+                        {full ? t("next") : t("book")}
                       </ButtonLink>
                     </div>
                   </Reveal>

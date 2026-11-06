@@ -14,8 +14,8 @@ import {
   parseMemberQuery,
 } from "../src/app/[locale]/(admin)/admin/membres/members";
 import {
-  canCheckIn,
   checkDraft,
+  checkSaturdayPlan,
   DEFAULT_PRICE_XOF,
   draftDefaults,
   type EventStatus,
@@ -25,6 +25,7 @@ import {
   nextStep,
   type ParticipantRow,
   parseEventFilter,
+  SATURDAY_MONTHS,
   toCotonouInput,
 } from "../src/app/[locale]/(admin)/admin/soirees/evenings";
 import { canPrintTables, qrPath, voteUrl } from "../src/app/[locale]/(admin)/admin/soirees/tables";
@@ -142,11 +143,17 @@ describe("Soirées de l'administration (11.2-5)", () => {
     expect(nextStep("cancelled", false, false)).toBeNull();
   });
 
-  it("pointage : place confirmée, soirée publiée, tables pas encore préparées", () => {
-    expect(canCheckIn({ status: "confirmed" }, "published", false)).toBe(true);
-    expect(canCheckIn({ status: "booked" }, "published", false)).toBe(false);
-    expect(canCheckIn({ status: "confirmed" }, "published", true)).toBe(false);
-    expect(canCheckIn({ status: "confirmed" }, "in_progress", false)).toBe(false);
+  it("programmation des samedis : lieu, premier jour, heure, 1 à 12 mois, prix entier (06/11/2026)", () => {
+    const plan = { venueId: "0b9e2c1e-8f1a-4c55-9a77-2f3d4e5f6a7b", firstDay: "2026-11-07", time: "19:00", months: SATURDAY_MONTHS, priceXof: DEFAULT_PRICE_XOF };
+    expect(SATURDAY_MONTHS).toBe(10);
+    expect(checkSaturdayPlan(plan)).toBeNull();
+    expect(checkSaturdayPlan({ ...plan, venueId: "" })).toBe("venue_required");
+    expect(checkSaturdayPlan({ ...plan, firstDay: "07/11/2026" })).toBe("starts_at");
+    expect(checkSaturdayPlan({ ...plan, time: "24:00" })).toBe("starts_at");
+    expect(checkSaturdayPlan({ ...plan, months: 13 })).toBe("invalid_months");
+    expect(checkSaturdayPlan({ ...plan, months: 0 })).toBe("invalid_months");
+    expect(checkSaturdayPlan({ ...plan, priceXof: -1 })).toBe("invalid_price");
+    expect(checkSaturdayPlan({ ...plan, priceXof: Number.NaN })).toBe("invalid_price");
   });
 
   it("heure de Cotonou (UTC+1) dans les deux sens, dates impossibles refusées", () => {
@@ -158,20 +165,21 @@ describe("Soirées de l'administration (11.2-5)", () => {
     expect(fromCotonouInput("")).toBeNull();
   });
 
-  it("contrôle du brouillon identique à la base : début futur, 1 à 12 places, durées, tarif", () => {
+  it("contrôle du brouillon identique à la base : début futur, 1 à 15 places, durées, tarif", () => {
     const now = new Date("2026-10-19T10:00:00Z");
     const ok = { venueId: null, themeId: null, startsAt: "2026-11-07T19:30", priceXof: null, ...draftDefaults };
     expect(checkDraft(ok, now)).toBeNull();
     expect(checkDraft({ ...ok, startsAt: "" }, now)).toBe("starts_at");
     expect(checkDraft({ ...ok, startsAt: "2026-10-19T11:00" }, now)).toBe("starts_in_past");
-    expect(checkDraft({ ...ok, capacityWomen: 13 }, now)).toBe("invalid_capacity");
+    expect(checkDraft({ ...ok, capacityWomen: 15 }, now)).toBeNull();
+    expect(checkDraft({ ...ok, capacityWomen: 16 }, now)).toBe("invalid_capacity");
     expect(checkDraft({ ...ok, capacityMen: Number.NaN }, now)).toBe("invalid_capacity");
     expect(checkDraft({ ...ok, roundMinutes: 0 }, now)).toBe("invalid_duration");
     expect(checkDraft({ ...ok, changeoverMinutes: -1 }, now)).toBe("invalid_duration");
     expect(checkDraft({ ...ok, priceXof: -1 }, now)).toBe("invalid_price");
     expect(checkDraft({ ...ok, priceXof: 5000 }, now)).toBeNull();
-    expect(draftDefaults).toEqual({ capacityWomen: 10, capacityMen: 10, roundMinutes: 7, changeoverMinutes: 1 });
-    expect(DEFAULT_PRICE_XOF).toBe(10_000);
+    expect(draftDefaults).toEqual({ capacityWomen: 15, capacityMen: 15, roundMinutes: 7, changeoverMinutes: 1 });
+    expect(DEFAULT_PRICE_XOF).toBe(20_000);
   });
 
   it("inscriptions regroupées : places occupées, liste d'attente, puis le reste", () => {

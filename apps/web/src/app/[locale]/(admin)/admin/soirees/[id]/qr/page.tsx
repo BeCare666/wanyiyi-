@@ -5,6 +5,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Link } from "@/i18n/navigation";
 import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { readTopics } from "@/lib/topics";
 import { isQrToken } from "@/app/[locale]/(membre)/vote/[qr]/vote";
 import type { EventStatus } from "../../evenings";
 import { canPrintTables, qrPath, voteUrl } from "../../tables";
@@ -28,7 +29,10 @@ async function loadTables(id: string) {
   const { data: event } = await supabase.from("events").select("id, starts_at, status, venue:venues(name)").eq("id", id).maybeSingle();
   if (!event) return null;
   const { data: tables } = await supabase.from("event_tables").select("table_number, qr_token").eq("event_id", id).order("table_number");
+  // Sujets de débat (06/11/2026), lus à part : sans la mise à jour de la base, la colonne manque
+  const { data: topics } = await supabase.from("events").select("topics").eq("id", id).maybeSingle();
   return {
+    topics: readTopics((topics as { topics: unknown } | null)?.topics),
     event: event as unknown as { id: string; starts_at: string; status: EventStatus; venue: { name: string } | null },
     tables: ((tables as TableRow[] | null) ?? []).filter((t) => isQrToken(t.qr_token)),
   };
@@ -37,6 +41,7 @@ async function loadTables(id: string) {
 /**
  * Impression des codes QR des tables (section 11.2-5) : une carte par table, à poser sur
  * la table. Le code mène à la page de vote ; il n'est valable que pendant la soirée.
+ * Chaque carte porte les quatre sujets de débat de la soirée, les mêmes partout (06/11/2026).
  */
 export default async function EveningTablesPage({ params }: Props) {
   const { id } = await params;
@@ -47,8 +52,9 @@ export default async function EveningTablesPage({ params }: Props) {
   if (!loaded) notFound();
 
   const t = await getTranslations("Admin.evenings.tables");
+  const tt = await getTranslations("Topics");
   const format = await getFormatter();
-  const { event, tables } = loaded;
+  const { event, tables, topics } = loaded;
   const printable = canPrintTables(event.status, tables.length > 0);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const date = format.dateTime(new Date(event.starts_at), { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
@@ -88,11 +94,21 @@ export default async function EveningTablesPage({ params }: Props) {
                   aria-label={t("qrLabel", { number: table.table_number })}
                   viewBox={`-2 -2 ${size + 4} ${size + 4}`}
                   shapeRendering="crispEdges"
-                  className="mt-6 size-56 bg-white text-ink"
+                  className="mt-6 size-56 bg-white text-ink print:size-48"
                 >
                   <path d={path} fill="currentColor" />
                 </svg>
                 <p className="mt-6 max-w-xs text-sm text-fg-muted">{t("scan")}</p>
+                {topics.length > 0 && (
+                  <div className="mt-6 w-full max-w-sm border-t border-line pt-5 text-left">
+                    <p className="eyebrow">{t("topics")}</p>
+                    <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm">
+                      {topics.map((key) => (
+                        <li key={key}>{tt(key)}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
               </li>
             );
           })}

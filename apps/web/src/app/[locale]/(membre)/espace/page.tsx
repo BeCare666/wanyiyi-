@@ -39,7 +39,7 @@ async function nextEvening(): Promise<UpcomingEvening | null> {
   return all.sort((a, b) => a.startsAt.localeCompare(b.startsAt))[0] ?? null;
 }
 
-type Relations = { couple: CoupleRow | null; active: number; toChoose: number; unread: number };
+type Relations = { couple: CoupleRow | null; active: number; unread: number };
 
 /** Relations du membre (phase 3) : couple en cours, découvertes ouvertes, matchs à ouvrir, messages non lus. */
 async function relations(): Promise<Relations | null> {
@@ -56,7 +56,6 @@ async function relations(): Promise<Relations | null> {
   return {
     couple: current && isLive(current.status) ? current : null,
     active: sections.active.length,
-    toChoose: sections.toChoose.length,
     unread: ((unread.data ?? []) as { unread: number }[]).reduce((sum, row) => sum + row.unread, 0),
   };
 }
@@ -176,7 +175,6 @@ export default async function DashboardPage() {
                   {t("discoveries", { count: links.active })}
                 </Link>
               )}
-              {!links.couple && links.toChoose > 0 && <p className="mt-2 text-fg-muted">{t("toChoose", { count: links.toChoose })}</p>}
               {links.unread > 0 && <p className="mt-2 text-fg-muted">{t("unread", { count: links.unread })}</p>}
             </dd>
           </div>

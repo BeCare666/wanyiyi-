@@ -49,9 +49,10 @@ describe("Constantes des règles métier (section 9)", () => {
   it("reprend les durées et limites de la note", () => {
     expect(RULES.discovery.durationDays).toBe(14);
     expect(RULES.discovery.extensionDays).toBe(7);
-    expect(RULES.discovery.maxActivePerMember).toBe(2);
+    expect(RULES.discovery.maxMatchesPerEvening).toBe(3);
     expect(RULES.discovery.pendingMatchExpiryDays).toBe(7);
-    expect(RULES.evenings.maxCapacityPerSex).toBe(12);
+    expect(RULES.evenings.maxCapacityPerSex).toBe(15);
+    expect(RULES.evenings.defaultPriceXof).toBe(20_000);
     expect(RULES.evenings.confirmationHoursBefore).toBe(48);
     expect(RULES.couple.inactivityAlertDays).toBe(60);
     expect(RULES.couple.separationChatRetentionDays).toBe(90);

@@ -1,13 +1,12 @@
 import { RULES } from "@wanyiyi/shared";
 
 /**
- * Phase découverte (section 9.4) et ouverture des découvertes (question 2 de la phase 3,
- * choix du 26 octobre 2026) :
- *   - 2 découvertes actives au plus par membre ;
- *   - une découverte ne s'ouvre que si les deux membres l'ont choisie et ont chacun une place ;
- *   - à l'annonce, les nouveaux matchs qui tiennent dans les places libres sont choisis d'office,
- *     sinon le membre choisit lui-même ;
- *   - un match non ouvert attend 7 jours après l'annonce, puis expire ;
+ * Phase découverte (section 9.4). Règles du 06/11/2026 :
+ *   - 3 matchs au plus par soirée et par personne (voir limitEveningMatches dans votes.ts) ;
+ *   - plus de choix : à l'annonce, chaque match est choisi d'office par les deux et s'ouvre aussitôt
+ *     en discussion ; les discussions des soirées précédentes restent ouvertes en plus ;
+ *   - en couple, aucun nouveau match ne s'ouvre (exclusivité 9.5) ;
+ *   - un ancien match encore en attente expire 7 jours après l'annonce ;
  *   - 14 jours de découverte, une seule prolongation de 7 jours si les deux la demandent ;
  *   - « Je veux continuer » des deux : couple, et fermeture des autres découvertes des deux ;
  *   - toute fin donne le même message neutre, sans raison ni détail.
@@ -48,17 +47,9 @@ export function activeDiscoveries(memberId: string, discoveries: readonly Discov
   return discoveries.filter((d) => isActive(d) && d.members.includes(memberId));
 }
 
-/** Places libres d'un membre (2 découvertes actives au plus). */
-export function freeSlots(memberId: string, discoveries: readonly Discovery[]): number {
-  return Math.max(0, RULES.discovery.maxActivePerMember - activeDiscoveries(memberId, discoveries).length);
-}
-
-/**
- * Choix d'office à l'annonce : si tous les nouveaux matchs du membre tiennent dans ses places
- * libres, ils sont tous choisis ; sinon aucun, et le membre choisit lui-même.
- */
-export function automaticChoices(newMatchIds: readonly string[], slots: number): string[] {
-  return newMatchIds.length <= slots ? [...newMatchIds] : [];
+/** Choix d'office à l'annonce (06/11/2026) : tous les nouveaux matchs, sans limite de places. */
+export function automaticChoices(newMatchIds: readonly string[]): string[] {
+  return [...newMatchIds];
 }
 
 /** Fin de l'attente d'un match non ouvert : 7 jours après l'annonce. */
@@ -70,33 +61,21 @@ export function isPendingExpired(match: PendingMatch, now: Date): boolean {
   return match.status === "pending" && now.getTime() >= pendingExpiresAt(match).getTime();
 }
 
-export type ChoiceRefusal = "not_member" | "not_pending" | "expired" | "already_chosen" | "no_free_slot" | "couple_exclusivity";
+export type ChoiceRefusal = "not_member" | "not_pending" | "expired" | "already_chosen" | "couple_exclusivity";
 
-/**
- * Le membre peut-il choisir ce match ? Il faut une place libre au moment du choix.
- * En couple, aucun nouveau match ne s'ouvre (exclusivité 9.5, à confirmer : question 13).
- */
-export function canChooseMatch(
-  match: PendingMatch,
-  memberId: string,
-  ctx: { now: Date; discoveries: readonly Discovery[]; inCouple: boolean },
-): ChoiceRefusal | null {
+/** Choix d'un ancien match encore en attente (avant le 06/11/2026). En couple, aucun nouveau match ne s'ouvre. */
+export function canChooseMatch(match: PendingMatch, memberId: string, ctx: { now: Date; inCouple: boolean }): ChoiceRefusal | null {
   if (!match.members.includes(memberId)) return "not_member";
   if (match.status !== "pending") return "not_pending";
   if (isPendingExpired(match, ctx.now)) return "expired";
   if (match.chosenBy.includes(memberId)) return "already_chosen";
   if (ctx.inCouple) return "couple_exclusivity";
-  if (freeSlots(memberId, ctx.discoveries) === 0) return "no_free_slot";
   return null;
 }
 
-/** La découverte s'ouvre quand les deux ont choisi et ont encore chacun une place. */
-export function shouldOpen(match: PendingMatch, discoveries: readonly Discovery[]): boolean {
-  return (
-    match.status === "pending" &&
-    match.members.every((m) => match.chosenBy.includes(m)) &&
-    match.members.every((m) => freeSlots(m, discoveries) > 0)
-  );
+/** La découverte s'ouvre quand les deux ont choisi (d'office à l'annonce) et qu'aucun n'est en couple. */
+export function shouldOpen(match: PendingMatch, inCouple: (memberId: string) => boolean): boolean {
+  return match.status === "pending" && match.members.every((m) => match.chosenBy.includes(m) && !inCouple(m));
 }
 
 /** Fin de la découverte : 14 jours après l'ouverture, 21 avec la prolongation. */

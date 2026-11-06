@@ -65,7 +65,7 @@ afterAll(async () => {
 });
 
 describe("Parcours complet de la phase 3 (règles 9.4 à 9.6)", () => {
-  it("9.4 : trois matchs annoncés à 8 h ; deux places ; Afiwa choisit, les autres sont choisis d'office", async () => {
+  it("9.4 : trois matchs annoncés à la fermeture, tous ouverts aussitôt, sans choix (06/11/2026)", async () => {
     for (const man of ["koffi", "dossou", "yao"]) {
       m[man] = (
         await one<{ id: string }>(
@@ -76,17 +76,15 @@ describe("Parcours complet de la phase 3 (règles 9.4 à 9.6)", () => {
     }
     await asSystem("select app.announce_matches()");
     expect(await notified(p.afiwa!, "match.announced")).toBe(3);
-    // Trois matchs pour deux places : rien d'office pour Afiwa
-    expect(await as(p.afiwa!, "select * from app.discoveries")).toEqual([]);
-    for (const man of ["koffi", "dossou"]) await as(p.afiwa!, "select app.choose_match($1)", [m[man]]);
-    expect(await failure(as(p.afiwa!, "select app.choose_match($1)", [m.yao]))).toMatch(/no_free_slot/);
+    // Trois matchs (le maximum par soirée) : tous choisis d'office et ouverts
+    expect(await failure(as(p.afiwa!, "select app.choose_match($1)", [m.yao]))).toMatch(/not_pending/);
     const rows = await as<{ discovery_id: string; partner_first_name: string; discovery_status: string }>(p.afiwa!, "select * from app.my_discoveries()");
     for (const r of rows.filter((x) => x.discovery_status === "active")) {
       const man = r.partner_first_name;
       d[man] = r.discovery_id;
       chat[man] = (await one<{ id: string }>("select id from app.conversations where discovery_id = $1", [r.discovery_id])).id;
     }
-    expect(Object.keys(d).sort()).toEqual(["dossou", "koffi"]);
+    expect(Object.keys(d).sort()).toEqual(["dossou", "koffi", "yao"]);
   });
 
   it("9.4 : conversation sans coordonnées, photos révélées, rendez-vous déclaré et « Bien rentré(e) ? »", async () => {
@@ -110,7 +108,7 @@ describe("Parcours complet de la phase 3 (règles 9.4 à 9.6)", () => {
     expect(await val<string>(p.koffi!, "select app.decide_discovery($1, false, true) as v", [d.koffi])).toBe("extended");
   });
 
-  it("9.4 et 9.5 : « Je veux continuer » des deux : couple ; autres découvertes et matchs en attente terminés", async () => {
+  it("9.4 et 9.5 : « Je veux continuer » des deux : couple ; autres découvertes terminées", async () => {
     await as(p.afiwa!, "select app.decide_discovery($1, true, false)", [d.koffi]);
     expect(await val<string>(p.koffi!, "select app.decide_discovery($1, true, false) as v", [d.koffi])).toBe("couple");
     couple = (await one<{ id: string }>("select id from app.couples where discovery_id = $1", [d.koffi])).id;
@@ -118,9 +116,9 @@ describe("Parcours complet de la phase 3 (règles 9.4 à 9.6)", () => {
     // Découverte avec Dossou fermée, message neutre, conversation plus lisible (question 14)
     expect(await notified(p.dossou!, "discovery.closed")).toBe(1);
     expect(await readable(p.dossou!, chat.dossou!)).toBe(0);
-    // Match en attente avec Yao expiré tout de suite (question 13)
-    expect((await one<{ status: string }>("select status from app.matches where id = $1", [m.yao])).status).toBe("expired");
-    expect(await notified(p.yao!, "match.expired")).toBe(1);
+    // Découverte avec Yao fermée aussi, même message neutre
+    expect(await notified(p.yao!, "discovery.closed")).toBe(1);
+    expect(await readable(p.yao!, chat.yao!)).toBe(0);
     // Conversation de découverte relisible depuis le couple
     expect(await readable(p.koffi!, chat.koffi!)).toBe(2);
     // Exclusivité : plus de soirées

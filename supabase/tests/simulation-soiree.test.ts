@@ -5,8 +5,9 @@ import { createMember, createVenue, type Sex } from "./fixtures";
 
 /**
  * Étape 6 de PHASE2.txt, critère de fin de la phase 2 : simulation complète d'une soirée.
- * 24 profils fictifs (12 femmes, 12 hommes), une soirée 10 × 10 avec liste d'attente, puis :
- * réservation, paiement simulé, confirmation, pointage, 10 tours, votes, matchs annoncés à 8 h.
+ * 24 profils fictifs (12 femmes, 12 hommes), une soirée 10 × 10 puis la soirée suivante, et :
+ * réservation (complet : inscription d'office à la suivante, 06/11/2026), paiement simulé,
+ * confirmation, pointage d'office à la préparation, 10 tours, votes, matchs annoncés et ouverts.
  *
  * Chaque étape passe par les fonctions de la base, appelées par le membre ou par l'équipe comme
  * le font le site et l'API ; les écritures sont validées (pas d'annulation entre les étapes).
@@ -17,6 +18,7 @@ import { createMember, createVenue, type Sex } from "./fixtures";
 let db: PGlite;
 let admin: string;
 let event: string;
+let nextEvent: string;
 let qr: string;
 const women: string[] = [];
 const men: string[] = [];
@@ -90,39 +92,49 @@ afterAll(async () => {
 });
 
 describe("Simulation complète d'une soirée 10 × 10 (étape 6)", () => {
-  it("l'équipe crée la soirée (10 000 FCFA, lieu fictif) et la publie", async () => {
+  it("l'équipe crée la soirée (20 000 FCFA, lieu fictif) et la suivante, et les publie", async () => {
     const venue = await createVenue(db);
-    const [created] = await as<{ id: string }>(
-      admin,
-      "select app.save_event(null, $1, null, now() + interval '5 days', 10::smallint, 10::smallint, 7::smallint, 1::smallint, 10000) as id",
-      [venue],
-    );
-    event = created!.id;
-    await as(admin, "select app.publish_event($1)", [event]);
+    const ids: string[] = [];
+    for (const days of [5, 12]) {
+      const [created] = await as<{ id: string }>(
+        admin,
+        `select app.save_event(null, $1, null, now() + interval '${days} days', 10::smallint, 10::smallint, 7::smallint, 1::smallint, 20000) as id`,
+        [venue],
+      );
+      await as(admin, "select app.publish_event($1)", [created!.id]);
+      ids.push(created!.id);
+    }
+    [event, nextEvent] = ids as [string, string];
     const [row] = (await db.query<{ status: string; price_xof: number }>("select status, price_xof from app.events where id = $1", [event])).rows;
-    expect(row).toEqual({ status: "published", price_xof: 10000 });
+    expect(row).toEqual({ status: "published", price_xof: 20000 });
   });
 
-  it("réservation : 10 places par sexe, les 2 suivants de chaque sexe en liste d'attente", async () => {
+  it("réservation : 10 places par sexe ; les 2 suivants de chaque sexe inscrits d'office à la soirée suivante", async () => {
     for (let k = 0; k < 12; k++) {
       await as(women[k]!, "select app.book_event($1)", [event]);
       await as(men[k]!, "select app.book_event($1)", [event]);
     }
-    expect(await Promise.all(women.map(situation))).toEqual([...Array(10).fill("booked"), "waitlist:1", "waitlist:2"]);
-    expect(await Promise.all(men.map(situation))).toEqual([...Array(10).fill("booked"), "waitlist:1", "waitlist:2"]);
+    expect(await Promise.all(women.map(situation))).toEqual([...Array(10).fill("booked"), null, null]);
+    expect(await Promise.all(men.map(situation))).toEqual([...Array(10).fill("booked"), null, null]);
+    const moved = await db.query<{ user_id: string }>("select user_id from app.event_registrations where event_id = $1 order by user_id", [nextEvent]);
+    expect(moved.rows.map((r) => r.user_id)).toEqual([women[10], women[11], men[10], men[11]].sort());
+    const alerts = await db.query<{ n: number }>("select count(*)::int as n from app.notifications where kind = 'evening.moved_to_next'");
+    expect(alerts.rows[0]!.n).toBe(4);
   });
 
-  it("deux annulations avant paiement : la place va au premier en attente du même sexe, qui est prévenu", async () => {
+  it("deux annulations avant paiement : les places se libèrent, deux membres les reprennent", async () => {
     await as(women[3]!, "select app.cancel_registration($1)", [event]);
     await as(men[5]!, "select app.cancel_registration($1)", [event]);
     expect(await situation(women[3]!)).toBe("cancelled");
     expect(await situation(men[5]!)).toBe("cancelled");
+    for (const user of [women[10]!, men[10]!]) {
+      const [{ o }] = await as<{ o: string }>(user, "select app.book_event($1) as o", [event]);
+      expect(o).toBe("seat");
+    }
     expect(await situation(women[10]!)).toBe("booked");
     expect(await situation(men[10]!)).toBe("booked");
-    expect(await situation(women[11]!)).toMatch(/^waitlist:/);
-    expect(await situation(men[11]!)).toMatch(/^waitlist:/);
-    const offered = await db.query<{ user_id: string }>("select user_id from app.notifications where kind = 'evening.seat_offered' order by user_id");
-    expect(offered.rows.map((n) => n.user_id)).toEqual([women[10], men[10]].sort());
+    expect(await situation(women[11]!)).toBeNull();
+    expect(await situation(men[11]!)).toBeNull();
   });
 
   it("paiement simulé : les 20 places payées sont confirmées d'elles-mêmes", async () => {
@@ -140,12 +152,14 @@ describe("Simulation complète d'une soirée 10 × 10 (étape 6)", () => {
     expect(regs.rows.every((r) => r.status === "confirmed" && r.paid)).toBe(true);
   });
 
-  it("le soir venu : pointage par l'équipe, 10 tables et 10 tours sans pause, chaque femme rencontre chaque homme", async () => {
+  it("le soir venu : pointage d'office à la préparation, 10 tables et 10 tours sans pause, chaque femme rencontre chaque homme", async () => {
     await timePasses("5 days 10 minutes");
-    const present = (await db.query<{ user_id: string; sex: Sex }>("select user_id, sex from app.event_registrations where event_id = $1 and status = 'confirmed'", [event])).rows;
-    for (const { user_id } of present) await as(admin, "select app.check_in($1, $2)", [event, user_id]);
     const [prepared] = await as<{ n: number }>(admin, "select app.prepare_evening($1) as n", [event]);
     expect(prepared!.n).toBe(10);
+    const [{ n: checked }] = (
+      await db.query<{ n: number }>("select count(*)::int as n from app.event_registrations where event_id = $1 and status = 'checked_in'", [event])
+    ).rows as [{ n: number }];
+    expect(checked).toBe(20);
     await as(admin, "select app.start_evening($1)", [event]);
 
     const pairings = (
@@ -208,6 +222,17 @@ describe("Simulation complète d'une soirée 10 × 10 (étape 6)", () => {
       [event],
     )).rows as [{ n: number }];
     expect(notified).toBe(matches.length * 2);
+    // 3 matchs au plus par personne, et chacun ouvert aussitôt en discussion (06/11/2026)
+    for (const user of [...women, ...men]) {
+      expect(matches.filter((m) => m.member_a === user || m.member_b === user).length).toBeLessThanOrEqual(3);
+    }
+    const [{ n: opened }] = (
+      await db.query<{ n: number }>(
+        "select count(*)::int as n from app.discoveries d join app.matches m on m.id = d.match_id where m.event_id = $1 and d.status = 'active'",
+        [event],
+      )
+    ).rows as [{ n: number }];
+    expect(opened).toBe(matches.length);
   });
 
   it("après la fermeture : une seule notification par membre, chacun voit le prénom de ses matchs", async () => {

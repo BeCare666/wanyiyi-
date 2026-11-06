@@ -97,3 +97,31 @@ export function matchAnnouncementAt(evening: EveningWindow): Date {
 export function areMatchesAnnounced(evening: EveningWindow, now: Date): boolean {
   return now >= matchAnnouncementAt(evening);
 }
+
+/** Match d'une soirée avec le tour où les deux se sont rencontrés. */
+export type RoundMatch = Match & { round: number };
+
+/**
+ * 3 matchs au plus par soirée et par personne (06/11/2026), même règle que
+ * app.limit_evening_matches : tant qu'une personne en a plus, on prend celle qui en a le plus
+ * (à égalité, le plus petit identifiant), on garde ses matchs avec les personnes qui en ont le
+ * moins (à égalité, le tour le plus tôt), et on retire les autres.
+ */
+export function limitEveningMatches(matches: readonly RoundMatch[], max: number = RULES.discovery.maxMatchesPerEvening): RoundMatch[] {
+  let kept = [...matches];
+  const count = (id: string) => kept.filter((m) => m.memberA === id || m.memberB === id).length;
+  for (;;) {
+    const members = [...new Set(kept.flatMap((m) => [m.memberA, m.memberB]))];
+    const over = members
+      .filter((id) => count(id) > max)
+      .sort((a, b) => count(b) - count(a) || (a < b ? -1 : a > b ? 1 : 0))[0];
+    if (!over) return kept;
+    const partner = (m: RoundMatch) => (m.memberA === over ? m.memberB : m.memberA);
+    const ranked = kept
+      .filter((m) => m.memberA === over || m.memberB === over)
+      .map((m) => ({ m, partnerCount: count(partner(m)) }))
+      .sort((x, y) => x.partnerCount - y.partnerCount || x.m.round - y.m.round);
+    const removed = new Set(ranked.slice(max).map((r) => r.m));
+    kept = kept.filter((m) => !removed.has(m));
+  }
+}

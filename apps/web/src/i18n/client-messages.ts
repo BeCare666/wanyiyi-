@@ -1,11 +1,11 @@
 import type { AbstractIntlMessages } from "next-intl";
 
 /**
- * Textes des espaces privés (membre, conseiller, administration) : près des trois quarts des
+ * Textes des espaces privés (membre, conseiller, administration, sujets de débat des soirées) : près des trois quarts des
  * messages. Les pages publiques ne les envoient pas au navigateur ; chaque espace privé les
  * fournit dans sa propre mise en page (NextIntlClientProvider sans `messages` : tous les textes).
  */
-export const PRIVATE_NAMESPACES = ["Admin", "Member", "Counselor"] as const;
+export const PRIVATE_NAMESPACES = ["Admin", "Member", "Counselor", "Topics"] as const;
 
 export function publicMessages(messages: AbstractIntlMessages): AbstractIntlMessages {
   return Object.fromEntries(

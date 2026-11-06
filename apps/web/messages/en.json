@@ -34,7 +34,7 @@
     "account": "My space",
     "rules": "Rules",
     "hints": {
-      "evenings": "Ten women, ten men, one table in Cotonou.",
+      "evenings": "Fifteen women, fifteen men, one table in Cotonou.",
       "promise": "What the house guarantees, from the very first day.",
       "journey": "Each step, from registration to the first meeting.",
       "safety": "Verification, privacy and reporting.",
@@ -121,7 +121,7 @@
       },
       {
         "label": "Conversations",
-        "text": "Ten women, ten men. The women stay at their table, the men move at each round. Seven minutes per meeting, with a break halfway through."
+        "text": "Fifteen women, fifteen men. The women stay at their table, the men move at each round. Seven minutes per meeting, with a break halfway through."
       },
       {
         "label": "Your choice",
@@ -167,7 +167,7 @@
     "eyebrow": "Guidance",
     "title": "A trusted person by your side.",
     "discoveryTitle": "Discovery",
-    "discoveryText": "Each mutual agreement opens fourteen days to get to know each other: a private conversation, your photos, a first meeting suggested at a partner venue. You hold at most two discoveries at a time, to give each one the time it deserves.",
+    "discoveryText": "Each mutual agreement opens fourteen days to get to know each other: a private conversation, your photos, a first meeting suggested at a partner venue. At most three matches per evening, each one opened straight away as a chat.",
     "counselorTitle": "The counsellor",
     "counselorText": "When you both decide to continue, you choose a life and couple counsellor together. They guide you through the important steps: sessions, meeting the families, preparing your union.",
     "consentTitle": "Your consent comes first",
@@ -206,7 +206,6 @@
     "women": "Women",
     "men": "Men",
     "full": "Full",
-    "waitlist": "Waiting list",
     "book": "Book",
     "membersOnly": "Booking is open to verified members only.",
     "empty": "Upcoming dates will be announced here very soon.",
@@ -219,7 +218,8 @@
       "faith-christian": "Christian faith",
       "faith-muslim": "Muslim faith",
       "professionals": "Professional background"
-    }
+    },
+    "next": "Full: next evening"
   },
   "AppDownload": {
     "eyebrow": "The app",
@@ -252,7 +252,7 @@
       },
       {
         "q": "Can I have several discoveries at the same time?",
-        "a": "Yes, two at most. If you have more mutual agreements, you choose which ones to open. The others wait for seven days."
+        "a": "Yes. Each evening gives you at most three matches, and each one opens straight away as a chat, with no choice to make. Chats from previous evenings stay open."
       },
       {
         "q": "Can the counsellor read our messages?",
@@ -342,14 +342,14 @@
       {
         "title": "4. Evenings",
         "paragraphs": [
-          "You confirm your attendance no later than 48 hours before the evening. Without confirmation, your place is offered to the waiting list.",
+          "A paid evening is confirmed by payment: without payment within 24 hours of booking, the seat is released. If the evening you chose is full, you are automatically booked on the next one.",
           "You arrive on time and stay until the last round, out of respect for the other participants."
         ]
       },
       {
         "title": "5. Discovery and couple space",
         "paragraphs": [
-          "You hold at most two discoveries at a time. When you enter a couple space, you commit to exclusivity and you no longer book evenings while the space remains open.",
+          "Each evening gives you at most three matches, each one opened as a chat. When you enter a couple space, you commit to exclusivity and you no longer book evenings while the space remains open.",
           "Either person may end a relationship at any time, without giving a reason."
         ]
       },
@@ -605,7 +605,8 @@
         "evening_confirmed": "Your seat is confirmed. See you at the evening.",
         "evening_waitlisted": "You are on the waiting list for an evening. You will be told if a seat becomes free.",
         "evening_registration_cancelled": "Your seat is cancelled. You can book another evening.",
-        "evening_seat_released": "Your seat was released because it was not paid or confirmed in time. You can book another evening."
+        "evening_seat_released": "Your seat was released because it was not paid or confirmed in time. You can book another evening.",
+        "evening_moved_to_next": "The evening you chose is full: you are automatically booked on the next evening. Pay for your seat within 24 hours."
       }
     },
     "dashboard": {
@@ -638,7 +639,6 @@
       "relations": "My connections",
       "couple": "Your couple with {name}",
       "discoveries": "{count, plural, =0 {No discovery in progress} one {# discovery in progress} other {# discoveries in progress}}",
-      "toChoose": "{count, plural, one {# match to open} other {# matches to open}}",
       "unread": "{count, plural, one {# unread message} other {# unread messages}}",
       "myBadges": "My trust badges"
     },
@@ -696,19 +696,19 @@
       },
       "actions": {
         "book": "Book my seat",
-        "waitlist": "Join the waiting list",
         "confirm": "Confirm my seat",
         "pay": "Pay",
         "cancel": "Cancel my registration",
         "cancelAsk": "Do you really want to cancel your registration?",
         "cancelYes": "Yes, cancel",
-        "cancelNo": "No, keep it"
+        "cancelNo": "No, keep it",
+        "next": "Full: book me on the next one"
       },
       "done": {
         "seat": "Your seat is booked. Pay for it to confirm it (free evening: confirm it before the deadline).",
-        "waitlist": "You are on the waiting list. We will let you know if a seat opens up.",
         "confirmed": "Your seat is confirmed.",
-        "cancelled": "Your cancellation has been recorded."
+        "cancelled": "Your cancellation has been recorded.",
+        "next_evening": "This evening is full: you are automatically booked on the next evening. Pay for your seat within 24 hours from My evenings."
       },
       "errors": {
         "not_validated": "Your profile must be approved before you can book an evening.",
@@ -726,7 +726,8 @@
         "price_not_set": "The price of this evening has not been set yet.",
         "unavailable": "This service is not available yet. Please try again later.",
         "generic": "Something went wrong. Please try again in a moment.",
-        "code": "Code: {code}"
+        "code": "Code: {code}",
+        "no_evening_available": "This evening is full, and no upcoming evening has a seat for you at the moment."
       },
       "participants": {
         "seeWomen": "See the women registered",
@@ -745,6 +746,10 @@
         "notVerified": "Booking opens once your account is approved.",
         "addPhoto": "Add a profile photo to book.",
         "photoPending": "Booking opens as soon as your photo is approved."
+      },
+      "topics": {
+        "title": "The 4 debate topics",
+        "help": "The same at every table, to start the conversation at each round."
       }
     },
     "notifications": {
@@ -1105,18 +1110,13 @@
     },
     "discoveries": {
       "title": "Discovery",
-      "intro": "A match happens when two people both want to meet again; it is announced as soon as the team closes the evening. Each match can open a 14-day discovery: a simple conversation and your photos. Two discoveries at most at the same time.",
+      "intro": "A match happens when two people both want to meet again; it is announced as soon as the team closes the evening. At most three matches per evening: each one opens straight away as a 14-day chat, with your photos.",
       "active": "Discoveries in progress",
       "daysLeft": "{count, plural, =0 {Last day} one {# day left, until {date}} other {# days left, until {date}}}",
       "extended": "extended",
       "open": "Open the conversation",
-      "toChoose": "Matches to open",
-      "slots": "{count, plural, one {You can still open # discovery.} other {You can still open # discoveries.}}",
-      "noSlot": "You already have two discoveries in progress. A place frees up when one of them ends.",
-      "chooseBefore": "To open before {date}",
-      "choose": "Open the discovery",
       "waiting": "Waiting",
-      "waitingHelp": "You chose to open this discovery. It will open if the other person also chooses it before {date}.",
+      "waitingHelp": "This match is waiting to open, until {date} at the latest.",
       "couple": "Your couple",
       "coupleHelp": "You both chose to continue: your couple space is open.",
       "ended": "Ended introductions",
@@ -1131,7 +1131,6 @@
       "photos": "Their photos",
       "photoAlt": "Photo {rank} of {name}",
       "errors": {
-        "no_free_slot": "You already have two discoveries in progress.",
         "expired": "The time to open this discovery has passed.",
         "not_pending": "This match is no longer waiting.",
         "already_chosen": "You have already chosen this match.",
@@ -1220,7 +1219,11 @@
       },
       "counselor": "Counselor",
       "reportMessage": "Report this message",
-      "reportConversation": "Report this conversation"
+      "reportConversation": "Report this conversation",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "read": "Read",
+      "sent": "Sent"
     },
     "couple": {
       "title": "Couple space",
@@ -1636,6 +1639,14 @@
         "unsupported": "This browser does not support notifications. Use the Android app or Chrome.",
         "ios-install": "On iPhone, first add Ifedele to your Home Screen from Safari (Share, then \"Add to Home Screen\"), then open it from that icon."
       }
+    },
+    "chats": {
+      "title": "Chats",
+      "empty": "Write the first message",
+      "mine": "You: {body}",
+      "system": "Chat notice",
+      "yesterday": "Yesterday",
+      "unread": "{count, plural, one {# unread message} other {# unread messages}}"
     }
   },
   "SignIn": {
@@ -1689,7 +1700,8 @@
       "pause_round": "You were on a break during this round.",
       "unavailable": "Voting is not available yet.",
       "generic": "Something went wrong. Please try again in a moment."
-    }
+    },
+    "topics": "Tonight's topics"
   },
   "SimulatedPayment": {
     "eyebrow": "Demonstration",
@@ -2043,7 +2055,7 @@
         },
         "prepare": {
           "title": "Preparation",
-          "help": "Once participants have been checked in at the door: numbering, tables, QR codes and rotation.",
+          "help": "Confirmed (paid) seats are checked in automatically, then: numbering, tables, QR codes and rotation. 15 women and 15 men make 15 tables.",
           "confirm": "Only people already checked in will take part in the rounds. Do you confirm?",
           "button": "Prepare the tables"
         },
@@ -2089,7 +2101,8 @@
         "print": "Print",
         "table": "Table {number}",
         "qrLabel": "QR code for table {number}",
-        "scan": "After each round, scan this code with your phone to give your answer."
+        "scan": "After each round, scan this code with your phone to give your answer.",
+        "topics": "Debate topics"
       },
       "timer": {
         "title": "Timer",
@@ -2122,13 +2135,16 @@
         "not_draft": "This evening is no longer a draft.",
         "already_prepared": "The tables are already prepared.",
         "not_prepared": "Prepare the tables first.",
-        "not_enough_participants": "Check in at least one woman and one man before preparing the tables.",
+        "not_enough_participants": "At least one woman and one man with a confirmed seat are needed to prepare the tables.",
         "invalid_status": "This step no longer matches the evening's status. Reload the page.",
         "evening_not_finished": "End the evening before computing the matches.",
         "not_confirmed": "Only a confirmed seat can be checked in.",
         "forbidden": "Your role does not allow this action.",
         "unavailable": "This service is not available yet. Please try again later.",
-        "generic": "Something went wrong. Please try again in a moment."
+        "generic": "Something went wrong. Please try again in a moment.",
+        "invalid_topics": "Choose four different topics from the list.",
+        "not_editable": "This evening can no longer be changed.",
+        "not_found": "Evening not found."
       },
       "participants": {
         "title": "Bookings",
@@ -2136,8 +2152,6 @@
         "none": "No booking.",
         "waitlisted": "Waiting list, position {rank}",
         "seat": "table {seat}",
-        "checkIn": "Check in",
-        "checkInLabel": "Check in {name}",
         "status": {
           "booked": "Seat booked, not confirmed",
           "confirmed": "Seat confirmed",
@@ -2172,6 +2186,40 @@
         "lines": {
           "incompatible": "{holder} requires “{category}”: {sought}. {other} declared: {declared}.",
           "unknown": "{holder} requires “{category}”: {sought}. {other} has not answered."
+        }
+      },
+      "topics": {
+        "title": "Debate topics",
+        "help": "Four topics, the same at every table. They are suggested automatically (a new set each week) and you can change them until the end of the evening. They are printed on the table cards and shown to participants.",
+        "label": "Topic {number}",
+        "duplicate": "Choose four different topics.",
+        "saved": "Topics saved.",
+        "save": "Save the topics"
+      },
+      "saturdays": {
+        "open": "Schedule Saturdays",
+        "title": "Schedule Saturdays",
+        "intro": "One published evening every Saturday: 15 women, 15 men, at the price shown. Saturdays that already have an evening are skipped. Each evening can still be changed afterwards from its page.",
+        "venue": "Venue",
+        "noVenue": "Add a venue first",
+        "firstDay": "Starting from",
+        "firstDayHelp": "The first Saturday from this day.",
+        "time": "Start time",
+        "timeHelp": "Cotonou time.",
+        "months": "Duration (months)",
+        "price": "Price (FCFA)",
+        "summary": "The evenings are published straight away: members can book.",
+        "done": "{count, plural, =0 {No evening created: every Saturday already has one.} one {# evening created and published.} other {# evenings created and published.}}",
+        "see": "See upcoming evenings",
+        "submit": "Schedule the evenings",
+        "errors": {
+          "venue_required": "Choose a venue.",
+          "starts_at": "Enter the first day and the start time.",
+          "invalid_months": "Duration: from 1 to 12 months.",
+          "invalid_price": "Enter a whole-number price, 0 or more.",
+          "forbidden": "You are not allowed to schedule evenings.",
+          "unavailable": "This service is not available yet. Try again later.",
+          "generic": "Something went wrong. Try again in a moment."
         }
       }
     },
@@ -2530,7 +2578,7 @@
             "forbidden": "Your role does not allow this action.",
             "unavailable": "This service is not available yet. Try again later.",
             "generic": "Something went wrong. Try again in a moment.",
-            "reward_too_high": "The discount must stay below the price of an evening (10,000 FCFA)."
+            "reward_too_high": "The discount must stay below the price of an evening (20,000 FCFA)."
           }
         }
       },
@@ -3755,5 +3803,31 @@
       "unavailable": "This service is not available yet. Try again later.",
       "generic": "Something went wrong. Try again in a moment."
     }
+  },
+  "Topics": {
+    "lasting_love": "What makes a couple last?",
+    "family_place": "What place should family have in a couple?",
+    "money_together": "Money in a couple: pool everything or not?",
+    "faith_couple": "What place for faith in life together?",
+    "house_chores": "How should household tasks be shared?",
+    "children_education": "Children: how many, when, and how to raise them?",
+    "in_laws": "Getting along with the in-laws",
+    "trust_social_media": "Trust and faithfulness in the age of social media",
+    "career_couple": "Balancing career and life as a couple",
+    "ideal_first_date": "The ideal first date",
+    "respect": "What does respect mean in a couple?",
+    "tradition_modernity": "Tradition and modernity in marriage",
+    "disagreements": "Handling a disagreement without hurting each other",
+    "shared_hobbies": "Hobbies to share as a couple",
+    "where_to_live": "Where to build your life: Cotonou or elsewhere?",
+    "friends_other_sex": "Friendships with the other sex when in a couple",
+    "small_attentions": "The small gestures that matter",
+    "saving_projects": "Saving and building projects together",
+    "roles_home": "Each person's role in the home today",
+    "lessons_past": "What we take from past relationships, without going into detail",
+    "forgiveness": "The place of forgiveness in a couple",
+    "phone_time": "Phones: how much time is left for the other person?",
+    "travel_dreams": "Travel and dreams to fulfil together",
+    "friends_place": "What place for friends once in a couple?"
   }
 }

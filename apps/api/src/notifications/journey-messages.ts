@@ -17,6 +17,7 @@ export const JOURNEY_KINDS = [
   "evening.waitlisted",
   "evening.registration_cancelled",
   "evening.seat_released",
+  "evening.moved_to_next",
 ] as const;
 export type JourneyKind = (typeof JOURNEY_KINDS)[number];
 
@@ -72,6 +73,16 @@ const TEXTS: Record<Locale, Record<JourneyKind, Step>> = {
       button: "Voir les soirées",
       path: "/espace/soirees",
     },
+    "evening.moved_to_next": {
+      subject: "Soirée complète : vous êtes inscrit(e) à la suivante",
+      line: (d) =>
+        (d
+          ? `La soirée choisie est complète : vous êtes inscrit(e) d'office à la soirée suivante, le ${d}.`
+          : "La soirée choisie est complète : vous êtes inscrit(e) d'office à la soirée suivante.") +
+        " Payez votre place depuis Mes soirées dans les 24 heures : le paiement la confirme. Sans paiement à temps, elle est libérée.",
+      button: "Payer ma place",
+      path: "/espace/soirees?filtre=mine",
+    },
   },
   en: {
     "registration.completed": {
@@ -121,6 +132,16 @@ const TEXTS: Record<Locale, Record<JourneyKind, Step>> = {
       line: (d) => (d ? `Your seat for the evening of ${d} was released` : "Your seat was released") + " because it was not paid or confirmed in time. You can book another evening.",
       button: "See the evenings",
       path: "/espace/soirees",
+    },
+    "evening.moved_to_next": {
+      subject: "Evening full: you are booked on the next one",
+      line: (d) =>
+        (d
+          ? `The evening you chose is full: you are automatically booked on the next evening, on ${d}.`
+          : "The evening you chose is full: you are automatically booked on the next evening.") +
+        " Pay for your seat from My evenings within 24 hours: payment confirms it. If it is not paid in time, it is released.",
+      button: "Pay for my seat",
+      path: "/espace/soirees?filtre=mine",
     },
   },
   yo: {
@@ -172,6 +193,16 @@ const TEXTS: Record<Locale, Record<JourneyKind, Step>> = {
       button: "Wo àwọn ìpàdé alẹ́",
       path: "/espace/soirees",
     },
+    "evening.moved_to_next": {
+      subject: "Ìpàdé alẹ́ ti kún: a ti fi yín sí èyí tó tẹ̀lé e",
+      line: (d) =>
+        (d
+          ? `Ìpàdé alẹ́ tí ẹ yàn ti kún: a ti fi orúkọ yín sílẹ̀ fún ìpàdé alẹ́ tó tẹ̀lé e, ní ${d}.`
+          : "Ìpàdé alẹ́ tí ẹ yàn ti kún: a ti fi orúkọ yín sílẹ̀ fún ìpàdé alẹ́ tó tẹ̀lé e.") +
+        " Ẹ san owó àyè yín nínú Àwọn ìpàdé mi láàárín wákàtí 24: ìsanwó ni yóò fìdí rẹ̀ múlẹ̀. Bí ẹ kò bá sanwó lásìkò, a ó fi í sílẹ̀.",
+      button: "San owó àyè mi",
+      path: "/espace/soirees?filtre=mine",
+    },
   },
 };
 
@@ -192,7 +223,7 @@ export function journeyContent(
   footer: string,
 ) {
   const step = TEXTS[locale][kind];
-  const free = kind === "evening.booked" && !priced;
+  const free = (kind === "evening.booked" || kind === "evening.moved_to_next") && !priced;
   const freeLine: Record<Locale, string> = {
     fr: "Cette soirée est gratuite : confirmez votre place depuis Mes soirées avant la date limite.",
     en: "This evening is free: confirm your seat from My evenings before the deadline.",

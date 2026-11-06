@@ -5,6 +5,7 @@ import { memberNav } from "@/components/member/memberNav";
 import { ProtectedPhoto } from "@/components/ui/ProtectedPhoto";
 import { Link } from "@/i18n/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { readTopics } from "@/lib/topics";
 import { eveningPreviewLink } from "../actions";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -43,10 +44,14 @@ export default async function EveningParticipantsPage({ params }: Props) {
   const supabase = await createSupabaseServer();
   if (!supabase) notFound();
 
-  const [eventResult, participantsResult] = await Promise.all([
+  const [eventResult, participantsResult, topicsResult] = await Promise.all([
     supabase.from("events").select("id, starts_at").eq("id", id).maybeSingle(),
     supabase.rpc("evening_participants", { p_event: id }),
+    // Sujets de débat (06/11/2026), lus à part : sans la mise à jour de la base, la colonne manque
+    supabase.from("events").select("topics").eq("id", id).maybeSingle(),
   ]);
+  const topics = readTopics((topicsResult.data as { topics: unknown } | null)?.topics);
+  const tTopics = await getTranslations("Topics");
   const event = eventResult.data as { id: string; starts_at: string } | null;
   if (!event) notFound();
   const error = participantsResult.error?.message ?? null;
@@ -67,6 +72,21 @@ export default async function EveningParticipantsPage({ params }: Props) {
         <h1 className="mt-4 text-4xl">{t("participants.title")}</h1>
         <p className="mt-6 max-w-measure text-fg-muted">{t("participants.intro")}</p>
       </header>
+
+      {/* Les quatre sujets de débat de la soirée, les mêmes sur toutes les tables (06/11/2026) */}
+      {topics.length > 0 && (
+        <section aria-labelledby="sujets" className="mt-10 border-l border-accent pl-6">
+          <h2 id="sujets" className="eyebrow">
+            {t("topics.title")}
+          </h2>
+          <p className="mt-2 max-w-measure text-sm text-fg-muted">{t("topics.help")}</p>
+          <ol className="mt-4 list-decimal space-y-1 pl-5">
+            {topics.map((key) => (
+              <li key={key}>{tTopics(key)}</li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       {error ? (
         <p role="alert" className="mt-12 border-l border-accent pl-5 text-fg-muted">

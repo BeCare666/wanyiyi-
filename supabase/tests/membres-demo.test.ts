@@ -74,7 +74,7 @@ describe("Membres de démonstration", () => {
     expect(kept(after)).toEqual(kept(before));
   });
 
-  it("soirée de démonstration : 10 × 10 jouée de bout en bout, liste d'attente, 200 votes, matchs annoncés à la fermeture", async () => {
+  it("soirée de démonstration : 10 × 10 jouée de bout en bout, places reprises, 200 votes, matchs annoncés à la fermeture", async () => {
     expect(await failure(db.exec(script("soiree-demo.sql")))).toMatch(/super administrateur/);
     await db.exec("rollback");
     superAdmin = await createMember(db, { firstName: "Équipe", sex: "female", role: "super_admin" });
@@ -86,11 +86,11 @@ describe("Membres de démonstration", () => {
          from app.events e join app.venues v on v.id = e.venue_id where v.name = 'Lieu de démonstration (fictif)'`,
       )
     ).rows;
-    expect(event).toMatchObject({ status: "finished", price_xof: 10000 });
+    expect(event).toMatchObject({ status: "finished", price_xof: 20000 });
     const count = async (sql: string) => (await db.query<{ n: number }>(sql, [event!.id])).rows[0]!.n;
     expect(await count("select count(*)::int as n from app.event_registrations where event_id = $1 and status = 'checked_in'")).toBe(20);
     expect(await count("select count(*)::int as n from app.event_registrations where event_id = $1 and status = 'cancelled'")).toBe(2);
-    expect(await count("select count(*)::int as n from app.waitlist_entries where event_id = $1")).toBe(2);
+    expect(await count("select count(*)::int as n from app.waitlist_entries where event_id = $1")).toBe(0);
     expect(
       await count(
         "select count(*)::int as n from app.payments p join app.event_registrations r on r.payment_id = p.id where r.event_id = $1 and p.status = 'succeeded' and p.provider = 'simulated'",

@@ -38,12 +38,12 @@ begin
     raise exception 'Parcours de démonstration déjà joué : exécuter d''abord supprimer-membres-demo.sql';
   end if;
 
-  -- Un match annoncé entre une femme et un homme de démonstration
+  -- Un match annoncé entre une femme et un homme de démonstration (ouvert d'office depuis le 06/11/2026)
   select m.* into v_match
     from app.matches m
     join auth.users a on a.id = m.member_a
     join auth.users b on b.id = m.member_b
-   where m.status = 'pending_choice' and m.notified_at is not null
+   where m.status in ('pending_choice', 'discovery_open') and m.notified_at is not null
      and a.email like '%@demo.ifedele.invalid' and b.email like '%@demo.ifedele.invalid'
    order by m.announced_at, m.id
    limit 1;
@@ -53,8 +53,8 @@ begin
   select p.user_id into v_woman from app.member_profiles p where p.user_id in (v_match.member_a, v_match.member_b) and p.sex = 'female';
   v_man := case when v_woman = v_match.member_a then v_match.member_b else v_match.member_a end;
 
-  -- 1. Découverte ouverte quand les deux ont choisi ce match (choix d'office pour qui a peu de
-  --    matchs) ; quelques messages sans coordonnées
+  -- 1. Découverte ouverte d'office à l'annonce (06/11/2026 : plus de choix) ; les choix ci-dessous
+  --    ne servent qu'à d'anciens matchs encore en attente ; quelques messages sans coordonnées
   perform set_config('request.jwt.claims', json_build_object('sub', v_woman, 'role', 'authenticated')::text, true);
   if not exists (select 1 from app.match_choices where match_id = v_match.id and user_id = v_woman) then
     perform app.choose_match(v_match.id);
@@ -66,7 +66,7 @@ begin
     perform set_config('request.jwt.claims', json_build_object('sub', v_woman, 'role', 'authenticated')::text, true);
   end if;
   if not exists (select 1 from app.discoveries where match_id = v_match.id) then
-    raise exception 'La découverte ne s''est pas ouverte (places de découverte déjà prises)';
+    raise exception 'La découverte ne s''est pas ouverte (membre en couple ?)';
   end if;
   select id into v_discovery from app.discoveries where match_id = v_match.id;
   select id into v_conversation from app.conversations where discovery_id = v_discovery;

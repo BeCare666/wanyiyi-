@@ -12,7 +12,7 @@ import { Link } from "@/i18n/navigation";
 import { getSessionMember } from "@/lib/session";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { DateForm } from "../../couple/CoupleActions";
-import { declareDiscoveryDate, partnerPhotoLink, reportConversation, sendMessage } from "../actions";
+import { declareDiscoveryDate, markConversationRead, partnerPhotoLink, reportConversation, sendMessage } from "../actions";
 import { canAskExtension, daysLeft, discoveryGuide, discoveryTabs, type DiscoveryRow } from "../discoveries";
 import { DiscoveryDecisions } from "../DiscoveryActions";
 
@@ -64,6 +64,11 @@ export default async function DiscoveryPage({ params, searchParams }: Props) {
     : [{ data: [] }, { data: [] }];
   // Lue seulement quand l'onglet Discussion est ouvert : sinon les messages restent signalés comme non lus
   if (conversation && active && tab === "discussion") await supabase.rpc("mark_conversation_read", { p_conversation: conversation.id });
+  // Accusé de lecture (06/11/2026) ; sans la mise à jour de la base, la fonction manque : ✓ seulement
+  const { data: partnerReadAt } =
+    conversation && active && tab === "discussion"
+      ? await supabase.rpc("conversation_partner_read_at", { p_conversation: conversation.id })
+      : { data: null };
 
   const pathname = `/espace/matchs/${id}`;
   // Messages non lus : pastille sur l'onglet Discussion quand le membre est sur un autre onglet
@@ -140,6 +145,8 @@ export default async function DiscoveryPage({ params, searchParams }: Props) {
           closed={conversation.closed_at !== null || conversation.read_only}
           send={sendMessage}
           report={reportConversation}
+          partnerReadAt={typeof partnerReadAt === "string" ? partnerReadAt : null}
+          markRead={markConversationRead}
         />
       )}
 

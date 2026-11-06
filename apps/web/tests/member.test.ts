@@ -147,9 +147,9 @@ describe("Soirées de l'espace membre (6.2-4)", () => {
     expect(freeSeats(evening({ seats: [{ sex: "male", capacity: 2, taken: 3, waiting: 0 }] }), "male")).toBe(0);
   });
 
-  it("réserver ou rejoindre la liste d'attente selon les places du sexe du membre ; rien sans sexe connu", () => {
+  it("réserver, ou complet : inscription d'office à la suivante, selon les places du sexe du membre ; rien sans sexe connu", () => {
     expect(eveningActions(evening(), "male", now)).toEqual(["book"]);
-    expect(eveningActions(evening(), "female", now)).toEqual(["waitlist"]);
+    expect(eveningActions(evening(), "female", now)).toEqual(["next"]);
     expect(eveningActions(evening(), null, now)).toEqual([]);
     // Une place libérée faute de confirmation permet de se réinscrire
     expect(eveningActions(evening({ mine: booking({ status: "released" }) }), "male", now)).toEqual(["book"]);

@@ -51,12 +51,21 @@ export default async function AdminEveningsPage({ searchParams }: Props) {
           <h1 className="mt-4 text-4xl">{t("nav.evenings")}</h1>
           <p className="mt-4 max-w-measure text-fg-muted">{t("evenings.intro")}</p>
         </div>
-        <Link
-          href="/admin/soirees/nouvelle"
-          className="inline-flex min-h-12 items-center rounded-sm bg-accent px-7 text-xs font-medium uppercase tracking-[0.16em] text-accent-fg"
-        >
-          {t("evenings.new")}
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          {/* Une soirée chaque samedi sur 10 mois (06/11/2026) */}
+          <Link
+            href="/admin/soirees/samedis"
+            className="inline-flex min-h-12 items-center rounded-sm border border-fg px-7 text-xs font-medium uppercase tracking-[0.16em] text-fg"
+          >
+            {t("evenings.saturdays.open")}
+          </Link>
+          <Link
+            href="/admin/soirees/nouvelle"
+            className="inline-flex min-h-12 items-center rounded-sm bg-accent px-7 text-xs font-medium uppercase tracking-[0.16em] text-accent-fg"
+          >
+            {t("evenings.new")}
+          </Link>
+        </div>
       </header>
 
       <nav aria-label={t("evenings.filters.label")} className="mt-10 flex flex-wrap gap-2">

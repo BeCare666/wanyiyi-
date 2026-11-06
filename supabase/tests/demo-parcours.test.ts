@@ -35,13 +35,13 @@ afterAll(async () => {
 describe("Parcours de démonstration (phases 3 et 4)", () => {
   it("couple, étapes, cagnotte ouverte, prestataire contacté, union, photo de l'union approuvée", async () => {
     const [w] = (await db.query<{ id: string }>(
-      "select m.member_a as id from app.matches m where m.status = 'pending_choice' order by m.announced_at, m.id limit 1",
+      "select m.member_a as id from app.matches m where m.status in ('pending_choice', 'discovery_open') order by m.announced_at, m.id limit 1",
     )).rows;
     expect(w).toBeDefined();
     // Fichier de la photo déposé avant (comme par l'API de stockage)
     const { rows } = await db.query<{ woman: string }>(
       `select p.user_id as woman from app.matches m join app.member_profiles p on p.user_id in (m.member_a, m.member_b) and p.sex = 'female'
-        where m.status = 'pending_choice' and m.notified_at is not null order by m.announced_at, m.id limit 1`,
+        where m.status in ('pending_choice', 'discovery_open') and m.notified_at is not null order by m.announced_at, m.id limit 1`,
     );
     await db.query("insert into storage.objects (bucket_id, name) values ('member-photos', $1)", [`${rows[0]!.woman}/union-demo.jpg`]);
     await db.exec(script("parcours-demo.sql"));
