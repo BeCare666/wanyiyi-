@@ -3,6 +3,7 @@ import {
   BellIcon,
   ChampagneIcon,
   ChatsCircleIcon,
+  ChatsIcon,
   GearSixIcon,
   HandshakeIcon,
   HeartIcon,
@@ -14,7 +15,7 @@ import {
 
 /** Entrée de l'espace membre : clé de traduction (Member.nav), adresse et icône. */
 export type MemberNavItem = {
-  key: "dashboard" | "evenings" | "matches" | "profile" | "verification" | "notifications" | "settings" | "referral" | "rules" | "counsel";
+  key: "dashboard" | "evenings" | "matches" | "profile" | "verification" | "notifications" | "settings" | "referral" | "rules" | "counsel" | "discussions";
   href: string;
   Icon: Icon;
 };
@@ -28,6 +29,8 @@ const items = {
   dashboard: { key: "dashboard", href: memberHome, Icon: HouseLineIcon },
   evenings: { key: "evenings", href: "/espace/soirees", Icon: ChampagneIcon },
   matches: { key: "matches", href: "/espace/matchs", Icon: HeartIcon },
+  // Toutes les discussions façon WhatsApp (13/11/2026) : matchs, couple, conseiller seul, terminées
+  discussions: { key: "discussions", href: "/espace/discussions", Icon: ChatsIcon },
   profile: { key: "profile", href: "/espace/profil", Icon: IdentificationCardIcon },
   verification: { key: "verification", href: "/espace/verification", Icon: ShieldCheckIcon },
   notifications: { key: "notifications", href: "/espace/notifications", Icon: BellIcon },
@@ -41,8 +44,8 @@ const items = {
 
 export const memberNav = items;
 
-/** Les 4 sections principales : barre basse (mobile) et haut de la barre latérale (section 6.1). */
-export const memberPrimary: MemberNavItem[] = [items.dashboard, items.evenings, items.matches, items.profile];
+/** Les 5 sections principales : barre basse (mobile) et haut de la barre latérale (section 6.1 ; « Discussions » le 13/11/2026). */
+export const memberPrimary: MemberNavItem[] = [items.dashboard, items.evenings, items.matches, items.discussions, items.profile];
 
 /** Les autres entrées : bas de la barre latérale et tiroir mobile. */
 export const memberSecondary: MemberNavItem[] = [items.verification, items.notifications, items.counsel, items.referral, items.settings, items.rules];

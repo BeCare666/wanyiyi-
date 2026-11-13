@@ -122,11 +122,13 @@ describe("Question 13 : matchs en attente expirés quand un couple se forme", ()
 });
 
 describe("Question 14 : découverte terminée", () => {
-  it("conversation illisible, gardée 90 jours puis effacée ; celle devenue couple reste lisible", async () => {
+  // Règle remplacée le 13/11/2026 (menu « Discussions ») : relisible en lecture seule jusqu'à l'effacement
+  it("conversation en lecture seule, gardée 90 jours puis effacée ; celle devenue couple reste lisible", async () => {
     const d = await discovery(p.mariam!, p.dossou!, 3);
     await as(p.mariam!, "select app.send_message($1, 'Bonjour')", [d.chat]);
     await asSystem(`select app.close_discovery('${d.id}', 'expired')`);
-    expect(await as(p.mariam!, "select id from app.messages where conversation_id = $1", [d.chat])).toEqual([]);
+    expect(await as(p.mariam!, "select id from app.messages where conversation_id = $1", [d.chat])).toHaveLength(1);
+    expect(await failure(as(p.mariam!, "select app.send_message($1, 'Encore')", [d.chat]))).toMatch(/conversation_closed|not_member/);
     const { delete_after } = await one<{ delete_after: Date }>("select delete_after from app.conversations where id = $1", [d.chat]);
     expect(Math.round((delete_after.getTime() - Date.now()) / 86_400_000)).toBe(90);
     // Découverte devenue couple : relisible

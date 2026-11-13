@@ -105,7 +105,17 @@ export default async function DiscoveryPage({ params, searchParams }: Props) {
         </p>
       </header>
 
-      {/* Question 14 : une découverte terminée n'est plus lisible ; devenue couple, elle se relit dans l'espace du couple */}
+      {/* Découverte terminée (13/11/2026, remplace la question 14) : relisible en lecture seule jusqu'à son
+          effacement ; devenue couple, elle se relit dans l'espace du couple */}
+      {!active && row.discovery_status !== "continued" && conversation && (
+        <section aria-labelledby="discussion-terminee" className="mt-10">
+          <h2 id="discussion-terminee" className="eyebrow">
+            {t("inbox.readOnlyTitle")}
+          </h2>
+          <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("inbox.endedHelp")}</p>
+          <ChatRoom conversationId={conversation.id} memberId={member.id} initial={chat} closed send={sendMessage} />
+        </section>
+      )}
       {row.discovery_status === "continued" && (
         <p className="mt-8">
           <Link href={coupleSpace} className="text-link underline-offset-4 hover:underline">

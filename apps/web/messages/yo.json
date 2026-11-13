@@ -535,7 +535,8 @@
       "settings": "Ètò",
       "rules": "Òfin",
       "referral": "Ìfinilọ́lẹ̀",
-      "counsel": "Olùgbaninímọ̀ràn"
+      "counsel": "Olùgbaninímọ̀ràn",
+      "discussions": "Àwọn ìjíròrò"
     },
     "collapse": "Ká àtòjọ kéré",
     "expand": "Fi orúkọ àtòjọ hàn",
@@ -1681,6 +1682,23 @@
         "nothing_to_pay": "Ẹ ṣì ní àwọn ìfiránṣẹ́ ọ̀fẹ́: ẹ fi ìfiránṣẹ́ yín ránṣẹ́ bí ó ti yẹ.",
         "unavailable": "Iṣẹ́ yìí kò tíì wà. Ẹ gbìyànjú lẹ́ẹ̀kan sí i nígbà míì.",
         "generic": "Àṣìṣe kan ṣẹlẹ̀. Ẹ gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́."
+      }
+    },
+    "inbox": {
+      "title": "Àwọn ìjíròrò mi",
+      "intro": "Gbogbo ìjíròrò yín ní ibì kan: àwọn ìfohùnṣọ̀kan yín tó ń lọ lọ́wọ́, tọkọtaya yín àti olùgbaninímọ̀ràn yín. Ẹ lè tún àwọn ìjíròrò tó ti parí kà fún ọjọ́ 90.",
+      "empty": "Kò sí ìjíròrò kankan síbẹ̀. Àwọn ìjíròrò yín máa ṣí lẹ́yìn ìpàdé alẹ́ kan, nígbà tí ẹ bá fohùnṣọ̀kan.",
+      "emptyAction": "Wo àwọn ìpàdé alẹ́",
+      "current": "Èyí tó ń lọ lọ́wọ́",
+      "ended": "Èyí tó ti parí",
+      "endedHelp": "Kíkà nìkan: ẹ lè tún àwọn ọ̀rọ̀ wọ̀nyí kà, ṣùgbọ́n ẹ kò lè fèsì mọ́. A máa pa wọ́n rẹ́ ní ọjọ́ 90 lẹ́yìn ìparí.",
+      "endedUntil": "Ó ti parí · ẹ lè kà á títí di {date}",
+      "readOnlyTitle": "Ìjíròrò (kíkà nìkan)",
+      "kinds": {
+        "discovery": "Ìfohùnṣọ̀kan tó ń lọ lọ́wọ́",
+        "discovery_ended": "Ìjíròrò tó ti parí",
+        "couple": "Ìjíròrò tọkọtaya",
+        "counsel": "Olùgbaninímọ̀ràn yín, ní ìkọ̀kọ̀"
       }
     }
   },

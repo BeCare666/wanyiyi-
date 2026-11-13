@@ -535,7 +535,8 @@
       "settings": "Paramètres",
       "rules": "Règlement",
       "referral": "Parrainage",
-      "counsel": "Conseiller"
+      "counsel": "Conseiller",
+      "discussions": "Discussions"
     },
     "collapse": "Réduire le menu",
     "expand": "Afficher les libellés du menu",
@@ -1681,6 +1682,23 @@
         "nothing_to_pay": "Il vous reste des messages gratuits : envoyez votre message normalement.",
         "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
         "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
+    },
+    "inbox": {
+      "title": "Mes discussions",
+      "intro": "Toutes vos discussions au même endroit : vos matchs en cours, votre couple et votre conseiller. Les discussions terminées se relisent pendant 90 jours.",
+      "empty": "Aucune discussion pour l'instant. Vos discussions s'ouvrent après une soirée, quand l'accord est mutuel.",
+      "emptyAction": "Voir les soirées",
+      "current": "En cours",
+      "ended": "Terminées",
+      "endedHelp": "Lecture seule : vous pouvez relire ces messages, mais plus y répondre. Ils sont effacés 90 jours après la fin.",
+      "endedUntil": "Terminée · lisible jusqu'au {date}",
+      "readOnlyTitle": "Discussion (lecture seule)",
+      "kinds": {
+        "discovery": "Match en cours",
+        "discovery_ended": "Discussion terminée",
+        "couple": "Discussion du couple",
+        "counsel": "Votre conseiller, en privé"
       }
     }
   },

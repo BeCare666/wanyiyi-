@@ -535,7 +535,8 @@
       "settings": "Settings",
       "rules": "House rules",
       "referral": "Referral",
-      "counsel": "Counsellor"
+      "counsel": "Counsellor",
+      "discussions": "Chats"
     },
     "collapse": "Collapse the menu",
     "expand": "Show menu labels",
@@ -1681,6 +1682,23 @@
         "nothing_to_pay": "You still have free messages: send your message as usual.",
         "unavailable": "This service is not available yet. Please try again later.",
         "generic": "Something went wrong. Please try again in a moment."
+      }
+    },
+    "inbox": {
+      "title": "My chats",
+      "intro": "All your chats in one place: your current matches, your couple and your counsellor. Finished chats can be read again for 90 days.",
+      "empty": "No chats yet. Your chats open after an evening, when the interest is mutual.",
+      "emptyAction": "See the evenings",
+      "current": "Ongoing",
+      "ended": "Finished",
+      "endedHelp": "Read only: you can read these messages again but no longer reply. They are deleted 90 days after the end.",
+      "endedUntil": "Finished · readable until {date}",
+      "readOnlyTitle": "Chat (read only)",
+      "kinds": {
+        "discovery": "Current match",
+        "discovery_ended": "Finished chat",
+        "couple": "Couple chat",
+        "counsel": "Your counsellor, in private"
       }
     }
   },

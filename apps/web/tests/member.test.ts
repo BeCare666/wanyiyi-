@@ -100,8 +100,8 @@ describe("Vote au code QR (9.3)", () => {
 });
 
 describe("Navigation de l'espace membre (6.1)", () => {
-  it("compte 4 sections principales pour la barre basse", () => {
-    expect(memberPrimary.map((i) => i.key)).toEqual(["dashboard", "evenings", "matches", "profile"]);
+  it("compte 5 sections principales pour la barre basse (Discussions le 13/11/2026)", () => {
+    expect(memberPrimary.map((i) => i.key)).toEqual(["dashboard", "evenings", "matches", "discussions", "profile"]);
   });
 
   it("le tableau de bord n'est actif que sur sa propre page", () => {
