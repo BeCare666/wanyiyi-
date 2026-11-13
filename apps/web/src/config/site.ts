@@ -5,8 +5,8 @@
 export const siteContact = {
   phone: null as string | null,
   email: null as string | null,
-  // Fourni par l'utilisateur le 19 octobre 2026
-  whatsapp: "+229 40 30 57 57" as string | null,
+  // Fourni par l'utilisateur le 19 octobre 2026, remplacé le 13 novembre 2026
+  whatsapp: "+229 92 74 60 60" as string | null,
 };
 
 /** Ancres des sections de la page vitrine, dans l'ordre de la page. */
