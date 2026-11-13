@@ -36,6 +36,10 @@ export default async function PaymentPage({ params }: Props) {
   if (!result.ok && result.error === "not_found") notFound();
   const info = result.ok ? result.data : null;
   const methods = info ? methodsOf(info) : null;
+  // Message payant au conseiller (10/11/2026) : retour à la discussion plutôt qu'aux soirées
+  const counsel = info?.purpose === "counsel_message";
+  const backHref = counsel ? memberNav.counsel.href : memberNav.evenings.href;
+  const backLabel = counsel ? t("backCounsel") : t("back");
 
   return (
     <div data-theme={member.darkMode ? "dark" : undefined} className="min-h-svh bg-bg text-fg">
@@ -55,20 +59,20 @@ export default async function PaymentPage({ params }: Props) {
             <p className="mt-6 font-serif text-4xl tabular-nums">
               {format.number(info.amountXof, { style: "currency", currency: "XOF", maximumFractionDigits: 0 })}
             </p>
-            <p className="mt-3 text-fg-muted">{t(`purposes.${info.purpose === "registration_fee" || info.purpose === "counselor_access" ? info.purpose : "evening_booking"}`)}</p>
+            <p className="mt-3 text-fg-muted">{t(`purposes.${info.purpose === "registration_fee" || info.purpose === "counselor_access" || info.purpose === "counsel_message" ? info.purpose : "evening_booking"}`)}</p>
             {methods && info.feexpay ? (
               <>
                 <p className="mt-6 text-fg-muted">{t("intro")}</p>
                 {info.feexpay.sandbox && <p className="mt-3 text-sm text-fg-muted">{t("sandbox")}</p>}
-                <FeexpayCheckout paymentId={info.paymentId} methods={methods} awaiting={info.feexpay.awaiting} />
+                <FeexpayCheckout paymentId={info.paymentId} methods={methods} awaiting={info.feexpay.awaiting} back={{ href: backHref, label: backLabel }} />
               </>
             ) : (
               <>
                 <p role="status" className="mt-8 border-l border-fg pl-5">
                   {t(`statuses.${info.status === "pending" ? "unavailable" : info.status}`)}
                 </p>
-                <ButtonLink href={memberNav.evenings.href} variant="secondary" className="mt-8 w-full">
-                  {t("back")}
+                <ButtonLink href={backHref} variant="secondary" className="mt-8 w-full">
+                  {backLabel}
                 </ButtonLink>
               </>
             )}

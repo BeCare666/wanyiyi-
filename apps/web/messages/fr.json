@@ -534,7 +534,8 @@
       "notifications": "Notifications",
       "settings": "Paramètres",
       "rules": "Règlement",
-      "referral": "Parrainage"
+      "referral": "Parrainage",
+      "counsel": "Conseiller"
     },
     "collapse": "Réduire le menu",
     "expand": "Afficher les libellés du menu",
@@ -606,7 +607,10 @@
         "evening_waitlisted": "Vous êtes sur liste d'attente pour une soirée. Vous serez prévenu(e) si une place se libère.",
         "evening_registration_cancelled": "Votre place est annulée. Vous pouvez réserver une autre soirée.",
         "evening_seat_released": "Votre place a été libérée faute de paiement ou de confirmation à temps. Vous pouvez réserver une autre soirée.",
-        "evening_moved_to_next": "La soirée choisie est complète : vous êtes inscrit(e) d'office à la soirée suivante. Payez votre place dans les 24 heures."
+        "evening_moved_to_next": "La soirée choisie est complète : vous êtes inscrit(e) d'office à la soirée suivante. Payez votre place dans les 24 heures.",
+        "counsel_assigned": "Un conseiller vous est attribué : votre discussion privée est ouverte.",
+        "counsel_granted": "Un membre vous écrit seul : une discussion privée vous est confiée.",
+        "counsel_closed": "La discussion avec le conseiller est terminée."
       }
     },
     "dashboard": {
@@ -1606,9 +1610,10 @@
           "text": "Votre photo est en relecture. En attendant, complétez votre profil : c'est par lui que les autres membres vous découvrent.",
           "action": "Compléter mon profil"
         },
-        "completeProfile": {
-          "text": "Dernière étape avant votre première soirée : complétez votre profil. C'est par lui que les autres membres vous découvrent.",
-          "action": "Compléter mon profil"
+        "bookCompleteProfile": {
+          "text": "Votre compte est prêt : réservez dès maintenant votre place à une prochaine soirée. Pour plus de chances, complétez votre profil : c'est par lui que les autres membres vous découvrent.",
+          "action": "Voir les soirées",
+          "also": "Compléter mon profil"
         }
       },
       "phasesLabel": "Votre parcours, étape par étape",
@@ -1647,6 +1652,36 @@
       "system": "Information de la discussion",
       "yesterday": "Hier",
       "unread": "{count, plural, one {# message non lu} other {# messages non lus}}"
+    },
+    "counsel": {
+      "eyebrow": "Conseiller",
+      "title": "Parler à un conseiller",
+      "intro": "Vous pouvez écrire seul(e) à un conseiller, que vous soyez en couple ou non, sans l'accord de personne. La discussion est privée : personne d'autre ne la lit. L'équipe vous attribue un conseiller.",
+      "pricing": "Vos {free} premiers messages sont gratuits, une seule fois. Ensuite, chaque message que vous envoyez coûte {price}. Les réponses du conseiller sont gratuites.",
+      "notVerified": "Le conseiller est ouvert aux membres vérifiés. Terminez d'abord votre vérification.",
+      "request": "Demander un conseiller",
+      "cancel": "Annuler ma demande",
+      "waiting": "Votre demande du {date} est envoyée. L'équipe vous attribue un conseiller : vous serez prévenu(e) dès que la discussion s'ouvre.",
+      "me": "Moi",
+      "freeLeft": "{count, plural, =1 {Il vous reste 1 message gratuit.} other {Il vous reste # messages gratuits.}} Ensuite, {price} par message.",
+      "paid": "Chaque message que vous envoyez coûte {price}. Les réponses du conseiller sont gratuites.",
+      "payPrompt": "Vos messages gratuits sont utilisés. Ce message coûte {price} : il sera envoyé au conseiller dès le paiement reçu.",
+      "payAndSend": "Payer {price} et envoyer",
+      "payCancel": "Ne pas envoyer",
+      "closeHelp": "Votre question est réglée ? Terminez la discussion. Vous pourrez faire une nouvelle demande plus tard.",
+      "close": "Terminer la discussion",
+      "errors": {
+        "not_validated": "Le conseiller est ouvert aux membres vérifiés.",
+        "already_requested": "Vous avez déjà une demande en cours.",
+        "not_pending": "Cette demande n'est plus en cours.",
+        "not_found": "Demande introuvable.",
+        "contact_blocked": "Votre message contient un numéro, un lien ou une adresse e-mail : il n'a pas été envoyé.",
+        "conversation_closed": "Cette discussion est terminée.",
+        "invalid_body": "Écrivez un message de 2 000 caractères au plus.",
+        "nothing_to_pay": "Il vous reste des messages gratuits : envoyez votre message normalement.",
+        "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+        "generic": "Une erreur est survenue. Réessayez dans un instant."
+      }
     }
   },
   "SignIn": {
@@ -1735,7 +1770,8 @@
     "purposes": {
       "evening_booking": "Place pour une soirée Ifedele",
       "registration_fee": "Frais d'inscription",
-      "counselor_access": "Accès au conseiller"
+      "counselor_access": "Accès au conseiller",
+      "counsel_message": "Message au conseiller"
     },
     "pay": "Recevoir la demande de paiement",
     "payCard": "Continuer vers le paiement par carte",
@@ -1785,7 +1821,8 @@
       "not_found": "Ce paiement est introuvable.",
       "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
       "generic": "Une erreur est survenue. Réessayez dans un instant."
-    }
+    },
+    "backCounsel": "Retour à la discussion"
   },
   "Admin": {
     "areaLabel": "Administration",
@@ -3143,6 +3180,26 @@
           "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
           "generic": "Une erreur est survenue. Réessayez dans un instant."
         }
+      },
+      "solo": {
+        "title": "Demandes personnelles",
+        "intro": "Un membre vérifié peut solliciter un conseiller seul, en couple ou non. La discussion est privée. Attribuez un conseiller disponible.",
+        "empty": "Aucune demande personnelle en attente.",
+        "since": "Demande du {date}",
+        "pricing": {
+          "free": "Messages gratuits",
+          "price": "Prix d'un message (FCFA)",
+          "save": "Enregistrer",
+          "help": "Messages gratuits : une seule fois par membre. Ensuite, chaque message du membre se paie ; les réponses du conseiller sont gratuites. Prix 0 : tout est gratuit.",
+          "saved": "Réglage enregistré.",
+          "errors": {
+            "invalid_price": "Indiquez un prix entier de 0 à 100 000 FCFA.",
+            "invalid_free_messages": "Indiquez un nombre entier de 0 à 100.",
+            "forbidden": "Votre rôle ne permet pas cette action.",
+            "unavailable": "Ce service n'est pas encore disponible. Réessayez plus tard.",
+            "generic": "Une erreur est survenue. Réessayez dans un instant."
+          }
+        }
       }
     },
     "alerts": {
@@ -3739,7 +3796,13 @@
     "private": {
       "title": "Échanges privés",
       "empty": "Aucun échange privé ouvert.",
-      "help": "Seul ce membre lit cet échange ; l'autre membre du couple ne le voit pas."
+      "help": "Seul ce membre lit cet échange ; l'autre membre du couple ne le voit pas.",
+      "solo": "Demande personnelle",
+      "soloHelp": "Ce membre vous écrit seul : personne d'autre ne lit cette discussion. Vos réponses sont gratuites pour lui.",
+      "soloTag": "Demande personnelle",
+      "close": "Terminer la discussion",
+      "closeHelp": "La question du membre est réglée ? Terminez la discussion : elle se ferme pour vous deux.",
+      "closeError": "La discussion n'a pas pu être terminée. Réessayez dans un instant."
     }
   },
   "Providers": {

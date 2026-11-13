@@ -62,7 +62,11 @@ export class FeexpayPaymentProvider implements PaymentProvider {
 }
 
 /** Libellés envoyés à FeexPay : sans caractères spéciaux, 40 caractères au plus. */
-const FEEXPAY_DESCRIPTIONS: Record<string, string> = { counselor_access: "Conseiller ifedele", contribution: "Cagnotte ifedele" };
+const FEEXPAY_DESCRIPTIONS: Record<string, string> = {
+  counselor_access: "Conseiller ifedele",
+  counsel_message: "Message conseiller ifedele",
+  contribution: "Cagnotte ifedele",
+};
 export function feexpayDescription(purpose: string): string {
   return FEEXPAY_DESCRIPTIONS[purpose] ?? "Soiree ifedele";
 }
@@ -150,6 +154,35 @@ export class PaymentsService {
     if (!payment) throw new ConflictException("payment_not_created");
     unwrap(await system.from("counselor_access").update({ payment_id: payment.id }).eq("id", accessId));
     const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: amount, description: "Conseiller Ifedele" });
+    if (checkout.providerTransactionId) {
+      unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
+    }
+    return { paymentId: payment.id, checkoutUrl: checkout.checkoutUrl };
+  }
+
+  /**
+   * Message payant au conseiller (demande seule, 10 novembre 2026) : après les messages gratuits,
+   * chaque message du membre se paie (200 FCFA par défaut, réglable). La base vérifie tout avec le
+   * jeton du membre (app.prepare_counsel_message) et remet le message quand le paiement réussit.
+   */
+  async startCounselMessagePayment(memberId: string, accessToken: string, conversationId: string, body: string) {
+    const member = this.supabase.forMember(accessToken);
+    const [prepared] = (unwrap(await member.rpc("prepare_counsel_message", { p_conversation: conversationId, p_body: body })) ?? []) as Array<{
+      pending_id: string;
+      price_xof: number;
+    }>;
+    if (!prepared) throw new NotFoundException("not_found");
+    const system = this.supabase.system(`création du paiement du message au conseiller ${prepared.pending_id} pour ${memberId}`);
+    const payment = unwrap(
+      await system
+        .from("payments")
+        .insert({ user_id: memberId, purpose: "counsel_message", amount_xof: prepared.price_xof, provider: this.provider.name })
+        .select("id")
+        .single(),
+    );
+    if (!payment) throw new ConflictException("payment_not_created");
+    unwrap(await system.from("counsel_pending_messages").update({ payment_id: payment.id }).eq("id", prepared.pending_id));
+    const checkout = await this.provider.createCheckout({ paymentId: payment.id, amountXof: prepared.price_xof, description: "Message conseiller Ifedele" });
     if (checkout.providerTransactionId) {
       unwrap(await system.from("payments").update({ provider_transaction_id: checkout.providerTransactionId }).eq("id", payment.id));
     }

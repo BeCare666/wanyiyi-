@@ -35,7 +35,18 @@ const emptyHolder: CardHolder = { firstName: "", lastName: "", email: "", phoneN
  * Moov, Celtiis), validé sur le téléphone du membre, ou carte sur la page FeexPay. Le statut est
  * toujours relu chez FeexPay par l'API. Une demande en attente est vérifiée, jamais refaite.
  */
-export function FeexpayCheckout({ paymentId, methods, awaiting }: { paymentId: string; methods: Method[]; awaiting: boolean }) {
+export function FeexpayCheckout({
+  paymentId,
+  methods,
+  awaiting,
+  back: backTo,
+}: {
+  paymentId: string;
+  methods: Method[];
+  awaiting: boolean;
+  /** Page de retour (par défaut : mes soirées). */
+  back?: { href: string; label: string };
+}) {
   const t = useTranslations("Payment");
   const [method, setMethod] = useState<Method>(methods[0] ?? "mtn");
   const [phone, setPhone] = useState("");
@@ -101,8 +112,8 @@ export function FeexpayCheckout({ paymentId, methods, awaiting }: { paymentId: s
 
   const errorText = error ? (error.startsWith("card.") ? t(`card.errors.${error.slice(5)}`) : t(`errors.${error}`)) : null;
   const back = (
-    <ButtonLink href={memberNav.evenings.href} variant="secondary" className="mt-3 w-full">
-      {t("back")}
+    <ButtonLink href={backTo?.href ?? memberNav.evenings.href} variant="secondary" className="mt-3 w-full">
+      {backTo?.label ?? t("back")}
     </ButtonLink>
   );
 
@@ -112,8 +123,8 @@ export function FeexpayCheckout({ paymentId, methods, awaiting }: { paymentId: s
         <p role="status" className="border-l border-fg pl-5">
           {t("done")}
         </p>
-        <ButtonLink href={memberNav.evenings.href} className="mt-8 w-full">
-          {t("back")}
+        <ButtonLink href={backTo?.href ?? memberNav.evenings.href} className="mt-8 w-full">
+          {backTo?.label ?? t("back")}
         </ButtonLink>
       </div>
     );

@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { getCounselor } from "@/lib/counselor";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { counselorSend } from "../../actions";
+import { CloseCounsel } from "./CloseCounsel";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Counselor.private");
@@ -25,7 +26,7 @@ export default async function CounselorPrivateChannelPage({ params }: Props) {
   if (!counselor || !supabase) notFound();
   const t = await getTranslations("Counselor");
   const { data: channels } = await supabase.rpc("counselor_private_channels");
-  const channel = ((channels ?? []) as { conversation_id: string; member_first_name: string }[]).find((c) => c.conversation_id === id);
+  const channel = ((channels ?? []) as { conversation_id: string; member_first_name: string; counsel_request_id: string | null }[]).find((c) => c.conversation_id === id);
   if (!channel) notFound();
   const { data: messages } = await supabase.from("messages").select("id, sender_id, body, created_at, is_system").eq("conversation_id", id).order("created_at").limit(500);
   await supabase.rpc("mark_conversation_read", { p_conversation: id });
@@ -38,9 +39,9 @@ export default async function CounselorPrivateChannelPage({ params }: Props) {
         </Link>
       </p>
       <header className="mt-6">
-        <p className="eyebrow">{t("private.title")}</p>
+        <p className="eyebrow">{t(channel.counsel_request_id ? "private.solo" : "private.title")}</p>
         <h1 className="mt-4 font-serif text-4xl">{channel.member_first_name}</h1>
-        <p className="mt-3 max-w-measure text-sm text-fg-muted">{t("private.help")}</p>
+        <p className="mt-3 max-w-measure text-sm text-fg-muted">{t(channel.counsel_request_id ? "private.soloHelp" : "private.help")}</p>
       </header>
       <ChatRoom
         conversationId={id}
@@ -50,6 +51,7 @@ export default async function CounselorPrivateChannelPage({ params }: Props) {
         send={counselorSend}
         names={{ [counselor.id]: counselor.displayName }}
       />
+      {channel.counsel_request_id && <CloseCounsel requestId={channel.counsel_request_id} />}
     </div>
   );
 }

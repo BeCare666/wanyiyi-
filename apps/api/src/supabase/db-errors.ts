@@ -54,6 +54,10 @@ const BY_CODE: Record<string, (code: string) => HttpException> = {
   nothing_to_pay: (c) => new ConflictException(c),
   not_pending: (c) => new ConflictException(c),
   couple_blocked: (c) => new ForbiddenException(c),
+  // Message payant au conseiller (demande seule, 10 novembre 2026)
+  contact_blocked: (c) => new BadRequestException(c),
+  conversation_closed: (c) => new ConflictException(c),
+  invalid_body: (c) => new BadRequestException(c),
 };
 
 export function toHttpError(error: { message?: string; code?: string } | null | undefined): HttpException {

@@ -2,6 +2,7 @@ import type { Icon } from "@phosphor-icons/react";
 import {
   BellIcon,
   ChampagneIcon,
+  ChatsCircleIcon,
   GearSixIcon,
   HandshakeIcon,
   HeartIcon,
@@ -13,7 +14,7 @@ import {
 
 /** Entrée de l'espace membre : clé de traduction (Member.nav), adresse et icône. */
 export type MemberNavItem = {
-  key: "dashboard" | "evenings" | "matches" | "profile" | "verification" | "notifications" | "settings" | "referral" | "rules";
+  key: "dashboard" | "evenings" | "matches" | "profile" | "verification" | "notifications" | "settings" | "referral" | "rules" | "counsel";
   href: string;
   Icon: Icon;
 };
@@ -33,6 +34,8 @@ const items = {
   settings: { key: "settings", href: "/espace/parametres", Icon: GearSixIcon },
   // Parrainage (phase 4, question 4)
   referral: { key: "referral", href: "/espace/parrainage", Icon: HandshakeIcon },
+  // Conseiller sollicité seul (10/11/2026)
+  counsel: { key: "counsel", href: "/espace/conseiller", Icon: ChatsCircleIcon },
   rules: { key: "rules", href: "/reglement", Icon: ScrollIcon },
 } satisfies Record<MemberNavItem["key"], MemberNavItem>;
 
@@ -42,7 +45,7 @@ export const memberNav = items;
 export const memberPrimary: MemberNavItem[] = [items.dashboard, items.evenings, items.matches, items.profile];
 
 /** Les autres entrées : bas de la barre latérale et tiroir mobile. */
-export const memberSecondary: MemberNavItem[] = [items.verification, items.notifications, items.referral, items.settings, items.rules];
+export const memberSecondary: MemberNavItem[] = [items.verification, items.notifications, items.counsel, items.referral, items.settings, items.rules];
 
 /** Entrée active : la page elle-même ou l'une de ses sous-pages (le tableau de bord seulement sur sa page). */
 export function isMemberNavActive(item: MemberNavItem, pathname: string): boolean {

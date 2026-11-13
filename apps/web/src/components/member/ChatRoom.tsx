@@ -33,6 +33,7 @@ export function ChatRoom({
   report,
   partnerReadAt = null,
   markRead,
+  onSendError,
 }: {
   conversationId: string;
   memberId: string;
@@ -49,6 +50,8 @@ export function ChatRoom({
   partnerReadAt?: string | null;
   /** Conversation lue : appelé quand un message de l'autre arrive pendant que la page est ouverte. */
   markRead?: (conversationId: string) => Promise<ApiResult<void>>;
+  /** Erreur d'envoi prise en charge par la page (message payant au conseiller) : true, rien n'est affiché ici. */
+  onSendError?: (error: string, body: string) => boolean;
 }) {
   const t = useTranslations("Member.chat");
   const tj = useTranslations("Member.couple.journey");
@@ -92,7 +95,10 @@ export function ChatRoom({
     setError(null);
     startTransition(async () => {
       const result = await send(conversationId, body);
-      if (!result.ok) return setError(knownErrors.has(result.error) ? result.error : "generic");
+      if (!result.ok) {
+        if (onSendError?.(result.error, body)) return;
+        return setError(knownErrors.has(result.error) ? result.error : "generic");
+      }
       setDraft("");
       setMessages((list) =>
         list.some((x) => x.id === result.data) ? list : [...list, { id: result.data, sender_id: memberId, body, created_at: new Date().toISOString() }],

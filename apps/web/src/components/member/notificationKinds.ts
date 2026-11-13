@@ -34,6 +34,10 @@ const kinds = {
   counselor_access_payment_due: { href: { pathname: coupleSpace } },
   counselor_assigned: { href: { pathname: coupleSpace } },
   counselor_access_granted: { href: null },
+  // Conseiller sollicité seul (10 novembre 2026) : attribué au membre, confié au conseiller, discussion terminée
+  counsel_assigned: { href: { pathname: memberNav.counsel.href } },
+  counsel_granted: { href: null },
+  counsel_closed: { href: null },
   couple_blocked: { href: { pathname: coupleSpace } },
   couple_unblocked: { href: { pathname: coupleSpace } },
   // Vie et fins du couple (questions 6 et 7, 26 octobre 2026)

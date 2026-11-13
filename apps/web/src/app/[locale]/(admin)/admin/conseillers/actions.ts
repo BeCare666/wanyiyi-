@@ -56,3 +56,25 @@ export async function setCounselorPrice(priceXof: number): Promise<ApiResult<voi
   const { error } = await supabase.rpc("admin_set_counselor_price", { p_price_xof: priceXof });
   return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
 }
+
+/**
+ * Conseiller sollicité seul (10 novembre 2026) : attribution à la demande d'un membre. La base
+ * vérifie la permission, la demande en attente et la disponibilité du conseiller, et journalise.
+ */
+export async function assignCounsel(requestId: string, counselorId: string): Promise<ApiResult<void>> {
+  if (!UUID.test(requestId) || !UUID.test(counselorId)) return { ok: false, error: "generic" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { error } = await supabase.rpc("admin_assign_counsel", { p_request: requestId, p_counselor: counselorId });
+  return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
+}
+
+/** Prix d'un message au conseiller (0 : gratuit) et messages gratuits, journalisés. */
+export async function setCounselPricing(priceXof: number, freeMessages: number): Promise<ApiResult<void>> {
+  if (!Number.isInteger(priceXof) || priceXof < 0 || priceXof > 100_000) return { ok: false, error: "invalid_price" };
+  if (!Number.isInteger(freeMessages) || freeMessages < 0 || freeMessages > 100) return { ok: false, error: "invalid_free_messages" };
+  const supabase = await createSupabaseServer();
+  if (!supabase) return { ok: false, error: "unavailable" };
+  const { error } = await supabase.rpc("admin_set_counsel_pricing", { p_price_xof: priceXof, p_free_messages: freeMessages });
+  return error ? { ok: false, error: error.message } : { ok: true, data: undefined };
+}

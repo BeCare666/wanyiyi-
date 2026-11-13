@@ -94,6 +94,7 @@ export async function NextStep({ journey, here }: { journey: Journey | null; her
     ? `${format.dateTime(new Date(step.date), "eventDay")}, ${format.dateTime(new Date(step.date), "eventTime")}`
     : "";
   const showButton = step.target !== null && !(here ?? []).includes(step.target);
+  const showAlso = step.also !== undefined && !(here ?? []).includes(step.also);
 
   return (
     <aside aria-labelledby="prochaine-etape" className="mt-10 border border-accent bg-bg-soft p-6 md:p-8">
@@ -120,10 +121,15 @@ export async function NextStep({ journey, here }: { journey: Journey | null; her
         {t("title")}
       </h2>
       <p className="mt-4 max-w-measure font-serif text-2xl">{t(`steps.${step.key}.text`, { date })}</p>
-      {showButton && (
-        <ButtonLink href={targets[step.target!]} className="mt-6">
-          {t(`steps.${step.key}.action`)}
-        </ButtonLink>
+      {(showButton || showAlso) && (
+        <div className="mt-6 flex flex-wrap gap-3">
+          {showButton && <ButtonLink href={targets[step.target!]}>{t(`steps.${step.key}.action`)}</ButtonLink>}
+          {showAlso && (
+            <ButtonLink href={targets[step.also!]} variant="secondary">
+              {t(`steps.${step.key}.also`)}
+            </ButtonLink>
+          )}
+        </div>
       )}
     </aside>
   );

@@ -534,7 +534,8 @@
       "notifications": "Notifications",
       "settings": "Settings",
       "rules": "House rules",
-      "referral": "Referral"
+      "referral": "Referral",
+      "counsel": "Counsellor"
     },
     "collapse": "Collapse the menu",
     "expand": "Show menu labels",
@@ -606,7 +607,10 @@
         "evening_waitlisted": "You are on the waiting list for an evening. You will be told if a seat becomes free.",
         "evening_registration_cancelled": "Your seat is cancelled. You can book another evening.",
         "evening_seat_released": "Your seat was released because it was not paid or confirmed in time. You can book another evening.",
-        "evening_moved_to_next": "The evening you chose is full: you are automatically booked on the next evening. Pay for your seat within 24 hours."
+        "evening_moved_to_next": "The evening you chose is full: you are automatically booked on the next evening. Pay for your seat within 24 hours.",
+        "counsel_assigned": "A counsellor has been assigned to you: your private conversation is open.",
+        "counsel_granted": "A member is writing to you on their own: a private conversation has been assigned to you.",
+        "counsel_closed": "The conversation with the counsellor has ended."
       }
     },
     "dashboard": {
@@ -1606,9 +1610,10 @@
           "text": "Your photo is being reviewed. Meanwhile, complete your profile: it is how other members get to know you.",
           "action": "Complete my profile"
         },
-        "completeProfile": {
-          "text": "Last step before your first evening: complete your profile. It is how other members get to know you.",
-          "action": "Complete my profile"
+        "bookCompleteProfile": {
+          "text": "Your account is ready: book your place at an upcoming evening now. For better chances, complete your profile: it is how other members get to know you.",
+          "action": "See the evenings",
+          "also": "Complete my profile"
         }
       },
       "phasesLabel": "Your journey, step by step",
@@ -1647,6 +1652,36 @@
       "system": "Chat notice",
       "yesterday": "Yesterday",
       "unread": "{count, plural, one {# unread message} other {# unread messages}}"
+    },
+    "counsel": {
+      "eyebrow": "Counsellor",
+      "title": "Talk to a counsellor",
+      "intro": "You can write to a counsellor on your own, whether or not you are in a couple, without anyone's agreement. The conversation is private: nobody else reads it. The team assigns you a counsellor.",
+      "pricing": "Your first {free} messages are free, once only. After that, each message you send costs {price}. The counsellor's replies are free.",
+      "notVerified": "The counsellor is open to verified members. Please finish your verification first.",
+      "request": "Ask for a counsellor",
+      "cancel": "Cancel my request",
+      "waiting": "Your request of {date} has been sent. The team is assigning you a counsellor: you will be notified as soon as the conversation opens.",
+      "me": "Me",
+      "freeLeft": "{count, plural, =1 {You have 1 free message left.} other {You have # free messages left.}} After that, {price} per message.",
+      "paid": "Each message you send costs {price}. The counsellor's replies are free.",
+      "payPrompt": "Your free messages are used up. This message costs {price}: it will be sent to the counsellor as soon as the payment is received.",
+      "payAndSend": "Pay {price} and send",
+      "payCancel": "Do not send",
+      "closeHelp": "Is your question settled? End the conversation. You can make a new request later.",
+      "close": "End the conversation",
+      "errors": {
+        "not_validated": "The counsellor is open to verified members.",
+        "already_requested": "You already have a request in progress.",
+        "not_pending": "This request is no longer in progress.",
+        "not_found": "Request not found.",
+        "contact_blocked": "Your message contains a phone number, a link or an email address: it was not sent.",
+        "conversation_closed": "This conversation has ended.",
+        "invalid_body": "Write a message of 2,000 characters at most.",
+        "nothing_to_pay": "You still have free messages: send your message as usual.",
+        "unavailable": "This service is not available yet. Please try again later.",
+        "generic": "Something went wrong. Please try again in a moment."
+      }
     }
   },
   "SignIn": {
@@ -1735,7 +1770,8 @@
     "purposes": {
       "evening_booking": "Seat for a Ifedele evening",
       "registration_fee": "Registration fee",
-      "counselor_access": "Counselor access"
+      "counselor_access": "Counselor access",
+      "counsel_message": "Message to the counsellor"
     },
     "pay": "Receive the payment request",
     "payCard": "Continue to card payment",
@@ -1785,7 +1821,8 @@
       "not_found": "This payment cannot be found.",
       "unavailable": "This service is not available yet. Please try again later.",
       "generic": "Something went wrong. Please try again in a moment."
-    }
+    },
+    "backCounsel": "Back to the conversation"
   },
   "Admin": {
     "areaLabel": "Administration",
@@ -3143,6 +3180,26 @@
           "unavailable": "This service is not available yet. Try again later.",
           "generic": "Something went wrong. Try again in a moment."
         }
+      },
+      "solo": {
+        "title": "Personal requests",
+        "intro": "A verified member can ask for a counsellor on their own, in a couple or not. The conversation is private. Assign an available counsellor.",
+        "empty": "No personal request waiting.",
+        "since": "Request of {date}",
+        "pricing": {
+          "free": "Free messages",
+          "price": "Price of a message (FCFA)",
+          "save": "Save",
+          "help": "Free messages: once per member. After that, each message from the member is paid; the counsellor's replies are free. Price 0: everything is free.",
+          "saved": "Setting saved.",
+          "errors": {
+            "invalid_price": "Enter a whole price from 0 to 100,000 FCFA.",
+            "invalid_free_messages": "Enter a whole number from 0 to 100.",
+            "forbidden": "Your role does not allow this action.",
+            "unavailable": "This service is not available yet. Please try again later.",
+            "generic": "Something went wrong. Please try again in a moment."
+          }
+        }
       }
     },
     "alerts": {
@@ -3739,7 +3796,13 @@
     "private": {
       "title": "Private exchanges",
       "empty": "No private exchange open.",
-      "help": "Only this member reads this exchange; the other member of the couple does not see it."
+      "help": "Only this member reads this exchange; the other member of the couple does not see it.",
+      "solo": "Personal request",
+      "soloHelp": "This member is writing to you on their own: nobody else reads this conversation. Your replies are free for them.",
+      "soloTag": "Personal request",
+      "close": "End the conversation",
+      "closeHelp": "Is the member's question settled? End the conversation: it closes for both of you.",
+      "closeError": "The conversation could not be ended. Please try again in a moment."
     }
   },
   "Providers": {

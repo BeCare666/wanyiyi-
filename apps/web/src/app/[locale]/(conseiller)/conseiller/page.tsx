@@ -5,7 +5,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import type { FollowedCouple } from "./counselor";
 
 type AgendaRow = { id: string; couple_id: string; a_first_name: string; b_first_name: string; scheduled_at: string; status: "proposed" | "confirmed" };
-type ChannelRow = { conversation_id: string; member_first_name: string; unread: number };
+type ChannelRow = { conversation_id: string; member_first_name: string; unread: number; counsel_request_id: string | null };
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Counselor.couples");
@@ -102,6 +102,7 @@ export default async function CounselorHomePage() {
                 <Link href={`/conseiller/prive/${c.conversation_id}`} className="underline-offset-4 hover:underline">
                   {c.member_first_name}
                 </Link>
+                {c.counsel_request_id && <span className="text-sm text-fg-muted">{t("private.soloTag")}</span>}
                 <span className="text-sm">{c.unread > 0 ? t("couples.unread", { count: c.unread }) : t("couples.upToDate")}</span>
               </li>
             ))}

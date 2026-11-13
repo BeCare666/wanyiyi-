@@ -50,3 +50,9 @@ export async function completeSession(sessionId: string): Promise<ApiResult<void
   if (!UUID.test(sessionId)) return { ok: false, error: "generic" };
   return call<void>("complete_session", { p_session: sessionId });
 }
+
+/** Fin d'une discussion demandée seule par un membre (10 novembre 2026) : fermée pour les deux. */
+export async function counselorCloseCounsel(requestId: string): Promise<ApiResult<void>> {
+  if (!UUID.test(requestId)) return { ok: false, error: "generic" };
+  return call<void>("close_counsel", { p_request: requestId });
+}

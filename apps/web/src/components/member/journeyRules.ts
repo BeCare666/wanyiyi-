@@ -35,7 +35,7 @@ export type NextStepKey =
   | "addPhoto"
   | "photoPending"
   | "photoPendingProfile"
-  | "completeProfile"
+  | "bookCompleteProfile"
   | "pay"
   | "confirm"
   | "waitlisted"
@@ -44,7 +44,8 @@ export type NextStepKey =
 
 export type NextStepTarget = "registration" | "verification" | "photos" | "profile" | "evenings" | "myEvenings";
 
-export type NextStep = { key: NextStepKey; target: NextStepTarget | null; date?: string };
+/** `also` : second bouton, plus discret (réserver sans profil complet, 10 novembre 2026). */
+export type NextStep = { key: NextStepKey; target: NextStepTarget | null; date?: string; also?: NextStepTarget };
 
 /** Le membre peut réserver côté photos : au moins une photo approuvée par l'équipe. */
 export function hasApprovedPhoto(photos: readonly PhotoReview[]): boolean {
@@ -98,8 +99,9 @@ export function nextStep({ status, photos, inCouple, bookings, now, profileCompl
   const photo = photoState(photos);
   if (photo === "missing") return { key: "addPhoto", target: "photos" };
   if (photo === "pending") return profileComplete ? { key: "photoPending", target: null } : { key: "photoPendingProfile", target: "profile" };
-  // Les autres découvrent le membre par sa description : profil complet avant la première réservation
-  if (!profileComplete) return { key: "completeProfile", target: "profile" };
+  // Réserver sans remplir son profil (10 novembre 2026) : la réservation est proposée, avec une
+  // alerte « pour plus de chances, complétez votre profil » et un second bouton vers le profil
+  if (!profileComplete) return { key: "bookCompleteProfile", target: "evenings", also: "profile" };
   return { key: "book", target: "evenings" };
 }
 
@@ -124,7 +126,7 @@ export function phaseStates(input: NextStepInput, step: NextStep | null): Record
         ? "verification"
         : ["waitReviewAddPhoto", "addPhoto", "photoPending"].includes(step.key)
           ? "photo"
-          : ["waitReviewProfile", "photoPendingProfile", "completeProfile"].includes(step.key)
+          : ["waitReviewProfile", "photoPendingProfile"].includes(step.key)
             ? "profile"
             : "evening";
   const done: Record<JourneyPhase, boolean> = {

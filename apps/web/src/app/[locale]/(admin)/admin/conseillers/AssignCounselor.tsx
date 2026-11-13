@@ -5,12 +5,23 @@ import { type FormEvent, useState, useTransition } from "react";
 import { Button, fieldClass } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
-import { assignCounselor } from "./actions";
+import { assignCounsel, assignCounselor } from "./actions";
 
 const knownErrors = new Set(["counselor_unavailable", "counselor_full", "couple_blocked", "not_pending", "not_paid", "not_found", "forbidden", "unavailable"]);
 
 /** Choix du conseiller pour une demande acceptée par les deux membres du couple. */
-export function AssignCounselor({ accessId, counselors, preferred }: { accessId: string; counselors: { id: string; name: string }[]; preferred?: string }) {
+export function AssignCounselor({
+  accessId,
+  counselors,
+  preferred,
+  solo = false,
+}: {
+  accessId: string;
+  counselors: { id: string; name: string }[];
+  preferred?: string;
+  /** Demande seule d'un membre (10 novembre 2026) : accessId est alors l'identifiant de la demande. */
+  solo?: boolean;
+}) {
   const t = useTranslations("Admin.counselors.requests");
   const router = useRouter();
   const [counselor, setCounselor] = useState(preferred || (counselors[0]?.id ?? ""));
@@ -22,7 +33,7 @@ export function AssignCounselor({ accessId, counselors, preferred }: { accessId:
     if (!counselor) return;
     setError(null);
     startTransition(async () => {
-      const result = await assignCounselor(accessId, counselor);
+      const result = await (solo ? assignCounsel : assignCounselor)(accessId, counselor);
       if (!result.ok) return setError(knownErrors.has(result.error) ? result.error : "generic");
       router.refresh();
     });

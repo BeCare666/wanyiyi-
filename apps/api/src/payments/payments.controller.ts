@@ -25,6 +25,9 @@ const cardSchema = z.object({
   zip: text(10),
 });
 
+/** Message payant au conseiller (demande seule, 10/11/2026) : la base refait tous les contrôles. */
+const counselMessageSchema = z.object({ conversationId: z.string().uuid(), body: text(2000) });
+
 @ApiTags("Paiements")
 @ApiBearerAuth()
 @UseGuards(MemberGuard)
@@ -42,6 +45,15 @@ export class PaymentsController {
   @ApiOperation({ summary: "Payer l'accès au conseiller (membre qui a invité, après l'accord de l'autre)" })
   startCounselor(@CurrentMember() member: AuthenticatedMember, @Param("accessId", ParseUUIDPipe) accessId: string) {
     return this.payments.startCounselorPayment(member.id, member.accessToken, accessId);
+  }
+
+  @Post("counsel-message")
+  @ApiOperation({ summary: "Payer un message au conseiller (demande seule, après les messages gratuits)" })
+  startCounselMessage(
+    @CurrentMember() member: AuthenticatedMember,
+    @Body(new ZodBody(counselMessageSchema)) { conversationId, body }: z.infer<typeof counselMessageSchema>,
+  ) {
+    return this.payments.startCounselMessagePayment(member.id, member.accessToken, conversationId, body);
   }
 
   @Get(":paymentId")

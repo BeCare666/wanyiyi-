@@ -115,12 +115,14 @@ describe("Fiche d'une soirée : places payées (30 octobre 2026)", () => {
 });
 
 describe("Audit UX du 3 novembre 2026 : parcours étape par étape", () => {
-  it("le profil incomplet est demandé pendant l'attente, après la photo, et avant la première réservation", () => {
+  it("le profil incomplet est demandé pendant l'attente, après la photo, et conseillé (non bloquant) avant la première réservation", () => {
     expect(nextStep({ ...base, status: "pending_verification", profileComplete: false })).toEqual({ key: "waitReviewProfile", target: "profile" });
     // La photo passe avant le profil : elle est examinée avec le dossier
     expect(nextStep({ ...base, status: "pending_verification", photos: [], profileComplete: false })?.key).toBe("waitReviewAddPhoto");
     expect(nextStep({ ...base, photos: ["pending"], profileComplete: false })).toEqual({ key: "photoPendingProfile", target: "profile" });
-    expect(nextStep({ ...base, profileComplete: false })).toEqual({ key: "completeProfile", target: "profile" });
+    // Réserver sans remplir son profil (10 novembre 2026) : réservation proposée, profil en second bouton
+    expect(nextStep({ ...base, profileComplete: false })).toEqual({ key: "bookCompleteProfile", target: "evenings", also: "profile" });
+    expect(phaseStates({ ...base, profileComplete: false }, nextStep({ ...base, profileComplete: false }))).toMatchObject({ profile: "todo", evening: "current" });
     // Une place déjà prise reste l'étape à suivre
     expect(nextStep({ ...base, profileComplete: false, bookings: [booking({ status: "confirmed" })] })?.key).toBe("ready");
   });
@@ -135,7 +137,7 @@ describe("Audit UX du 3 novembre 2026 : parcours étape par étape", () => {
       evening: "todo",
     });
     expect(at({ ...base, status: "pending_verification", photos: [], profileComplete: false }).photo).toBe("current");
-    expect(at({ ...base, profileComplete: false })).toEqual({ account: "done", verification: "done", photo: "done", profile: "current", evening: "todo" });
+    expect(at({ ...base, profileComplete: false })).toEqual({ account: "done", verification: "done", photo: "done", profile: "todo", evening: "current" });
     expect(at(base).evening).toBe("current");
     expect(at({ ...base, bookings: [booking({ status: "confirmed" })] }).evening).toBe("done");
   });

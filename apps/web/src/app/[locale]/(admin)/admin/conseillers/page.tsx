@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getFormatter, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { getStaffMember } from "@/lib/staff";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { AssignCounselor } from "./AssignCounselor";
 import { CounselorForm } from "./CounselorForm";
 import { CounselorPrice } from "./CounselorPrice";
+import { CounselPricing } from "./CounselPricing";
 import { assignable, type CounselorRequest, type CounselorRow, isFull, preferredCounselor } from "./counselors";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -26,9 +27,19 @@ export default async function AdminCounselorsPage() {
   if (!staff?.permissions.includes("counselors.manage")) notFound();
   const t = await getTranslations("Admin");
   const supabase = await createSupabaseServer();
-  const [result, requestsResult, priceResult] = supabase
-    ? await Promise.all([supabase.rpc("admin_counselors"), supabase.rpc("admin_counselor_requests"), supabase.rpc("counselor_access_price")])
-    : [null, null, null];
+  const format = await getFormatter();
+  const [result, requestsResult, priceResult, soloResult, pricingResult] = supabase
+    ? await Promise.all([
+        supabase.rpc("admin_counselors"),
+        supabase.rpc("admin_counselor_requests"),
+        supabase.rpc("counselor_access_price"),
+        // Conseiller sollicité seul (10 novembre 2026)
+        supabase.rpc("admin_counsel_requests"),
+        supabase.rpc("counsel_pricing"),
+      ])
+    : [null, null, null, null, null];
+  const soloRequests = (soloResult?.data ?? []) as { request_id: string; created_at: string; first_name: string | null; member_number: string | null }[];
+  const pricing = ((pricingResult?.data ?? []) as { price_xof: number; free_messages: number }[])[0] ?? { price_xof: 200, free_messages: 3 };
   const rows = (result?.data ?? []) as CounselorRow[];
   const requests = (requestsResult?.data ?? []) as CounselorRequest[];
   const choices = assignable(rows).map((r) => ({ id: r.user_id, name: r.display_name }));
@@ -70,6 +81,32 @@ export default async function AdminCounselorsPage() {
                   <p className="mt-1 text-sm text-fg-muted">{t("counselors.requests.previous", { name: req.previous_counselor_name })}</p>
                 )}
                 <AssignCounselor accessId={req.access_id} counselors={choices} preferred={preferredCounselor(req, choices)} />
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+
+      {/* Conseiller sollicité seul par un membre (10 novembre 2026) : discussion privée */}
+      <section aria-labelledby="demandes-seules" className="mt-10 border-t border-line pt-8">
+        <h2 id="demandes-seules" className="text-2xl">
+          {t("counselors.solo.title")}
+        </h2>
+        <p className="mt-2 max-w-measure text-sm text-fg-muted">{t("counselors.solo.intro")}</p>
+        <div className="mt-6">
+          <CounselPricing price={pricing.price_xof} free={pricing.free_messages} />
+        </div>
+        {soloRequests.length === 0 ? (
+          <p className="mt-6 text-fg-muted">{t("counselors.solo.empty")}</p>
+        ) : (
+          <ol className="mt-6 border-t border-line">
+            {soloRequests.map((req) => (
+              <li key={req.request_id} className="border-b border-line py-5">
+                <p className="font-medium">{pair(req.first_name, req.member_number)}</p>
+                <p className="mt-1 text-sm text-fg-muted">
+                  {t("counselors.solo.since", { date: format.dateTime(new Date(req.created_at), { dateStyle: "long", timeStyle: "short", timeZone: "Africa/Porto-Novo" }) })}
+                </p>
+                <AssignCounselor accessId={req.request_id} counselors={choices} solo />
               </li>
             ))}
           </ol>
