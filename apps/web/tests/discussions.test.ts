@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { conversationHref, type ConversationRow, initial, splitConversations } from "../src/app/[locale]/(membre)/espace/discussions/discussions";
+import { chatHref, conversationHref, type ConversationRow, initial, splitConversations } from "../src/app/[locale]/(membre)/espace/discussions/discussions";
 import { isMemberNavActive, memberNav } from "../src/components/member/memberNav";
 import en from "../messages/en.json";
 import fr from "../messages/fr.json";
@@ -24,7 +24,11 @@ const row = (over: Partial<ConversationRow>): ConversationRow => ({
 });
 
 describe("Discussions", () => {
-  it("ouvre la page qui existe déjà pour chaque espace", () => {
+  it("chaque ligne ouvre l'écran de discussion plein écran", () => {
+    expect(chatHref(row({ conversation_id: "c9" }))).toBe("/espace/discussions/c9");
+  });
+
+  it("le menu ⋮ ouvre la page complète de chaque espace", () => {
     expect(conversationHref(row({ kind: "discovery", target_id: "d1" }))).toEqual({ pathname: "/espace/matchs/d1", tab: "discussion" });
     expect(conversationHref(row({ kind: "discovery_ended", target_id: "d2" }))).toEqual({ pathname: "/espace/matchs/d2", tab: "discussion" });
     expect(conversationHref(row({ kind: "couple" }))).toEqual({ pathname: "/espace/couple", tab: "discussion" });
@@ -57,6 +61,8 @@ describe("Discussions", () => {
       expect(m.Member.nav.discussions).toBeTruthy();
       expect(Object.keys(m.Member.inbox).sort()).toEqual(Object.keys(fr.Member.inbox).sort());
       expect(Object.keys(m.Member.inbox.kinds).sort()).toEqual(["counsel", "couple", "discovery", "discovery_ended"]);
+      expect(Object.keys(m.Member.inbox.menu.full).sort()).toEqual(["counsel", "couple", "discovery", "discovery_ended"]);
+      expect(Object.keys(m.Member.inbox.status).sort()).toEqual(["counsel", "couple", "discovery", "discoveryNoDate"]);
     }
   });
 });

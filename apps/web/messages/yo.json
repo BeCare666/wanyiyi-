@@ -1699,6 +1699,22 @@
         "discovery_ended": "Ìjíròrò tó ti parí",
         "couple": "Ìjíròrò tọkọtaya",
         "counsel": "Olùgbaninímọ̀ràn yín, ní ìkọ̀kọ̀"
+      },
+      "status": {
+        "discovery": "{count, plural, =0 {Ìfohùnṣọ̀kan · ọjọ́ tó kẹ́yìn} other {Ìfohùnṣọ̀kan · ọjọ́ # ló kù}}",
+        "discoveryNoDate": "Ìfohùnṣọ̀kan tó ń lọ lọ́wọ́",
+        "couple": "Ìjíròrò tọkọtaya",
+        "counsel": "Olùgbaninímọ̀ràn · ní ìkọ̀kọ̀"
+      },
+      "menu": {
+        "back": "Padà sí àwọn ìjíròrò",
+        "label": "Àwọn àṣàyàn ìjíròrò",
+        "full": {
+          "discovery": "Wo ojú-ìwé ìfohùnṣọ̀kan (àwọn fọ́tò, ìpàdé, ìpinnu)",
+          "discovery_ended": "Wo ojú-ìwé ìfohùnṣọ̀kan",
+          "couple": "Ṣí àyè tọkọtaya",
+          "counsel": "Ṣí ojú-ìwé olùgbaninímọ̀ràn"
+        }
       }
     }
   },

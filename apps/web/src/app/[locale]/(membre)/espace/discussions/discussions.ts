@@ -22,7 +22,12 @@ export type ConversationRow = {
 /** Page à ouvrir, et l'onglet Discussion quand la page en a plusieurs (paramètre TAB_PARAM ajouté par la page). */
 export type ConversationHref = { pathname: string; tab?: "discussion" };
 
-/** Page où s'ouvre la discussion : celle qui existe déjà pour chaque espace. */
+/** Écran de discussion plein écran façon WhatsApp (13/11/2026), pour toutes les discussions. */
+export function chatHref(row: Pick<ConversationRow, "conversation_id">): string {
+  return `/espace/discussions/${row.conversation_id}`;
+}
+
+/** Page complète de l'espace (photos, rendez-vous, décisions…), ouverte depuis le menu ⋮ de l'écran. */
 export function conversationHref(row: ConversationRow): ConversationHref {
   switch (row.kind) {
     case "discovery":

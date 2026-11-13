@@ -1,7 +1,8 @@
 "use client";
 
 import { useFormatter, useTranslations } from "next-intl";
-import { type FormEvent, Fragment, type KeyboardEvent, useEffect, useRef, useState, useTransition } from "react";
+import { type ComponentProps, type FormEvent, Fragment, type KeyboardEvent, type ReactNode, useEffect, useRef, useState, useTransition } from "react";
+import { Link } from "@/i18n/navigation";
 import type { ApiResult } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { createSupabaseBrowser } from "@/lib/supabase/browser";
@@ -10,6 +11,22 @@ import { systemMessage } from "./chatSystem";
 import { ReportForm, type ReportReason } from "./ReportForm";
 
 export type ChatMessage = { id: string; sender_id: string | null; body: string; created_at: string; is_system?: boolean };
+
+type Href = ComponentProps<typeof Link>["href"];
+
+/**
+ * Écran plein façon WhatsApp (13/11/2026) : barre du haut (retour, avatar, nom, état, menu ⋮),
+ * messages sur toute la hauteur, zone d'écriture fixée en bas.
+ */
+export type ChatScreen = {
+  back: Href;
+  backLabel: string;
+  avatar: string;
+  title: string;
+  subtitle: string;
+  menuLabel: string;
+  links: { href: Href; label: string }[];
+};
 
 const knownErrors = new Set(["contact_blocked", "conversation_closed", "invalid_body", "not_member", "unavailable"]);
 
@@ -34,6 +51,8 @@ export function ChatRoom({
   partnerReadAt = null,
   markRead,
   onSendError,
+  screen,
+  aboveForm,
 }: {
   conversationId: string;
   memberId: string;
@@ -52,6 +71,10 @@ export function ChatRoom({
   markRead?: (conversationId: string) => Promise<ApiResult<void>>;
   /** Erreur d'envoi prise en charge par la page (message payant au conseiller) : true, rien n'est affiché ici. */
   onSendError?: (error: string, body: string) => boolean;
+  /** Plein écran façon WhatsApp (menu « Discussions », 13/11/2026). */
+  screen?: ChatScreen;
+  /** Contenu affiché juste au-dessus de la zone d'écriture (ex. message payant au conseiller). */
+  aboveForm?: ReactNode;
 }) {
   const t = useTranslations("Member.chat");
   const tj = useTranslations("Member.couple.journey");
@@ -123,8 +146,63 @@ export function ChatRoom({
   const time = (iso: string) => format.dateTime(new Date(iso), { hour: "2-digit", minute: "2-digit", timeZone: TIME_ZONE });
 
   return (
-    <section aria-label={t("label")} className="mt-8 overflow-hidden rounded-md border border-line bg-bg-elevated">
-      <ol aria-live="polite" className="flex max-h-[65svh] min-h-64 flex-col gap-1 overflow-y-auto px-3 py-4 sm:px-5">
+    <section
+      aria-label={t("label")}
+      className={cn("overflow-hidden bg-bg-elevated", screen ? "flex h-full min-h-0 flex-col" : "mt-8 rounded-md border border-line")}
+    >
+      {screen && (
+        <header className="flex shrink-0 items-center gap-3 border-b border-line bg-bg px-2 py-2 sm:px-3">
+          <Link href={screen.back} aria-label={screen.backLabel} className="grid size-11 shrink-0 place-items-center rounded-full text-fg hover:bg-bg-soft">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 5l-7 7 7 7" />
+            </svg>
+          </Link>
+          <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-full bg-accent font-serif text-lg text-accent-fg">
+            {screen.avatar}
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate font-medium leading-tight">{screen.title}</span>
+            <span className="block truncate text-xs text-fg-muted">{screen.subtitle}</span>
+          </span>
+          <details className="relative">
+            <summary aria-label={screen.menuLabel} className="grid size-11 cursor-pointer list-none place-items-center rounded-full hover:bg-bg-soft [&::-webkit-details-marker]:hidden">
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6" fill="currentColor">
+                <circle cx="12" cy="5" r="1.8" />
+                <circle cx="12" cy="12" r="1.8" />
+                <circle cx="12" cy="19" r="1.8" />
+              </svg>
+            </summary>
+            <ul className="absolute right-0 top-12 z-10 min-w-60 overflow-hidden rounded-md border border-line bg-bg-elevated py-1 shadow-lg">
+              {screen.links.map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} className="block px-4 py-3 text-sm hover:bg-bg-soft">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+              {report && (
+                <li>
+                  <button type="button" onClick={() => setReporting("conversation")} className="block w-full px-4 py-3 text-left text-sm hover:bg-bg-soft">
+                    {t("reportConversation")}
+                  </button>
+                </li>
+              )}
+            </ul>
+          </details>
+        </header>
+      )}
+      {screen && report && reporting === "conversation" && (
+        <div className="shrink-0 border-b border-line bg-bg px-4 py-2">
+          <ReportForm onSubmit={(reason, details) => report(conversationId, null, reason, details)} onClose={() => setReporting(null)} />
+        </div>
+      )}
+      <ol
+        aria-live="polite"
+        className={cn(
+          "flex flex-col gap-1 overflow-y-auto px-3 py-4 sm:px-5",
+          screen ? "min-h-0 flex-1 bg-bg-soft" : "max-h-[65svh] min-h-64",
+        )}
+      >
         {messages.length === 0 && <li className="m-auto max-w-xs py-10 text-center text-sm text-fg-muted">{t("empty")}</li>}
         {groupChat(messages, TIME_ZONE).map(({ message: m, newDay, firstOfGroup }) => {
           const separator = newDay && (
@@ -190,10 +268,11 @@ export function ChatRoom({
         <div ref={end} />
       </ol>
 
+      {aboveForm}
       {closed ? (
-        <p className="border-t border-line px-4 py-4 text-sm text-fg-muted">{t("closed")}</p>
+        <p className={cn("border-t border-line px-4 py-4 text-sm text-fg-muted", screen && "shrink-0 pb-[max(1rem,env(safe-area-inset-bottom))]")}>{t("closed")}</p>
       ) : (
-        <form onSubmit={submit} className="border-t border-line bg-bg px-3 py-3 sm:px-4">
+        <form onSubmit={submit} className={cn("border-t border-line bg-bg px-3 py-3 sm:px-4", screen && "shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom))]")}>
           <div className="flex items-end gap-2">
             <label className="min-w-0 flex-1">
               <span className="sr-only">{t("message")}</span>
@@ -227,7 +306,7 @@ export function ChatRoom({
         </form>
       )}
 
-      {report && (
+      {report && !screen && (
         <div className="border-t border-line px-4 py-2">
           {reporting === "conversation" ? (
             <ReportForm onSubmit={(reason, details) => report(conversationId, null, reason, details)} onClose={() => setReporting(null)} />

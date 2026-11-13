@@ -2,7 +2,7 @@
 
 import { useFormatter, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
-import { type ChatMessage, ChatRoom } from "@/components/member/ChatRoom";
+import { type ChatMessage, ChatRoom, type ChatScreen } from "@/components/member/ChatRoom";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "@/i18n/navigation";
 import type { ApiResult } from "@/lib/api";
@@ -67,6 +67,7 @@ export function CounselChat({
   names,
   priceXof,
   freeLeft: initialFreeLeft,
+  screen,
 }: {
   requestId: string;
   conversationId: string;
@@ -75,6 +76,8 @@ export function CounselChat({
   names: Record<string, string>;
   priceXof: number;
   freeLeft: number;
+  /** Plein écran façon WhatsApp (menu « Discussions », 13/11/2026) : « Terminer » reste sur la page du conseiller. */
+  screen?: ChatScreen;
 }) {
   const t = useTranslations("Member.counsel");
   const format = useFormatter();
@@ -102,13 +105,55 @@ export function CounselChat({
     });
   };
 
+  const noticeLine = notice && (
+    <p role="status" className={screen ? "shrink-0 border-t border-line bg-bg px-4 py-2 text-xs text-fg-muted" : "mt-6 border-l border-accent pl-5 text-sm text-fg-muted"}>
+      {notice === "free" ? t("freeLeft", { count: freeLeft, price }) : t("paid", { price })}
+    </p>
+  );
+  const payPrompt = toPay && (
+    <div role="alertdialog" aria-labelledby="message-payant" className={screen ? "shrink-0 border-t border-accent bg-bg-soft p-4" : "mt-6 border border-accent bg-bg-soft p-6"}>
+      <p id="message-payant">{t("payPrompt", { price })}</p>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <Button disabled={paying} onClick={pay}>
+          {t("payAndSend", { price })}
+        </Button>
+        <Button variant="secondary" disabled={paying} onClick={() => setToPay(null)}>
+          {t("payCancel")}
+        </Button>
+      </div>
+      <ErrorLine error={payError} />
+    </div>
+  );
+
+  if (screen) {
+    return (
+      <ChatRoom
+        conversationId={conversationId}
+        memberId={memberId}
+        initial={initial}
+        closed={false}
+        send={send}
+        names={names}
+        screen={screen}
+        aboveForm={
+          <>
+            {noticeLine}
+            {payPrompt}
+          </>
+        }
+        onSendError={(error, body) => {
+          if (error !== "payment_required") return false;
+          setFreeLeft(0);
+          setToPay(body);
+          return true;
+        }}
+      />
+    );
+  }
+
   return (
     <>
-      {notice && (
-        <p role="status" className="mt-6 border-l border-accent pl-5 text-sm text-fg-muted">
-          {notice === "free" ? t("freeLeft", { count: freeLeft, price }) : t("paid", { price })}
-        </p>
-      )}
+      {noticeLine}
       <ChatRoom
         conversationId={conversationId}
         memberId={memberId}
@@ -123,20 +168,7 @@ export function CounselChat({
           return true;
         }}
       />
-      {toPay && (
-        <div role="alertdialog" aria-labelledby="message-payant" className="mt-6 border border-accent bg-bg-soft p-6">
-          <p id="message-payant">{t("payPrompt", { price })}</p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Button disabled={paying} onClick={pay}>
-              {t("payAndSend", { price })}
-            </Button>
-            <Button variant="secondary" disabled={paying} onClick={() => setToPay(null)}>
-              {t("payCancel")}
-            </Button>
-          </div>
-          <ErrorLine error={payError} />
-        </div>
-      )}
+      {payPrompt}
       <div className="mt-10 border-t border-line pt-6">
         <p className="max-w-measure text-sm text-fg-muted">{t("closeHelp")}</p>
         <Button variant="secondary" className="mt-4" disabled={close.pending} onClick={() => close.run(() => closeCounsel(requestId))}>

@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { systemMessage } from "@/components/member/chatSystem";
-import { TAB_PARAM } from "@/components/member/SpaceTabs";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { chatTimeLabel, daysLeft } from "../matchs/discoveries";
-import { conversationHref, type ConversationRow, initial, splitConversations } from "./discussions";
+import { chatHref, type ConversationRow, initial, splitConversations } from "./discussions";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Member.inbox");
@@ -17,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * Discussions (demande du 13/11/2026) : toutes les discussions du membre, façon WhatsApp.
  * Matchs en cours, couple, conseiller sollicité seul, puis découvertes terminées en lecture seule
  * (relisibles jusqu'à leur effacement, 90 jours). Lecture avec le jeton du membre (app.my_conversations).
- * Chaque ligne ouvre la page qui existe déjà pour cet espace.
+ * Chaque ligne ouvre l'écran de discussion plein écran façon WhatsApp ([id]/page.tsx).
  */
 export default async function DiscussionsPage() {
   const t = await getTranslations("Member");
@@ -45,11 +44,6 @@ export default async function DiscussionsPage() {
     return t(`inbox.kinds.${row.kind}`);
   };
 
-  const href = (row: ConversationRow) => {
-    const target = conversationHref(row);
-    return target.tab ? { pathname: target.pathname, query: { [TAB_PARAM]: target.tab } } : target.pathname;
-  };
-
   const list = (items: ConversationRow[], muted: boolean) => (
     <ul className="mt-4 overflow-hidden rounded-md border border-line bg-bg-elevated">
       {items.map((row) => {
@@ -57,7 +51,7 @@ export default async function DiscussionsPage() {
         return (
           <li key={row.conversation_id} className="border-b border-line last:border-b-0">
             <Link
-              href={href(row)}
+              href={chatHref(row)}
               className="flex min-h-20 items-center gap-4 px-4 py-3 transition-colors hover:bg-bg focus-visible:bg-bg"
             >
               <span

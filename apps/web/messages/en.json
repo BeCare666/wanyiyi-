@@ -1699,6 +1699,22 @@
         "discovery_ended": "Finished chat",
         "couple": "Couple chat",
         "counsel": "Your counsellor, in private"
+      },
+      "status": {
+        "discovery": "{count, plural, =0 {Match · last day} one {Match · # day left} other {Match · # days left}}",
+        "discoveryNoDate": "Current match",
+        "couple": "Couple chat",
+        "counsel": "Counsellor · private"
+      },
+      "menu": {
+        "back": "Back to chats",
+        "label": "Chat options",
+        "full": {
+          "discovery": "See the match page (photos, dates, decision)",
+          "discovery_ended": "See the match page",
+          "couple": "Open the couple space",
+          "counsel": "Open the counsellor page"
+        }
       }
     }
   },

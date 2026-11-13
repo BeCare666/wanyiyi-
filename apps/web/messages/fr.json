@@ -1699,6 +1699,22 @@
         "discovery_ended": "Discussion terminée",
         "couple": "Discussion du couple",
         "counsel": "Votre conseiller, en privé"
+      },
+      "status": {
+        "discovery": "{count, plural, =0 {Match · dernier jour} one {Match · encore # jour} other {Match · encore # jours}}",
+        "discoveryNoDate": "Match en cours",
+        "couple": "Discussion du couple",
+        "counsel": "Conseiller · en privé"
+      },
+      "menu": {
+        "back": "Retour aux discussions",
+        "label": "Options de la discussion",
+        "full": {
+          "discovery": "Voir la fiche du match (photos, rendez-vous, décision)",
+          "discovery_ended": "Voir la fiche du match",
+          "couple": "Ouvrir l'espace du couple",
+          "counsel": "Ouvrir la page du conseiller"
+        }
       }
     }
   },
