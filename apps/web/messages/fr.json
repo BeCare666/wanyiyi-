@@ -18,7 +18,11 @@
     "errorCode": "Code : {code}",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
-    "signIn": "Connexion"
+    "signIn": "Connexion",
+    "cookieNotice": "Ifedele utilise seulement les cookies nécessaires au site : la langue choisie et votre connexion. Aucun cookie publicitaire ni mesure d'audience.",
+    "cookieNoticeMore": "En savoir plus",
+    "cookieNoticeOk": "J'ai compris",
+    "cookieNoticeLabel": "Information sur les cookies"
   },
   "Nav": {
     "promise": "La promesse",
@@ -376,7 +380,7 @@
       {
         "title": "Données collectées",
         "paragraphs": [
-          "Votre adresse e-mail, votre numéro de téléphone si vous le donnez, votre identité, votre selfie de vérification, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations, vos votes et vos messages.",
+          "Votre adresse e-mail, votre numéro de téléphone si vous le donnez, vos prénom, nom, sexe, date de naissance et ville, votre selfie de vérification, votre déclaration de situation matrimoniale, les réponses de votre profil, vos photos, vos réservations et paiements, vos votes et vos messages.",
           "Nous ne demandons jamais votre teint de peau, votre ethnie, votre adresse exacte ni le nom de votre employeur."
         ]
       },
@@ -399,6 +403,15 @@
         "paragraphs": [
           "Après une séparation, la conversation est conservée 90 jours, accessible à la seule modération, puis supprimée.",
           "Après une union célébrée, la conversation passe en lecture seule et elle est supprimée après 12 mois, sauf si vous demandez tous les deux à la garder."
+        ]
+      },
+      {
+        "title": "Cookies et stockage du navigateur",
+        "paragraphs": [
+          "Le site dépose deux cookies nécessaires à son fonctionnement : WANYIYI_LOCALE, qui mémorise la langue choisie pendant 1 an, et le cookie de session de Supabase (sb-…-auth-token), qui vous garde connecté(e) et s'efface à la déconnexion.",
+          "Votre navigateur garde aussi, sur votre appareil seulement, l'état du menu de votre espace, votre code de parrainage pendant l'inscription et le fait que vous avez lu le bandeau d'information sur les cookies.",
+          "Aucun cookie publicitaire ni outil de mesure d'audience n'est utilisé. Les notifications du téléphone ne sont activées qu'à votre demande et se désactivent dans vos paramètres.",
+          "Vous pouvez effacer ces données depuis les réglages de votre navigateur. Sans le cookie de session, la connexion à votre espace n'est pas possible."
         ]
       },
       {
@@ -426,7 +439,9 @@
       {
         "title": "Hébergement",
         "paragraphs": [
-          "Hébergeur du site et des données : à compléter."
+          "Site web : Vercel Inc.",
+          "Serveur applicatif (API) : Render.",
+          "Base de données et fichiers : Supabase, serveurs situés en Irlande (Union européenne)."
         ]
       },
       {

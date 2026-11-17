@@ -18,7 +18,11 @@
     "errorCode": "Code: {code}",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "cookieNotice": "Ifedele uses only the cookies the site needs: your chosen language and your sign-in. No advertising cookie or audience measurement.",
+    "cookieNoticeMore": "Learn more",
+    "cookieNoticeOk": "Got it",
+    "cookieNoticeLabel": "Cookie information"
   },
   "Nav": {
     "promise": "Our promise",
@@ -376,7 +380,7 @@
       {
         "title": "Data collected",
         "paragraphs": [
-          "Your e-mail address, your phone number if you give it, your identity, your verification selfie, your marital status declaration, your profile answers, your photos, your bookings, your votes and your messages.",
+          "Your e-mail address, your phone number if you give it, your first name, last name, sex, date of birth and city, your verification selfie, your marital status declaration, your profile answers, your photos, your bookings and payments, your votes and your messages.",
           "We never ask for your skin tone, your ethnicity, your exact address or the name of your employer."
         ]
       },
@@ -399,6 +403,15 @@
         "paragraphs": [
           "After a separation, the conversation is kept for 90 days, accessible only to moderation, then deleted.",
           "After a celebrated union, the conversation becomes read-only and is deleted after 12 months, unless you both ask to keep it."
+        ]
+      },
+      {
+        "title": "Cookies and browser storage",
+        "paragraphs": [
+          "The site sets two cookies needed for it to work: WANYIYI_LOCALE, which remembers the chosen language for 1 year, and the Supabase session cookie (sb-…-auth-token), which keeps you signed in and is removed when you sign out.",
+          "Your browser also keeps, on your device only, the state of your space's menu, your referral code during registration and the fact that you have read the cookie information banner.",
+          "No advertising cookie or audience measurement tool is used. Phone notifications are turned on only at your request and can be turned off in your settings.",
+          "You can erase this data from your browser settings. Without the session cookie, you cannot sign in to your space."
         ]
       },
       {
@@ -426,7 +439,9 @@
       {
         "title": "Hosting",
         "paragraphs": [
-          "Website and data host: to be completed."
+          "Website: Vercel Inc.",
+          "Application server (API): Render.",
+          "Database and files: Supabase, servers located in Ireland (European Union)."
         ]
       },
       {

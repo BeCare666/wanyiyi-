@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
+import { CookieNotice } from "@/components/layout/CookieNotice";
 import { RevealScript } from "@/components/motion/RevealScript";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 import { publicMessages } from "@/i18n/client-messages";
@@ -73,7 +74,10 @@ export default async function LocaleLayout({ children, params }: Props) {
           {t("skipToContent")}
         </a>
         {/* Textes des espaces privés : fournis par leur propre mise en page */}
-        <NextIntlClientProvider messages={publicMessages(messages)}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={publicMessages(messages)}>
+          {children}
+          <CookieNotice />
+        </NextIntlClientProvider>
         <ServiceWorkerRegister />
       </body>
     </html>

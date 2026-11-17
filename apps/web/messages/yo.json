@@ -18,7 +18,11 @@
     "errorCode": "Kóòdù: {code}",
     "showPassword": "Fi ọ̀rọ̀ aṣínà hàn",
     "hidePassword": "Fi ọ̀rọ̀ aṣínà pamọ́",
-    "signIn": "Wọlé"
+    "signIn": "Wọlé",
+    "cookieNotice": "Ifedele ń lo kúkì tí ojú-òpó nílò nìkan: èdè tí ẹ yàn àti ìwọlé yín. Kò sí kúkì ìpolówó tàbí ìkàyè àwọn tó ń wọlé.",
+    "cookieNoticeMore": "Ka sí i",
+    "cookieNoticeOk": "Ó yé mi",
+    "cookieNoticeLabel": "Ìkéde nípa kúkì"
   },
   "Nav": {
     "promise": "Ìlérí wa",
@@ -376,7 +380,7 @@
       {
         "title": "Dátà tí a ń gbà",
         "paragraphs": [
-          "Àdírẹ́sì e-mail yín, nọ́mbà fóònù yín bí ẹ bá fi fún wa, ìdánimọ̀ yín, fọ́tò ojú àyẹ̀wò yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà, ìdìbò yín àti ìfiránṣẹ́ yín.",
+          "Àdírẹ́sì e-mail yín, nọ́mbà fóònù yín bí ẹ bá fi fún wa, orúkọ yín, orúkọ ìdílé yín, ẹ̀yà akọ tàbí abo, ọjọ́ ìbí àti ìlú yín, fọ́tò ojú àyẹ̀wò yín, ìkéde ipò ìgbéyàwó yín, àwọn ìdáhùn inú àpèjúwe yín, fọ́tò yín, àwọn àyè tí ẹ gbà àti owó tí ẹ san, ìdìbò yín àti ìfiránṣẹ́ yín.",
           "A kì í béèrè àwọ̀ ara yín, ẹ̀yà yín, àdírẹ́sì yín gan-an tàbí orúkọ ẹni tí ẹ ń bá ṣiṣẹ́."
         ]
       },
@@ -399,6 +403,15 @@
         "paragraphs": [
           "Lẹ́yìn ìyapa, a ó pa ìjíròrò náà mọ́ fún ọjọ́ àádọ́rùn-ún, tí ẹgbẹ́ alábòójútó nìkan lè rí, lẹ́yìn náà a ó pa á rẹ́.",
           "Lẹ́yìn ìgbéyàwó, ìjíròrò náà yóò di kíkà nìkan, a ó sì pa á rẹ́ lẹ́yìn oṣù méjìlá, àyàfi tí ẹ̀yin méjèèjì bá béèrè pé kí a pa á mọ́."
+        ]
+      },
+      {
+        "title": "Kúkì àti ìpamọ́ inú ẹ̀rọ aṣàwákiri",
+        "paragraphs": [
+          "Ojú-òpó náà ń lo kúkì méjì tí ó nílò láti ṣiṣẹ́: WANYIYI_LOCALE, tí ó ń rántí èdè tí ẹ yàn fún ọdún kan, àti kúkì ìwọlé Supabase (sb-…-auth-token), tí ó ń jẹ́ kí ẹ wà ní ìwọlé, tí a sì ń pa rẹ́ nígbà tí ẹ bá jáde.",
+          "Ẹ̀rọ aṣàwákiri yín tún ń pa mọ́, lórí ẹ̀rọ yín nìkan, ipò àtòjọ àyè yín, kóòdù ìfilọ̀ yín nígbà ìforúkọsílẹ̀ àti pé ẹ ti ka ìkéde nípa kúkì.",
+          "A kò lo kúkì ìpolówó tàbí irinṣẹ́ kankan láti ka àwọn tó ń wọlé. Ìfitónilétí fóònù máa ń ṣiṣẹ́ nígbà tí ẹ bá béèrè nìkan, ẹ sì lè pa á nínú ètò yín.",
+          "Ẹ lè pa dátà wọ̀nyí rẹ́ nínú ètò ẹ̀rọ aṣàwákiri yín. Láìsí kúkì ìwọlé, ẹ kò lè wọ inú àyè yín."
         ]
       },
       {
@@ -426,7 +439,9 @@
       {
         "title": "Ibi ìgbàlejò",
         "paragraphs": [
-          "Ẹni tó ń gbàlejò ojú-òpó àti dátà: à ń parí rẹ̀."
+          "Ojú-òpó: Vercel Inc.",
+          "Olùpèsè ìṣiṣẹ́ (API): Render.",
+          "Ibi ìpamọ́ dátà àti fáìlì: Supabase, ní orílẹ̀-èdè Ireland (Ìṣọ̀kan Yúróòpù)."
         ]
       },
       {
